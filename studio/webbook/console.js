@@ -1,7 +1,7 @@
 // Forma "PDF → Web" console: the studio page that drives the conversion
 // service (webbook/server.mjs) and edits its results. Pages are drawn with the
 // same core renderer the exported site uses, so what you see is what ships.
-import * as core from './core.mjs?v=20260930-source1';
+import * as core from './core.mjs';
 
 const API = '/local/webbook';
 const PREF = 'forma.webbook.v1';
@@ -47,14 +47,7 @@ export async function syncCast(bookId) {
   const manual = studio.webbookSpeakers || {};
   const signature = JSON.stringify([chars.map((c, i) => [c.id, c.names, files[i]?.size || 0, files[i]?.type || '']), manual]);
   const current = await call(`/books/${bookId}/cast`).catch(() => ({}));
-  // Forma Studio One uses a different localhost port (and therefore a
-  // different browser storage origin) from the original project. An empty
-  // local store must not erase portraits already imported into this copy.
-  if (!chars.length && current.characters > 0) return { changed: false, retained: true };
   if (current.signature === signature) return { changed: false };
-  // If browser storage lost its image records, keep the server's existing
-  // cast instead of replacing all approved portraits with blank entries.
-  if (current.characters > 0 && files.every(file => !file)) return { changed: false, retained: true };
   const characters = await Promise.all(chars.map(async (c, i) => ({ ...c, image: files[i] ? await portraitDataUrl(files[i]).catch(() => '') : '' })));
   const result = await call(`/books/${bookId}/cast`, { method: 'PUT', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ characters, manual, signature }) });
   return { changed: true, ...result };
@@ -63,7 +56,7 @@ window.formaWebbookSyncCast = syncCast;
 
 const S = {
   view: null, books: [], book: null, page: 1,
-  layout: null, displayLayout: null, assets: {}, dirty: false, selected: -1,
+  layout: null, assets: {}, dirty: false, selected: -1,
   mode: 'side', opacity: 50, lang: 'russian', pinyin: false,
   job: null, poll: 0, statePoll: 0
 };
@@ -88,7 +81,7 @@ function shell() {
     <section class="panel wb-stage-panel">
       <div class="wb-stagebar">
         <div class="wb-seg" role="group" aria-label="Режим сравнения">
-          <button data-mode="side">Рядом</button><button data-mode="overlay">Наложение</button><button data-mode="diff">Разница</button>
+          <button data-mode="side">Рядом</button><button data-mode="overlay">Наложение</button><button data-mode="diff">Разница</button><button data-mode="map" title="Где веб-страница расходится со сканом">Карта</button>
         </div>
         <label class="wb-opacity" id="wbOpacityWrap">Оригинал <input id="wbOpacity" type="range" min="0" max="100"></label>
         <div class="wb-seg" role="group" aria-label="Язык"><button data-lang="original">Оригинал</button><button data-lang="russian">Русский</button></div>
@@ -99,9 +92,6 @@ function shell() {
     <aside class="panel wb-inspector">
       <div class="wb-actions">
         <button class="btn" id="wbConvert">Конвертировать страницу</button>
-        <button class="btn-quiet" id="wbMeasure">Уточнить оригинал по скану</button>
-        <button class="btn-quiet" id="wbCompare">Снимок и карта отличий</button>
-        <div class="wb-hint">Уточнение использует сохранённый OCR, без запроса к модели. Предыдущая версия сохраняется.</div>
         <div class="wb-hint" id="wbCostHint"></div>
         <details class="wb-more"><summary>Ещё</summary>
           <button class="btn-quiet" id="wbRemodel" title="Новый платный запрос к модели для этой страницы">Запросить модель заново</button>
@@ -109,10 +99,36 @@ function shell() {
         </details>
       </div>
       <div class="wb-block"><div class="wb-title">Конвейер</div><ol id="wbSteps" class="wb-steps"></ol><div class="status" id="wbStatus"></div></div>
-      <div class="wb-block"><div class="wb-title">Блоки <span class="wb-muted">клик — выбрать, текст правится на странице</span></div><div id="wbBlocks" class="wb-blocks"></div><div id="wbGeom" class="wb-geom" hidden></div></div>
-      <div class="wb-block" id="wbComparison" hidden></div>
-      <div class="wb-block wb-save"><button class="btn" id="wbSave" disabled>Сохранить правки</button><a class="btn-quiet" id="wbOpen" target="_blank" rel="noopener">Открыть HTML</a></div>
-      <div class="wb-block"><div class="wb-title">Выгрузка для платформы</div>
+      <div class="wb-block"><div class="wb-title">Блоки <span class="wb-muted">клик — выбрать; ✥ — перетащить, уголки — размер, A−/A+ или Alt+колесо — шрифт; текст правится прямо на странице; Esc или клик по пустому месту — закончить</span></div><div id="wbBlocks" class="wb-blocks"></div><div id="wbGeom" class="wb-geom" hidden></div></div>
+      <div class="wb-block wb-save"><button class="btn" id="wbSave" disabled>Сохранить правки</button><button class="btn-quiet" id="wbUndo" disabled title="Отменить последнее действие (Ctrl+Z)">↶ Шаг назад</button><button class="btn-quiet" id="wbDiscard" disabled title="Вернуть страницу к последнему сохранению">Отменить правки</button><a class="btn-quiet" id="wbOpen" target="_blank" rel="noopener">Открыть HTML</a></div>
+      <div class="wb-block wb-fid"><div class="wb-title">Сходство со сканом <span class="wb-muted" id="wbFidWhen"></span></div>
+        <div class="wb-fid-row"><b id="wbFidScore" data-level="">—</b><span id="wbFidParts" class="wb-muted"></span></div>
+        <div class="wb-fid-btns"><button class="btn-quiet" id="wbFidMap">Карта</button><button class="btn-quiet" id="wbFidRun">Пересчитать</button>
+          <label class="wb-check" title="Эталон: принятая страница. Конвертер проверяется по эталонам, чтобы улучшения не портили готовые страницы"><input type="checkbox" id="wbGolden"> ★ Эталон</label></div>
+        <details class="wb-more"><summary>Проверка эталонов</summary>
+          <button class="btn-quiet" id="wbGoldenCheck">Проверить все эталоны</button><div class="status wb-golden-out" id="wbGoldenOut"></div></details>
+      </div>
+      <div class="wb-block wb-publish"><div class="wb-title">Платформа Meili HSK Study <span class="wb-muted" id="wbPubState"></span></div>
+        <button class="btn" id="wbPublish" disabled>Подтвердить и опубликовать</button>
+        <div class="status" id="wbPubStatus"></div>
+        <details class="wb-more" id="wbPubMore"><summary>Настройки и пакетная публикация</summary>
+          <label class="wb-field"><span>Адрес платформы</span><input class="input" id="wbPlatUrl" placeholder="https://chao-hsk-study.onrender.com"></label>
+          <label class="wb-field"><span>Токен публикации <small class="wb-muted">хранится только в памяти сервера студии</small></span><input class="input" id="wbPlatToken" type="password" autocomplete="off" placeholder="FORMA_PUBLISH_TOKEN"></label>
+          <div class="wb-geom-grid"><label>Раздел<input class="input" id="wbPlatSection" placeholder="HSK 1 v3.0"></label><label>Уровень<input class="input" id="wbPlatLevel" placeholder="HSK 1"></label><label>Код книги<input class="input" id="wbPlatSlug" placeholder="hsk1-v3"></label></div>
+          <button class="btn-quiet" id="wbPlatSave">Сохранить и проверить связь</button>
+          <div class="wb-range"><span>Страницы</span><input class="input" id="wbPubFrom" type="number" min="1"><span>–</span><input class="input" id="wbPubTo" type="number" min="1"><button class="btn-quiet" id="wbPubBatch">Опубликовать</button></div>
+          <button class="btn-quiet" id="wbUnpublish" disabled>Снять страницу с платформы</button>
+        </details>
+      </div>
+      <div class="wb-block wb-kz"><div class="wb-title">Қазақша <span class="wb-muted">перевод русского слоя через Qwen (подписка Alibaba)</span></div>
+        <div class="wb-fid-btns"><button class="btn-quiet" id="wbKz">Перевести страницу</button><button class="btn-quiet" id="wbKzAll" title="Все опубликованные страницы: только непереведённые строки">Все опубликованные</button></div>
+        <div class="status" id="wbKzStatus"></div></div>
+      <div class="wb-block wb-audio"><div class="wb-title">Аудио учебника <span class="wb-muted" id="wbAudioState"></span></div>
+        <p class="wb-muted wb-audio-hint">Значки 🔊 с номером («1-3») становятся кнопками, когда в книге есть эта дорожка. Укажите папку с аудио учебника — файлы с номерами вида «1-3», «01_03», «Track 1-3» разложатся сами.</p>
+        <div class="wb-range"><input class="input" id="wbAudioFolder" placeholder="C:\Users\…\Desktop\HSK1 учебник аудио" aria-label="Папка с аудио учебника"><button class="btn-quiet" id="wbAudioImport">Импортировать</button></div>
+        <div class="status" id="wbAudioStatus"></div>
+        <details class="wb-more" id="wbAudioMissing" hidden><summary>Каких дорожек не хватает</summary><div class="wb-audio-list" id="wbAudioList"></div></details></div>
+      <div class="wb-block"><div class="wb-title">Выгрузка ZIP</div>
         <div class="wb-range"><span>Страницы</span><input class="input" id="wbExFrom" type="number" min="1"><span>–</span><input class="input" id="wbExTo" type="number" min="1"><button class="btn-quiet" id="wbExport">Собрать ZIP</button></div>
         <div class="status" id="wbExportStatus"></div></div>
     </aside>
@@ -186,6 +202,9 @@ async function openBook(id) {
   if (!ex.value) ex.value = 1; if (!et.value) et.value = S.book.pages;
   renderList();
   await openPage(S.page);
+  loadPlatform();
+  const folder = S.view.querySelector('#wbAudioFolder'); if (folder && !folder.value) folder.value = loadPref().audioFolder || '';
+  loadAudio();
 }
 
 async function refreshBook() {
@@ -199,9 +218,9 @@ async function refreshBook() {
 
 function renderList() {
   const list = S.view.querySelector('#wbList'), states = S.book.pageStates;
-  S.view.querySelector('#wbDone').textContent = `${states.filter(p => p.state === 'done').length} построено`;
+  S.view.querySelector('#wbDone').textContent = `${states.filter(p => p.state === 'done').length} готово`;
   list.innerHTML = states.map(p => `<button class="wb-thumb${p.n === S.page ? ' on' : ''}" data-n="${p.n}" data-state="${p.state}" title="Страница ${p.n}">
-    <img loading="lazy" src="${API}/books/${S.book.id}/pages/${p.n}/thumb.png" alt=""><span>${p.n}</span><i class="wb-dot" title="${{ none: 'не сконвертирована', done: 'готова', error: 'ошибка', queued: 'в очереди', running: 'обрабатывается' }[p.state]}${p.edited ? ', есть правки' : ''}"></i></button>`).join('');
+    <img loading="lazy" src="${API}/books/${S.book.id}/pages/${p.n}/thumb.png" alt=""><span>${p.n}</span><i class="wb-dot" title="${{ none: 'не сконвертирована', done: 'готова', error: 'ошибка', queued: 'в очереди', running: 'обрабатывается' }[p.state]}${p.edited ? ', есть правки' : ''}"></i>${p.score != null && p.state === 'done' ? `<b class="wb-score" data-level="${scoreLevel(p.score)}" title="Сходство со сканом">${Math.round(p.score)}</b>` : ''}${p.golden ? '<em class="wb-gold" title="Эталон">★</em>' : ''}${p.published ? `<em class="wb-pub${p.stale ? ' stale' : ''}" title="${p.stale ? 'Опубликована, но изменена после публикации' : 'Опубликована на платформе'}">${p.stale ? '↻' : '✓'}</em>` : ''}</button>`).join('');
   list.querySelector('.on')?.scrollIntoView({ block: 'nearest' });
 }
 
@@ -212,14 +231,14 @@ async function openPage(n) {
   savePref({ pages: { ...(loadPref().pages || {}), [S.book.id]: S.page } });
   S.view.querySelector('#wbPage').value = S.page;
   S.layout = null; S.dirty = false; S.selected = -1;
-  S.displayLayout = null; S.assets = {}; S.html = '';
-  S.view.querySelector('#wbComparison').hidden = true;
   S.view.querySelectorAll('.wb-thumb').forEach(b => b.classList.toggle('on', Number(b.dataset.n) === S.page));
   S.view.querySelector('.wb-thumb.on')?.scrollIntoView({ block: 'nearest' });
   const [job, layout] = await Promise.all([call(`/books/${S.book.id}/pages/${S.page}/job`).catch(() => null), call(`/books/${S.book.id}/pages/${S.page}/layout`).catch(() => null)]);
-  S.job = job;
-  if (layout) { S.layout = layout.layout; S.displayLayout = layout.view || layout.layout; S.assets = layout.assets; S.html = layout.html; }
+  S.job = job; S.fid = null;
+  if (layout) { S.layout = layout.layout; S.assets = layout.assets; S.html = layout.html; }
+  resetHistory();
   renderSteps(); renderStage(); renderBlocks(); renderActions();
+  loadFidelity();
   if (S.castNote) { S.view.querySelector('#wbStatus').textContent = S.castNote; S.castNote = ''; }
   if (job && ['queued', 'running'].includes(job.state)) watchJob();
 }
@@ -230,15 +249,15 @@ function renderStage() {
   const stage = S.view.querySelector('#wbStage'), scan = `${API}/books/${S.book.id}/pages/${S.page}/scan.png`;
   // Speakers whose avatar the server replaced with a cast portrait are drawn
   // as photos; the stored layout itself stays as converted.
-  const shown = S.layout && { ...S.layout, blocks: S.layout.blocks.map((b, n) => {
-    const presented = S.displayLayout?.blocks?.[n];
-    if (b.type === 'tip' && presented?.type === 'tip') return { ...b, avatar: presented.avatar };
-    if (b.type !== 'dialogue' || presented?.type !== 'dialogue') return b;
-    return { ...b, turns: b.turns.map((t, k) => ({ ...t, speaker: { ...t.speaker, avatar: presented.turns?.[k]?.speaker?.avatar || t.speaker.avatar } })) };
-  }) };
+  const shown = S.layout && { ...S.layout, blocks: S.layout.blocks.map((b, n) => b.type !== 'dialogue' ? b : { ...b, turns: b.turns.map((t, k) => String(S.assets?.[`ava-${n}-${k}`] || '').includes('/cast/') ? { ...t, speaker: { ...t.speaker, avatar: 'photo' } } : t) }) };
   const web = S.layout ? core.render(shown, { assets: S.assets, editable: true, pinyin: S.pinyin, lang: S.lang }) :`<div class="wb-empty-page">Страница ещё не сконвертирована.<br>Нажмите «Конвертировать страницу».</div>`;
   stage.dataset.mode = S.mode;
-  stage.innerHTML = S.mode === 'side'
+  const map = S.fid?.at ? `/library/${S.book.id}/pages/${String(S.page).padStart(3, '0')}/fidelity.png?v=${Date.parse(S.fid.at)}` : '';
+  stage.innerHTML = S.mode === 'map'
+    ? `<figure class="wb-frame"><figcaption>Веб-версия</figcaption><div class="wb-sheet wb-web">${web}</div></figure>
+       <figure class="wb-frame"><figcaption>Карта: <span class="wb-key r">нет на веб-странице</span> <span class="wb-key b">лишнее</span> <span class="wb-key y">другой цвет</span> <span class="wb-key f">худшие участки</span></figcaption>
+       <div class="wb-sheet">${map ? `<img class="wb-scan" src="${map}" alt="Карта расхождений страницы ${S.page}">` : '<div class="wb-empty-page">Карты ещё нет.<br>Нажмите «Пересчитать» справа.</div>'}</div></figure>`
+    : S.mode === 'side'
     ? `<figure class="wb-frame"><figcaption>Оригинал · скан</figcaption><div class="wb-sheet"><img class="wb-scan" src="${scan}" alt="Скан страницы ${S.page}"></div></figure>
        <figure class="wb-frame"><figcaption>Веб-версия</figcaption><div class="wb-sheet wb-web">${web}</div></figure>`
     : `<figure class="wb-frame wb-single"><figcaption>${S.mode === 'diff' ? 'Разница: светлое — расхождение со сканом' : 'Наложение скана на веб-версию'}</figcaption>
@@ -255,6 +274,103 @@ function renderStage() {
 function markSelected() {
   S.view.querySelectorAll('#wbStage .hsk-at').forEach(el => el.classList.toggle('wb-selected', Number(el.dataset.block) === S.selected));
   S.view.querySelectorAll('.wb-blocks button').forEach(el => el.classList.toggle('on', Number(el.dataset.block) === S.selected));
+  drawFrame();
+}
+
+// ---- mouse editor ----
+// The selected block gets a frame over the web page: drag the grip to move
+// it, the handles to resize it, and A− / A+ (or Alt+wheel) to change its
+// type size. Text inside stays editable by clicking it.
+
+const HANDLES = ['nw', 'n', 'ne', 'e', 'se', 's', 'sw', 'w'];
+
+function pageOf() { return S.view.querySelector('#wbStage .wb-web .hsk-page'); }
+
+function placeFrame(frame, box, page) {
+  frame.style.left = page.offsetLeft + box.x * page.offsetWidth + 'px';
+  frame.style.top = page.offsetTop + box.y * page.offsetHeight + 'px';
+  frame.style.width = box.w * page.offsetWidth + 'px';
+  frame.style.height = box.h * page.offsetHeight + 'px';
+}
+
+function drawFrame() {
+  const page = pageOf();
+  S.view.querySelector('#wbStage .wb-edit')?.remove();
+  const b = S.layout?.blocks[S.selected];
+  if (!page || !b) return;
+  const frame = document.createElement('div');
+  frame.className = 'wb-edit';
+  const sized = b.type !== 'image' && b.type !== 'decor';
+  frame.innerHTML = `<button type="button" class="wb-grip" data-drag="move" title="Перетащить блок">✥</button>${HANDLES.map(h => `<i data-drag="${h}"></i>`).join('')}`
+    + (sized ? `<div class="wb-edit-bar"><button type="button" data-font="-1" title="Шрифт меньше (Alt+колесо)">A−</button><span>${Math.round((b.k || 1) * 100)}%</span><button type="button" data-font="1" title="Шрифт больше (Alt+колесо)">A+</button>${b.kManual ? '<button type="button" data-font="0" title="Вернуть автоматический размер">↺</button>' : ''}<button type="button" data-bold class="${b.bold ? 'on' : ''}" title="Жирный шрифт (Ctrl+B)"><b>B</b></button></div>` : '');
+  placeFrame(frame, b.box, page);
+  page.parentElement.append(frame);
+}
+
+// Every box nested in a block (avatars, bubbles, names, pictures) follows
+// the block: moved with it and scaled when it is resized.
+function carry(b, from, to) {
+  const sx = to.w / from.w, sy = to.h / from.h;
+  const walk = o => {
+    if (!o || typeof o !== 'object') return;
+    if (o !== b.box && ['x', 'y', 'w', 'h'].every(k => typeof o[k] === 'number')) {
+      o.x = to.x + (o.x - from.x) * sx; o.y = to.y + (o.y - from.y) * sy; o.w *= sx; o.h *= sy;
+      return;
+    }
+    for (const [k, v] of Object.entries(o)) if (k !== 'box' && v && typeof v === 'object') walk(v);
+  };
+  walk(b);
+  b.box = to;
+}
+
+function startDrag(e, mode) {
+  const n = S.selected, b = S.layout?.blocks[n], page = pageOf();
+  if (!b || !page) return;
+  e.preventDefault();
+  const start = { ...b.box }, pw = page.offsetWidth, ph = page.offsetHeight, sx = e.clientX, sy = e.clientY;
+  const frame = S.view.querySelector('#wbStage .wb-edit');
+  const els = [...page.querySelectorAll(`[data-block="${n}"]`)];
+  let moved = false;
+  const onMove = ev => {
+    const dx = (ev.clientX - sx) / pw, dy = (ev.clientY - sy) / ph, r = { ...start }, min = 0.01;
+    if (mode === 'move') { r.x += dx; r.y += dy; }
+    if (mode.includes('w')) { r.x = Math.min(start.x + start.w - min, start.x + dx); r.w = start.x + start.w - r.x; }
+    if (mode.includes('e')) r.w = Math.max(min, start.w + dx);
+    if (mode.includes('n')) { r.y = Math.min(start.y + start.h - min, start.y + dy); r.h = start.y + start.h - r.y; }
+    if (mode.includes('s')) r.h = Math.max(min, start.h + dy);
+    r.x = Math.max(0, Math.min(1 - r.w, r.x)); r.y = Math.max(0, Math.min(1 - r.h, r.y));
+    moved = true;
+    carry(b, b.box, r);
+    for (const el of els) {
+      el.style.left = (r.x * 100).toFixed(3) + '%'; el.style.top = (r.y * 100).toFixed(3) + '%'; el.style.width = (r.w * 100).toFixed(3) + '%';
+      if (el.style.height) el.style.height = (r.h * 100).toFixed(3) + '%';
+    }
+    placeFrame(frame, r, page);
+  };
+  const onUp = () => {
+    removeEventListener('pointermove', onMove); removeEventListener('pointerup', onUp);
+    if (moved) { markDirty(); renderStage(); renderGeom(); }
+  };
+  addEventListener('pointermove', onMove); addEventListener('pointerup', onUp);
+}
+
+function toggleBold() {
+  const b = S.layout?.blocks[S.selected];
+  if (!b || b.type === 'image' || b.type === 'decor') return;
+  if (b.bold) delete b.bold; else b.bold = true;
+  markDirty(); renderStage();
+}
+
+function changeFont(dir) {
+  const b = S.layout?.blocks[S.selected];
+  if (!b) return;
+  if (dir === 0) { if (b.kAuto !== undefined) { if (b.kAuto == null) delete b.k; else b.k = b.kAuto; } delete b.kAuto; delete b.kManual; }
+  else {
+    if (!b.kManual) b.kAuto = b.k ?? null;
+    b.k = +Math.max(0.5, Math.min(2.5, (b.k || 1) + dir * 0.05)).toFixed(2);
+    b.kManual = true;
+  }
+  markDirty(); renderStage(); renderGeom();
 }
 
 // ---- inspector ----
@@ -264,13 +380,11 @@ function renderSteps() {
   S.view.querySelector('#wbSteps').innerHTML = steps.map(s => `<li data-status="${s.status}"><i>${STEP_ICON[s.status] || '○'}</i><span>${esc(s.label)}</span><em>${s.ms != null && s.status !== 'wait' ? (s.ms / 1000).toFixed(1) + ' с' : ''}</em>${s.note ? `<small>${esc(s.note)}</small>` : ''}</li>`).join('');
   const status = S.view.querySelector('#wbStatus');
   const st = S.job?.state;
-  status.textContent = st === 'queued' ? 'В очереди…' : st === 'running' ? 'Идёт конвертация…' : st === 'error' ? 'Ошибка: ' + (S.job.error || '') : st === 'done' ? `Построено · сходство требует проверки${S.layout?.cost != null ? ` · модель $${Number(S.layout.cost).toFixed(4)}` : ''}${S.layout?.editedAt ? ' · есть правки' : ''}` : '';
+  status.textContent = st === 'queued' ? 'В очереди…' : st === 'running' ? 'Идёт конвертация…' : st === 'error' ? 'Ошибка: ' + (S.job.error || '') : st === 'done' ? `Готово${S.layout?.cost != null ? ` · модель $${Number(S.layout.cost).toFixed(4)}` : ''}${S.layout?.editedAt ? ' · есть правки' : ''}` : '';
   status.dataset.state = st || '';
 }
 
 function renderActions() {
-  S.view.querySelector('#wbMeasure').disabled = !S.layout || S.dirty || ['queued', 'running'].includes(S.job?.state);
-  S.view.querySelector('#wbCompare').disabled = !S.layout || S.dirty || ['queued', 'running'].includes(S.job?.state);
   const state = S.book?.pageStates.find(p => p.n === S.page) || {};
   const busy = ['queued', 'running'].includes(S.job?.state);
   const btn = S.view.querySelector('#wbConvert');
@@ -282,6 +396,9 @@ function renderActions() {
   open.hidden = !S.html; if (S.html) open.href = S.html + '?t=' + Date.now();
   S.view.querySelector('#wbSave').disabled = !S.dirty;
   S.view.querySelector('#wbSave').textContent = S.dirty ? 'Сохранить правки' : 'Правок нет';
+  S.view.querySelector('#wbUndo').disabled = !S.history?.length;
+  renderPublish();
+  S.view.querySelector('#wbDiscard').disabled = !S.dirty;
 }
 
 function blockLabel(b) {
@@ -307,13 +424,57 @@ function renderGeom() {
 
 function select(n) { S.selected = n; markSelected(); renderGeom(); }
 
-function markDirty() { S.dirty = true; renderActions(); }
+// Done with a block: no frame, no highlighted text field.
+function deselect() {
+  if (document.activeElement?.isContentEditable) document.activeElement.blur();
+  select(-1);
+}
+
+// ---- undo ----
+// Snapshots of the page's blocks: `saved` is the last saved state, `history`
+// the states before each edit. Typing in one text is one step, not one per key.
+
+function resetHistory() {
+  S.history = [];
+  S.saved = S.snap = S.layout ? JSON.stringify(S.layout.blocks) : null;
+  S.lastTyping = 0;
+}
+
+function markDirty(typing = false) {
+  if (S.layout) {
+    const now = JSON.stringify(S.layout.blocks);
+    const merge = typing && Date.now() - S.lastTyping < 1500;
+    if (now !== S.snap) { if (!merge && S.snap != null) S.history.push(S.snap); if (S.history.length > 200) S.history.shift(); S.snap = now; }
+    S.lastTyping = typing ? Date.now() : 0;
+    S.dirty = now !== S.saved;
+  } else S.dirty = true;
+  renderActions();
+}
+
+function restore(json) {
+  S.layout.blocks = JSON.parse(json);
+  S.snap = json; S.dirty = json !== S.saved;
+  if (S.selected >= S.layout.blocks.length) S.selected = -1;
+  renderStage(); renderBlocks(); renderActions();
+}
+
+function undo() {
+  if (!S.layout || !S.history?.length) return;
+  restore(S.history.pop());
+}
+
+function discard() {
+  if (!S.layout || !S.dirty || S.saved == null) return;
+  if (!confirm('Отменить все несохранённые правки этой страницы?')) return;
+  S.history = [];
+  restore(S.saved);
+}
 
 function setBox(n, patch) {
-  const b = S.layout.blocks[n];
-  b.box = { ...b.box, ...patch };
-  for (const k of ['x', 'y']) b.box[k] = Math.max(0, Math.min(0.99, b.box[k]));
-  for (const k of ['w', 'h']) b.box[k] = Math.max(0.005, Math.min(1, b.box[k]));
+  const b = S.layout.blocks[n], r = { ...b.box, ...patch };
+  for (const k of ['x', 'y']) r[k] = Math.max(0, Math.min(0.99, r[k]));
+  for (const k of ['w', 'h']) r[k] = Math.max(0.005, Math.min(1, r[k]));
+  carry(b, b.box, r);
   markDirty(); renderStage(); renderGeom();
 }
 
@@ -343,8 +504,10 @@ function watchJob() {
     await refreshBook();
     if (S.job?.state === 'done') {
       const layout = await call(`/books/${id}/pages/${page}/layout`).catch(() => null);
-      if (layout) { S.layout = layout.layout; S.displayLayout = layout.view || layout.layout; S.assets = layout.assets; S.html = layout.html; }
+      if (layout) { S.layout = layout.layout; S.assets = layout.assets; S.html = layout.html; }
+      resetHistory();
       renderStage(); renderBlocks(); renderSteps(); renderActions();
+      awaitFidelity();
     }
   };
   S.poll = setTimeout(tick, 800);
@@ -370,8 +533,192 @@ async function save() {
   try {
     await call(`/books/${S.book.id}/pages/${S.page}/layout`, { method: 'PUT', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ layout: { blocks: S.layout.blocks, theme: S.layout.theme } }) });
     S.dirty = false; S.layout.editedAt = new Date().toISOString();
-    renderActions(); renderSteps(); refreshBook();
+    S.saved = S.snap = JSON.stringify(S.layout.blocks);
+    deselect();
+    // A published page is sent to the platform after saving: refresh its
+    // status once the upload has had time to finish.
+    if (S.book.pageStates.find(p => p.n === S.page)?.published) { setTimeout(() => refreshBook().then(renderPublish), 4000); setTimeout(() => refreshBook().then(renderPublish), 12000); }
+    renderActions(); renderSteps(); refreshBook(); awaitFidelity();
   } catch (e) { btn.disabled = false; btn.textContent = 'Сохранить правки'; S.view.querySelector('#wbStatus').textContent = 'Не удалось сохранить: ' + e.message; }
+}
+
+// ---- fidelity & golden pages ----
+// The server scores every page against its scan a moment after it is
+// converted or saved; the console shows the score and the map of
+// differences, and marks approved pages as golden (see regress.mjs).
+
+const scoreLevel = s => s >= 85 ? 'good' : s >= 75 ? 'mid' : 'low';
+const pct = v => Math.round(v * 100) + '%';
+
+async function loadFidelity() {
+  if (!S.book) return;
+  const page = S.page, fid = await call(`/books/${S.book.id}/pages/${page}/fidelity`).catch(() => ({}));
+  if (page !== S.page) return;
+  const changed = (fid.at || '') !== (S.fid?.at || '');
+  S.fid = fid.at ? fid : null;
+  renderFidelity();
+  if (changed && S.mode === 'map') renderStage();
+}
+
+// After a conversion or a save the new score arrives a few seconds later.
+function awaitFidelity() {
+  clearTimeout(S.fidPoll);
+  const page = S.page, since = Date.now(); let tries = 0;
+  const tick = async () => {
+    if (page !== S.page) return;
+    await loadFidelity();
+    if ((!S.fid || Date.parse(S.fid.at) < since - 1000) && ++tries < 10) S.fidPoll = setTimeout(tick, 2500);
+    else refreshBook();
+  };
+  renderFidelity(true);
+  S.fidPoll = setTimeout(tick, 3500);
+}
+
+function renderFidelity(pending = false) {
+  const v = S.view, f = S.fid, st = S.book?.pageStates.find(p => p.n === S.page) || {};
+  const score = v.querySelector('#wbFidScore');
+  score.textContent = f ? Math.round(f.score) : '—';
+  score.dataset.level = f ? scoreLevel(f.score) : '';
+  v.querySelector('#wbFidParts').textContent = f ? `структура ${pct(f.ssim)} · знаки ${pct(f.ink)} · цвет ${pct(f.colour)}` : st.state === 'done' ? 'ещё не считалось' : '';
+  const old = f && S.layout?.editedAt && Date.parse(S.layout.editedAt) > Date.parse(f.at) + 2000;
+  v.querySelector('#wbFidWhen').textContent = pending ? '· считается…' : old ? '· до последних правок' : f ? '· ' + new Date(f.at).toLocaleString('ru-RU', { dateStyle: 'short', timeStyle: 'short' }) : '';
+  v.querySelector('#wbFidRun').disabled = st.state !== 'done';
+  v.querySelector('#wbFidMap').disabled = !f;
+  const g = v.querySelector('#wbGolden');
+  g.checked = Boolean(st.golden); g.disabled = st.state !== 'done';
+}
+
+async function runFidelity() {
+  const btn = S.view.querySelector('#wbFidRun');
+  btn.disabled = true; renderFidelity(true);
+  try { S.fid = await call(`/books/${S.book.id}/pages/${S.page}/fidelity`, { method: 'POST' }); }
+  catch (e) { S.view.querySelector('#wbFidWhen').textContent = '· ошибка: ' + e.message; }
+  renderFidelity(); refreshBook();
+  if (S.mode === 'map') renderStage();
+}
+
+async function toggleGolden(on) {
+  try { await call(`/books/${S.book.id}/pages/${S.page}/golden`, { method: 'PUT', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ on }) }); }
+  catch (e) { S.view.querySelector('#wbGoldenOut').textContent = e.message; }
+  await refreshBook(); renderFidelity();
+}
+
+async function checkGolden() {
+  const out = S.view.querySelector('#wbGoldenOut'), btn = S.view.querySelector('#wbGoldenCheck');
+  btn.disabled = true; out.dataset.state = 'running';
+  out.textContent = 'Пересобираю эталонные страницы в песочнице и сравниваю (≈5 с на страницу)…';
+  try {
+    const r = await call(`/books/${S.book.id}/golden-check`, { method: 'POST' });
+    out.innerHTML = r.lines.map(esc).join('<br>');
+    out.dataset.state = r.regressions ? 'error' : 'done';
+  } catch (e) { out.textContent = e.message; out.dataset.state = 'error'; }
+  btn.disabled = false;
+}
+
+// ---- publishing to the platform ----
+
+async function loadPlatform() {
+  const v = S.view;
+  const [settings, book] = await Promise.all([call('/platform').catch(() => ({})), S.book ? call(`/books/${S.book.id}/platform`).catch(() => ({})) : {}]);
+  S.platform = settings;
+  v.querySelector('#wbPlatUrl').value = settings.url || '';
+  v.querySelector('#wbPlatToken').placeholder = settings.hasToken ? 'токен введён — можно заменить' : 'FORMA_PUBLISH_TOKEN';
+  v.querySelector('#wbPlatSection').value = book.section || 'HSK 1 v3.0';
+  v.querySelector('#wbPlatLevel').value = book.level || 'HSK 1';
+  v.querySelector('#wbPlatSlug').value = book.slug || 'hsk1-v3';
+  const from = v.querySelector('#wbPubFrom'), to = v.querySelector('#wbPubTo');
+  if (!from.value) from.value = S.page || 1; if (!to.value) to.value = S.page || 1;
+  if (!settings.url || !settings.hasToken) v.querySelector('#wbPubMore').open = true;
+  renderPublish();
+}
+
+function renderPublish() {
+  const v = S.view, st = S.book?.pageStates.find(p => p.n === S.page) || {};
+  const ready = st.state === 'done' && !['queued', 'running'].includes(S.job?.state);
+  v.querySelector('#wbPublish').disabled = !ready || S.dirty;
+  v.querySelector('#wbPublish').title = S.dirty ? 'Сначала сохраните правки' : '';
+  v.querySelector('#wbPublish').textContent = st.published ? (st.stale ? 'Опубликовать изменения' : 'Опубликовать заново') : 'Подтвердить и опубликовать';
+  v.querySelector('#wbUnpublish').disabled = !st.published;
+  const when = st.published ? new Date(st.published).toLocaleString('ru-RU', { dateStyle: 'short', timeStyle: 'short' }) : '';
+  // Published pages follow studio edits on their own (see autoRepublish on
+  // the server); a failed automatic update is shown here.
+  v.querySelector('#wbPubState').textContent = !st.published ? '· не опубликована'
+    : st.pubError ? `· автообновление не прошло: ${st.pubError}`
+    : st.stale ? `· опубликована ${when}, обновляется…` : `· опубликована ${when}, обновляется автоматически`;
+}
+
+async function savePlatform() {
+  const v = S.view, out = v.querySelector('#wbPubStatus');
+  out.textContent = 'Проверяю связь с платформой…'; out.dataset.state = '';
+  try {
+    const token = v.querySelector('#wbPlatToken').value.trim();
+    const settings = await call('/platform', { method: 'PUT', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ url: v.querySelector('#wbPlatUrl').value, ...(token ? { token } : {}) }) });
+    v.querySelector('#wbPlatToken').value = '';
+    if (S.book) await call(`/books/${S.book.id}/platform`, { method: 'PUT', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ section: v.querySelector('#wbPlatSection').value, level: v.querySelector('#wbPlatLevel').value, slug: v.querySelector('#wbPlatSlug').value }) });
+    S.platform = settings;
+    out.textContent = !settings.url ? 'Укажите адрес платформы.' : !settings.hasToken ? 'Введите токен публикации.' : settings.check === 'ok' ? 'Связь с платформой есть, публикация доступна.' : 'Платформа не приняла подключение: ' + settings.check;
+    out.dataset.state = settings.check === 'ok' ? 'done' : 'error';
+    await loadPlatform();
+  } catch (e) { out.textContent = e.message; out.dataset.state = 'error'; }
+}
+
+async function publishPages(from, to) {
+  const out = S.view.querySelector('#wbPubStatus');
+  const pages = S.book.pageStates.filter(p => p.n >= from && p.n <= to && p.state === 'done').map(p => p.n);
+  if (!pages.length) { out.textContent = 'В диапазоне нет готовых страниц.'; out.dataset.state = 'error'; return; }
+  const errors = [];
+  for (const [i, n] of pages.entries()) {
+    out.textContent = `Публикую страницу ${n} (${i + 1} из ${pages.length})…`; out.dataset.state = 'running';
+    try { await call(`/books/${S.book.id}/pages/${n}/publish`, { method: 'POST' }); }
+    catch (e) { errors.push(`стр. ${n}: ${e.message}`); if (/токен|адрес|не отвечает/i.test(e.message)) break; }
+  }
+  await refreshBook(); renderPublish();
+  out.textContent = errors.length ? 'Не всё опубликовано — ' + errors.join('; ') : pages.length === 1 ? `Страница ${pages[0]} опубликована на платформе.` : `Опубликовано страниц: ${pages.length}.`;
+  out.dataset.state = errors.length ? 'error' : 'done';
+}
+
+async function unpublish() {
+  if (!confirm(`Снять страницу ${S.page} с платформы? Ученики перестанут её видеть.`)) return;
+  const out = S.view.querySelector('#wbPubStatus');
+  try { await call(`/books/${S.book.id}/pages/${S.page}/publish`, { method: 'DELETE' }); out.textContent = `Страница ${S.page} снята с платформы.`; out.dataset.state = 'done'; }
+  catch (e) { out.textContent = e.message; out.dataset.state = 'error'; }
+  await refreshBook(); renderPublish();
+}
+
+// Kazakh layer: Qwen translates the page's Russian texts; published pages are re-sent by the server.
+async function translateKz(pages) {
+  const out = S.view.querySelector('#wbKzStatus'), done = [], errors = [];
+  for (const [i, n] of pages.entries()) {
+    out.textContent = `Перевожу страницу ${n} на казахский (${i + 1} из ${pages.length})…`; out.dataset.state = 'running';
+    try { const r = await call(`/books/${S.book.id}/pages/${n}/kazakh`, { method: 'POST' }); done.push(`${n}: ${r.translated}/${r.texts}`); }
+    catch (e) { errors.push(`стр. ${n}: ${e.message}`); if (/ключ/i.test(e.message)) { document.querySelector('#openKey')?.click(); break; } }
+  }
+  out.textContent = (done.length ? 'Переведено (строк/всего): ' + done.join(', ') + '. Кнопка «Қазақша» — в «Открыть HTML» и на платформе.' : '') + (errors.length ? ' Ошибки — ' + errors.join('; ') : '');
+  out.dataset.state = errors.length ? 'error' : 'done';
+  if (pages.includes(S.page)) openPage(S.page);
+}
+
+// Textbook recordings: what the book marks, what it has, and importing a folder of tracks.
+async function loadAudio() {
+  const v = S.view; if (!S.book) return;
+  try {
+    const a = await call(`/books/${S.book.id}/audio`);
+    v.querySelector('#wbAudioState').textContent = a.marked ? `— звучат ${a.playable.length} из ${a.marked} отмеченных дорожек` : '— на сконвертированных страницах нет значков аудио';
+    const miss = v.querySelector('#wbAudioMissing'); miss.hidden = !a.missing.length;
+    v.querySelector('#wbAudioList').innerHTML = a.missing.map(m => `<span title="страницы ${m.pages.join(', ')}">${esc(m.track)} <small>стр. ${m.pages.join(', ')}</small></span>`).join('');
+  } catch (e) { v.querySelector('#wbAudioState').textContent = ''; }
+}
+async function importAudio() {
+  const v = S.view, out = v.querySelector('#wbAudioStatus'), folder = v.querySelector('#wbAudioFolder').value.trim();
+  if (!folder) { out.textContent = 'Укажите путь к папке с аудио учебника.'; out.dataset.state = 'error'; return; }
+  savePref({ audioFolder: folder });
+  out.textContent = 'Ищу аудиофайлы и раскладываю по номерам…'; out.dataset.state = 'running';
+  try {
+    const r = await call(`/books/${S.book.id}/audio/import`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ folder }) });
+    out.textContent = r.imported.length ? `Импортировано дорожек: ${r.imported.length} (${r.imported.slice(0, 12).join(', ')}${r.imported.length > 12 ? '…' : ''}). Обновлено страниц: ${r.pages}.${r.skipped.length ? ` Без номера «урок-дорожка», пропущено: ${r.skipped.length}.` : ''}` : `Файлов найдено: ${r.found}, но ни в одном имени нет номера вида «1-3». Пришлите пример имени — научу студию его понимать.`;
+    out.dataset.state = r.imported.length ? 'done' : 'error';
+    await loadAudio(); if (r.pages) openPage(S.page);
+  } catch (e) { out.textContent = e.message; out.dataset.state = 'error'; }
 }
 
 async function exportBook() {
@@ -386,41 +733,6 @@ async function exportBook() {
 
 // ---- events ----
 
-async function comparePage() {
-  const id = S.book.id, n = S.page, button = S.view.querySelector('#wbCompare'), out = S.view.querySelector('#wbComparison');
-  button.disabled = true; out.hidden = false; out.textContent = 'Снимаю отрисованный DOM и сравниваю со сканом…';
-  try {
-    if (!window.FormaCloneReview?.snapshot) throw new Error('Не загружен модуль снимка страницы. Обновите Forma.');
-    S.lang = 'original'; S.mode = 'side'; renderStage();
-    const page = S.view.querySelector('.hsk-page');
-    await document.fonts.ready;
-    await Promise.all([...page.querySelectorAll('img')].map(img => img.decode().catch(() => {})));
-    core.fit(page);
-    const rendered = new Image(); rendered.src = await window.FormaCloneReview.snapshot(page); await rendered.decode();
-    const scan = new Image(); scan.src = `${API}/books/${id}/pages/${n}/scan.png`; await scan.decode();
-    const W = rendered.width, H = rendered.height;
-    const canvas = document.createElement('canvas'); canvas.width = W; canvas.height = H;
-    const ctx = canvas.getContext('2d', { willReadFrequently: true });
-    ctx.drawImage(scan, 0, 0, W, H); const a = ctx.getImageData(0, 0, W, H).data;
-    ctx.clearRect(0, 0, W, H); ctx.drawImage(rendered, 0, 0, W, H); const renderPng = canvas.toDataURL('image/png'), b = ctx.getImageData(0, 0, W, H).data;
-    const diff = ctx.createImageData(W, H); let sum = 0, inkUnion = 0, inkIntersection = 0;
-    for (let i = 0; i < a.length; i += 4) {
-      const d = (Math.abs(a[i]-b[i]) + Math.abs(a[i+1]-b[i+1]) + Math.abs(a[i+2]-b[i+2])) / 3;
-      sum += d;
-      const ia = Math.min(a[i],a[i+1],a[i+2]) < 180, ib = Math.min(b[i],b[i+1],b[i+2]) < 180;
-      if (ia || ib) inkUnion++; if (ia && ib) inkIntersection++;
-      diff.data[i] = 255; diff.data[i+1] = diff.data[i+2] = Math.max(0, 255 - d*3); diff.data[i+3] = 255;
-    }
-    ctx.putImageData(diff, 0, 0);
-    const diffPng = canvas.toDataURL('image/png'), metrics = { width: W, height: H, meanRgbDifference: +(sum/(W*H)).toFixed(3), inkIntersectionOverUnion: inkUnion ? +(inkIntersection/inkUnion).toFixed(4) : 1, pinyin: S.pinyin, original: true, capture: 'computed-style DOM via SVG foreignObject', status: 'needs-review', at: new Date().toISOString() };
-    const saved = await call(`/books/${id}/pages/${n}/comparison`, { method:'PUT', headers:{'content-type':'application/json'}, body:JSON.stringify({renderPng,diffPng,metrics}) });
-    if (S.book.id !== id || S.page !== n) return;
-    out.hidden = false;
-    out.innerHTML = `<div class="wb-title">Карта отличий · оригинал</div><a href="${saved.diff}" target="_blank"><img src="${saved.diff}" style="width:100%" alt="Красным отмечены отличия от скана"></a><div class="wb-hint">Красное — различия. Средняя разница RGB: ${metrics.meanRgbDifference} из 255. Это разница пикселей, не процент качества; скрытый пиньинь и заменённые портреты тоже дают отличия.</div><a class="btn-quiet" href="${saved.render}" target="_blank">Открыть снимок HTML</a> <a class="btn-quiet" href="${saved.diff}" download="page-${n}-difference.png">Скачать карту</a>`;
-  } catch(e) { if (S.book?.id === id && S.page === n) { out.hidden = false; out.textContent = 'Сравнение не выполнено: ' + e.message; } }
-  finally { renderActions(); }
-}
-
 function bind() {
   const v = S.view;
   v.querySelector('#wbBook').onchange = e => e.target.value && openBook(e.target.value);
@@ -434,26 +746,48 @@ function bind() {
   v.querySelector('#wbOpacity').onchange = () => savePref({ opacity: S.opacity });
   v.querySelector('#wbPinyin').onclick = () => { S.pinyin = !S.pinyin; renderStage(); };
   v.querySelector('#wbConvert').onclick = () => convert();
-  v.querySelector('#wbCompare').onclick = comparePage;
-  v.querySelector('#wbMeasure').onclick = async () => {
-    const btn = v.querySelector('#wbMeasure'); btn.disabled = true;
-    try { const r = await call(`/books/${S.book.id}/pages/${S.page}/measure`, { method: 'POST' }); await openPage(S.page); v.querySelector('#wbStatus').textContent = `Уточнено по OCR: ${r.lines} строк, ${r.dialogueTurns} реплик. Проверьте оригинал рядом со сканом.`; }
-    catch (e) { v.querySelector('#wbStatus').textContent = 'Не удалось уточнить: ' + e.message; }
-    finally { renderActions(); }
-  };
   v.querySelector('#wbRemodel').onclick = () => confirm('Сделать новый платный запрос к модели для этой страницы?') && convert({ forceModel: true });
   v.querySelector('#wbBatch').onclick = batch;
   v.querySelector('#wbSave').onclick = save;
+  v.querySelector('#wbUndo').onclick = undo;
+  v.querySelector('#wbPublish').onclick = () => publishPages(S.page, S.page);
+  v.querySelector('#wbPubBatch').onclick = () => {
+    const from = Number(v.querySelector('#wbPubFrom').value), to = Number(v.querySelector('#wbPubTo').value);
+    if (!(from >= 1 && to >= from)) return;
+    if (confirm(`Опубликовать готовые страницы ${from}–${to} на платформе?`)) publishPages(from, to);
+  };
+  v.querySelector('#wbUnpublish').onclick = unpublish;
+  v.querySelector('#wbKz').onclick = () => translateKz([S.page]);
+  v.querySelector('#wbAudioImport').onclick = importAudio;
+  v.querySelector('#wbAudioFolder').addEventListener('keydown', e => { if (e.key === 'Enter') importAudio(); });
+  v.querySelector('#wbKzAll').onclick = () => { const pages = S.book.pageStates.filter(p => p.published).map(p => p.n); if (pages.length && confirm('Перевести на казахский опубликованные страницы ' + pages.join(', ') + '?')) translateKz(pages); };
+  v.querySelector('#wbPlatSave').onclick = savePlatform;
+  v.querySelector('#wbDiscard').onclick = discard;
   v.querySelector('#wbExport').onclick = exportBook;
+  v.querySelector('#wbFidRun').onclick = runFidelity;
+  v.querySelector('#wbFidMap').onclick = () => { S.mode = 'map'; savePref({ mode: S.mode }); renderStage(); };
+  v.querySelector('#wbGolden').onchange = e => toggleGolden(e.target.checked);
+  v.querySelector('#wbGoldenCheck').onclick = checkGolden;
   v.querySelector('#wbBlocks').onclick = e => { const b = e.target.closest('[data-block]'); if (b) select(Number(b.dataset.block)); };
   const stage = v.querySelector('#wbStage');
-  stage.addEventListener('click', e => { const el = e.target.closest('.hsk-at[data-block]'); if (el && !e.target.isContentEditable) select(Number(el.dataset.block)); });
+  stage.addEventListener('click', e => {
+    const el = e.target.closest('.hsk-at[data-block]');
+    if (el && !e.target.isContentEditable) select(Number(el.dataset.block));
+    // A click on empty page or around it ends the editing of a block.
+    else if (!el && !e.target.closest('.wb-edit') && S.selected >= 0) deselect();
+  });
+  stage.addEventListener('pointerdown', e => { const h = e.target.closest('.wb-edit [data-drag]'); if (h) startDrag(e, h.dataset.drag); });
+  stage.addEventListener('click', e => { const f = e.target.closest('.wb-edit [data-font]'); if (f) changeFont(Number(f.dataset.font)); if (e.target.closest('.wb-edit [data-bold]')) toggleBold(); });
+  // Ctrl+B makes the selected block bold (also while its text is being
+  // edited: the browser's own bold would not be saved).
+  stage.addEventListener('keydown', e => { if (e.target.isContentEditable && (e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'b' && S.selected >= 0) { e.preventDefault(); toggleBold(); } });
+  stage.addEventListener('wheel', e => { if (!e.altKey || S.selected < 0) return; e.preventDefault(); changeFont(e.deltaY < 0 ? 1 : -1); }, { passive: false });
   stage.addEventListener('focusin', e => { const el = e.target.closest('.hsk-at[data-block]'); if (el) select(Number(el.dataset.block)); });
   stage.addEventListener('input', e => {
     const f = e.target.closest('[data-hsk-path]');
     if (!f || !S.layout) return;
     core.setField(S.layout, Number(f.dataset.hskBlock), f.dataset.hskPath, f.textContent.trim());
-    markDirty();
+    markDirty(true);
   });
   stage.addEventListener('dragover', e => { if (!S.book) e.preventDefault(); });
   stage.addEventListener('drop', e => { if (S.book) return; e.preventDefault(); upload(e.dataTransfer.files[0]); });
@@ -461,23 +795,28 @@ function bind() {
     const n = S.selected, b = S.layout?.blocks[n];
     if (!b) return;
     if (e.target.dataset.geom) setBox(n, { [e.target.dataset.geom]: Number(e.target.value) / 100 });
-    if (e.target.dataset.scale != null) { b.k = Math.max(0.5, Math.min(2, Number(e.target.value) || 1)); markDirty(); renderStage(); }
+    if (e.target.dataset.scale != null) { if (!b.kManual) b.kAuto = b.k ?? null; b.k = Math.max(0.5, Math.min(2.5, Number(e.target.value) || 1)); b.kManual = true; markDirty(); renderStage(); }
   });
   document.addEventListener('keydown', onKey);
 }
 
 function onKey(e) {
   if (!S.view?.isConnected) { document.removeEventListener('keydown', onKey); return; }
+  // Esc finishes editing, also from inside a text.
+  if (e.key === 'Escape' && S.selected >= 0) { e.preventDefault(); deselect(); return; }
   if (e.target.closest?.('input, select, textarea, [contenteditable=true]')) return;
   if (e.altKey && S.selected >= 0 && S.layout && e.key.startsWith('Arrow')) {
     e.preventDefault();
-    const step = e.shiftKey ? 0.005 : 0.001, b = S.layout.blocks[S.selected].box;
-    setBox(S.selected, { ArrowLeft: { x: b.x - step }, ArrowRight: { x: b.x + step }, ArrowUp: { y: b.y - step }, ArrowDown: { y: b.y + step } }[e.key]);
+    const step = e.shiftKey ? 0.005 : 0.001, blk = S.layout.blocks[S.selected], b = blk.box;
+    carry(blk, b, { ...b, ...{ ArrowLeft: { x: b.x - step }, ArrowRight: { x: b.x + step }, ArrowUp: { y: b.y - step }, ArrowDown: { y: b.y + step } }[e.key] });
+    markDirty(); renderStage(); renderGeom();
     return;
   }
   if (e.key === 'ArrowLeft') openPage(S.page - 1);
   if (e.key === 'ArrowRight') openPage(S.page + 1);
   if ((e.ctrlKey || e.metaKey) && e.key === 's') { e.preventDefault(); save(); }
+  if ((e.ctrlKey || e.metaKey) && !e.shiftKey && e.key.toLowerCase() === 'z' && S.layout) { e.preventDefault(); undo(); }
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'b' && S.selected >= 0 && S.layout) { e.preventDefault(); toggleBold(); }
 }
 
 // Entry point called by the studio router (index.html).
@@ -488,4 +827,3 @@ window.renderWebBook = async function renderWebBook(view) {
   try { await loadBooks(); }
   catch (e) { view.querySelector('#wbStatus').textContent = 'Конвертер недоступен: ' + e.message + '. Перезапустите студию.'; }
 };
-

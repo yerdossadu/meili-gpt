@@ -15,6 +15,7 @@ if (-not (Test-Path -LiteralPath $configFile)) {
 $settings = Get-Content -LiteralPath $configFile -Raw | ConvertFrom-Json
 $env:ADMIN_PASSWORD = $settings.ADMIN_PASSWORD
 $env:FORMA_PUBLISH_TOKEN = $settings.FORMA_PUBLISH_TOKEN
+$env:FORMA_PLATFORM_TOKEN = $settings.FORMA_PUBLISH_TOKEN
 $env:CHAO_DATA_DIR = Join-Path $root 'data\study'
 $env:FORMA_OCR_URL = 'http://127.0.0.1:4182/ocr'
 $env:PDF_RENDER_PORT = '4181'

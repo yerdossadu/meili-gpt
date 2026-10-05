@@ -21,3 +21,8 @@ library/
 # Local test pages (contain textbook excerpts) and assistant session config
 pages/
 .claude/
+
+# Similarity measurements, backups of rebuilt pages
+metrics/
+library-backup-*/
+webbook/core.before-frames.mjs

@@ -4,6 +4,7 @@ data/
 studio/library/
 studio/ocr-runtime/
 studio/.tools/
+studio/regress/
 **/__pycache__/
 *.log
 *.pyc

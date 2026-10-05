@@ -74,7 +74,7 @@ async function renderPagePng(pdfData, pageNumber, dpi) {
 
 const server = http.createServer(async (req, res) => {
   const origin = req.headers.origin || '';
-  if (origin === 'http://127.0.0.1:4174' || origin === 'http://localhost:4174') {
+  if (origin === 'http://127.0.0.1:4180' || origin === 'http://localhost:4180') {
     res.setHeader('access-control-allow-origin', origin);
     res.setHeader('vary', 'Origin');
   }
@@ -107,7 +107,7 @@ const server = http.createServer(async (req, res) => {
     if (!size) throw new Error('PDF пустой.');
     const pdfData = Buffer.concat(chunks);
     if(url.pathname==='/vectorize') {
-      if(origin!=='http://127.0.0.1:4174'&&origin!=='http://localhost:4174')throw Error('Local app origin required');
+      if(origin!=='http://127.0.0.1:4180'&&origin!=='http://localhost:4180')throw Error('Local app origin required');
       if(size>25*1024*1024)throw Error('PNG payload exceeds 25 MB');
       const base=fileURLToPath(new URL('.',import.meta.url));
       const result=await new Promise((resolve,reject)=>{

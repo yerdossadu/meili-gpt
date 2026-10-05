@@ -1,0 +1,26 @@
+<!doctype html><meta charset="utf-8"><title>render-frame</title>
+<style>html,body{margin:0;background:#fff;overflow:hidden}iframe{position:absolute;left:0;top:0;border:0;background:#fff}</style>
+<iframe id="f" scrolling="no"></iframe>
+<script>
+// Renders a converted page at an exact pixel size so a screenshot lines up
+// 1:1 with its scan (fidelity.mjs). ?src=<page index.html>&w=&h=
+const q = new URLSearchParams(location.search);
+const w = Number(q.get('w')) || 1200, h = Number(q.get('h')) || 1630;
+const f = document.getElementById('f');
+f.style.width = w + 'px';
+f.style.height = h + 'px';
+f.onload = () => {
+  const d = f.contentDocument;
+  const st = d.createElement('style');
+  st.textContent = '.wb-controls,.wb-nav{display:none!important}' +
+    '.wb-body{background:#fff!important;margin:0!important;padding:0!important}' +
+    '.wb-sheet{max-width:none!important;width:' + w + 'px!important;margin:0!important;box-shadow:none!important;border-radius:0!important}';
+  d.head.appendChild(st);
+  const page = d.querySelector('.hsk-page');
+  if (page) { page.dataset.lang = 'orig'; page.dataset.pinyin = 'on'; }
+  // The page fitted itself to its default language on load: fit again for
+  // the original text (the page re-fits on resize).
+  f.contentWindow.dispatchEvent(new Event('resize'));
+};
+f.src = q.get('src') + '?' + Date.now();
+</script>

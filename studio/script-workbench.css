@@ -173,3 +173,143 @@
 
 .page-preview-pair .page-original-heading,.page-preview-pair .ebook-page-label{height:18px;line-height:18px;margin:0 0 8px;padding:0;border:0}
 .page-preview-pair .ebook-page-label{color:#3e4943!important}
+
+/* Large view of a generated frame next to the speakers' portraits. */
+.page-clip-frame img[data-page-zoom]{cursor:zoom-in}
+.frame-viewer{position:fixed;inset:0;z-index:1000;display:grid;grid-template-columns:minmax(0,1fr) minmax(220px,300px);gap:14px;padding:16px;background:#0b0c0aee}
+.frame-viewer-main{min-height:0;overflow:auto;display:flex;align-items:center;justify-content:center}
+.frame-viewer-main img{max-width:100%;max-height:100%;object-fit:contain;border-radius:8px;cursor:zoom-in}
+.frame-viewer-main.actual{display:block}
+.frame-viewer-main.actual img{max-width:none;max-height:none;cursor:zoom-out}
+.frame-viewer-refs{min-height:0;overflow:auto;display:flex;flex-direction:column;gap:12px;padding:10px;border:1px solid #33372e;border-radius:9px;background:#141612;color:#e8eadf}
+.frame-viewer-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.frame-viewer-refs figure{margin:0}
+.frame-viewer-pair{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.frame-viewer-pair img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:6px;background:#0b0c0a}
+.frame-viewer-refs figcaption{padding-top:4px;font-weight:600}
+@media (max-width:760px){.frame-viewer{grid-template-columns:1fr;grid-template-rows:minmax(0,1.4fr) minmax(0,1fr)}}
+.frame-viewer-refs .frame-viewer-art{display:block;width:100%;border-radius:6px;background:#fff}
+
+/* Gallery of generated variants: picture on top, a tidy 2×2 grid of actions below. */
+.page-image-count{width:100%;margin:4px 0 -2px;color:#9aa38d;font-size:11px}
+.page-image-gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.page-image-item{width:auto;display:flex;flex-direction:column}
+.page-image-pick{position:relative}
+.page-image-pick img{height:140px;background:#0b0c0a}
+.page-image-selected-label{position:absolute;top:6px;left:6px;padding:2px 7px;border-radius:999px;background:#c4ef79;color:#141612;font-size:10px;font-weight:700}
+.page-image-item figcaption.page-image-actions{display:grid;grid-template-columns:1fr 1fr;gap:5px;padding:7px 0 0}
+.page-image-btn{display:flex;align-items:center;justify-content:center;min-height:28px;padding:4px 6px;border:1px solid #3a3f34;border-radius:6px;background:#1b1e18;color:#dfe5d4;font:inherit;font-size:11px;line-height:1.2;text-align:center;text-decoration:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer}
+.page-image-btn:hover{border-color:#c4ef79;color:#c4ef79}
+.page-image-btn.danger{color:#ffb4a8;border-color:#5a3833}
+.page-image-btn.danger:hover{background:#3a201c;border-color:#ff8f80;color:#ffd2ca}
+.page-image-item figcaption.page-frame-actions{grid-template-columns:1fr auto;align-items:center}
+.page-frame-label{font-size:11px;color:#c5d0b9}
+.page-clip-frame img{display:block;width:100%;height:140px;object-fit:contain;border-radius:5px;background:#0b0c0a}
+.page-video-actions{display:grid;grid-template-columns:1fr 1fr;gap:6px;width:100%;max-width:420px;margin-top:6px}
+
+/* Capabilities of the chosen model, under its select. */
+.model-hint{display:grid;gap:3px;margin-top:7px;padding:8px 10px;border:1px solid #33372e;border-radius:8px;background:#141612;font-size:11px;line-height:1.4}
+.model-hint[hidden]{display:none}
+.model-hint-line.ok{color:#c4ef79}
+.model-hint-line.warn{color:#f0d27a}
+.model-hint-line.bad{color:#ffb4a8}
+/* «По рисунку со страницы»: a switch whose state reads at a glance */
+.from-art-toggle{display:inline-flex;align-items:center;gap:8px;padding:6px 12px 6px 8px;border:1px solid #4b5a52;border-radius:999px;cursor:pointer;font-size:13px;user-select:none}
+.from-art-toggle input{position:absolute;opacity:0;width:1px;height:1px}
+.from-art-switch{position:relative;flex:0 0 34px;height:18px;border-radius:999px;background:#5b5f5c;transition:background .15s}
+.from-art-switch::after{content:'';position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:#fff;transition:transform .15s}
+.from-art-toggle .from-art-on{display:none;color:#c8f37a;font-weight:700}.from-art-toggle .from-art-off{color:#b9bdb9}
+.from-art-toggle:has(input:checked){border-color:#c8f37a;background:rgba(200,243,122,.12)}
+.from-art-toggle:has(input:checked) .from-art-switch{background:#7fb33a}
+.from-art-toggle:has(input:checked) .from-art-switch::after{transform:translateX(16px)}
+.from-art-toggle:has(input:checked) .from-art-on{display:inline}.from-art-toggle:has(input:checked) .from-art-off{display:none}
+.from-art-toggle:has(input:focus-visible){outline:2px solid #c8f37a;outline-offset:2px}
+
+/* recommended clip length under the duration choice */
+.clip-rec{display:block;margin-top:4px;font-size:12px;color:#a9c98a}.clip-rec[data-warn=true]{color:#f0a35e;font-weight:600}.clip-rec:empty{display:none}
+
+/* a field just rebuilt by a button: a short highlight */
+.just-updated{outline:2px solid #c8f37a;outline-offset:2px;transition:outline-color .4s}
+
+/* Page card actions, step by step: scene → first frame → clip; rare actions under «Ещё» */
+.page-steps{display:grid;gap:10px}
+.page-step{border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:10px 12px;background:rgba(255,255,255,.02)}
+.page-step-title{display:flex;align-items:center;gap:8px;margin:0 0 8px;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:#a9b3ad}
+.page-step-title b{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:#c8f37a;color:#14170f;font-size:11px}
+.page-step-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px}
+.page-step-row+.page-step-row{margin-top:8px}
+.page-step-sub{font-size:13px;opacity:.9}
+.page-step-hint{font-size:12px;color:#8f9a93}
+.page-step-go{justify-content:flex-end}
+.page-step-go [data-clip-cost]{margin-right:auto}
+.page-step-row .page-aspect-control{display:inline-flex;align-items:center;gap:6px}
+.page-step-extra>summary{cursor:pointer;font-size:12px;color:#a9b3ad;list-style:none}
+.page-step-extra>summary::before{content:'▸ ';}.page-step-extra[open]>summary::before{content:'▾ ';}
+.page-step-extra[open]>summary{margin-bottom:8px}
+.page-step-spacer{flex:1}
+.page-step-extra [data-page-action=delete]{color:#ffb4a8;border-color:rgba(255,120,100,.35)}
+/* original and web version: the same page size side by side */
+.page-original-preview .page-source-image{max-height:none;width:100%;height:auto}
+.page-preview-pair .electronic-page-preview .ebook-edit-hint{margin-top:8px;font-size:12px;color:#8f9a93}
+.page-preview-pair .ebook-edit-hint .linkbtn{margin-left:6px}
+
+.page-step-delete{justify-content:flex-end}.page-step-delete [data-page-action=delete]{color:#ffb4a8;border-color:rgba(255,120,100,.35);font-size:12px}
+
+/* step 4: faces of the scene */
+.page-faces{display:flex;flex-wrap:wrap;gap:10px}.page-face{margin:0;width:120px;display:grid;gap:4px}.page-face img,.page-face-missing{width:120px;height:120px;object-fit:cover;border-radius:10px;background:#20231d;display:grid;place-items:center;font-size:11px;color:#8f9a93}.page-face figcaption{display:grid;gap:2px;font-size:12px}.page-face small{color:#8f9a93;line-height:1.3}.page-face.off img{opacity:.35;filter:grayscale(1)}
+.page-step-model .page-model-field{margin:0 0 8px}.page-step-model .page-model-field .label{font-size:12px;color:#a9b3ad}
+
+/* dialogs over the studio: archive, AI frame */
+.studio-dialog-back{position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.6);display:grid;place-items:center;padding:20px}
+.studio-dialog{width:min(980px,96vw);max-height:90vh;overflow:auto;background:#181a15;border:1px solid #33372e;border-radius:14px;padding:16px;display:grid;gap:12px}
+.studio-dialog-head{display:flex;justify-content:space-between;align-items:center}
+.studio-dialog-body{display:grid;gap:10px}
+.studio-dialog-actions{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.archive-filters{display:flex;gap:16px;font-size:13px}
+.archive-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.archive-item{margin:0;display:grid;gap:6px;background:#20231d;border-radius:10px;padding:8px}
+.archive-media img,.archive-media video{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:6px;background:#10110f}
+.archive-item figcaption{font-size:12px;line-height:1.35}.archive-item small{color:#8f9a93}
+.ai-frame-chars{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px}
+.ai-frame-status{font-size:13px;color:#c8f37a}
+.frame-slot{display:inline-flex;align-items:center;gap:6px;padding:4px 8px;border:1px solid rgba(255,255,255,.08);border-radius:10px}
+.frame-slot b{font-size:12px;font-weight:600}
+/* the empty work strip above the tabs (it only holds a hidden anchor) takes no room */
+#textbookWorkspace > .script-work:not(:has(> :not(#bookAnchor))){display:none}
+
+/* foldable text fields of the page card */
+.page-fields-box{border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:10px 12px;margin:10px 0}
+.page-fields-box>summary{cursor:pointer;font-weight:600;font-size:14px;list-style:none}
+.page-fields-box>summary::before{content:'▸ ';color:#c8f37a}.page-fields-box[open]>summary::before{content:'▾ '}
+.page-fields-box>summary small{font-weight:400;color:#8f9a93;font-size:12px}
+.page-fields-box[open]>summary{margin-bottom:10px}
+
+/* the folded text fields and the steps span the whole card width */
+.page-card>.page-fields-box,.page-card>.page-tools{grid-column:1/-1}
+.page-fields-box .page-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 14px}
+.page-fields-box .page-fields .page-json-field{grid-column:1/-1}
+@media(max-width:760px){.page-fields-box .page-fields{grid-template-columns:minmax(0,1fr)}}
+
+/* Status window for long jobs (first frame, clip): bottom right, above every section. */
+.forma-jobs{position:fixed;right:16px;bottom:16px;z-index:10000;display:flex;flex-direction:column;gap:8px;width:min(340px,calc(100vw - 32px));pointer-events:none}
+.forma-jobs:empty{display:none}
+.forma-job{pointer-events:auto;display:grid;grid-template-columns:18px 1fr auto auto;align-items:start;gap:8px;padding:10px 10px 10px 12px;border:1px solid #444a3e;border-left:3px solid #8fb8ff;border-radius:10px;background:#171a15;box-shadow:0 8px 30px #0007;color:#edf0e8;font-size:12px;line-height:1.4}
+.forma-job b{display:block;font-size:12px}
+.forma-job p{margin:3px 0 0;color:#b2b7ad;overflow-wrap:anywhere;max-height:5.6em;overflow:auto}
+.forma-job-time{color:#8d9388;font-variant-numeric:tabular-nums;white-space:nowrap}
+.forma-job-close{border:0;background:none;color:#8d9388;font-size:16px;line-height:1;cursor:pointer;padding:0 2px}
+.forma-job-close:hover{color:#edf0e8}
+.forma-job-spin{width:14px;height:14px;margin-top:2px;border:2px solid #8fb8ff44;border-top-color:#8fb8ff;border-radius:50%;animation:forma-job-spin 1s linear infinite}
+.forma-job.done{border-left-color:#7fd18b}.forma-job.done .forma-job-spin{animation:none;border-color:#7fd18b}
+.forma-job.error{border-left-color:#ff8a7a}.forma-job.error .forma-job-spin{animation:none;border-color:#ff8a7a}
+.forma-job.error p{color:#ffb4a8}
+@keyframes forma-job-spin{to{transform:rotate(360deg)}}
+.page-face-outfit{display:grid;gap:3px;margin-top:3px}
+.page-face-outfit button{padding:3px 6px;border:1px solid #3a4036;border-radius:6px;background:transparent;color:#a8b0a2;font-size:11px;text-align:left;cursor:pointer}
+.page-face-outfit button[aria-pressed="true"]{border-color:#8fb8ff;background:#8fb8ff22;color:#edf0e8}
+.page-face-outfit button[aria-pressed="true"]::before{content:"✓ "}
+/* Voice sample in a character card: a compact player that stays inside its card. */
+.character-voice{display:flex;flex-direction:column;align-items:flex-start;gap:4px;min-width:0;max-width:100%;overflow:hidden}
+.character-voice audio{display:block;width:100%;max-width:260px;height:30px;min-width:0}
+.character-voice .script-mini{overflow-wrap:anywhere}
+.character-grid>*{min-width:0}

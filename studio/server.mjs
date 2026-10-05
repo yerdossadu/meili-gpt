@@ -7,10 +7,13 @@ import { tmpdir } from 'node:os';
 import { randomUUID } from 'node:crypto';
 import { spawn } from 'node:child_process';
 import { createWebbook } from './webbook/server.mjs';
+import { createAiLog } from './ailog.mjs';
 
 const root = fileURLToPath(new URL('.', import.meta.url));
 const port = Number(process.env.PORT || 4180);
 let apiKey = '';
+let aliKey = ''; let oaKey = '', oaModels = [], oaImageModels = [];
+const ALI_BASE = 'https://token-plan.ap-southeast-1.maas.aliyuncs.com';
 const videoJobs = new Map();
 const localFfmpeg = join(root, '.tools', 'ffmpeg', 'ffmpeg.exe');
 const localFfprobe = join(root, '.tools', 'ffmpeg', 'ffprobe.exe');
@@ -52,11 +55,14 @@ async function expireVideoJobs() {
 const videoJobCleanup = setInterval(() => expireVideoJobs().catch(()=>{}), 5 * 60 * 1000);
 videoJobCleanup.unref();
 
-const webbook = createWebbook({ root, getApiKey: () => apiKey });
+const webbook = createWebbook({ root, getApiKey: () => apiKey, getAliKey: () => aliKey, origin: `http://127.0.0.1:${port}` });
+// Journal of every AI image and video (kept beside the books, on drive D through the library junction).
+const aiLog = createAiLog(join(root, 'library', 'ai-log'));
 
 const server = http.createServer(async (req, res) => {
   const url = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
   if (await webbook.handle(req, res, url)) return;
+  if (await aiLog.handle(req, res, url)) return;
   if (req.method === 'POST' && url.pathname === '/local/pdf/page') {
     let dir;
     try {
@@ -268,6 +274,145 @@ const server = http.createServer(async (req, res) => {
     apiKey = '';
     res.writeHead(200, { 'content-type':'application/json', 'cache-control':'no-store' });
     res.end('{"connected":false}');
+    return;
+  }
+  // OpenAI direct (the user's own key and balance): the director's pass that writes clip prompts.
+  // The key lives only in this process, like the others.
+  if (url.pathname === '/local/openai' && req.method === 'GET') {
+    res.writeHead(200, { 'content-type':'application/json', 'cache-control':'no-store' });
+    res.end(JSON.stringify({ connected: Boolean(oaKey), models: oaModels, imageModels: oaImageModels }));
+    return;
+  }
+  if (url.pathname === '/local/openai' && (req.method === 'POST' || req.method === 'DELETE')) {
+    let body = '';
+    for await (const chunk of req) body += chunk;
+    let key = '';
+    try { key = req.method === 'POST' ? String(JSON.parse(body || '{}').key || '').trim() : ''; } catch { res.writeHead(400); res.end('Invalid JSON'); return; }
+    let models = [], imageModels = [];
+    if (key) {
+      // The model list: free, and it proves the key.
+      try {
+        const r = await fetch('https://api.openai.com/v1/models', { headers: { authorization: `Bearer ${key}` }, signal: AbortSignal.timeout(20000) });
+        if (!r.ok) { const detail = (await r.text()).slice(0, 300); res.writeHead(400, { 'content-type':'application/json' }); res.end(JSON.stringify({ connected: Boolean(oaKey), error: { message: `OpenAI не принял ключ (HTTP ${r.status}): ${detail}` } })); return; }
+        const ids = ((await r.json()).data || []).map(m => m.id);
+        models = ids.filter(id => /^(gpt-|o\d)/.test(id) && !/(audio|realtime|transcribe|tts|image|search|embedding|instruct)/.test(id)).sort();
+        imageModels = ids.filter(id => /^(gpt-image|chatgpt-image|dall-e-3)/.test(id)).sort();
+      } catch (err) { res.writeHead(400, { 'content-type':'application/json' }); res.end(JSON.stringify({ connected: Boolean(oaKey), error: { message: 'Не удалось связаться с OpenAI: ' + err.message } })); return; }
+    }
+    oaKey = key; oaModels = key ? models : []; oaImageModels = key ? imageModels : [];
+    res.writeHead(200, { 'content-type':'application/json', 'cache-control':'no-store' });
+    res.end(JSON.stringify({ connected: Boolean(oaKey), models: oaModels, imageModels: oaImageModels }));
+    return;
+  }
+  // GPT Image: a picture from text, or from reference pictures (page drawing, portraits) — the images
+  // «edits» endpoint takes several input images. Answer: OpenAI's JSON with base64 pictures.
+  if (url.pathname === '/local/openai/images' && req.method === 'POST') {
+    if (!oaKey) { res.writeHead(401, { 'content-type':'application/json' }); res.end('{"error":{"message":"Сначала добавьте ключ OpenAI."}}'); return; }
+    try {
+      let raw = ''; for await (const c of req) raw += c;
+      const b = JSON.parse(raw || '{}'), images = Array.isArray(b.images) ? b.images.slice(0, 16) : [];
+      let upstream;
+      if (images.length) {
+        const form = new FormData();
+        form.append('model', String(b.model)); form.append('prompt', String(b.prompt || ''));
+        if (b.size) form.append('size', String(b.size)); if (b.quality) form.append('quality', String(b.quality));
+        images.forEach((d, k) => { const m = /^data:([^;]+);base64,(.*)$/s.exec(String(d)); if (m) form.append('image[]', new Blob([Buffer.from(m[2], 'base64')], { type: m[1] }), `ref-${k}.${m[1].split('/')[1] || 'png'}`); });
+        upstream = await fetch('https://api.openai.com/v1/images/edits', { method: 'POST', headers: { authorization: `Bearer ${oaKey}` }, body: form, signal: AbortSignal.timeout(300000) });
+      } else {
+        upstream = await fetch('https://api.openai.com/v1/images/generations', { method: 'POST', headers: { authorization: `Bearer ${oaKey}`, 'content-type': 'application/json' }, body: JSON.stringify({ model: b.model, prompt: b.prompt, ...(b.size ? { size: b.size } : {}), ...(b.quality ? { quality: b.quality } : {}) }), signal: AbortSignal.timeout(300000) });
+      }
+      res.writeHead(upstream.status, { 'content-type': upstream.headers.get('content-type') || 'application/json', 'cache-control':'no-store' });
+      res.end(Buffer.from(await upstream.arrayBuffer()));
+    } catch (err) { res.writeHead(502, { 'content-type':'application/json' }); res.end(JSON.stringify({ error: { message: 'Не удалось связаться с OpenAI: ' + err.message } })); }
+    return;
+  }  if (url.pathname === '/local/openai/chat' && req.method === 'POST') {
+    if (!oaKey) { res.writeHead(401, { 'content-type':'application/json' }); res.end('{"error":{"message":"Сначала добавьте ключ OpenAI."}}'); return; }
+    try {
+      const upstream = await fetch('https://api.openai.com/v1/chat/completions', { method: 'POST', headers: { authorization: `Bearer ${oaKey}`, 'content-type': 'application/json' }, body: req, duplex: 'half', signal: AbortSignal.timeout(180000) });
+      res.writeHead(upstream.status, { 'content-type': upstream.headers.get('content-type') || 'application/json', 'cache-control':'no-store' });
+      res.end(Buffer.from(await upstream.arrayBuffer()));
+    } catch (err) { res.writeHead(502, { 'content-type':'application/json' }); res.end(JSON.stringify({ error: { message: 'Не удалось связаться с OpenAI: ' + err.message } })); }
+    return;
+  }
+  // Alibaba Model Studio (Token Plan): images and video straight from the
+  // subscription, without OpenRouter. The key lives only in this process.
+  if (url.pathname === '/local/alibaba' && req.method === 'GET') {
+    res.writeHead(200, { 'content-type':'application/json', 'cache-control':'no-store' });
+    res.end(JSON.stringify({ connected: Boolean(aliKey) }));
+    return;
+  }
+  if (url.pathname === '/local/alibaba' && (req.method === 'POST' || req.method === 'DELETE')) {
+    let body = '';
+    for await (const chunk of req) body += chunk;
+    let key = '';
+    try { key = req.method === 'POST' ? String(JSON.parse(body || '{}').key || '').trim() : ''; } catch { res.writeHead(400); res.end('Invalid JSON'); return; }
+    let check = null;
+    if (key) {
+      // The model list of the OpenAI-compatible endpoint (the one the platform
+      // uses with this key): free, nothing is generated.
+      try {
+        const r = await fetch(`${ALI_BASE}/compatible-mode/v1/models`, { headers: { authorization: `Bearer ${key}` } });
+        const detail = r.ok ? '' : (await r.text()).slice(0, 300);
+        console.log(`[alibaba] key check: HTTP ${r.status} ${detail}`);
+        check = r.status === 401 || r.status === 403 ? { ok: false, message: `Alibaba не принял ключ (HTTP ${r.status}): ${detail}` } : { ok: true };
+      } catch (err) { check = { ok: false, message: 'Не удалось связаться с Alibaba: ' + err.message + (err.cause?.code ? ` (${err.cause.code})` : '') }; }
+      if (!check.ok) { res.writeHead(400, { 'content-type':'application/json' }); res.end(JSON.stringify({ connected: Boolean(aliKey), error: { message: check.message } })); return; }
+    }
+    aliKey = key;
+    res.writeHead(200, { 'content-type':'application/json', 'cache-control':'no-store' });
+    res.end(JSON.stringify({ connected: Boolean(aliKey) }));
+    return;
+  }
+  if (url.pathname.startsWith('/local/alibaba/api/')) {
+    if (!aliKey) { res.writeHead(401, { 'content-type':'application/json' }); res.end('{"error":{"message":"Сначала добавьте ключ Alibaba Model Studio."}}'); return; }
+    const path = url.pathname.slice('/local/alibaba/'.length);
+    if (!/^api\/v1\/(services\/aigc\/[a-z-]+\/[a-z-]+|tasks\/[\w-]+)$/.test(path)) { res.writeHead(400); res.end('Invalid Alibaba path'); return; }
+    const headers = { authorization: `Bearer ${aliKey}`, 'content-type': 'application/json' };
+    if (req.headers['x-dashscope-async']) headers['X-DashScope-Async'] = 'enable';
+    // The body is read once, so a dropped connection (no answer at all) can be retried: nothing reached
+    // Alibaba then, nothing is charged twice. Any answer from Alibaba, even an error, is passed on as is.
+    const body = ['GET','HEAD'].includes(req.method) ? undefined : Buffer.concat(await (async () => { const c = []; for await (const x of req) c.push(x); return c; })());
+    let last = null;
+    for (let attempt = 1; attempt <= 3; attempt++) {
+      try {
+        // Pictures are made inside this one request and may take minutes: wait up to 10.
+        const upstream = await fetch(`${ALI_BASE}/${path}`, { method: req.method, headers, body, signal: AbortSignal.timeout(600000) });
+        res.writeHead(upstream.status, { 'content-type': upstream.headers.get('content-type') || 'application/json', 'cache-control':'no-store' });
+        res.end(Buffer.from(await upstream.arrayBuffer()));
+        return;
+      } catch (err) {
+        last = err; console.log(`[alibaba] ${path}: attempt ${attempt} failed: ${err.message}${err.cause?.code ? ' (' + err.cause.code + ')' : ''}`);
+        // A request that waited too long reached Alibaba and may still be running there: never resend it (it would be paid twice).
+        if (err.name === 'TimeoutError' || err.name === 'AbortError') break;
+        if (attempt < 3) await new Promise(r => setTimeout(r, 2000 * attempt));
+      }
+    }
+    res.writeHead(502, { 'content-type':'application/json' });
+    res.end(JSON.stringify({ error:{ message:`Не удалось связаться с Alibaba после 3 попыток: ${last?.message}${last?.cause?.code ? ' (' + last.cause.code + ')' : ''}. Проверьте интернет и повторите.` } }));
+    return;
+  }
+  // Results (images, videos) are temporary Alibaba OSS links; fetched here to avoid browser CORS.
+  if (url.pathname === '/local/alibaba/file' && req.method === 'GET') {
+    let target;
+    try { target = new URL(url.searchParams.get('url') || ''); } catch { res.writeHead(400); res.end('Bad URL'); return; }
+    if (target.protocol !== 'https:' || !/\.aliyuncs\.com$/.test(target.hostname)) { res.writeHead(400); res.end('Only Alibaba result links'); return; }
+    // The result link is fresh and valid for a day; a failed download is almost always a network blip, so try up to 4 times.
+    let last = '';
+    for (let attempt = 1; attempt <= 4; attempt++) {
+      try {
+        const upstream = await fetch(target, { signal: AbortSignal.timeout(60000) });
+        if (!upstream.ok) { last = `HTTP ${upstream.status}`; if (upstream.status < 500 && upstream.status !== 429) break; throw new Error(last); }
+        const body = Buffer.from(await upstream.arrayBuffer());
+        res.writeHead(200, { 'content-type': upstream.headers.get('content-type') || 'application/octet-stream', 'content-length': body.length, 'cache-control':'no-store' });
+        res.end(body);
+        return;
+      } catch (err) {
+        last = `${err.message}${err.cause?.code ? ` (${err.cause.code})` : ''}`;
+        console.log(`[alibaba] download attempt ${attempt} failed: ${last}`);
+        if (attempt < 4) await new Promise(r => setTimeout(r, 1200 * attempt));
+      }
+    }
+    res.writeHead(502, { 'content-type': 'text/plain; charset=utf-8' }); res.end(last);
     return;
   }
   if (url.pathname.startsWith('/api/')) {
