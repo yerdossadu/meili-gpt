@@ -1,0 +1,2802 @@
+{
+  "verified_identical_files": 698,
+  "sources": {
+    "study": "D:\\Forma\\GitHub\\chao-hsk-study",
+    "studio": "D:\\Forma\\GitHub\\Forma Studio One",
+    "data/study": "D:\\Forma\\chao-data"
+  },
+  "files": [
+    {
+      "path": "study/app.html",
+      "sha256": "7c844f5ca25abb5770bb3d91fb8a9aa084b34719afd7a1eea977fb0d745ee141"
+    },
+    {
+      "path": "study/Dockerfile",
+      "sha256": "30ac779e9635dc0eaa09aa8b69dc10cbd6e1233b08e9b9da2f06850b808b3a12"
+    },
+    {
+      "path": "study/forma.py",
+      "sha256": "6744c8b69e7d59285372ec8d0bb85d3d799ced085d22b7f57902b98ea210def2"
+    },
+    {
+      "path": "study/layout.py",
+      "sha256": "6c4bd0d2616132eebf523ebff9109bb89f454191fd64649d2a746c14eb52a70e"
+    },
+    {
+      "path": "study/lesson_validation.py",
+      "sha256": "5e8f0d2f8162828c323d30c9ecfe157c4e4eed89223875873e12aed849bd62e4"
+    },
+    {
+      "path": "study/manager.html",
+      "sha256": "27cf7a974cda3673ab13b02e62d8b7d536954826724c1c1ad9e6a4c091a70333"
+    },
+    {
+      "path": "study/README.md",
+      "sha256": "bf5c588c17e26f46b2a468285b13d1ef3dd5db29a71fe9f398a685c65e77b633"
+    },
+    {
+      "path": "study/render.yaml",
+      "sha256": "7f00167d5c8f3ea6aeadc27b60db29d454ca0ec60ca92df5e5d29dbe4f6daf49"
+    },
+    {
+      "path": "study/requirements.txt",
+      "sha256": "1538208e28edfe741bb791817f1b2a9e9ac29683e92969f2f9cbaac16de27d9c"
+    },
+    {
+      "path": "study/server.py",
+      "sha256": "251993b430aa49652471411fb37ebb984047b76081dce8a89c1dc6fcab6550a2"
+    },
+    {
+      "path": "study/hanzi/ARPHICPL.TXT",
+      "sha256": "3a5e90c0957524a89e48203febcd4492ca4393678abaa7e5b4d70f3ff32b386d"
+    },
+    {
+      "path": "study/hanzi/cursive-liujianmaocao.woff",
+      "sha256": "816430c867c2afc3699a95038c627d866613136bd86bbbc90eaf1dd3faf9f398"
+    },
+    {
+      "path": "study/hanzi/cursive-longcang.woff",
+      "sha256": "066d08626e547b25aabbdb3d715f0cde4c8264a3b592801dfb7c3c539ba4b70b"
+    },
+    {
+      "path": "study/hanzi/hanzi-cursive.js",
+      "sha256": "c7712e1c70a41d96a680ee2c82b63fac3ba154cc44443b68172cac9479401022"
+    },
+    {
+      "path": "study/hanzi/HANZI-LICENSE.txt",
+      "sha256": "26fa6b699b32401de4b75a4af574c2e0a99b3df6cb12df9313d257ee4634359c"
+    },
+    {
+      "path": "study/hanzi/hanzi-write.js",
+      "sha256": "d662c7d45537981b5af98566ddd78f6ccac4cb28850680756642a54eca224bcd"
+    },
+    {
+      "path": "study/hanzi/LIUJIAN-OFL.txt",
+      "sha256": "ff56684b0212481e7c3886c26d5a655de9b211c8119e5ccc756138a97b066acc"
+    },
+    {
+      "path": "study/hanzi/LONGCANG-OFL.txt",
+      "sha256": "603546b7219a94bb59bf8294458194a5010119486354092b66a09a3fd61aeacc"
+    },
+    {
+      "path": "study/hanzi/strokes.json",
+      "sha256": "fbac463e75cfd198662756ae1b48c2a28b9e0918c24a254481b6545d5b92153e"
+    },
+    {
+      "path": "study/tests/speech_matching.test.cjs",
+      "sha256": "cef40d7ac1878d390fcb0b12a34db9ae8f24cf879f50a5b981cc784252921865"
+    },
+    {
+      "path": "study/tests/test_forma.py",
+      "sha256": "c43f8a9bca050c8942eca848330d7aa4aa0f1e012541e36c9c8e07d13efb208f"
+    },
+    {
+      "path": "study/tests/test_lesson_validation.py",
+      "sha256": "2a817f2bcdae567f38a23ba34cc636a29b75af132ea58d2a11392af002d4e774"
+    },
+    {
+      "path": "study/tools/build_cursive_fonts.py",
+      "sha256": "a147d50eec921fa19700afb174dccf34d68d891cc06873b36c7c695c7b6f055b"
+    },
+    {
+      "path": "study/tools/build_hanzi_strokes.py",
+      "sha256": "0f1a1cb2d1a6b96a39c9082907d659df39ee165ac274de43fdb66be5fc377c19"
+    },
+    {
+      "path": "studio/.gitignore",
+      "sha256": "8316bf8b3ef0c2e87f9f75c5b4887be8a71549d77119e1055b5d88d4b09ede75"
+    },
+    {
+      "path": "studio/.page23-rebuild.mjs",
+      "sha256": "3b4bd2237d532892abb87fc84df9f16a6431be7c470127ad10f8344c80b2f753"
+    },
+    {
+      "path": "studio/.page23-update.mjs",
+      "sha256": "1f1c859742fafd4454dc76b65c376ea504689f809df221304848219b1fc3652d"
+    },
+    {
+      "path": "studio/AUDIT.md",
+      "sha256": "8df600970acc5b8e9d71d464137e1b379a2152d390ae97934503e9f9108be1e6"
+    },
+    {
+      "path": "studio/clone-review.js",
+      "sha256": "bd1d07652ba1e49c8906769476b3763dacac79a144b3b157d7bf3d2233a3f468"
+    },
+    {
+      "path": "studio/ebook-page-export.js",
+      "sha256": "2e02371cfd63f57310de6009e7abaf960166ab3b265ac5096716ed2603c700ab"
+    },
+    {
+      "path": "studio/hsk-page-builder.js",
+      "sha256": "56ae696f37fbec9dd83233369e5c53a4842ae27724199b421fcac4eb5512cb88"
+    },
+    {
+      "path": "studio/index.html",
+      "sha256": "39f29bd78be89a568159d955e4cb3d8ad4d798c6e995fd8fe9f4f376ee45e8c5"
+    },
+    {
+      "path": "studio/pdf-layout.py",
+      "sha256": "fe71a820e736426a185c8addc19cd36614b811d307cf11814b4e9f0cedfb2896"
+    },
+    {
+      "path": "studio/pdf-ocr.py",
+      "sha256": "fa97bc747fd1abc3c9c77b15b848a4c0216a126d912dd548a9d915dd47586857"
+    },
+    {
+      "path": "studio/pdf-renderer.mjs",
+      "sha256": "2f4444220c57a35c5b5ef504fa631aca4a680ffccfa6cea6f1ae86e4a03744f5"
+    },
+    {
+      "path": "studio/png-geometry.py",
+      "sha256": "11475962db5ee627691b7527db4e0f707e4b0b1b13fdd2c467b3b96c91e051b0"
+    },
+    {
+      "path": "studio/README.md",
+      "sha256": "77020b40ebb1b547499940e96c59a07fb32252a8ca432b39dba6499e7ec1a287"
+    },
+    {
+      "path": "studio/script-studio.css",
+      "sha256": "180a2673e7bcc24c62d405156858148397ef09900b39651052090d9e6cefe38e"
+    },
+    {
+      "path": "studio/script-studio.js",
+      "sha256": "dc4f16c4a00423a3218be64942dcf46f6e887d33b952467ab80589e9899c9c6a"
+    },
+    {
+      "path": "studio/script-workbench.css",
+      "sha256": "fd05a35bffc8c3780fcc97e8de94b02886a5094f1741d32e9093b8845f9f156e"
+    },
+    {
+      "path": "studio/script-workbench.js",
+      "sha256": "b56d6872e9a74f6290225f433a2d80e6a57b4240b5dd1b5a033208e4833a9382"
+    },
+    {
+      "path": "studio/server.mjs",
+      "sha256": "dc37d3b0aa2dcb263a7f48374befd63b4c6a29645ac1fc23023719d3e8704f0e"
+    },
+    {
+      "path": "studio/setup-ocr.bat",
+      "sha256": "c327a93db9b64b59d8658cc48d5d75bc029274ddb21fa3ab3aba586122174c66"
+    },
+    {
+      "path": "studio/start-forma-studio.bat",
+      "sha256": "a77b5ae1ec04c8295827962fbfcb1d9086463d6ef2300522519c5f3d56461ea2"
+    },
+    {
+      "path": "studio/start-pdf-renderer.ps1",
+      "sha256": "462a80722f3d727db512c657c1e2c4b10f5b4fccf99f4ab6cb9c0982d3048ab3"
+    },
+    {
+      "path": "studio/library/.test-book-id",
+      "sha256": "178e67ebb8cfc764f1814c25872fb4ab3f31e2a554933cd14d1bde56bc1bf7de"
+    },
+    {
+      "path": "studio/webbook/components.css",
+      "sha256": "ee883b24ddc164a9182d1e61f494b90ab8f31a85cb9e55978a75e6559cc0e9ef"
+    },
+    {
+      "path": "studio/webbook/console.css",
+      "sha256": "a270009ccc4600c0627e28f74ed9163450eecad42b3ef6cb07fb36af7fd7c0b9"
+    },
+    {
+      "path": "studio/webbook/console.js",
+      "sha256": "05614f0ebba530d7cc137f794ba4b8ff61c40bb3a1c53014384385efc6536111"
+    },
+    {
+      "path": "studio/webbook/core.mjs",
+      "sha256": "f0cf547367868bcd20675f2b227039845da55297eeb9bcbe8b2151566bcb85d5"
+    },
+    {
+      "path": "studio/webbook/server.mjs",
+      "sha256": "b6ad0da60a6ccc09c59ef0247960e25906de7676abfa17abe4af6cac8387df00"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/book.json",
+      "sha256": "3fd57d0daf7a3b4f19e75e178a3280888ef8f3051766ffe1aa6dd20570654df3"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/source.pdf",
+      "sha256": "25d1aad102e4179307b5bc4f932927bbd244b3f4dd53edeb6cfd4dbbb8d4f2ba"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/web.zip",
+      "sha256": "6c2c994ce3990b8be6a9fbcb69ab8de951c4d887ec7d23da80d723f2f03b1076"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/cast/03b0b3ac-e57b-47a1-b1fe-315efd2982a5.webp",
+      "sha256": "bb220c29e56603c5641ec4c013e16e43f7c114e30bc5d08713c8cc4720d63f80"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/cast/093e21b9-cae6-49f2-955a-3e4489437082.webp",
+      "sha256": "cee062a1c16e6e802ffb049f2473485e4e532e7278377813101d34fe83408aa7"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/cast/105876fc-d205-4466-b2ac-0639700b8194.webp",
+      "sha256": "43ff31c8b2b40a92a113ded6b569a5c2b27f93b3dc2b0d6c500cf2e167f228ef"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/cast/321ba548-f9ba-45dc-84f9-25c514e6ebcb.webp",
+      "sha256": "7b69297f955b40b215d0b731204759fd375d61bd0acc26ee51817396d7d9f95b"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/cast/47886233-01c0-4b2b-b98e-51c2767d241d.webp",
+      "sha256": "f161bb1be2b459a5be62fb10a9fbc2c9c22c6e30208199cbf209254aeb0bed89"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/cast/97aeafeb-d84d-40ac-accc-e07916c2f766.webp",
+      "sha256": "ff1a7348bd73fbe816fc976433ad1a8e38fa283a235f8b95e5d84684f6b85951"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/cast/9faf2753-6a41-4a3a-a396-bda29b9d9339.webp",
+      "sha256": "b9d81123806d800f17934dac9472eedbbe1ec861cc6615c521457465ea70ca9c"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/cast/b50fd7c8-d45f-44ec-8352-3bd4fd96b071.webp",
+      "sha256": "2ce7c3ad5b373c1c58dee8990c6b0c9cf7caa317fd72afbf78c1332d4153d31c"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/cast/bd7d1dae-3456-4039-b72f-cde3d357a588.webp",
+      "sha256": "904bb8e5adaf8519fe7492cede3bb51601b773ee50c71b4c26300d5970dc7c35"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/cast/c88ddade-f59f-4aa4-b7e1-2e0e6f27bea5.webp",
+      "sha256": "c629eb4bdb24cc8a54231006c9d9899a6e67261dc4842036ce35d73162ccff68"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/cast/cast.json",
+      "sha256": "a8f49d2ae1d0b789bc737d978c2eebf47acd347309bdddf20a3b50b4b4a6c855"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/cast/d879ce8c-cf9f-4245-9d8b-fbfd9b7a9cdd.webp",
+      "sha256": "9481fd0ba6180b44631406a95ab96eb746ea41d24dfe0e078f4a9834e4a29a5c"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/cast/e28d4880-df99-4570-8c06-bd377e29373e.webp",
+      "sha256": "5ab83231eb34359be430295b061c8270a7f71de5098c049dfb9c8437779f914c"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/cast/eced97cd-22e6-4da1-b997-4f477895478d.webp",
+      "sha256": "eb43d6b41c414025a0e4dc814bdd9534ea0bc2bbd03952195347d5e1c317e328"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/cast/f5b7ed5b-c591-4af8-8fb4-641e3631d64e.webp",
+      "sha256": "06f10dce57cc02b2b67eb0fde275f81178ef112ddc0d296a4fb50bf45bcb080d"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/web/components.css",
+      "sha256": "06afb54f3657ced93afd17aeaa8ce8421c2b55655aa5160b9d0ffb2b94c845fd"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/web/index.html",
+      "sha256": "3e39b499eaf14c8c19899666883412f9045a16352765900fdaa0a2b51908eb13"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/web/page-016.html",
+      "sha256": "764a4c88ce3b515184b8a9fe04042f8c34ccf1a2e6aa555ab6758f0b64013dbb"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/001/scan.png",
+      "sha256": "91fc67f6ce8f46420289330a7692e97197b06b359f102194130c8fbe172cd8a0"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/001/thumb.png",
+      "sha256": "76af020d2b66970f58f1b528490397dc20ec474a52a08e0d8666133f8fbbf31d"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/002/scan.png",
+      "sha256": "74d9550ea2650d0f2181b1e1ca60b5c2acc78d221d7e66fbaf7f825ec53a9d6a"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/002/thumb.png",
+      "sha256": "b141f506d4308298c436f3f652c432348f0e8e2391233f85909fa78e3dd4869d"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/003/scan.png",
+      "sha256": "b935c901a568112435bc0b130b48b4fc49559f8c07129891cdfea7a2a8a2c016"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/003/thumb.png",
+      "sha256": "ee902078ac00b9704ab73c8b98600977ac81b081dd152a8fc6a648f5d6c7efbe"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/004/thumb.png",
+      "sha256": "86b4b194ee497d43c44b73b3e6e1fbe0a34493e826372bfe61c1cbe0261db76b"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/005/thumb.png",
+      "sha256": "eec3a2cb21b48e59d02b32a8ca4ef6831792b77eac06382e7d3ed33873e30195"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/006/thumb.png",
+      "sha256": "87c4b87c5e2a49a20f273f460544d6be1b57b1bfe2464f598ed40fc32b05348f"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/007/thumb.png",
+      "sha256": "1eb482bad62383bf6a88392f99bcaa83e82f3821dae4748d5f945a250129c295"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/008/thumb.png",
+      "sha256": "668f7ddf9d52c05c7208d3ea948032a7882e45d0e3fee59db476589efdad43ea"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/009/thumb.png",
+      "sha256": "d13680b39f0b53ab2d5ff5e46390cf8ab4d044f0b5b6fbd113d1007ae0ceac5d"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/010/thumb.png",
+      "sha256": "337510cf464672249f5f6585e398fae9166e944692e6ba21a5913492d9f8d930"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/011/thumb.png",
+      "sha256": "ef51643604b836e643651ada8b526a6e6c300c0bc5a4a1f07be0119ca564fdbe"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/012/thumb.png",
+      "sha256": "b8ce4a6944ce6f366fb3db9ba664cbd43ac3cdb235662069f374a5b27853af59"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/013/thumb.png",
+      "sha256": "913cb99d2d9a96d0b634fc6bac8e69ce3262c519746603da17222c1a7a7edcea"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/014/thumb.png",
+      "sha256": "06a09a6e211eb792304221a97fa2f173a24270b438c2c7837a940c0c1108b701"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/015/scan.png",
+      "sha256": "4fa878ce6861b48c3ba0988fdde6c899cdce14d870423063120957dba475d682"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/015/thumb.png",
+      "sha256": "e2ef1fcc4277ee3e7960b2715195bc59d3a06e53d809338e9a71e2a17390853e"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/016/clip-poster.webp",
+      "sha256": "e41e0a18e9e4e2c33c299ae38e2166056c730aabe142aafe6552ae52dc8e3e80"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/016/clip.json",
+      "sha256": "550707cf939176dbeace45b45d355c7fef992c2d5a090c669666f100651989f3"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/016/clip.mp4",
+      "sha256": "0eb816386ecfb42d30a6f106ba7314ae6ec3158d9b7cf8e3abda77dcb473d6de"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/016/edited.flag",
+      "sha256": "799a5710232834cc1ed8ddcad0fb56efcbecf917272f3b85c47c268f3036f169"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/016/index.html",
+      "sha256": "fef01d0017692f1c8efbbe1f6891dc9ac42aecc9df25b3a21edb71f3fff70795"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/016/layout.json",
+      "sha256": "f50834320445c56349f6f461e8067388bf1bec14f4c09ba970b3ca40e39ee38b"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/016/model.json",
+      "sha256": "8d07b6e6cd70b830ec742d137732d4c9f453185bfe9128a34403e97fb84be8d7"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/016/ocr.json",
+      "sha256": "40106e883cf631e57ff42da3e6f41fa98f9db682a89282b91caf00a023d4be6b"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/016/scan.png",
+      "sha256": "2d28b1f27a9b5164dc35c804b7be0873929117b98803235bfa617b595dab844e"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/016/status.json",
+      "sha256": "a1eb86ecb80392f25f8cfb8c1a30560b856e9374b0710604f1979e741408e334"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/016/thumb.png",
+      "sha256": "2a67fe86e391b4af20ab5bbc8f8fc13f37cfd556498b0332e66eec923c7d8dbd"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/017/clip-poster.webp",
+      "sha256": "469232e32cac973882e02f2016b8f585160ac37e1cb3d7b1b449ea93f4d86e52"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/017/clip.json",
+      "sha256": "a61fb485b222f6ae8fecb63339455e075883362babd2dd68ec03f84eafc93549"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/017/clip.mp4",
+      "sha256": "c4d1e00f0526339a38df78a37cb2589eac1ef32a1e7e27eb3733fbc275cedb9c"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/017/edited.flag",
+      "sha256": "246d141d72a3d0c40388d746dabe5531d05a52c9fe8f939b908232f078ba5833"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/017/index.before-source-1790779974760.html",
+      "sha256": "a55ff1a772155323d24001a6ed9e1f2c8e55898fc2e0b056ceecc13671fda0bd"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/017/index.before-source-1790780397618.html",
+      "sha256": "96911f7a360cdf8e0a9917829d114e8b257bed0b04e4356da7e5b05005a26d12"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/017/index.before-source-1790781060999.html",
+      "sha256": "c32bce7b0dc03c52e3277e7bf5b7f2dc02e6e69a1f8dba0f1834c10916d40dd0"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/017/index.before-source-1790781245495.html",
+      "sha256": "85ef150bd7fcb2e02fbce5c56e26ae7d8e1a47128afa5f8ad14867ed91672119"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/017/index.before-source-1790781639605.html",
+      "sha256": "9695026d02a6473a99bd141c401e6d906b29fe08b0bcfa48abcbe0dc7a904535"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/017/index.before-source-1790781805342.html",
+      "sha256": "e6d0ea9f3eac75e5d7e6d7193e986fa1232e1d44a83fee8769dd833a62db5e5b"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/017/index.html",
+      "sha256": "379e59f756fc4420f078eae5dc46c25a21b290d3baf304cd579fc47535a00c02"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/017/layout.before-restore-1790781793397.json",
+      "sha256": "47a0b60df73a7620b27736dcf1e225f422076e761ffbf20097121d3c6ace6a49"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/017/layout.before-source-1790779974760.json",
+      "sha256": "a23d5254b592b38435704d3353699959058719b668613b079f5c2bede2939ec8"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/017/layout.before-source-1790780397618.json",
+      "sha256": "502637458664ec92b64209c40cc809c6ccb5e345ed4b65c2131ab635a722728c"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/017/layout.before-source-1790781060999.json",
+      "sha256": "a99ee134c5f726d7a0860fa01efdec6603948d405b2591ddc61302d38cea4cdd"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/017/layout.before-source-1790781245495.json",
+      "sha256": "4f6cf6573cbfa96400d6330f8e06b1b3edaf1953cf7c47fd16328670ce168b8d"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/017/layout.before-source-1790781639605.json",
+      "sha256": "c749ceafb043ab9d2d08a2118a26ab19553fc62f812f83a2e460b901c69f1915"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/017/layout.before-source-1790781805342.json",
+      "sha256": "a23d5254b592b38435704d3353699959058719b668613b079f5c2bede2939ec8"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/017/layout.json",
+      "sha256": "68f242d50c68323ea31dbcf6babfe21b789f606aca7f26cb5c376c03db99a71c"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/017/model.json",
+      "sha256": "c1b1e65f34d555c26b6c28b41ab75f798e520cb6d69694574504a40d7a49b8b3"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/017/model.previous.json",
+      "sha256": "6aab98e8b98972a515526626601d1ea523285fb3fea32335cc04158c044eedb0"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/017/ocr.json",
+      "sha256": "3793c7ac8cb3b8d337e43307bced61c0176e923079f7b5ecec64dab751245023"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/017/scan.png",
+      "sha256": "c27e059123318e520f64f7d2d61ff5bfc2bbe4831fb9478fd39c6d493136d752"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/017/status.json",
+      "sha256": "ba96da699bc518d0e423c0c944dfed061fceedb68d98f775ace70459d9d98dbb"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/017/thumb.png",
+      "sha256": "625807f9e1fcac9e1ba32aa4a711f913ed823d34f28772e02b512dc8812f0a5b"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/018/edited.flag",
+      "sha256": "32f915c641fe358d36e1b6b656ff2b2b73761d0375f6efc3f2fa532c4f397037"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/018/index.html",
+      "sha256": "8ef22412ccaef8b9dae06d625cea763a5fdbb0dd9233c43483bcea9801b819d2"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/018/layout.json",
+      "sha256": "255b09ac53d9f933f27b236641849ff20b2bd8d49d5c6abaa8776d1b4d50b162"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/018/model.json",
+      "sha256": "14a6e9b4d84d21e01ff882ab5b94aec9526f37268644e82bd875281a4a75ac1b"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/018/ocr.json",
+      "sha256": "f2a85d0a450a0237c290837c0219dee54f80e1605a74fe6b0c355acf8c482041"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/018/scan.png",
+      "sha256": "73978de0f5b1bad20542f37c7636820dee4c7f169b44c55b859607880e71d054"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/018/status.json",
+      "sha256": "7fb2d36727f9e1175c00fbfed008dfbe1c4ccfedc1c36d0ef53baa12ccab81df"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/018/thumb.png",
+      "sha256": "f71e3ed8545a147978f1042cfdb1d542f194771ca64f733e102afd17856564cd"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/019/edited.flag",
+      "sha256": "372e4566383465cf27f742cfd45ddd8e18fe8f9815839b3f4caf01fae450c593"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/019/index.before-source-1790779975357.html",
+      "sha256": "a4e3f39d6ef4d5eb61177208cd79e4a267830a188dd08f203607fbfcb06ec458"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/019/index.before-source-1790780398274.html",
+      "sha256": "cd1840d0b61b0f5030a703ca0ad5cd7c85d42b812ccd9060cd767146654398ae"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/019/index.before-source-1790781062675.html",
+      "sha256": "646b843c8a8761abcc8836200f73ca3297193fba50949b65fcce3e3e86587899"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/019/index.before-source-1790781247274.html",
+      "sha256": "646b843c8a8761abcc8836200f73ca3297193fba50949b65fcce3e3e86587899"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/019/index.before-source-1790781641415.html",
+      "sha256": "dbed739a61bda1ca7d4422b314f2c3753a936b07db51ca3154d955c855f6b53d"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/019/index.before-source-1790781807455.html",
+      "sha256": "c2a1939439a2ba9eb32531947e35dd1cf31c888f9b0e7f979cbb4bc6dbf62436"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/019/index.html",
+      "sha256": "a4e3f39d6ef4d5eb61177208cd79e4a267830a188dd08f203607fbfcb06ec458"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/019/layout.before-restore-1790781793397.json",
+      "sha256": "b092f74917b160edddc93109214a9dc48ac07fbec1da9254121aca0af50e1e26"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/019/layout.before-source-1790779975357.json",
+      "sha256": "72289ab2b91897fa397daf8967fb0e7e784a5b936df65ba150f6469630ebb826"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/019/layout.before-source-1790780398274.json",
+      "sha256": "ad5007adb1c436e4e764575692474d228bcac2c700b283a8b60c4bd5cc5e86fd"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/019/layout.before-source-1790781062675.json",
+      "sha256": "19980a684dca655a055664d97ce59b0fc2c13284d12c2dfd1644a93eb4765158"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/019/layout.before-source-1790781247274.json",
+      "sha256": "96729fb58aa12d3802e0d0e399e0743367e28af71a3231e59983eacbcdbace62"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/019/layout.before-source-1790781641415.json",
+      "sha256": "f4927aa305f4539a78715fa1acaf29d75716e5e72e0b77feb04de57733cd56fc"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/019/layout.before-source-1790781807455.json",
+      "sha256": "72289ab2b91897fa397daf8967fb0e7e784a5b936df65ba150f6469630ebb826"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/019/layout.json",
+      "sha256": "72289ab2b91897fa397daf8967fb0e7e784a5b936df65ba150f6469630ebb826"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/019/model.json",
+      "sha256": "ddff8b4538e5c092fd0526d511646396379e204a01d77227ef7694e10d743130"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/019/ocr.json",
+      "sha256": "c640559fbd4c0b1bfa9576168d53bf0490689391fffc6fdfa85c00980579a074"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/019/scan.png",
+      "sha256": "5007600f5738b7d6014e4a8d21702bda7b3d6ec82a05702d46486578fe2ef6c7"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/019/status.json",
+      "sha256": "d1bb7112cad7f65af55dc7cb207012f85fd4fbc9a9de85f7f33bc02e950cd389"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/019/thumb.png",
+      "sha256": "64b2cd89c6b31f7b19d88280c3d45bca384d3c72b8bb1b3c9b5e3ad6970c99fc"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/020/index.html",
+      "sha256": "638bdec48117214cea6f9b31a5a1582469fd721b4a47a1502ca825467f8843d2"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/020/layout.json",
+      "sha256": "08a385041753c881e7d8a3e3791d1393b398a4b61898ad9602e56d7180ee99a7"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/020/model.json",
+      "sha256": "9e8aa77ee04a579c0bae044afb2b1683fe8f5074695d6bc9aefa3208e6dad657"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/020/ocr.json",
+      "sha256": "c8a62add0bf0cbe28922463dd5dc70b8ceb6f017f15fea28cc5dd6ba1f018d86"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/020/scan.png",
+      "sha256": "e342f40664c1ec6025057e6ce01cac412f662fe7a3d2ee4ebf70e1653e6dccea"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/020/status.json",
+      "sha256": "a091a98f74021b6e48debd2c01f549b57f4aa6bce84c6ac2749bc62a6acc0f00"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/020/thumb.png",
+      "sha256": "b4ed6c1222ebf98b5b0df56e141a5c2bc06dcc36387c0f953e46cfadd195f499"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/021/edited.flag",
+      "sha256": "c1bd296ba1fd4be128b7ca25b80ead298efd8e91005102c753281144e8b6d33a"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/021/index.html",
+      "sha256": "8bbc745cb46c2fe794f34b32bd5e9b157eb5d4847c0b795701956f1e4f40c5f9"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/021/layout.json",
+      "sha256": "aca170a613ab5616941874ca5ca00d5e8937110bcf27ac3776ac0f2ab75628f7"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/021/model.json",
+      "sha256": "02553783d4662142777dfabda69ffb7a6ac83cac748f585caab39bfaca8bf576"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/021/ocr.json",
+      "sha256": "a369495b28a40836921ae8c2d0290eb8e16c919ea3c6dd76e3fd2f51923379bd"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/021/scan.png",
+      "sha256": "b812aeb901bbe46391115a9f71e8542845852555bcb70bab66c37c0d0a8485e4"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/021/status.json",
+      "sha256": "1d90426798437d544ab285461ec583091ccda80dd34605aba08883a6f49df064"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/021/thumb.png",
+      "sha256": "30963bcfdc78b998fe0b64d2a9baa955b3a977407e7a8889a4d728e8379c76c0"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/022/edited.flag",
+      "sha256": "9d7b611aee368f8c8635e544c6297cbc2a06bcb5f7e47bdb94a0b22b50fb529d"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/022/index.html",
+      "sha256": "0ccb4488c2ae07d5a7548fa96c4bc506fa010a7d428a39809558970947b55a92"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/022/layout.json",
+      "sha256": "d60f8143ced90441a9bbca0ed0f7edb0fbcfa52376b5ef1372693ca455dc67ad"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/022/model.json",
+      "sha256": "1364a3f296081c0f18248d98cd71da2e408096c2d040a7f5761eb82b01fbaa0a"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/022/ocr.json",
+      "sha256": "f0c151c057a41ed6fec4f572340cf9d983af562e15792965eebac365c8cc1425"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/022/scan.png",
+      "sha256": "db2bc13c564e7eca21a567a7a2035e63358267307ddbbd38fddf2c3335477bf3"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/022/status.json",
+      "sha256": "30ec35f4641aa6a9500c8f7beb45572cc5f17798636acb4ca6211a0a19984132"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/022/thumb.png",
+      "sha256": "a51f7edfc1d295ecc07b541ea755fe639f8ea0cc8be730557bc0465aef4fd81e"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/023/comparison-1790781301712-diff.png",
+      "sha256": "14444d0e755211ba7bfc0f7a921d2705b5f82efbdcca00f23a44c8773a1eb057"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/023/comparison-1790781301712-render.png",
+      "sha256": "24f41f8686a9af39af02c4b16cbf9f7906771fa191b7369b4855c4999c2d2aef"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/023/comparison.json",
+      "sha256": "fe68877e8e3231711aee36a7f28fc3541e7278eb2614a172495956a5a0b18dc2"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/023/edited.flag",
+      "sha256": "2a260e0c8b069376d3a25bac8f7eb77183935e25753c387c2ca4c939f6d48828"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/023/index.before-source-1790779974005.html",
+      "sha256": "76617f4ee6178f42e7cd41ff910616221963b12ad4ab93311386423b44f831e6"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/023/index.before-source-1790780396879.html",
+      "sha256": "4868eed98d41b94b85a4b5cb6103bd3f50421277eaa06ad6d4da6aca5b57417e"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/023/index.before-source-1790781059278.html",
+      "sha256": "e5d2227ec65388c10d4d98230e2cad7d8a8c6805f7504d1cdab481fefa7af955"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/023/index.before-source-1790781243672.html",
+      "sha256": "964046db745bfe27c501e4f1e2cca2a1cc8a3986759b4137d0744a459a567048"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/023/index.before-source-1790781637901.html",
+      "sha256": "1128f26375973875b4a99b30359128b36494e95284f82f1b0a9ac7605098a158"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/023/index.before-source-1790781803566.html",
+      "sha256": "d1dda2984dac632a1e8e1d51ecb1f92a7bcd0eb9ed821ecb4347e35590d7c80e"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/023/index.html",
+      "sha256": "b3b0ca88f0461df4fa7ac3201c9e52038078c52a6904fd199f85ad788e9d9749"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/023/layout.before-restore-1790781793397.json",
+      "sha256": "26711d2814fb658d159afffc1f57576644c5e6600546dfa6ed5388590e6887e8"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/023/layout.before-source-1790779974005.json",
+      "sha256": "7e1d62bd76daaed05150dc16f3c9cd128c161c5da9f11b442fb869996d601d44"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/023/layout.before-source-1790780396879.json",
+      "sha256": "a15ae8525cbae41aedbea5d789dc7674af6b3f19d623020ca720cae4ed0e4f34"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/023/layout.before-source-1790781059278.json",
+      "sha256": "745d4f7d1696e13b69f9e3e665e74396e25b1882721a4323c6e2431cc82c8555"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/023/layout.before-source-1790781243672.json",
+      "sha256": "f5d6bf290018e9845f140755fd4c73a9f9e3e74909392df73db9a17b5c811689"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/023/layout.before-source-1790781637901.json",
+      "sha256": "b39889261d21304baccc1fd2a31b8f39638eb88812574f3b58fb5701b22a12ec"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/023/layout.before-source-1790781803566.json",
+      "sha256": "7e1d62bd76daaed05150dc16f3c9cd128c161c5da9f11b442fb869996d601d44"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/023/layout.json",
+      "sha256": "8013b74f92ca5ca3c98dd74d4f717d703caaa3af41f5ef51be7e42e0e1902a9c"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/023/model.json",
+      "sha256": "e5034213cb6955cf756d07f47b7e3a3888c46bdb87538bc0688bfe40ede9bb29"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/023/ocr.json",
+      "sha256": "bc00843bbc1497a65a5109348c8899f7ca677263fa8860fc7ab7be59bf9a1867"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/023/scan.png",
+      "sha256": "408a74ea45e9b76ed329ba3a0ca0811dedb45e3a837f3238e3e8e0211b34e632"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/023/status.json",
+      "sha256": "f1325ca36d59eee7af84035bdebe3f590ddc3e2f21da63a05af62fcfe32db437"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/023/thumb.png",
+      "sha256": "8cc775a1854e8ad70ea1c65397c29916e9d5fd97ee5703d3e37a744852671276"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/024/scan.png",
+      "sha256": "f64a4a3e2ea3c222b7dffd0f8d835685d012cc69e5230d256dcdfae4c1c1fcd1"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/024/thumb.png",
+      "sha256": "ca3c46d4d14b9bff88fe3449704f63d7522624b9955a21028c39b3f5568cb26a"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/025/index.html",
+      "sha256": "36b4d4a483cd63220bf8f5ddafd2a955dc6e6e92cecd57e6781b2119b3c8dd1f"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/025/layout.json",
+      "sha256": "9d84c5ac828c4046fcf1ca3089a10bab3a9a2a0340145bea4e9788868aec87b5"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/025/model.json",
+      "sha256": "97af5e65e0fb8cbe29c4d51add37052bc557fc5df387e5fee6a2e10b3b2ebf0f"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/025/ocr.json",
+      "sha256": "790a2a6b64cf04c7088020d21176e2352d31e424774c5fee2c500ca751d4b9c3"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/025/scan.png",
+      "sha256": "bddefb540c9ed7a26f4853ec5691786d45daf50b054bbf4e34ba51eac7ac2b28"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/025/status.json",
+      "sha256": "216608435ebf755da59325c680e682cca115f82db18fd038e6677df6c179948d"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/025/thumb.png",
+      "sha256": "8bbea18c16c03852ecbd8d30c158867438f3e894923b649671d537bce0283bc9"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/026/scan.png",
+      "sha256": "b643d7817c8117de8f31b96ea4b6d834c6348aaee7e9d0a6abc214be25566d77"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/026/thumb.png",
+      "sha256": "80b3df6c70c295217406d0dcc14e01f1f5293e69eb2980185b3f29c8cb3b18f6"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/027/index.html",
+      "sha256": "8b51d5ffd5917d6b3e3186783b02ee1f659ecfe6a42e88b5c5fdcff3ae698b25"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/027/layout.json",
+      "sha256": "640319e4e993f211138b5602aedf136bafa5866e7fb9594c04b5fc770077064a"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/027/model.json",
+      "sha256": "6df9d34823e37f420d98a695839a7854649852c87317d918c6121122e875fb01"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/027/ocr.json",
+      "sha256": "c47d5fa1ee9e4adbb40f54838e827d5aa4b1387de0ad8e2590cb797869b42cf0"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/027/scan.png",
+      "sha256": "16b9ad3d77a7cf9deecc0f472c1aa9627c3005e16a3ef757e684c3bf27640490"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/027/status.json",
+      "sha256": "275e661acb96988a88b570cae43baef59547c78b2f0e49271b510ae0ed69b91a"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/027/thumb.png",
+      "sha256": "295f83e890dbeee1d95ebf4c3a5ff044614f014a9a203a0bc5ba26985cac0c11"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/028/index.html",
+      "sha256": "dced6807f0c2d85dc8890c5067e4b35152abb8634057d44ebed0b9bc0410e583"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/028/layout.json",
+      "sha256": "42ae491570a7e541732de2517a9205f82b75231c71b2152c5e1cb5fc99291adc"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/028/model.json",
+      "sha256": "7524df6729864af6624079093d2c2ccaef817ec505e2d73e46a68924241cecfe"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/028/ocr.json",
+      "sha256": "b6916528c834dd8aaea26d89c7e1a0a780c1c3560c7c43c33b8a795536e742b9"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/028/scan.png",
+      "sha256": "a8427ae327fb6cc1da511de84bac39ff6284ed7084a0da76b877dfb28165fb67"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/028/status.json",
+      "sha256": "23f46a776708119653ceb2509b5cfac74fa39381e3250069352e906ac72fe97c"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/028/thumb.png",
+      "sha256": "b73bd9cdd44a224d5c545234af5760fde218ceeb47ba62df9345f65beef6ef3e"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/029/thumb.png",
+      "sha256": "b4c1c1a7fa4b02d5c0c7dadda96d3a0f0a87a47c7b1ad1b3562ce1485cb7c0dc"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/030/thumb.png",
+      "sha256": "50a1e50e0bb67870f69aa79b8b54a638dbbb29e3ae1bd12a72e27aec13bb4075"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/031/thumb.png",
+      "sha256": "d023bb9f00a0afdcd2e0df4fc79a552c21e94a0ae6a08036bc38654a06b0451c"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/032/thumb.png",
+      "sha256": "bdd399994212fda26e05a99768bf909989deea24946d5bc6a7471d714b1f8879"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/033/thumb.png",
+      "sha256": "01b576f6dad75db7175b77ef830b06fa6ecbc771387063f2b6e73df70a93de5b"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/034/thumb.png",
+      "sha256": "8b9bdc9cc39114416a3f1828724c8ee17f8cc95d535ae2b7be0e440c883b99d5"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/035/thumb.png",
+      "sha256": "51dbb17c8a175794e2ab277aafda5e42e9308101aefcc72bb0f814f2c013ecd2"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/036/thumb.png",
+      "sha256": "29cf5f4d97d735d7529419ba0b644099e2bccac5ea3f5a6f6380b1591464d638"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/037/thumb.png",
+      "sha256": "2f0b4fa0f962f46dddf01edd4fb3d78f019bd626161af28d74aa64cbf0603749"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/038/thumb.png",
+      "sha256": "8a62966a97d545df1225a8cd47dcdb3fcef020d0d129e02106fbf1dced7e7876"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/039/thumb.png",
+      "sha256": "a7a233c15da127c21237a5b0a59fcf755582e3f8ac8d94cb3a03547c3a1522ab"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/040/thumb.png",
+      "sha256": "d69acb87350070cd99f5fe83d19f825d7246d66ed248d23a40c81bf8ccb35403"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/041/index.html",
+      "sha256": "3131085e7848968823362e5505f11bb03e084543bd7bbd5306afefbfacb7f488"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/041/layout.json",
+      "sha256": "90a5c1a23481db0ebe90164b0cfa634a684c85fa09b275d22945f0525b4e77bf"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/041/model.json",
+      "sha256": "b024d14da5a65018471157ade03f4c8ddf1dbd7f9254dcb82a25cb0e64b5eb1d"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/041/ocr.json",
+      "sha256": "9e2311e91b65637ade1f32c778639ec40bdf0d7eaf74649695e935a1bbd1a6e1"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/041/scan.png",
+      "sha256": "74a4688dbbfb5505600b06c0b59acfd89735cbaba5e2b579ca571fff820e07d2"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/041/status.json",
+      "sha256": "ce853f5842d3c59857a6927e62c1c4af49aa559ab58ce980dad1982ce1319495"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/041/thumb.png",
+      "sha256": "953bae5bd3604da65a4419e43f75ce93fcd0605c42a7d3c5cd7f6d2284724022"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/042/scan.png",
+      "sha256": "40a8ae7aea4f16bbd9b5999f17728f5e21d8e6e069a70f5c082d3db1d715a49b"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/042/thumb.png",
+      "sha256": "940de50ce73211feb8bc02fcdeeaeb65730f69eb692cce40b4cb39a769998a33"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/043/thumb.png",
+      "sha256": "cd630a3a4330e5faada2883834b319449b77d4850977077f931d14c646884914"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/044/thumb.png",
+      "sha256": "c72dd6ec55ccd9d6a02466a86b6a37541032437fa90adabbf9cde9719c636523"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/045/thumb.png",
+      "sha256": "b7e18cbb8dbb9e4b4936ff891fdcce3bf386a4e16a941b906d610c511d976c28"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/046/thumb.png",
+      "sha256": "09904ff794b310ca100c503c2591b6192a3ea2fc05e3706f2314746d23cc8fd4"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/047/thumb.png",
+      "sha256": "436ed26f066a2d5a4c8f4682d98562e3557d104beca4a4a0de1400a2d9fe3ce3"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/048/thumb.png",
+      "sha256": "b84497ab4699edb08d5e3391163814ad041fab914be4c6862ad4e4dd4a178502"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/049/thumb.png",
+      "sha256": "28cb304bc08d7e0984449a34ea8a1cc4cea2ac3da36fb9ceea945a8c66260438"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/050/thumb.png",
+      "sha256": "6a1d2106bac5aab64ee9ec273c413843d055946b7d147289678800aed21ab02f"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/051/thumb.png",
+      "sha256": "3fb9db24880779271ad21fdc05303ae9627346ecb49caa88f7c68caf2ab8bb4b"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/052/thumb.png",
+      "sha256": "d88c372b32dc334ef556bb67c8d4491f00733efb31a91e8d5f8b84181960e00f"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/053/thumb.png",
+      "sha256": "d28cd016600be9cc62efe2a807c2a59a791e49cbfda1750fe61951555c581e9e"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/054/thumb.png",
+      "sha256": "377e1fb397b4bbde3d582cda5d61ccec36c43ea73bfc6feefe6a92e6efa2aeb6"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/055/thumb.png",
+      "sha256": "52b9dcd7c73b6368756d4fc514e8652a59592740f6f65e1e84a9a01137da142e"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/056/thumb.png",
+      "sha256": "380b48e8a4abbfef962bd8462d0ef6ef92b4ce666a2bfa9e405979667d8c3cf0"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/057/thumb.png",
+      "sha256": "1c1f23bbabfad307a6ed8dbc388fa3e1e0d2aabc07e488d5a4a773f91fbb4b27"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/058/thumb.png",
+      "sha256": "291d05c1cc5338e1753776367e048e22f4c87da06dc5ef7c3e7e1cde260676eb"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/059/thumb.png",
+      "sha256": "e741288b85c0821c516b378d5166b969753f22abdffad170a4c6a6de1d6f2d95"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/060/thumb.png",
+      "sha256": "e65ab93e7d9c91799db94c13ea65f869bc68f004ee5ae645ad2baeb5abf515b4"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/061/thumb.png",
+      "sha256": "0d954dd97b7b43c51dc95164b2c13f3a0cdb69f30670e8b5f72fc19367adfb6d"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/062/thumb.png",
+      "sha256": "87e1ca37c3d71a3267c77910e3d024764199854f93f06bf6ae8b2e4aac2d0d97"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/063/thumb.png",
+      "sha256": "424aee2b28b372b056d3305621ae12c0a7cc895e4411d528a45c66f7c9c7030d"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/064/thumb.png",
+      "sha256": "cf9d522f506adb24ebbac9ae0cfbcba04c4d720733c5df8509d524e91838e760"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/065/thumb.png",
+      "sha256": "0823eb1005ac4d36c4f637c192bb9babf781de4584c72de425690ad2ae389b95"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/066/thumb.png",
+      "sha256": "3d5d1ade53e148367fb2726909247610c4c8f9c2ec5f531d5a548432f2c38e9e"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/067/thumb.png",
+      "sha256": "9cd61f53a7f93fec8c9cae5e389e046c3048a0d846e8e91615d47ee61dbc2e30"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/068/thumb.png",
+      "sha256": "ac342974fe2dc02d1683321b9c157edc35af6ef12f9188e15bdc90313842cc3e"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/069/thumb.png",
+      "sha256": "04661df46bfa4f6e7bbb0b307d97bffaa96438e0a479092b4054af8765fba134"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/070/thumb.png",
+      "sha256": "78483b0f73cac836cce787ec05404d63e506cb87f7c12adc3ed426add5059ed4"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/071/thumb.png",
+      "sha256": "7f65bbd5a7e7c3204300d46679bbbbe88853097560f0690fe0cf963b1a8454de"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/072/thumb.png",
+      "sha256": "b4df014504806767579cb583024ebed755409a1fbb1c51dbf912aa85313d3033"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/073/thumb.png",
+      "sha256": "0dcfdfcdc6919f62d698c5f02541fde04bd5ac7b705bd8086d32a738e9c3ed02"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/074/thumb.png",
+      "sha256": "b9fc926429565b0a2f8a96504aad8ec02154079c68ec26e76dd1a4f248d7658b"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/075/thumb.png",
+      "sha256": "d783298edf111f0fa7fc55bdd44dea3d1c83119e0c7629434c5dbdb69226c020"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/076/thumb.png",
+      "sha256": "ff977b5bd2b2d37dc7b26621f5ee89a73753ac4158cb4e759f0976c892c16788"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/077/thumb.png",
+      "sha256": "7990d998c5a249af6ab8321969fe5bce4c0795f49e40e5f36e1ce935ed60c8d1"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/078/thumb.png",
+      "sha256": "82cb49cce69a5a9cb6dddacc3257b4f97c02f5ba66ee754900740475fa02dc8c"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/079/thumb.png",
+      "sha256": "ce6da6b7d5b7fc3a54bd7f0fd5b51d639bd7dd31c1a27bee08db44719f45b5da"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/080/thumb.png",
+      "sha256": "2e9229e9565009dd5990a608d3485b9919a9af335eb3d4d7e6c8ca2736b77d31"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/081/thumb.png",
+      "sha256": "132b893a22160afde0a168deb983424b6268df720801d3d9b327649d3ff1d2de"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/082/thumb.png",
+      "sha256": "bdda3d5ea44fdf91956ac9e98ddda4e6346048206c2eb1432c0b91e7fadc69de"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/083/thumb.png",
+      "sha256": "e3b54c6ea2e408f718905609b7105f939ffa98f7f01d0ed830b596cd67c008b2"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/084/thumb.png",
+      "sha256": "aec4b01120a38466eca00ed53c494ce9093b7f27a3946fdcc90797660dfc0c49"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/085/thumb.png",
+      "sha256": "45879fd5e91a398eae3fb23f1c20163aa5061f9633a58f06cab49de39efa901e"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/086/thumb.png",
+      "sha256": "e7185b9d475d6d5d724e39b627950141fec66aa8da21d9b29ea02409e5d1a7b0"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/087/thumb.png",
+      "sha256": "b20e95cc0e95e67fb0c5a3ee0ccb39adaacd4e1d296d10816a7cdba394346746"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/088/thumb.png",
+      "sha256": "b1ce82b4a2270676da96edd5ffcedf5fb69d4b7c6a85f31788d052a9560db9d3"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/089/thumb.png",
+      "sha256": "e4c8cace43fab210a7c7c76b3f22fd985e5f0e565a12a35db9cdc994f1b12e18"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/090/thumb.png",
+      "sha256": "49370b54d80130d239610b5edfad6acfc72d59f1603227a40ec46f4b9e45177f"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/091/thumb.png",
+      "sha256": "79b07d429dfbdb7c1213b44f778782d636dde77a95f9d1135707c35b45a8bfd9"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/092/thumb.png",
+      "sha256": "6cbabcbf81eb03910eed8c5c0c1fad7bcec8cfa8beff5327b153047aa09b3857"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/093/thumb.png",
+      "sha256": "c829bbb89324805ab365a51d52aa4b2ca71ceae234d558a1b87a77b31732265c"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/094/thumb.png",
+      "sha256": "28fe96534c404b8f356c6b93fabf499930e317da1b2f449cc97073d6f19cd6d9"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/095/thumb.png",
+      "sha256": "3bedda485a3a9e4303b29f627d4f6a0312304537463b7073377b2805ed45c246"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/096/thumb.png",
+      "sha256": "213bfbcdc30259d86acb96d4f87a0fa0b3ad0b404baf367daf8c2cd23f2dfcaa"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/097/thumb.png",
+      "sha256": "b9e219fd3a427c9bc0095a0aa0faf4057568f539b3f263ef086e30651db95196"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/098/thumb.png",
+      "sha256": "fd719804d941b537f29f4ba320783a08fdcaf89ca2782ad5536de495619db25b"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/099/thumb.png",
+      "sha256": "c39de26427ca93ce8d75bc6c16dac67c82c24d9d7f7b234fc46c75a8c2e68798"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/100/thumb.png",
+      "sha256": "c52abb8b2389bb50e7a82c1375c72862d8aba815bdf50585b0e1eac2fff43802"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/101/thumb.png",
+      "sha256": "c74b8abe25e33aab92ee3c4a6b7c871a1bcfe43d996c7765d6f69f6f732a11c0"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/102/thumb.png",
+      "sha256": "1f75ffcfd444ff160206fee61aac6e8775c3f1d66e5e5a230a45b2ed24dd6d8a"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/103/thumb.png",
+      "sha256": "bc839a8f74f7eae69f6611052d0305ec5acc32e63deb7510e33855b002bf083c"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/104/thumb.png",
+      "sha256": "75c898cc8c2f27ea15545607a3f1d2191dffd46865f83d967c55489e3414a8d9"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/105/thumb.png",
+      "sha256": "6c12717f882f897b40ed7acb598f076c64667f9178fc28d6a263351943c745f8"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/106/thumb.png",
+      "sha256": "95608e9d2aae6955042dea88865c79c05a6ccce0e9fffeda919518f735f9c573"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/016/assets/ava-5-0.webp",
+      "sha256": "e7f3fec6dd0ca37f0066ad9dc1d8884ca687ff4548c981089a6b5a36219b60c8"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/016/assets/ava-5-1.webp",
+      "sha256": "227ee50f83bc9a21f5c2bf2531b473a3d25325b664251e24ec9e96de94efd06b"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/016/assets/img-6.webp",
+      "sha256": "d5a3f053768679619a2f5972a9a8964e6a08a2c6f9df87631d7f824f948c577a"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/017/assets/ava-6-0.webp",
+      "sha256": "fc8f44ccdee81405122310b8eab2aa378fa8d56fd41227e859f9acb23e08f0a8"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/017/assets/ava-6-2.webp",
+      "sha256": "7f13e2bd503820c38f7984f26c1e6f5e58460b998ee0e9c8900a294756010deb"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/017/assets/deco-b5.png",
+      "sha256": "72d4e1037e4541ec651ab3f74683ea852cdf7257d06746c521290489760de624"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/017/assets/img-7.webp",
+      "sha256": "43d93b980f9e6f792b2028a4eddfc32d0c4a3dfd499737c62a5a1e129c81ffbf"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/017/assets/tip-4.webp",
+      "sha256": "4ed6c53ef258609cab4adba51db5de47ba73a4f9eb35c1e479b9f8165a7b7253"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/018/assets/ava-5-1.webp",
+      "sha256": "b164e21fef98a462bfb8647f761884506267539daebb5b456b9c3c359722dfde"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/018/assets/ava-5-2.webp",
+      "sha256": "7259e4635ef34564b55ac0cbca8a6effc9d559d60a1c85dc317deabe61fc5b46"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/018/assets/img-4.webp",
+      "sha256": "63d523a6d06d8744d779f604e3b4485236444e1e965074c2887f29072a4a3903"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/019/assets/deco-0.png",
+      "sha256": "56d1517a66e7b808f28ddce1a30602bc6167344aa5f66b4cb259c1de47e4d2b3"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/019/assets/deco-b4.png",
+      "sha256": "195ae0ae6e3f121580c5087e4ad92fda0afa51c9e11e13a157a2e2b045194c2f"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/019/assets/deco-b9.png",
+      "sha256": "e650a72af3a6d4f1c0bd60c2866d015edb9bd29df74b97e43476238a5d672f0b"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/019/assets/img-5.webp",
+      "sha256": "6b267446daa1cde8e9bc2f1bfe7eb0f7c3daa39dd90e573247e7aa7b6b4639c8"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/019/assets/img-8.webp",
+      "sha256": "c21a31a223b6a5736cdcba8d2d23a3d81739ad1a143ec9c7a5ad1222ee0ad402"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/019/assets/tip-3.webp",
+      "sha256": "be0423bc3a3ca68b48c273f8905890c1fd2d666e78259493eb11aa9ab4baa7b5"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/020/assets/img-5.webp",
+      "sha256": "81926c623ef1746a720fc422cb634cc79c263f1f584e0c3cf21ee35fe572018d"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/021/assets/ava-1-0.webp",
+      "sha256": "24196cb99b863503d4c978f428262d065633cd4ad3260cc8c23d493c22d33cf9"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/021/assets/ava-1-1.webp",
+      "sha256": "283603f54bdb223f3851985a92485e1284107da6414c43a354e91d88430c8484"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/021/assets/deco-0.png",
+      "sha256": "48823c1bc46ecb16e7687e3a64af90104486a94cd6c61371ffe5befa12dec6ed"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/021/assets/deco-1.png",
+      "sha256": "269f20f1b90071c9464c01eeed8d0be3fe7f195fc267badf1bfe5292155373f9"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/021/assets/deco-b10.png",
+      "sha256": "d4023e8e74ee6b6c91bbcab78f4f29965a71764fd51cf1663953f22052fb0d78"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/021/assets/deco-b9.png",
+      "sha256": "d6a1721e2a3d5952c6cc85f0db59fbe13aaac76a71e56ffa0d274fe369c191b7"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/021/assets/img-2.webp",
+      "sha256": "d2b6ac2719f1e6f5e9952fc0567a503fa2045cad43764dcc07731f9939cd08d2"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/021/assets/img-8.webp",
+      "sha256": "cdf3a12ba8c38984fc588e073de88cfcec08d75dcf1c628f0b4eb04b56ace780"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/021/assets/tip-3.webp",
+      "sha256": "f393abf31a3906e074280c63118b369f8a2ae174c2bb1d2f32030e6afa6113d5"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/022/assets/ava-6-0.webp",
+      "sha256": "360a99103abb58ee3152706e31dde9052c505ed36d45ec5f91dc1988d987c78d"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/022/assets/ava-6-1.webp",
+      "sha256": "b2480aa3ee821049d6e485c0a5f99d7acfff03031a6dd768b3aaaf4671f1f44a"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/022/assets/ava-6-2.webp",
+      "sha256": "360a99103abb58ee3152706e31dde9052c505ed36d45ec5f91dc1988d987c78d"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/022/assets/ava-6-3.webp",
+      "sha256": "b2480aa3ee821049d6e485c0a5f99d7acfff03031a6dd768b3aaaf4671f1f44a"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/022/assets/deco-0.png",
+      "sha256": "a3126346f7c9c565b6d9e2c18e73d3e1245e91cc4e1d676466b6d36103d63e5e"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/022/assets/deco-1.png",
+      "sha256": "f76d5224a9e195d415f1756fbd420a84549f4e5d726544b9ac36d57c09dfcc83"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/022/assets/deco-b9.png",
+      "sha256": "451d7db92f3ce6d08b231e272e9c21db3d7b9078f007659bf6d923911587e948"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/022/assets/img-5.webp",
+      "sha256": "927cd3b6cbf6dec022502b40921f96d4221693a029b45d420589a1ec3eb367d6"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/022/assets/tip-8.webp",
+      "sha256": "481de1967b80deb05b25a0b348d440c95a04198b38509becaabc45bf080a9a21"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/023/assets/ava-13-0.webp",
+      "sha256": "a4958d43e7fb2bfc89355de941e12255fdc3ccc0a7f3e5521980f3c771fc54e2"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/023/assets/ava-13-1.webp",
+      "sha256": "d09f2f90aa957ad6f7cd7b7d2e947a97e70f9aa157f13817dc4f0617ae63db88"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/023/assets/ava-13-2.webp",
+      "sha256": "0ec12d8536dfb444945486a2c82b0f4e6c12b488a6f6c86fe26c1965c58f7b04"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/023/assets/ava-13-3.webp",
+      "sha256": "b064e6d80d66856d2ae7e39d899016999f36f7b1cda01985cad840a8c7fd42e2"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/023/assets/deco-0.png",
+      "sha256": "ffc00dd48ecdf99446cbce604d7934fb8620ef65690bece435593c8cfb73c46f"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/023/assets/deco-b12.png",
+      "sha256": "6a9201ccc6d09e620ec1e8b47f3a7981998e28b0f331ba7b32961179edc470ad"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/023/assets/img-14-photo.webp",
+      "sha256": "ee736b429e6233e09e09fde58e3fbfd52fb90115aa6abe01773fb28e7b0a832c"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/023/assets/img-14.webp",
+      "sha256": "76dc53aad0b8e05caba946044747908a72ed68c019b69e8fc2ce0c0b5f63256a"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/023/assets/mascot-1-source-1790781803566.png",
+      "sha256": "847769c915b06a2b59e14d8c84b2e3f41cce28d651abe7c210d63ce46cbb5a80"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/023/assets/tip-11.webp",
+      "sha256": "b85774a7dda9c67ef857642eee004a37b2a5af2f53be90ada26e041a799fafc3"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/025/assets/ava-5-0.webp",
+      "sha256": "5e60e1023beec77040db42853c889b80fbae1b139f42bdd45a6bcba5daad0e22"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/025/assets/ava-5-1.webp",
+      "sha256": "c920a15a3fe1782b236685ef47ca49523dc2faf4b37ed6280d871b7ed13384a7"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/025/assets/deco-0.png",
+      "sha256": "cb94e01e3b091b4d423992e1cfe3acff43a95f6cb6f025094b845cd6e5566090"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/025/assets/deco-1.png",
+      "sha256": "e89dc59940612fa305c0534ca9442101e55693d3de8ff943c9f3b96f6b3b8fcc"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/025/assets/deco-2.png",
+      "sha256": "3b31cf1d427646cd94d3e9ad2c1cc752aa1bb68e6f54d763a5803a505b1f2bae"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/025/assets/deco-3.png",
+      "sha256": "cf6ab53fb4503ffd7b4dadd09d4ad08cbc4f739937d232eac179bb8a8ccc3756"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/025/assets/deco-4.png",
+      "sha256": "a4c9f6814c355610a2c9191d55b384768e11b763e177b7e5cfe0be78999b1b9b"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/025/assets/deco-5.png",
+      "sha256": "abc4482c47cb66ffe148fe09d2cb1aa761a0d540a860dc875d81c23870b77090"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/025/assets/img-6.webp",
+      "sha256": "053f98ee8e680cb211e365c793cd08341b2922bb7dd9db75d5609d665a2242ba"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/027/assets/ava-12-0.webp",
+      "sha256": "d6b9030d6b598c5276c691a6ba022c05b49b48f729c3a93db23606ebda45f95e"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/027/assets/ava-12-1.webp",
+      "sha256": "49df68b23557011f6a18cadf4fad8554f0d7da03699b418b89247c7d139aac0e"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/027/assets/ava-12-2.webp",
+      "sha256": "89d415f244b029fb0d62d9f6a7abbf5c1eab223efd0c8fe5cc59b0d9384cbb0c"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/027/assets/ava-12-3.webp",
+      "sha256": "bfae605c380e7c5d08a428501e785eeb179f2256c1a7c17309c5282fb90f5e07"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/027/assets/ava-9-0.webp",
+      "sha256": "d6b9030d6b598c5276c691a6ba022c05b49b48f729c3a93db23606ebda45f95e"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/027/assets/ava-9-1.webp",
+      "sha256": "49df68b23557011f6a18cadf4fad8554f0d7da03699b418b89247c7d139aac0e"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/027/assets/ava-9-2.webp",
+      "sha256": "89d415f244b029fb0d62d9f6a7abbf5c1eab223efd0c8fe5cc59b0d9384cbb0c"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/027/assets/ava-9-3.webp",
+      "sha256": "bfae605c380e7c5d08a428501e785eeb179f2256c1a7c17309c5282fb90f5e07"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/027/assets/deco-0.png",
+      "sha256": "e879b188ae146fb63f32d2b704951517099368ee4a9b82aa442c213f869f56fd"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/027/assets/deco-b11.png",
+      "sha256": "ae7f95af7c5b61cfa5cfd25d48959249bc9c83d2d422000a0dee910c56a20578"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/027/assets/deco-b14.png",
+      "sha256": "d41bcd391bbe1646e1769d50686524e5b7e765588df2876f0b666ad8ae2e08fa"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/027/assets/img-12.webp",
+      "sha256": "1d474eb2246f0b2756ede0023b569e0cae63cd73d76ff19017d17f2e26d23740"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/027/assets/img-15.webp",
+      "sha256": "1d474eb2246f0b2756ede0023b569e0cae63cd73d76ff19017d17f2e26d23740"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/027/assets/tip-10.webp",
+      "sha256": "162498f0e15dd23037cb821cca1bff4e099ea2d9383de54f2498f8b9857cb922"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/028/assets/deco-0.png",
+      "sha256": "8d5a3c1f2a5f94dc86597185db9ceebfd0b66f2e2c7195e9867aff5e3cea7e4c"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/028/assets/img-8.webp",
+      "sha256": "bf75bf7f4c2e8a984efd766ceeb3f78aa76f7a23075751146ebbaebde8f64e56"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/041/assets/deco-0.png",
+      "sha256": "701a50618d2147cedd09b69be22aa59b78a439074a9d800a5019016b4dbcb18c"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/041/assets/deco-1.png",
+      "sha256": "63d82c6dad06970a74f25088da685f61c6512e9a109c40ffa0c1da36b951742c"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/041/assets/deco-2.png",
+      "sha256": "c4ae45ce48acf04c028a4c20bdea3d995cc155919c489f96f5660a7347c0988e"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/041/assets/deco-3.png",
+      "sha256": "777893929a359608865ba20fff6e7c9e164a66a62cb55a0977928d6dc6eb08fd"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/041/assets/deco-4.png",
+      "sha256": "2ae6a7990f2c2eec77e576b5680f82ed5606401e6b115ad8667d2c2f06e3fcec"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/041/assets/deco-5.png",
+      "sha256": "96c844628ff637e474d45ad2faabd43b607b342865acf5b593dda7c0773abcb8"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/041/assets/deco-6.png",
+      "sha256": "73fbb1096b17e604c0c6b063c35e18b847191ec6b7f9316d96321c5d21a2dcb2"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/041/assets/deco-b10.png",
+      "sha256": "20c0ded819f13b8e5e0516c220dbc32b0c76c56dc4311d294920a59977ec3774"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/041/assets/deco-b11.png",
+      "sha256": "48fdcfa22d481bb3be9441f3b491b261e636cae8f4ce43b1b821bb46442e412d"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/041/assets/deco-b13.png",
+      "sha256": "5c71a5ce8f8dd2908606007e669900babd5a97faa454a178335e7abebb67122a"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/041/assets/deco-b16.png",
+      "sha256": "eb9cf54543e8469aa16cea3aa486fd2d62bda05083b49d26ff9a6767b4f0d73d"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/041/assets/img-1.webp",
+      "sha256": "daaff3ad922e97f0517669558e6d2c83d5b44af03d3c371f68ec33324d280e93"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/041/assets/img-15.webp",
+      "sha256": "b3b76f8a98eaf8f09162e7360e4946edc0fd7d596b13eb84911f207cd463705b"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/pages/041/assets/img-3.webp",
+      "sha256": "842d14b4e1fc53fa01f8374d0e9ebc7d1f8b7b4ede64de15902e53bf9af190a8"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/web/assets/p016-ava-5-0.webp",
+      "sha256": "e7f3fec6dd0ca37f0066ad9dc1d8884ca687ff4548c981089a6b5a36219b60c8"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/web/assets/p016-ava-5-1.webp",
+      "sha256": "227ee50f83bc9a21f5c2bf2531b473a3d25325b664251e24ec9e96de94efd06b"
+    },
+    {
+      "path": "studio/library/25d1aad102e4/web/assets/p016-img-6.webp",
+      "sha256": "d5a3f053768679619a2f5972a9a8964e6a08a2c6f9df87631d7f824f948c577a"
+    },
+    {
+      "path": "data/study/forma/components.css",
+      "sha256": "f03598a71df1a82f8976b35c6ea9a6aa97d9fcba43b4e19e6acd8aa86a823e3a"
+    },
+    {
+      "path": "data/study/forma/forma-page.js",
+      "sha256": "feb31d11004d7d9ff06e264cea170082f92b2e8009a0e71b395f577669978f54"
+    },
+    {
+      "path": "data/study/tts/00bc58148ae35453c63e73651dedd57da408a343.mp3",
+      "sha256": "ad9d1b287121dc7c7c3d5d9ba95b3c1689b48849188b5209706c13aa2d01d8c5"
+    },
+    {
+      "path": "data/study/tts/0212460e21a7aac30b163e12908f0725fb605e69.mp3",
+      "sha256": "2e41fbfda3e4e83872edc7524d7faffb7e34eab423d5bcc16d339058ce415e3f"
+    },
+    {
+      "path": "data/study/tts/0629147e8e5c0251e3ff415c993544a1aa886f95.mp3",
+      "sha256": "e1fa68d4d7c3b8a643f523ece7131577ed7830ca5fb8f82a3cfb6a0bcbaf1f29"
+    },
+    {
+      "path": "data/study/tts/06be02b7dcbcd6a88765c00f6d9762dab25ca387.mp3",
+      "sha256": "fe4f498509eb623130ca68a8b24dbac8b2f9680757579ea047f6a53791510065"
+    },
+    {
+      "path": "data/study/tts/06d0c3d1da79c089f6cac36880ec97d330c6ff4b.mp3",
+      "sha256": "721d9edea1c88abfaab114e79e2d06535d62692a3d54a79ddb1c9e0f83bd6317"
+    },
+    {
+      "path": "data/study/tts/0867e02a7baf6150a7bcd54b418e1873120a88e5.mp3",
+      "sha256": "8f655011d60ebc573f80b131cab6d7f5a6ff0dbf6570ac60b8558b43811c53a2"
+    },
+    {
+      "path": "data/study/tts/0ac6a0f9c347a365a3004c2120c27506dbb69844.mp3",
+      "sha256": "05681866ba235fa577b1b172e069de91f24fb922c0d703f945321a85e7d3d020"
+    },
+    {
+      "path": "data/study/tts/0d8ccde876e7f1e467d12932c2b52755243c0919.mp3",
+      "sha256": "fc6b09cd1564a69aa87a7d7eceee4b32586327f04bf0e17cdc4542bd655f8c6e"
+    },
+    {
+      "path": "data/study/tts/17c750d98fe563ca7d95383facd6c0fd49f9c256.mp3",
+      "sha256": "34cb5f467a60f9111116f202301b0995938933db63cc07436537029b0ff6807c"
+    },
+    {
+      "path": "data/study/tts/1bfd8c801fbb780e9f78675adc9f853c778f76d2.mp3",
+      "sha256": "5f1f7f92a8a8ce4674937b1e02e348180c538a54021d3f979d8e5fa6fe0add94"
+    },
+    {
+      "path": "data/study/tts/20c02710a8075dd0dc3fadca3ebc697bc5bb5cf6.mp3",
+      "sha256": "2ba1ea2d24d2d30aaa241cc67693fa4e41b2412cc1e80525c3d16a674497d438"
+    },
+    {
+      "path": "data/study/tts/25f0e38c5a14efcbc34a49e33f4e35ee69346028.mp3",
+      "sha256": "f77ee83577b162faecd23ed65d9383754ea26045b5482240f9d7c4169306a4e5"
+    },
+    {
+      "path": "data/study/tts/28096308a5dc2dc012870664ccda8c18c6c0b4c4.mp3",
+      "sha256": "8f6e0913f317ece08d1b30b4cd8d5f6ab67454bff1e81d44b07f16c2b37a2305"
+    },
+    {
+      "path": "data/study/tts/29486d4af0cbf78970aff434709c426f789c4b71.mp3",
+      "sha256": "43bf6ee307f50955d76e47a94f74025dd69285def4396b642e383624b0704558"
+    },
+    {
+      "path": "data/study/tts/2ae14a285477b9118e39b1221113abe84f429ce2.mp3",
+      "sha256": "7d43aa171b35817c319e1bba7fd40071f1b351e3f91ef528531d023ec2412565"
+    },
+    {
+      "path": "data/study/tts/3512979ec631500ef5a67398ddadb69c6a4bec09.mp3",
+      "sha256": "668c1ffc7eee342f578dd61ab9877ba434d0f8cbf0ebb5456cfdfab245f162a6"
+    },
+    {
+      "path": "data/study/tts/364ebf2a4627d0a90fe4e5ac53bba9df15c14331.mp3",
+      "sha256": "d8bc52365988ab43be2718df44669e5a9c4dba6c744e6aed32a69676cd82319f"
+    },
+    {
+      "path": "data/study/tts/3ac701aee560c2f37255b696cde060c9142661be.mp3",
+      "sha256": "817d5c4bb18effb7bb5509cdeb7a653706d5899515e367da746ee5563f7bd034"
+    },
+    {
+      "path": "data/study/tts/3b00b83dc47595d353452eeeb63aae6721d452f6.mp3",
+      "sha256": "f260835ebb175653f095adf0587bb450fba432e1ff72cb6a71878bacd64bab77"
+    },
+    {
+      "path": "data/study/tts/3d13cc01d85d50c527758967242caeb2459380df.mp3",
+      "sha256": "3a323da388f100250d04d089b9df07877775eb6aaba2a2fcbf1e346ca8f45bcf"
+    },
+    {
+      "path": "data/study/tts/3dcaf2afc3864f9a5ba81e622adbee541d7d8dfb.mp3",
+      "sha256": "8e52aa84697de696d40448454cd75656306972f376113b782422c2f73fae1429"
+    },
+    {
+      "path": "data/study/tts/3f74d5c96a5270d5afafddf3271a5b980b0f769d.mp3",
+      "sha256": "78d4c3da74f639822dacb8c01f60d5cf6710adb8fd51c5d453eff7b088a21132"
+    },
+    {
+      "path": "data/study/tts/41f355d8c1af7ccf07697ff45ca458d0f8df05a2.mp3",
+      "sha256": "0d527dc4491244542280df328ad7ff2fc47c46019c5be037bb7575435993978d"
+    },
+    {
+      "path": "data/study/tts/48942b1cf13fd777fa98cb87ea55f2c8f4d51fb9.mp3",
+      "sha256": "c91bd18df5672a0452b73c197d90da5e9d56ad5c734bb9850ebcad71fa92c019"
+    },
+    {
+      "path": "data/study/tts/49449fbd957bb03ce2ef4c3a0661af2bd6d7883a.mp3",
+      "sha256": "25ebaa74b96718cf795bd31284e6b02dd5cc40a1c7c684c10545b91383b9598d"
+    },
+    {
+      "path": "data/study/tts/4df7e63e0ba8972be175e92143e93ecd5cbf5696.mp3",
+      "sha256": "624db8de0a39c39b1b693da17b53a3bb0788ecb27003a28b3a2f88e628078ad0"
+    },
+    {
+      "path": "data/study/tts/4f8c0b22f3ed0d4ab0e7cf8704c92f04db6e56e4.mp3",
+      "sha256": "86985842ed2470fae052b8568bf17c59545d900d20bd86c6d492f50993cdc1bc"
+    },
+    {
+      "path": "data/study/tts/5661380e89893274cd0cafba8d0bf060bab46fed.mp3",
+      "sha256": "10b928cf8f9c4d442e39f9e718fc4724a051ead7117995df2e8b37e4e6a39d91"
+    },
+    {
+      "path": "data/study/tts/588eaab44a00ebace04d83eb5001569dbaf57515.mp3",
+      "sha256": "c0a7e8184767b3ec613a8d17483ff45a9559a2784f7c56cb42fc22e6b9ec5c37"
+    },
+    {
+      "path": "data/study/tts/5c0f8c6e9b6a69999b7e01e7221ade3582a47ce7.mp3",
+      "sha256": "dc7c563c9b7923414b4f32ef838cb6efd1dfc37ab46c2cdff616ff87a7931094"
+    },
+    {
+      "path": "data/study/tts/5fdb0e0c6724697554a95fdf9fde3a1dc5fb79ba.mp3",
+      "sha256": "bf86bd88b654d841f3d8949f5ea02d5a6d3c5b87de93e99413e2962635a71227"
+    },
+    {
+      "path": "data/study/tts/6176f9946a22a28c2fc7240711ae6614af922eea.mp3",
+      "sha256": "c6bcdaede001448a9859324dbc155ad8c4ed782dbc8bfcfe10f15778b0f8aedd"
+    },
+    {
+      "path": "data/study/tts/628a5c20d3df7f7faf86573ea4525abac6809387.mp3",
+      "sha256": "1863f9be5ed50090c9a42c33c260b5bf0e748be35d37e128cb11ae86a79ba8a0"
+    },
+    {
+      "path": "data/study/tts/63b573063e6acde608b550d15549931e74a5497d.mp3",
+      "sha256": "26f34386e0e953a5a7a0898f8efaac784c8ac1ae0a6fa2381a02d31370faf41d"
+    },
+    {
+      "path": "data/study/tts/6423df6d606bc0215ecf513a24cadb431cd3a127.mp3",
+      "sha256": "085aca5b9c0dbfbdb94ac1e95862d1299481af5c31003e57bb08a444c567b4a2"
+    },
+    {
+      "path": "data/study/tts/68f4483c0f9b85ef15603964862981a0186826a4.mp3",
+      "sha256": "9c1a40727ca0b9bec547ea217ac1c10023171625baeaf7d213c2b8e079a52cf9"
+    },
+    {
+      "path": "data/study/tts/6d66c2e6fc9ea0fb5ec92c1761d96aa3191304ad.mp3",
+      "sha256": "79d32c30ed9e80a73c0bed3a942ca90390e0b7438a30594a6a7d8ce0b447dfb9"
+    },
+    {
+      "path": "data/study/tts/6f0f86b4f2a1b304716e237c735c594b3d93fb2c.mp3",
+      "sha256": "e200bf7da1ae31aa6726a0afe4c42562975584bcdd789d331ac886456fff99b5"
+    },
+    {
+      "path": "data/study/tts/6f4df257185d275028f0e1b7d80d556e1f283e9d.mp3",
+      "sha256": "fd8411a85ee24646aa9e0282bf9c62092b75fe0e5ff6a9e89f36202284d9718e"
+    },
+    {
+      "path": "data/study/tts/709dbe767361173dd6b3f7541c5e70e30592b126.mp3",
+      "sha256": "af501212dd54ec6eeb5bd2e2365bafba136420dc3d89336fb952f3e858251205"
+    },
+    {
+      "path": "data/study/tts/71b99b9731c90d23d23a4f05b1894c222b8e7169.mp3",
+      "sha256": "797d2a1b6dc02ea15b5e8ae0aff68a2078f4460fd58c06a4353aea5cf31f72d3"
+    },
+    {
+      "path": "data/study/tts/71ed9dbd597b42891dc68f8934a134ac3b94ed2c.mp3",
+      "sha256": "10bd555c41cc01716ca543f558e56ca04e8f391456b7d4025039b210d5918e82"
+    },
+    {
+      "path": "data/study/tts/7457732564794090db651ea788ab4be76740821a.mp3",
+      "sha256": "3186e8db022944d4ecf6451f1c05ddf49c1288b06a38ce9a66b85a7710fad055"
+    },
+    {
+      "path": "data/study/tts/7470b2b006f978488e6f1f905757d08f1c513e5f.mp3",
+      "sha256": "55cb36bcfa52c93e0b0c1a63329d2cbb5faff7c5f3cea08c0e554429c3ba63e4"
+    },
+    {
+      "path": "data/study/tts/74a5a8a3415bd61af694d116dbd81b7d590db2b7.mp3",
+      "sha256": "de98bc2c6e0cf3ee02fb92b8a35f467baf86b97f3e253bbc1802f10e6b3aef61"
+    },
+    {
+      "path": "data/study/tts/75e9e69a42c7b5dc305321285df8005bf786d539.mp3",
+      "sha256": "760a08adf81a8c9aeef8aac3f56ed5717907b0741756d1531121bfc0901fdc2c"
+    },
+    {
+      "path": "data/study/tts/7608e6fda34e9cdb724717855d5bd50958b46e05.mp3",
+      "sha256": "c12e68b07f3f9e01cd246ef601fbeb74213f84a3f847c545cc9e22a658456b8b"
+    },
+    {
+      "path": "data/study/tts/7c01395cbe63e7cac457f1fc8a1e231232562db6.mp3",
+      "sha256": "f54904b515a294062817d07523e4479d04ad055d0732911d6f411d99e12cdc80"
+    },
+    {
+      "path": "data/study/tts/7d966b668f027cedd880223d5a40ec3f8e755ad8.mp3",
+      "sha256": "62209f8342aaa11912450c329964a38bba95acadbaa080381d7ab5c27a57ea7d"
+    },
+    {
+      "path": "data/study/tts/8008d4690ecc099d42372c438221c645c9328b6a.mp3",
+      "sha256": "782ed600fdfd9a209ef941081b64a75eeb25181ec66d47f1fdf9843240136598"
+    },
+    {
+      "path": "data/study/tts/834408202134165353d4fd593c4f8394dadfbe4a.mp3",
+      "sha256": "124212acb858031cdb7409d5409b80a39b80651a2ccefb664d37c981be920ba4"
+    },
+    {
+      "path": "data/study/tts/866908c9f341178770af45fbe2236d95ec1ac4dd.mp3",
+      "sha256": "de98bc2c6e0cf3ee02fb92b8a35f467baf86b97f3e253bbc1802f10e6b3aef61"
+    },
+    {
+      "path": "data/study/tts/8d8e517abc8b31b40069e4414273de2389a2d422.mp3",
+      "sha256": "1cf17cdfab8923f056fd960be0cdb7bebdf1e8100cfd7d12c7c8cf081314c1e7"
+    },
+    {
+      "path": "data/study/tts/94ad0ec9cda5be5c8e56fb604cdc3d95538506fe.mp3",
+      "sha256": "e1fa68d4d7c3b8a643f523ece7131577ed7830ca5fb8f82a3cfb6a0bcbaf1f29"
+    },
+    {
+      "path": "data/study/tts/9b7d2c819d370638c632ff8a67c6d275e347233d.mp3",
+      "sha256": "4b4e46ec87333afa54bd1b08c216aca8f334c22d472800c2ee2d5805ddbdb0f2"
+    },
+    {
+      "path": "data/study/tts/9e9945bd3bf43b255021e71fc54c578c974d4552.mp3",
+      "sha256": "a60a9754ecaee73c8fa8916966e711d15f2f6f13f6940ed75c0e9e70a862610c"
+    },
+    {
+      "path": "data/study/tts/a68cd1e9e5163d28414989d140d4c0e867e7d74d.mp3",
+      "sha256": "058bcefbc710dfdb712fb564b069fab6f02a67bea578538df859674e4d25d3b0"
+    },
+    {
+      "path": "data/study/tts/ac3f72460745e3825aef9b99551268846c9c0e55.mp3",
+      "sha256": "bcc6f4a57ae2db79cf1cf3d83fbb092530ec760677ad7e68128f664b72fa36b2"
+    },
+    {
+      "path": "data/study/tts/afb12c630fa30b5fcf3645b415831008cef5aab3.mp3",
+      "sha256": "446cfe682a01dcfd34d5f070c867bffbde6cdcc04b9b11e7e5ec5f8b967ebdf6"
+    },
+    {
+      "path": "data/study/tts/b4f6d3b0b64a0a9a5629f079083effec9cd44a1d.mp3",
+      "sha256": "edc2b63b76bfee8c6fad042346949459df339a14b616c925be27d26d81c9ebdf"
+    },
+    {
+      "path": "data/study/tts/b65ceff9af2bbf959b19477410ee2031e46f3950.mp3",
+      "sha256": "426a0e1db3f09ee591439c367c107bc5c1375288d309bb9f9947e6a14a0553ae"
+    },
+    {
+      "path": "data/study/tts/b95bc6a397af0c8c0610e3d4ab4178d55a98d8d0.mp3",
+      "sha256": "721d9edea1c88abfaab114e79e2d06535d62692a3d54a79ddb1c9e0f83bd6317"
+    },
+    {
+      "path": "data/study/tts/b9eb249ec2c014a657379c6ca948dbf606cdad6b.mp3",
+      "sha256": "bc4ed0dc865cb20f7dc599aa2dde046609344f8d998bc4f9c6dca57a75b7a070"
+    },
+    {
+      "path": "data/study/tts/bbdea7cd461c69535dce0810f1cef202f8ea64d5.mp3",
+      "sha256": "721d9edea1c88abfaab114e79e2d06535d62692a3d54a79ddb1c9e0f83bd6317"
+    },
+    {
+      "path": "data/study/tts/bf1fdc50f8d2f11d798190fb84448718474c62c5.mp3",
+      "sha256": "2a4eb7b01b70d598b72681f2791ec017808a111574abb5ff4b8687f82cbdd728"
+    },
+    {
+      "path": "data/study/tts/c11c56fab6b6c155a4918be9c5fb8fdb1b0e9c14.mp3",
+      "sha256": "ee44e82ccb320aad0c1dba6b7d47fe96e001bca04a32a8010b04346d1211ce1a"
+    },
+    {
+      "path": "data/study/tts/c16f7179cee2ecf2860b15681d2ce7de4a8f157d.mp3",
+      "sha256": "dd51d15961b059cb4220b97d1a79b057a51f86e2b3116bd2537fb3ccc6d6f687"
+    },
+    {
+      "path": "data/study/tts/c331b309c718de94a490046fd075fe1f6d2ee9e9.mp3",
+      "sha256": "0cc2c01ed0714c589be24cb1baff4ee89e84117da17336908139ad260d50c73f"
+    },
+    {
+      "path": "data/study/tts/c81612800a28683529bc6dfd07138f02661f7e42.mp3",
+      "sha256": "528306921aa04285657e788061dad74c19e0aea767543be71894afb1cf6eed13"
+    },
+    {
+      "path": "data/study/tts/c828683395edc9d55344f78426f5dd9a25147c53.mp3",
+      "sha256": "d8e980eb48c5dfae6818254fe0a0dcf5b9f9170a303c251fa85ce7ac3cb78edf"
+    },
+    {
+      "path": "data/study/tts/c90a3eb95cedef40e52678d7227b4cc681f0ee61.mp3",
+      "sha256": "7136e3e32ef9da6c8856051b7567944cf301a78d83fb5b79f8bcf1852bdfb5fc"
+    },
+    {
+      "path": "data/study/tts/ce5c1b4f989b13e2e4bd88a42bc706b70db2fde4.mp3",
+      "sha256": "721d9edea1c88abfaab114e79e2d06535d62692a3d54a79ddb1c9e0f83bd6317"
+    },
+    {
+      "path": "data/study/tts/cfcba3c601841db493a99369bb5fe5fcfc0b951c.mp3",
+      "sha256": "d4f38367e8657ed295425fc58eb16351ed0d8bfbe8b118a3e079933ddaa8fe75"
+    },
+    {
+      "path": "data/study/tts/d20cc4ed0609470ca5ae1b746b22b782eea66e77.mp3",
+      "sha256": "679eee836fa88e4b293f10f0b2c5d34fafa69d834c7584ddc50b4ab11ce22d01"
+    },
+    {
+      "path": "data/study/tts/d241974372177e3570d400c8bd95264fa3c03a01.mp3",
+      "sha256": "8be4b650f9813870d2ae0040ffb320feb063838271c89bc92f7590286547a3f3"
+    },
+    {
+      "path": "data/study/tts/d34cf4a3290af6572c94f73814d7031c5795df14.mp3",
+      "sha256": "518838966db943af25b5c68f213e153e2581dba06f4a3fa614a42cd90a59de2b"
+    },
+    {
+      "path": "data/study/tts/d7e6709ad95c3193b9f2f37d8ca61f6ee8589a52.mp3",
+      "sha256": "2a4eb7b01b70d598b72681f2791ec017808a111574abb5ff4b8687f82cbdd728"
+    },
+    {
+      "path": "data/study/tts/d886275b54e1e5c1b839c0ce48e89c60a17230f7.mp3",
+      "sha256": "c0a7e8184767b3ec613a8d17483ff45a9559a2784f7c56cb42fc22e6b9ec5c37"
+    },
+    {
+      "path": "data/study/tts/db53bee1ae33e3974efe265817290e383031664f.mp3",
+      "sha256": "7136e3e32ef9da6c8856051b7567944cf301a78d83fb5b79f8bcf1852bdfb5fc"
+    },
+    {
+      "path": "data/study/tts/dbd7121fc7766f188030d62777a908b0c033f68a.mp3",
+      "sha256": "d7c2fe810ea9e4dc59dbaa77b0d18e74c95a3f2f3f7f60f2b6c5cefb4c15ba06"
+    },
+    {
+      "path": "data/study/tts/def611b23e83ba89bc3a2d8c286fbdd5747a184b.mp3",
+      "sha256": "782ed600fdfd9a209ef941081b64a75eeb25181ec66d47f1fdf9843240136598"
+    },
+    {
+      "path": "data/study/tts/e506dab0bd366aa823dfb991f92bee2df3f1a75e.mp3",
+      "sha256": "3347bb2f33e0477b8d8a5546431cbfd1f44c1c9b39fce0224683aae3ad47a19e"
+    },
+    {
+      "path": "data/study/tts/e580d60698297b5c22e531ed9e796ccaf315a1cb.mp3",
+      "sha256": "065b8270ac65a4ece26a4ec7fa8c3197103092f9f48678aac2973baa0c711b15"
+    },
+    {
+      "path": "data/study/tts/e6f2ad0e63a122fa320c973b21e9f5676db74835.mp3",
+      "sha256": "9c4c8ee9f6565297097748981570f18a95cfae6d5452b47a2931d735b7a94b9f"
+    },
+    {
+      "path": "data/study/tts/ecd6aa29eac53d39896d85be57d99d080cd2b571.mp3",
+      "sha256": "e1892951d6241f41b0085c55b526513156e0ad0d4a3a0814c1ee43459624f313"
+    },
+    {
+      "path": "data/study/tts/f45d8f7c5636834a226c3a7039c55d2d7016373a.mp3",
+      "sha256": "175b5deea52f19022a5e4af2692e465aa5e8c3fa7e6b5a9dfe62b24937ccd206"
+    },
+    {
+      "path": "data/study/tts/f497c47ac8567c1035255eb0cca870b0febbc43f.mp3",
+      "sha256": "ed200e3fdce1da3d51f150fad351fc4cfc3b9384531d3da19e12b51162230cf8"
+    },
+    {
+      "path": "data/study/tts/f80f77eb02a63ab401c3794734bc6110d13625f3.mp3",
+      "sha256": "e44bc03a911414d73c2c280130a1992329136736983517458dba796b6a741711"
+    },
+    {
+      "path": "data/study/tts/f84cd652a10dadad5da2603e95677ce9a0233bf2.mp3",
+      "sha256": "692c0926115ec31b4a2c5fb1c651f2a19a5fbc78b96b91ebbe7aa5c5698ec7bb"
+    },
+    {
+      "path": "data/study/tts/f9ccf34b63759873e04a081c0be122a4a2cfdbb3.mp3",
+      "sha256": "66827522e7a4c9d1ca3ba982f35ddbc1e454083a835fb2e4194d2519c2f145ec"
+    },
+    {
+      "path": "data/study/tts/fa3bf8c480651d1ba232ebc1979606f6f58e4041.mp3",
+      "sha256": "1c01581f68b5e8db5c43b79a23178c2c71b9b8c687997253b08783cb538bb420"
+    },
+    {
+      "path": "data/study/tts/fd4e0a60a3734994324583c65571552df3dd167b.mp3",
+      "sha256": "a1046fc44dfc613bdd886cbe7ef4a6a808477520ceebca9849ef8fb9829e9e0f"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/cast/03b0b3ac-e57b-47a1-b1fe-315efd2982a5.webp",
+      "sha256": "65d9ed90c330da960391cbc95f57f4f2614640fee18ddf83fdb846ff5f4692cd"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/cast/105876fc-d205-4466-b2ac-0639700b8194.webp",
+      "sha256": "49d294819a132acd8080bfb94ea574f85d6f7e16544b5fbb4f52ed4b0bc63031"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/cast/173e79df-df80-49b2-9a75-41ec1289ced6.webp",
+      "sha256": "49f3ec5c36afc2a5702d1657ef6a354afd37e4f7a53e0f3893b312894a61236a"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/cast/1d30fd83-0dd7-4eee-834b-87c6df441395.webp",
+      "sha256": "49f3ec5c36afc2a5702d1657ef6a354afd37e4f7a53e0f3893b312894a61236a"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/cast/2a59eedb-5785-436b-8bf3-3d48dc3f7f00.webp",
+      "sha256": "c9eb4d6ffacbd397b3b6aadac598db01c613e6b77cbd3605b41c55430e1a772f"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/cast/3337e04b-7a9f-4983-816f-676b0d3c321e.webp",
+      "sha256": "fe0405475b48a71a4b8debddbb5b9b686b7117ed586046592474a45fde386339"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/cast/3fe77453-696c-4877-b085-b8a78cbe4484.webp",
+      "sha256": "4d6ac6f5ca0d69ae62a4766b950ea525b6d8ed4ba9c585add7adbcd3c245fa5a"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/cast/4102743b-6c23-4ea8-b0f4-0fc9a6129778.webp",
+      "sha256": "fe0405475b48a71a4b8debddbb5b9b686b7117ed586046592474a45fde386339"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/cast/43a271e4-5374-405d-aee6-514186fb0474.webp",
+      "sha256": "6319eeb291f4d4587bb72790a420e4ed74f79834af73803edb419c3431c189ee"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/cast/47886233-01c0-4b2b-b98e-51c2767d241d.webp",
+      "sha256": "5f69899a165c5ce0ad8734bd936c98491dcf557d8df12ae6f96d2bf1043a9897"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/cast/4ad01387-6a3b-40ac-926c-09e1af31fb92.webp",
+      "sha256": "6319eeb291f4d4587bb72790a420e4ed74f79834af73803edb419c3431c189ee"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/cast/4bc0c661-4087-452d-901f-d805834faa99.webp",
+      "sha256": "c9eb4d6ffacbd397b3b6aadac598db01c613e6b77cbd3605b41c55430e1a772f"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/cast/58379263-fb5b-4972-a513-29507e2a4344.webp",
+      "sha256": "0aab15bbf731b469f1e639c494ae950b41c3d36779484ae31b7a92e14204784b"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/cast/5e17e54d-03a3-40c8-b616-90097a0a3b3c.webp",
+      "sha256": "0aab15bbf731b469f1e639c494ae950b41c3d36779484ae31b7a92e14204784b"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/cast/63c48857-88ee-4470-976d-1bdda3c6fab4.webp",
+      "sha256": "4d6ac6f5ca0d69ae62a4766b950ea525b6d8ed4ba9c585add7adbcd3c245fa5a"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/cast/64315f0f-b11a-4277-aaf5-863001688668.webp",
+      "sha256": "c9eb4d6ffacbd397b3b6aadac598db01c613e6b77cbd3605b41c55430e1a772f"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/cast/979ee9ed-aec5-4c14-9e1e-9115dcae417a.webp",
+      "sha256": "6319eeb291f4d4587bb72790a420e4ed74f79834af73803edb419c3431c189ee"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/cast/9faf2753-6a41-4a3a-a396-bda29b9d9339.webp",
+      "sha256": "22b5fdd0041ca75513b5c7fbb120729813c38528c93eb0401704d92ee20ab74a"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/cast/a1c77d73-53c6-45cd-bb93-41a3adb09e6b.webp",
+      "sha256": "49f3ec5c36afc2a5702d1657ef6a354afd37e4f7a53e0f3893b312894a61236a"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/cast/b5bd8703-40a5-447b-a290-bbfe2f1e3ddc.webp",
+      "sha256": "4d6ac6f5ca0d69ae62a4766b950ea525b6d8ed4ba9c585add7adbcd3c245fa5a"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/cast/d879ce8c-cf9f-4245-9d8b-fbfd9b7a9cdd.webp",
+      "sha256": "6319eeb291f4d4587bb72790a420e4ed74f79834af73803edb419c3431c189ee"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/cast/eced97cd-22e6-4da1-b997-4f477895478d.webp",
+      "sha256": "c3d2df0ee73fde881ee9e260516675cec11996a20e85014d8f70206bf0eac40f"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/cast/ed71a6fb-148f-4e4b-880d-634347dc49b9.webp",
+      "sha256": "fe0405475b48a71a4b8debddbb5b9b686b7117ed586046592474a45fde386339"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/cast/eeee1a9c-6459-49f3-8237-f9a9efe69bd4.webp",
+      "sha256": "0aab15bbf731b469f1e639c494ae950b41c3d36779484ae31b7a92e14204784b"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/016/clip-poster.webp",
+      "sha256": "e20d69f35f66aefb3101e20c3e0f5f096055b03dacb5e0c85b9ba0ec623f7ab8"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/016/clip.mp4",
+      "sha256": "ebee3d66d45e4620987cb6be1d638098591aea76fed26c72c84aec955832296c"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/016/page.json",
+      "sha256": "a650ae29b7b0a1ade0046848b8441be8de8adf2d9b609280e87485f543bed9c8"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/016/scan.webp",
+      "sha256": "53029ef938f370e958b54e5844ed23eae41675dfbd0231e99ab010cd2ec3b45d"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/017/clip-poster.webp",
+      "sha256": "03dc936bfaadc4929aa14c140e6ebb1bf11e068b7cfb550a12f077f439324720"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/017/clip.mp4",
+      "sha256": "eca9aed835afc1a57f228b202856ff1673d52cd5e1414ce6e46ffcbac7831afe"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/017/page.json",
+      "sha256": "2aed02292e4f07e8a3a241597a883a912ad9c33666f62c66ee78f06bcd3f3201"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/017/scan.webp",
+      "sha256": "3b40c3dfa1aee5a61c97de1cd211ebc8a6858256bf4412fd405ff26dd889e5b0"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/018/clip-poster.webp",
+      "sha256": "3305fb976fe52fb252ca9ad9a92a2f41c6c6fae288f632bd001fc9a59343f23d"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/018/clip.mp4",
+      "sha256": "4a13ab65fbf0e4abe91c07dc5a77de6e553c52eeedc6ef0d8bcdd9ad17d52c3b"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/018/page.json",
+      "sha256": "0ce1b9c638bd721f54b59e5618b0b38bdedd4f2b6eb7d4301038ebe238ea41b8"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/018/scan.webp",
+      "sha256": "8d76c9a95413c1ff97fb06c22798961a611daf9164c40162bdd27d860c7235de"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/019/page.json",
+      "sha256": "c3eb84e6359a816ba5f21dd325cea46f402b4e57ca634de744c98a9992ca7ba7"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/019/scan.webp",
+      "sha256": "81a3e5e717cb2531a8d05721d50e7cbc71551debadcdcad40d4582f764c361e3"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/020/clip-poster.webp",
+      "sha256": "dcee74a1c5fef093d3c0a43d7819788b75b84b80d193e1e3e326e8f653a82906"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/020/clip.mp4",
+      "sha256": "1b2b95993a814494f7cc5313f152c2b0e5d4bdf4826e765517f907ae61108af3"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/020/page.json",
+      "sha256": "fc695bc354c4f4f20451463744f343784aeebc4882ececc05209544eedf7e7ec"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/020/scan.webp",
+      "sha256": "c4e3750f4d1ff21115fe53cd286c93113b72df25c9e78447301e4f453a4c5d21"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/021/clip-poster.webp",
+      "sha256": "40170383f25ea841bf407064e458fe7ac03c5a4e08c4f93ec57e314266481acd"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/021/clip.mp4",
+      "sha256": "fa6223a9e5b9fce3a550f183d08af0e2634f10d6e8448ac973905b9b4f9e3255"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/021/page.json",
+      "sha256": "ab17bf01c6eb5fb537baa1d0a863948e23cf1001e786534345d83f692b64d567"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/021/scan.webp",
+      "sha256": "0b623ba0121f8f738e814ff187173a844cc283b4331bffaf6591cd8f068ff203"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/022/clip-poster.webp",
+      "sha256": "8c7768e8c18d1431b6a7477d909698a69d6e7d7da8b62062c8e3fc7243e2030f"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/022/clip.mp4",
+      "sha256": "0d28914ce58f884011c13342a4cb3d4fe8e6f6261069d94499fd0f03da162485"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/022/page.json",
+      "sha256": "d40de7bda6ab202a6180f5569c02334f1eeb8c9788ec8066206153270e7e3ba0"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/022/scan.webp",
+      "sha256": "92eb769df759817e9185818fdf320dd9b2d9e50c14f49907061375bf19eef080"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/023/clip-poster.webp",
+      "sha256": "a3a26ad9c2ebe119298b2a2275398ff388e82369aded0f69e0021231f50287b9"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/023/clip.mp4",
+      "sha256": "75b9d3e3586fd2eaeaf5de2fb376f54ccda6888ccea9186de6894f492f3ee11b"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/023/page.json",
+      "sha256": "d655e6963d99a0409287f782d984cbab25150d6c3773acd9ea6483ad9ccf2535"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/023/scan.webp",
+      "sha256": "cae4a9355ff297881a37be2a426f261ed1b5b56f03b0d6e896d9ce0332676d14"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/025/clip-poster.webp",
+      "sha256": "032ddf0a53c3d83a973dafd3bb82a7f4b3715e149c3c6ca4c0e57102b2148b5b"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/025/clip.mp4",
+      "sha256": "c8f819a94bbc2b0dc77b625f12ebcf96a24b5aced81b0ba18e78e13d062f66ac"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/025/page.json",
+      "sha256": "952ec465a9b39ebde00866b319b9722cb9bdf1dcf1f288968d34955483b75098"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/025/scan.webp",
+      "sha256": "7cbccbd4d00d13a53d89e0860ea8033f8399b048645b4f1f67755c9e70398b41"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/026/page.json",
+      "sha256": "0d3fc8ba10c239fa051179722dec78d42c75918f3521465b121d5895075c6a3c"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/026/scan.webp",
+      "sha256": "1dea7049608d5b79f79e893113fde18d9c1074a1fbe865813b2f12f63e4d4552"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/027/clip-poster.webp",
+      "sha256": "d87df21065b6bf24f2701058a4f9c92789b2d0a181602a855287caef2c734325"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/027/clip.mp4",
+      "sha256": "f138ad131d83e6c8fab4421dbb3515a33fad07dbd1c2d48760fe2925c3ad548f"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/027/page.json",
+      "sha256": "8d0285fa1e2b71edbbc2b009aef4eced9b43cf2d14152b0b0b9c2ecaf927f0d6"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/027/scan.webp",
+      "sha256": "eed6df8b70d0ae68bbc2e34137f6b961c246379ca8962dece9f9917efc43ac88"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/016/assets/ava-5-0.webp",
+      "sha256": "2232f9a0bbbdff94feb2417d0fd8767e53f9ed46f8709424dd67ca034ad814c5"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/016/assets/ava-5-1.webp",
+      "sha256": "d0fb7add462504189df399091e193da40c410ba76faf3dd2bf5d9f466dc206d8"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/016/assets/img-6.webp",
+      "sha256": "f1ac8f1c9debce2ec89696d4cdfaebbd253d7b427399352cbfecb3d618ccbe38"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/016/assets/track-1-1.mp3",
+      "sha256": "b6b8810ec8a58ba6b26ea948a7ae5ce0cea46409020540600dc9df3e184f90d5"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/016/assets/track-1-2.mp3",
+      "sha256": "81e9393ffdf8756dd78f23d39aa8a54e05cfaef9a284cebe9140019632f0b867"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/017/assets/ava-6-0.webp",
+      "sha256": "f976ca6bc23ecdc930de3468f398e81dfda3b6c36f75daba45dfe78bfc78f3c3"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/017/assets/ava-6-2.webp",
+      "sha256": "1ab8e66fbd1ce9558a0a7ddd809ed142a2aa04787bd798b1d91e058f2593885d"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/017/assets/deco-b5.png",
+      "sha256": "0d5947fb4c5fcb614a6e6f176aec53c3dc2ac3ee419bbdd7a644a00112efd2cf"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/017/assets/img-7.webp",
+      "sha256": "e5b0585a759f6b264bc5663318b1f46e452f2b12364df3772ef28d615ac20086"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/017/assets/tip-4.png",
+      "sha256": "281fa7449db7f1b24d0962fe0499af2f0b1add87126cd513153031ba86bac49d"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/017/assets/track-1-3.mp3",
+      "sha256": "86fbbaa22c1fb2d26f3733921c67680d7b8c6422ee365da26d2be717ed7ed828"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/017/assets/track-1-4.mp3",
+      "sha256": "5e8897344ebcb2a3bfbdd9e20426d6d0e9463d07b682511774b1fe0d41bbcb67"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/018/assets/ava-5-1.webp",
+      "sha256": "281221651926a94bc4f3e57a97c25a1f02b18cf483998242b7863908ac46705c"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/018/assets/ava-5-2.webp",
+      "sha256": "9d3026541be2e6ffcce7a20aff3e6b1e166443b087067e67155a7022c684ed78"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/018/assets/img-4.webp",
+      "sha256": "f5e6cd2f701d71fcc6441ed1b69cc55bb09305cec84ee28544496880ed2d8cb4"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/018/assets/track-1-5.mp3",
+      "sha256": "cbc97b8a1f9ea8d6af8902dc6ac60b3a8d6f9dbe3486c06b7c3e13a54c49be57"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/018/assets/track-1-6.mp3",
+      "sha256": "1af57609072562792fba9cecb3636a008cd8abcf6ea673f810ccda667abda0db"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/019/assets/bon-6.webp",
+      "sha256": "c3ecdba2a64925f8f269d8ee5bf29d625465f21aaf18be611a7a56de5ecfb43e"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/019/assets/deco-0.png",
+      "sha256": "5df7291f563cb8015449a63b76703661dbe7982d0f87c6ff4e1743180da1df61"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/019/assets/deco-b4.png",
+      "sha256": "0d0e4ec1d372102115761895539ea9498438ebb65e0ff1d1fbfb1dc40917206e"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/019/assets/sec-5.png",
+      "sha256": "cac14515f57a367b6de8a6af05207589037f8a533d7823a87a723032f60a762a"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/019/assets/tip-3.png",
+      "sha256": "c0d3aff3b0e4072a0a34c3ecb2605f0182e8f150084b4317ecef9efb06da6598"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/019/assets/track-1-7.mp3",
+      "sha256": "8185e5f54f29199509e4d35a27187c8cf5625168379dd26195b4611da2a9dc6f"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/020/assets/img-5.webp",
+      "sha256": "396f68a3e05747e048b09c4bb03fd2aba4e27bd240c29f35a4ac1f4261455ac8"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/020/assets/track-2-1.mp3",
+      "sha256": "b09fb410a10f86dcee5bee4bac32ced999f856fdfa4751dedf592cf3044df2e4"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/021/assets/ava-1-0.webp",
+      "sha256": "568465122b42da22bc9074175a6e06fffa6339fa6793217ef94c1a50aebd0f67"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/021/assets/ava-1-1.webp",
+      "sha256": "dd5586756ccfc0e18647051564eb7f0c24169df55d3df61499de60b19a5ca66c"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/021/assets/deco-b9.png",
+      "sha256": "1cc35fd14390715fb02d55bb71f67050a45005b2033e1d9841a8cf1a16dce02d"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/021/assets/img-2.webp",
+      "sha256": "c2cbfb40e22d2fcd7c80756539a512e5ba4f948f6e4b42e76e1618b20ac7a49c"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/021/assets/img-8.webp",
+      "sha256": "2ba31f8bf9f719ec3a0cd5d90ac105220f4615482a3bd70c77494ac49a27f312"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/021/assets/tip-3.png",
+      "sha256": "775cfbddd4293bfcbd3a481270d5c19e2979d1f308a22ec1ad2ffd235fab4947"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/021/assets/track-2-2.mp3",
+      "sha256": "24cc21dde8a3d329c5baceb5bcc7e20a041b9e2951c188f58dec9ca6125617ad"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/022/assets/ava-5-0.webp",
+      "sha256": "8e86a5be8267ee150ee03f655d0ef6c9de817e08facb29f59734819cbcf85c9b"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/022/assets/ava-5-1.webp",
+      "sha256": "469523c6cc1332bb0e5a99e8cb2989de0a344e2c1b4d85e47e036d99aa982df0"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/022/assets/ava-5-2.webp",
+      "sha256": "d5f0310e94d40b89a916ea45bc09471dcb3b769ef8ac24991e650bbff02a6525"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/022/assets/ava-5-3.webp",
+      "sha256": "cb73f1edb695b5e6cb728f177f44d4b678d8bbd3ff749953ab617f37991d0306"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/022/assets/deco-b8.png",
+      "sha256": "71d11081aacc74251f89491a933f2a2a6ca21b11aed683cae7dc11b5dd2c3379"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/022/assets/img-4.webp",
+      "sha256": "4bd5ef2bd0c6647370270b5a502233f83172958a071dd8f831e242d663d1d599"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/022/assets/tip-7.png",
+      "sha256": "cc73a1f41cf7aea94ba77c6aa7ba888745ca99dec34d7423e741fd7ceb37c105"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/022/assets/track-2-3.mp3",
+      "sha256": "253845be6ca5aef13bd0f189229a415abb2e08a8d29a98c6355e2fe8bde19c13"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/022/assets/track-2-4.mp3",
+      "sha256": "578f58e66a1e4a5bca76721e89fd2c5046eacee0f1fa9ea8e5361945fd930d16"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/023/assets/ava-13-0.webp",
+      "sha256": "c693661d2188ebe3971da9dab45913b9f2d39b8cef6d5baa806a3d88824d1e11"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/023/assets/ava-13-1.webp",
+      "sha256": "ed3386a32eafc6d4a7b5848e96896b7dd28a3469ec8ae6c3c441fc123e3b8417"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/023/assets/ava-13-2.webp",
+      "sha256": "adcdb0299ed1d0b1e11ba9304c6f248ada29087f885f35b6e7523438e25a3bf8"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/023/assets/ava-13-3.webp",
+      "sha256": "ceb0a19baee9ea0f6ef824f3d6a60a7050332ccb1d5e82e6e0bbe65b37199a51"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/023/assets/deco-0.png",
+      "sha256": "22c7401debccf503d39c0444129fe8cfa5c028012e51358eeccce9784b1fae4a"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/023/assets/deco-1.png",
+      "sha256": "50f055d0d0bd0330b77866e811c0642af019a0b2528939ba6912b639b5bb61fa"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/023/assets/deco-b12.png",
+      "sha256": "c286b5c7f5b22050d41005f2ffeb5b2782b1cf233f177b4656c08df81a027847"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/023/assets/img-14.webp",
+      "sha256": "532f6c24d533ebf9f16129c0ae13361e9fcecc80d8c20e66f3eba3821393ef5f"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/023/assets/sec-1.png",
+      "sha256": "4330a63cfacbe52d057cff223d4efb0a65a06c363eb702cf85559e23f1cd6444"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/023/assets/tip-11.png",
+      "sha256": "369efd0757b8cfa0990832b708404acb26d631ed51ab6ff876077c08452479ed"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/023/assets/track-2-5.mp3",
+      "sha256": "6b7e9e6e56c862e85ded5801cfcff00822eb093f27f9ff63721aa761bf9aedab"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/025/assets/ava-5-0.webp",
+      "sha256": "42d3d1cd10f2678c8bc40f9d325bde93363b70ddea2475644da636b3b13923b5"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/025/assets/ava-5-1.webp",
+      "sha256": "e96504668a79d938190f1ff0ecd9b3df562f6dc9fecff4fbb3b3d882787d65b9"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/025/assets/img-6.webp",
+      "sha256": "8767ac36b3b8f5e0eb4eec89d5b822ee591f856ddd15edc376d1b00e811977a5"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/025/assets/track-3-1.mp3",
+      "sha256": "9f7bedda53234a79a0bf5695591df9cece796f38f9b059bd8bf1f930afb30d47"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/026/assets/deco-0.png",
+      "sha256": "8b0dcc6a6da304ab68e06edd60cddfeb36fc6885bdf1e9ba820cd6c7c16225d2"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/026/assets/deco-1.png",
+      "sha256": "a6d0547071ff9980b6fb402564d7a092cd86c5df3e6164414da0c1096da85025"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/026/assets/deco-2.png",
+      "sha256": "4e7b8cc0e81dead2eab134094f22267e55bcde1c9cc9342bd2ea19e069cbaa36"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/026/assets/sec-4.png",
+      "sha256": "801c9efc3e9b655443bdf62a4bce42d7b52cef3db64156f53fca5c30ad37e620"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/026/assets/track-3-2.mp3",
+      "sha256": "f833e012b88f802dcdcf2cd56967b9536fbb589c68f979ccd8fbbf3020685a36"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/027/assets/ava-14-0.webp",
+      "sha256": "32eb86306c664176c677acc9cc414f5c947ee57ac1cab11484502bc477e9f5f8"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/027/assets/ava-14-1.webp",
+      "sha256": "d63dea1e74d227b40794cd6d9645af4a2e6ca92bbaa90bdc19315b4c0aff8c8e"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/027/assets/ava-14-2.webp",
+      "sha256": "44fae1e1f0f67d2592f4a90b0dbda139350c6952520d9b2cfaab91017d2655e6"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/027/assets/ava-14-3.webp",
+      "sha256": "6c9a814a64aac0b1598d0fbb0afce1b44eec1c2955e75d6027a004386879f8eb"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/027/assets/deco-b13.png",
+      "sha256": "c9b49d9458d88e53928f74b680df4e6052502b0cb66cb0a05ea99ec9901238f8"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/027/assets/img-15.webp",
+      "sha256": "896b4086aac065642150fbf0ef94f5326bbf3ca0c27ff151bc1a82799a5731dd"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/027/assets/tip-12.png",
+      "sha256": "2f3abda5b105a779ae595cd5bab9ec7f3bcc2d16aadf5567983c0f8f78bb0fd4"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3/pages/027/assets/track-3-3.mp3",
+      "sha256": "2f13e347d115557be4c0a1c9ad11b0ff7793b2f304103d82ef1852f6a06169c2"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/003/page.json",
+      "sha256": "b6fdf3a589d0308653fffd94bffcb8299d58bd3431f19bf2a98f83b988cf4efb"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/003/scan.webp",
+      "sha256": "4cbddb43572bcae86bd9ab115ffdf7f8b3df4befe1d50cdd4043a7ff4e456c8a"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/004/page.json",
+      "sha256": "0f5a5a7e139af98a304e7b27bf125e11b0c89e4606ac3a1074ccdd3a59027807"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/004/scan.webp",
+      "sha256": "b9a1bf253b3fe9ff6e60db71887ee7e2c315fcf173a3ad9de352abc9f784a288"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/005/page.json",
+      "sha256": "dbced6ce16bfdc41be81b6221a09da407031dd00775788a35f9bf76f6f7e5629"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/005/scan.webp",
+      "sha256": "a55a688fe09f39a86709d25fd53b126d859c355ef6b710a7108b9c86af5ebafe"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/006/page.json",
+      "sha256": "99560e9cb508cc8f5d02c6662224329197eac6b7c8c8d102497ffeb3e31c79dd"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/006/scan.webp",
+      "sha256": "b0a2196a37a6478a5d6640c917709eba2345636184b4ab11ce37d4babc50543c"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/010/page.json",
+      "sha256": "d12c87fc474ce4b6a4331e3561b9097af801037fd9990e030bcd30d52e8b31e6"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/010/scan.webp",
+      "sha256": "e4cbf4750f9d148fdcfce64c6ee48efdcffa7fd1f210d8a721a2663cd369ebb2"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/013/page.json",
+      "sha256": "22459362dbe89a078fcd4df05baf5535e2c5911c54caec801d36af51af459825"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/013/scan.webp",
+      "sha256": "df77482c8eed113d9a610c30b19a75487489e0329413c9dcfda4f34f49ed8b9a"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/003/assets/deco-0.png",
+      "sha256": "db11e5cceebb3dfd8aefb5006152c74cc5cbfa1ce38e9e166a2f41ed1288f646"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/003/assets/deco-1.png",
+      "sha256": "f9b1204f34e94da745e33cad3524fdde62e07ecfb2c8a2629d4c677604abe407"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/003/assets/deco-2.png",
+      "sha256": "4cbb0420ca5e06c9918b2d0639ab23171129b947271f20f65701ede67b654c00"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/003/assets/deco-3.png",
+      "sha256": "67640c3cdc24d2fabb0b5b12eb217e61fd35a240fa0e0168f8273ac8e110e29c"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/003/assets/deco-4.png",
+      "sha256": "5ff4a4992f22871207724aae127980151d61d6742367043d812ed8e61ced3b8a"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/003/assets/deco-5.png",
+      "sha256": "e7755c4fad111113f26b6cd3ceab6176dc20f3a09ebe3adfe4f962ffb4538028"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/003/assets/deco-6.png",
+      "sha256": "b59b053a07c4297e3be5b5847dc933365923234077e268187bce600de00e5994"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/003/assets/deco-7.png",
+      "sha256": "30d813fcb852ba7abbdccee8f3ef84ca4a9a965f77097791eeca436ab698649e"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/003/assets/deco-8.png",
+      "sha256": "6a176e251c5980ee57b7faa59097f74ee6b94bd37ba91f4108daccb9f2d0272d"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/003/assets/img-10.webp",
+      "sha256": "ef3e6bc55ddff5d1478ad802202ab7fd87f9d1e0441c09362e9d867491cfd5c9"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/003/assets/img-7.webp",
+      "sha256": "f7cce2d9b445d6197cb275191b15ff7930b52ff1659166e30ffa473d3013528d"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/003/assets/img-8.webp",
+      "sha256": "56921c517760d175e171bd2e0042f8a1f9bacc01a59f1c720f7a1251d6039684"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/003/assets/img-9.webp",
+      "sha256": "26f74401f6040e1d7240ceb75f3cd22e8423fc53a0a458a339cb1b34ba708192"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/003/assets/sec-1.png",
+      "sha256": "13f54a66344b9fdc38b3351569f2f3a7b2c7c379b284e924717d419d2b0f2401"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/004/assets/deco-0.png",
+      "sha256": "a754a2aa5c0ea4966749b5dcda280a7d0621dba83c697f0b481387ceb1f04748"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/004/assets/deco-1.png",
+      "sha256": "d1466704cc72303e1848ff46f73fe200cc67e925820afff78e6e8dd4a906f0a1"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/004/assets/deco-2.png",
+      "sha256": "f21a58316544d6e1bbbdbf41e499074b51dc6838776f5343c5e26a2b4d7d415c"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/004/assets/img-1.webp",
+      "sha256": "fd6bf2a9370ccd7ef7a7b422bc6189a9ff2a839ebf82b20240da4e3d325c1d66"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/004/assets/img-3.webp",
+      "sha256": "f982c22ecedf8e45901c17ea42e58b4253329125eee4032ba21f796567bba85e"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/004/assets/img-5.webp",
+      "sha256": "a808079d3d723f363df69bfebe781cf2e641b9c5655908ec9af87e07bb75ccc6"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/004/assets/img-7.webp",
+      "sha256": "0fed02650e1d52142034a8c9671559c717a2c037118c89e91a095d8cec560b69"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/005/assets/deco-0.png",
+      "sha256": "9df6ae54c136c41e7d1ef1fd021ef2e0d71171729de395faf6497ef8fffa92c7"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/005/assets/deco-1.png",
+      "sha256": "1a6c78b97d4eb7e4b59223aefb313c6fccafee6438033c6cb0865ac18248c675"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/005/assets/deco-2.png",
+      "sha256": "430898e16334ebb43ea39848a5ea63dc3dd93e0d914d0adbc6240e2a22b12b74"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/005/assets/img-1.webp",
+      "sha256": "3d557860e6729d6ba39e7ac636df0b85752bd4dc6223dc8a607ae2583cf16826"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/005/assets/img-11.webp",
+      "sha256": "09e7ee2c7da1c01fb516da920ba0018f7f7c7210f6c72a7519118b00291c23f9"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/005/assets/img-13.webp",
+      "sha256": "11b3e2d6dbc9765acef60e0ff05834b54d1fb9613b341e1b3385fdc9997fa66c"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/005/assets/img-15.webp",
+      "sha256": "f50d572e7f3623a2134cec8152bd60b4a716b58be5b76c2960dd4f9ec95963ff"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/005/assets/img-17.webp",
+      "sha256": "2cf04467d3f8e6cd0f8e5208c78095832e40df5a9d3c9cf22242824b0f7e7540"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/005/assets/img-19.webp",
+      "sha256": "9b75ccd383a5f227132400f0ba22b2b7d4685c1120e3212db658eff008412a57"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/005/assets/img-21.webp",
+      "sha256": "bd45d012a2071dd98e26b467a286ab5a88475693d6a1e83cc0c61299b9e77362"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/005/assets/img-23.webp",
+      "sha256": "430a4728ad586f8b42ffec89bd5d1f3a821880e1669376b647039a6e40a04d64"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/005/assets/img-25.webp",
+      "sha256": "87a78b48556784273b3835eb3aef71d238438d3d7a484de3761c618d76a8b118"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/005/assets/img-27.webp",
+      "sha256": "975a25df757530b44883d9aeb8c3855c38876eca93bccb12622e33ebdcee04ec"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/005/assets/img-5.webp",
+      "sha256": "0f79f27e151f84bcbdb3f26a4b1b0ddcabbb58d05b0e52192a2405d474a37ffc"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/005/assets/img-7.webp",
+      "sha256": "42a52542341e661b2a9eb526f6325629bfbe726d54c173f5c6569cc9027f513e"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/005/assets/img-9.webp",
+      "sha256": "ea2c13382a10d3e68f6fa4001c9b41282e5599b57598c7dc2ab52bb3d11f570b"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/006/assets/deco-0.png",
+      "sha256": "d81729c99a5e640df9873fc1e2a4e7bd35ff50b853dde83f76f941100308f285"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/006/assets/img-11.webp",
+      "sha256": "d91edf5fbd50bc879619a009fe883832336c2382c7f71ae77c7729ee17a29113"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/006/assets/img-14.webp",
+      "sha256": "b057f06ba6ae431cb73955deb8c3f8fb80e730dc1060c1bd8a3406e0e8d51749"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/006/assets/img-17.webp",
+      "sha256": "bed2615b27a4371f4067371384961a1fb0b91d9b793ba98895862a96af220db8"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/010/assets/deco-0.png",
+      "sha256": "10471eb0b9e5642e199e898defe00f7234e0467b5f57263f78ef97a5200d135f"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/010/assets/deco-1.png",
+      "sha256": "54360ce2b8c57268d55aa5a65f9466193404786b33495e44a57cbb5f59d28c41"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/010/assets/deco-2.png",
+      "sha256": "58a3ec299edf4ad8b0cfec7490de65f7ea54719a69be8a2fc982759d98b7c426"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/010/assets/deco-3.png",
+      "sha256": "c4acf406288046effaba0fe7c4cc7f5f3102e67717548915bda2c04b55b5ee58"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/010/assets/deco-4.png",
+      "sha256": "3bc19c64009442ad3323b8ba332253f13af1c29b2964d1d05157ff449bc539a1"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/010/assets/deco-5.png",
+      "sha256": "1c614fcef0786584520cda164a5126c34fdee33564b7dc5895ca31e03f371ee9"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/010/assets/img-10.webp",
+      "sha256": "41cd822d82aefa011dcb7c1d50caf011ef0ef93177b692e87675cfa8b829023e"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/010/assets/img-11.webp",
+      "sha256": "9e5b235f886e8f1fecd41c15ce9ea8befb4cd838de70fb5217977a7f356d2a11"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/010/assets/img-12.webp",
+      "sha256": "524ed55d8433cd9f44e70b6a62351d8655caf01e2ac8719f5179cfa416c2f762"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/010/assets/img-9.webp",
+      "sha256": "c57e3bdca741ae21e874e3286ac9491e78572ea3caadd99e8b346348cd772031"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/013/assets/deco-0.png",
+      "sha256": "1d4b1262a5ea8883f08c99d84d43e01f6653eaa807b2c1363a6dbe589a170a8e"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/013/assets/deco-1.png",
+      "sha256": "80b3615535931222d65f887452504d1a0141fd4ea0ba040cfd4c5e637e8f6e1e"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/013/assets/deco-2.png",
+      "sha256": "c1d34200d0831a7205e4c0a380a114968f4b69f23e7aabb71e92498fe62b35f6"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/013/assets/img-5.webp",
+      "sha256": "327700510ea3e90c68ef3d049659afda14b7a0866a9b33d110ef7c8881163b0c"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/013/assets/img-6.webp",
+      "sha256": "a67d53095960ef77ecdaf1b62e87c1a1077f4f19ebd3fd0111ba45fad7dc4958"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/013/assets/img-7.webp",
+      "sha256": "9c6ef706600e4da778a1168b88ab3a4088d32ead4758d468de3b4b223f910fab"
+    },
+    {
+      "path": "data/study/forma/books/hsk1-v3-workbook/pages/013/assets/img-8.webp",
+      "sha256": "c312ea7a62d9a50c4c3cff259a883462f6bf31eee56d7f43f898bca52cd10411"
+    }
+  ]
+}

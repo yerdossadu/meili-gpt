@@ -1,0 +1,23 @@
+.env
+.env.*
+!.env.example
+node_modules/
+.tools/
+ocr-runtime/
+.ocr-tmp/
+__pycache__/
+*.log
+*.tmp
+work/
+
+# Local textbook references and review artifacts
+reference-page16/
+page16-clone.html
+
+# PDF → Web library: uploaded books, scans, OCR, model answers, exports
+library/
+*.bak
+
+# Local test pages (contain textbook excerpts) and assistant session config
+pages/
+.claude/

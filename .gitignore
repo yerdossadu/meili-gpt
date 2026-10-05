@@ -1,0 +1,12 @@
+.venv/
+.local/
+data/
+studio/library/
+studio/ocr-runtime/
+studio/.tools/
+**/__pycache__/
+*.log
+*.pyc
+.env
+.env.*
+!.env.example

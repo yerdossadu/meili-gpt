@@ -1,0 +1,115 @@
+/* Forma "PDF → Web" console. Uses the studio tokens (--panel, --line, --lime…);
+   only the page stage is light, so print colours are judged on paper. */
+#view:has(.wb-work){max-width:1640px}
+/* A converted page inside the "Учебник HSK" card: no card padding or grid. */
+.ebook-page-content.webbook-page{display:block;min-height:0;margin-top:8px;padding:0;background:none;box-shadow:0 4px 14px #0002;border-radius:0}
+.ebook-language-switch .webbook-open{margin-left:auto}
+/* Chinese and Russian names on a character card (used to match speakers). */
+.character-names{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media (max-width:620px){.character-names{grid-template-columns:1fr}}
+.webbook-speakers{display:grid;gap:8px;margin-top:12px;padding:10px 12px;border:1px solid #d6d3c8;border-radius:8px;background:#f6f4ee;color:#3e4943;font:12px/1.4 Arial,sans-serif}
+.webbook-speakers-title{font-weight:700;cursor:pointer}
+.webbook-speakers[open]>.webbook-speakers-title{margin-bottom:4px}
+.webbook-speaker{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,220px);align-items:center;gap:10px}
+.webbook-speaker small{color:#9a5a3a}.webbook-speaker small[data-ok=true]{color:#3f7a3a}
+.webbook-speaker select{padding:6px 8px;background:#fff;border-color:#c9c7bd;color:#2b2c27}
+.wb-toolbar{display:flex;align-items:flex-end;flex-wrap:wrap;gap:12px;margin-bottom:14px;padding:14px 16px}
+.wb-field{display:grid;gap:6px;min-width:180px;color:#b2b7ad;font-size:11px}
+.wb-field select{min-width:200px}
+.wb-grow{flex:1 1 260px}
+.wb-upload{display:inline-flex;align-items:center;height:40px;cursor:pointer;white-space:nowrap}
+.wb-pager{display:flex;align-items:center;gap:6px;color:var(--muted);font-size:12px}
+.wb-pager .input{width:72px;text-align:center}
+.wb-pager .btn-quiet{height:40px;min-width:40px}
+
+.wb-work{display:grid;grid-template-columns:150px minmax(0,1fr) 300px;gap:14px;align-items:start}
+.wb-work>.panel{padding:12px;min-width:0}
+
+/* page list */
+.wb-pages{position:sticky;top:14px;display:flex;flex-direction:column;max-height:calc(100vh - 28px)}
+.wb-pages-head{display:flex;justify-content:space-between;align-items:baseline;margin:0 2px 10px;font-size:12px}
+.wb-pages-head span{color:var(--muted);font:10px var(--mono)}
+.wb-list{display:grid;grid-template-columns:1fr 1fr;gap:8px;overflow:auto;padding-right:2px}
+.wb-thumb{position:relative;display:grid;gap:3px;padding:4px;border:1px solid var(--line);border-radius:8px;background:#12130f;color:#aeb3a8;font:10px var(--mono)}
+.wb-thumb img{display:block;width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:4px;background:#2a2c27}
+.wb-thumb:hover{border-color:#4a4f44}
+.wb-thumb.on{border-color:var(--lime);color:var(--text)}
+.wb-dot{position:absolute;top:8px;right:8px;width:8px;height:8px;border-radius:50%;background:#55594f;box-shadow:0 0 0 2px #12130f}
+.wb-thumb[data-state=done] .wb-dot{background:var(--lime)}
+.wb-thumb[data-state=error] .wb-dot{background:var(--coral)}
+.wb-thumb[data-state=queued] .wb-dot,.wb-thumb[data-state=running] .wb-dot{background:var(--blue);animation:wb-pulse 1s ease-in-out infinite alternate}
+@keyframes wb-pulse{to{opacity:.35}}
+
+/* stage */
+.wb-stagebar{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:12px}
+.wb-seg{display:inline-flex;padding:3px;border:1px solid var(--line);border-radius:9px;background:#12130f}
+.wb-seg button{padding:7px 11px;border:0;border-radius:6px;background:transparent;color:#aeb3a8;font-size:11px}
+.wb-seg button[aria-pressed=true]{background:var(--lime);color:#171a11;font-weight:700}
+.wb-opacity{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:11px}
+.wb-opacity input{width:120px;accent-color:var(--lime)}
+.btn-quiet[aria-pressed=true]{border-color:var(--lime);color:var(--lime)}
+.wb-stage{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:12px;border-radius:10px;background:#e9e7e0}
+.wb-stage[data-mode=overlay],.wb-stage[data-mode=diff]{grid-template-columns:minmax(0,760px);justify-content:center}
+.wb-frame{margin:0;min-width:0}
+.wb-frame figcaption{margin:0 0 6px;color:#5b5f56;font:10px var(--mono);text-transform:uppercase;letter-spacing:1px}
+.wb-sheet{position:relative;background:#fff;box-shadow:0 2px 14px #0002}
+.wb-scan{display:block;width:100%;height:auto}
+.wb-layer{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:40}
+.wb-stage[data-mode=diff] .wb-layer{mix-blend-mode:difference}
+.wb-empty-page{display:grid;place-items:center;aspect-ratio:1171/1595;padding:20px;color:#7a7d74;font-size:13px;text-align:center;line-height:1.6}
+.wb-drop{grid-column:1/-1;display:grid;place-items:center;min-height:360px;padding:30px;border:2px dashed #b9b7ad;border-radius:12px;color:#55594f;font-size:14px;text-align:center;line-height:1.7;cursor:pointer}
+.wb-drop small{color:#7a7d74}
+
+/* editing inside the stage */
+.wb-web .hsk-page [contenteditable=true]{outline:1px dashed transparent;outline-offset:1px;cursor:text}
+.wb-web .hsk-page [contenteditable=true]:hover{outline-color:#ac736a}
+.wb-web .hsk-page [contenteditable=true]:focus{outline:1px solid #6f9a3a;background:#fffff4}
+.wb-web .hsk-at.wb-selected{outline:2px solid #6f9a3a;outline-offset:2px}
+.wb-web .hsk-at[data-hsk-overflow]{outline:1px dashed #e8ad43;outline-offset:1px}
+
+/* inspector */
+.wb-inspector{position:sticky;top:14px;display:grid;gap:14px;max-height:calc(100vh - 28px);overflow:auto}
+.wb-actions{display:grid;gap:8px}
+.wb-actions .btn{width:100%;padding:12px}
+.wb-hint,.wb-muted{color:var(--muted);font-size:11px;font-weight:400}
+.wb-more summary{cursor:pointer;color:#b2b7ad;font-size:11px}
+.wb-more[open]{display:grid;gap:8px}
+.wb-more>.btn-quiet{margin-top:8px}
+.wb-block{padding-top:12px;border-top:1px solid var(--line)}
+.wb-title{display:flex;justify-content:space-between;gap:8px;margin-bottom:8px;font-size:12px;font-weight:700}
+.wb-steps{display:grid;gap:4px;margin:0;padding:0;list-style:none}
+.wb-steps li{display:grid;grid-template-columns:16px 1fr auto;column-gap:8px;align-items:baseline;padding:5px 0;font-size:12px;color:#7d8277}
+.wb-steps li i{font-style:normal;text-align:center}
+.wb-steps li em{font:10px var(--mono);font-style:normal;color:var(--muted)}
+.wb-steps li small{grid-column:2/-1;color:var(--muted);font-size:10.5px;line-height:1.4;overflow-wrap:anywhere}
+.wb-steps li[data-status=done]{color:var(--text)}.wb-steps li[data-status=done] i{color:var(--lime)}
+.wb-steps li[data-status=running]{color:var(--blue)}.wb-steps li[data-status=running] i{animation:wb-pulse .8s ease-in-out infinite alternate}
+.wb-steps li[data-status=error]{color:var(--coral)}.wb-steps li[data-status=error] small{color:#ffb4a2}
+.status[data-state=error]{color:#ffb4a2}.status[data-state=done]{color:#d2e9b5}
+.wb-blocks{display:grid;gap:3px;max-height:220px;overflow:auto}
+.wb-blocks button{padding:7px 9px;border:1px solid transparent;border-radius:6px;background:#12130f;color:#c9cdc2;font-size:11px;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wb-blocks button:hover{border-color:#3a3d36}
+.wb-blocks button.on{border-color:var(--lime);color:var(--text)}
+.wb-geom{margin-top:10px}
+.wb-geom-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.wb-geom-grid label{display:grid;gap:4px;color:#b2b7ad;font-size:10.5px}
+.wb-geom-grid .input{padding:8px}
+.wb-save{display:grid;grid-template-columns:1fr auto;gap:8px}
+.wb-save a{display:inline-flex;align-items:center;text-decoration:none}
+.wb-range{display:grid;grid-template-columns:auto 1fr auto 1fr auto;align-items:center;gap:6px;color:var(--muted);font-size:11px}
+.wb-range .input{padding:8px;min-width:0}
+.wb-range .btn-quiet{white-space:nowrap}
+#wbExportStatus a{color:var(--lime)}
+#wbExportStatus small{color:var(--muted);overflow-wrap:anywhere}
+
+@media (max-width:1280px){
+  .wb-work{grid-template-columns:130px minmax(0,1fr)}
+  .wb-inspector{grid-column:1/-1;position:static;max-height:none;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+  .wb-inspector .wb-block{border-top:0;padding-top:0}
+}
+@media (max-width:760px){
+  .wb-work{grid-template-columns:1fr}
+  .wb-pages{position:static;max-height:260px}
+  .wb-list{grid-template-columns:repeat(auto-fill,minmax(64px,1fr))}
+  .wb-stage{grid-template-columns:1fr}
+}
