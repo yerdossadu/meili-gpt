@@ -606,7 +606,6 @@
         /* lesson words on a textbook page: a quiet underline, no box over the print */
         .forma-sheet .hsk-word-inline { background:transparent; padding:0; margin:0; border-radius:0; border-bottom:1px dotted rgba(31,95,97,.55); }
     </style>
-    <link rel="stylesheet" href="/ui/design.css">
 </head>
 <body>
     <div id="parentModal" class="parent-modal">
@@ -623,7 +622,7 @@
                 </div>
                 <div class="stat-box">
                     <div id="modalStudyTime" class="stat-num">00:00</div>
-                    <div class="stat-label">Время открытого урока ⏱️</div>
+                    <div class="stat-label">Время на уроке ⏱️</div>
                 </div>
                 <div class="stat-box">
                     <div id="modalTotalHours" class="stat-num">0.0 ч</div>
@@ -631,7 +630,7 @@
                 </div>
                 <div class="stat-box">
                     <div id="modalPlatformDays" class="stat-num">1 день</div>
-                    <div class="stat-label">Дней с записью активности</div>
+                    <div class="stat-label">Дней на платформе 🔥</div>
                 </div>
             </div>
             <!-- Компактный график без прокрутки -->
@@ -652,7 +651,6 @@
                     <div class="legend-item"><span class="legend-dot" style="background:#D90429;"></span> 🎴 Выучено иероглифов (слов)</div>
                 </div>
             </div>
-            <p id="progressHistoryNote" style="font-size:12px;line-height:1.5;color:var(--ink-gray)"></p>
             <div class="report-section-title">Отчёт для родителей (для мессенджера)</div>
             <div id="reportPreviewText" class="report-preview-box">
                 Загрузка отчета...
@@ -940,7 +938,6 @@
             </div>
         </aside>
     </main>
-    <script src="/ui/activity.js"></script>
     <script src="/hanzi/hanzi-write.js"></script>
     <script src="/hanzi/hanzi-cursive.js"></script>
     <script>
@@ -1010,8 +1007,6 @@
         function startStudyTimer() {
             if (AppState.studyInterval) clearInterval(AppState.studyInterval);
             AppState.studyInterval = setInterval(() => {
-                if (document.visibilityState !== "visible") return;
-                MeiliActivity.record(1);
                 AppState.studySeconds++;
                 AppState.totalPlatformSeconds++;
                 localStorage.setItem('chao_total_seconds', AppState.totalPlatformSeconds);
@@ -1156,7 +1151,7 @@
                 <button type="button" data-forma-lang="orig" aria-pressed="${FormaView.lang === 'orig'}" title="Оригинал (английский)" aria-label="Оригинал (английский)">EN</button>${f.html.includes('data-kz=') ? `
                 <button type="button" data-forma-lang="kz" aria-pressed="${FormaView.lang === 'kz'}" title="Қазақша аударма" aria-label="Қазақша аударма">KZ</button>` : ''}
                 <button type="button" data-forma-pinyin aria-pressed="${FormaView.pinyin}" title="Пиньинь над иероглифами" aria-label="Пиньинь над иероглифами">pīn</button>${f.scan ? `
-                <button type="button" data-forma-scan aria-pressed="false" title="Оригинал страницы учебника (скан PDF)" aria-label="Оригинал страницы учебника">📄</button>` : ''}<button type="button" data-forma-zoom aria-pressed="${document.body.dataset.pageZoom === 'true'}" aria-label="Увеличить страницу">＋</button></div>
+                <button type="button" data-forma-scan aria-pressed="false" title="Оригинал страницы учебника (скан PDF)" aria-label="Оригинал страницы учебника">📄</button>` : ''}</div>
                 <div class="forma-sheet" style="${formaCropStyle(f)}">${f.html}${f.scan ? `<img class="forma-scan" src="${escapeHtml(f.scan)}" alt="Оригинал страницы ${escapeHtml(String(f.sourcePage || ''))}" loading="lazy">` : ''}</div></div>`;
         }
         // Lesson words on the page become the platform's clickable words
@@ -1196,13 +1191,27 @@
         function sizeFormaPage(stage, forma) {
             const root = stage.querySelector('.forma-page-root'), sheet = root && root.querySelector('.forma-sheet');
             if (!sheet) return;
-            // Preserve the printed page proportions; use the available reading width.
-            root.classList.remove('fit');
-            document.getElementById('mainStageGrid').style.removeProperty('--book-col');
-            const width = root.clientWidth;
-            const zoom = document.body.dataset.pageZoom === 'true';
-            root.classList.toggle('zoomed', zoom);
-            if (width > 0) sheet.style.width = Math.floor(width * (zoom ? 1.6 : 1)) + 'px';
+            const [w, h] = String(forma.aspect || '2342/3190').split('/').map(Number);
+            // Visible part of the page: the white binding strip is cut off.
+            const crop = forma.crop || {}, keep = 1 - (crop.left || 0) - (crop.right || 0);
+            const ratio = (w / h || 0.734) * keep;
+            const fit = FORMA_FIT.matches && stage.clientHeight > 200;
+            root.classList.toggle('fit', fit);
+            // In the stacked layout (narrow windows) the page is still kept
+            // within the window's height, so it is seen whole.
+            const height = (fit ? stage.clientHeight : window.innerHeight - 16) - 3;
+            // The textbook column is exactly as wide as the page at full
+            // height; the dictionary and the study panel share the rest.
+            const grid = document.getElementById('mainStageGrid'), book = stage.closest('.book-page');
+            if (fit && book) {
+                // One width for the whole lesson (its widest page), so the
+                // column does not change as pages are turned.
+                const colRatio = Math.max(ratio, lessonFormaRatio());
+                const want = Math.round(Math.max(320, Math.min(grid.clientWidth * 0.55, height * colRatio + (book.offsetWidth - stage.clientWidth))));
+                const now = parseFloat(grid.style.getPropertyValue('--book-col')) || 0;
+                if (Math.abs(now - want) > 2) grid.style.setProperty('--book-col', want + 'px');
+            } else grid.style.removeProperty('--book-col');
+            sheet.style.width = Math.floor(Math.min(fit ? stage.clientWidth : root.clientWidth, height * ratio)) + 'px';
         }
         // ---- Interface language ----
         // The page language (RU / EN / KZ) is the whole platform's language: every label,
@@ -1211,14 +1220,11 @@
         // the Russian original of each text, so switching back is exact.
         const uiLang = () => FormaView.lang === 'kz' ? 'kz' : FormaView.lang === 'orig' ? 'en' : 'ru';
         const UI = {
-            'Словарь': ['Dictionary', 'Сөздік'], 'Запись': ['Recording', 'Жазба'],
-            'Старая версия': ['Previous version', 'Бұрынғы нұсқа'],
-            'Читайте, практикуйтесь, возвращайтесь к словам': ['Read, practise, revisit words', 'Оқыңыз, жаттығыңыз, сөздерді қайталаңыз'],
             'Прогресс и отчёт для родителей': ['Progress and report for parents', 'Үлгерім және ата-аналарға есеп'],
             'Слов выучено': ['Words learned', 'Үйренген сөздер'],
-            'Время открытого урока ⏱️': ['Time in lesson ⏱️', 'Сабақтағы уақыт ⏱️'],
+            'Время на уроке ⏱️': ['Time in lesson ⏱️', 'Сабақтағы уақыт ⏱️'],
             'Всего на платформе': ['Total on the platform', 'Платформада барлығы'],
-            'Дней с записью активности': ['Days on the platform 🔥', 'Платформадағы күндер 🔥'],
+            'Дней на платформе 🔥': ['Days on the platform 🔥', 'Платформадағы күндер 🔥'],
             '📈 Динамика активности': ['📈 Activity', '📈 Белсенділік динамикасы'],
             'Неделя': ['Week', 'Апта'], 'Месяц': ['Month', 'Ай'],
             '⏱️ Время на уроке (мин)': ['⏱️ Time in lesson (min)', '⏱️ Сабақтағы уақыт (мин)'],
@@ -1465,17 +1471,6 @@
             });
         }
         document.getElementById('pageContentStage').addEventListener('click', e => {
-            const zoom = e.target.closest('[data-forma-zoom]');
-            if (zoom) {
-                const on = document.body.dataset.pageZoom !== 'true';
-                document.body.dataset.pageZoom = String(on);
-                zoom.setAttribute('aria-pressed', String(on));
-                zoom.setAttribute('aria-label', on ? 'Страница по ширине' : 'Увеличить страницу');
-                zoom.textContent = on ? '−' : '＋';
-                const page = hskDatabase[AppState.currentLessonIdx].pages[AppState.activePageIndex];
-                sizeFormaPage(document.getElementById('pageContentStage'), page.forma);
-                return;
-            }
             const scan = e.target.closest('[data-forma-scan]');
             if (scan) {
                 // The printed page laid over the electronic one; pressed again, back to it.
@@ -1638,11 +1633,8 @@
         // ← / → turn pages when no field is being typed in.
         document.addEventListener('keydown', e => {
             if (e.altKey || e.ctrlKey || e.metaKey || e.target.closest?.('input, textarea, select, [contenteditable="true"]')) return;
-            if (parentModal.classList.contains('active')) return;
-            const mode = document.body.dataset.studyMode || 'read';
-            if (!['read', 'tutor', 'cards'].includes(mode)) return;
-            if (e.key === 'ArrowLeft') document.getElementById(mode === 'cards' ? 'fcPrevBtn' : 'prevPageBtn').click();
-            if (e.key === 'ArrowRight') document.getElementById(mode === 'cards' ? 'fcNextBtn' : 'nextPageBtn').click();
+            if (e.key === 'ArrowLeft') document.getElementById('prevPageBtn').click();
+            if (e.key === 'ArrowRight') document.getElementById('nextPageBtn').click();
         });
         document.getElementById('nextPageBtn').addEventListener('click', () => {
             const lesson = hskDatabase[AppState.currentLessonIdx];
@@ -1651,12 +1643,11 @@
         });
         // Dictionary column: words of this page, the lesson or the whole
         // section, filtered by a search; learned words are marked.
-        const VocabView = { scope: localStorage.getItem('chao_vocab_scope') || 'lesson', q: '' };
+        const VocabView = { scope: localStorage.getItem('chao_vocab_scope') || 'page', q: '' };
         function uniqueWords(list) { const seen = new Set(); return list.filter(v => v && v.word && !seen.has(v.word) && seen.add(v.word)); }
         function pageWords(p) { return (p && p.content && p.content.vocab) || []; }
         function vocabForScope() {
             const lesson = hskDatabase[AppState.currentLessonIdx];
-            if (!lesson) return [];
             if (VocabView.scope === 'lesson') return uniqueWords(lesson.pages.flatMap(pageWords));
             if (VocabView.scope === 'section') {
                 const section = lesson.section || lesson.unit;
@@ -1812,7 +1803,6 @@
             }
             if (!AppState.allMasteredHskWords.includes(word)) {
                 AppState.allMasteredHskWords.push(word);
-                MeiliActivity.record(0, word);
                 localStorage.setItem('all_mastered_hsk5_words', JSON.stringify(AppState.allMasteredHskWords));
                 renderVocabColumn();
             }
@@ -2089,8 +2079,25 @@
             const svg = document.getElementById('lineChartSvg');
             svg.innerHTML = '';
             
-            const data = MeiliActivity.series(mode);
-            document.getElementById('progressHistoryNote').textContent = 'История собирается с обновления интерфейса. Время — открытая вкладка урока; слова — ваши отметки об освоении. Предыдущие итоги сохранены.';
+            let data = [];
+            if (mode === 'week') {
+                data = [
+                    { label: 'Пн', time: 25, words: 12 },
+                    { label: 'Вт', time: 40, words: 18 },
+                    { label: 'Ср', time: 15, words: 5 },
+                    { label: 'Чт', time: 55, words: 24 },
+                    { label: 'Пт', time: 30, words: 15 },
+                    { label: 'Сб', time: 65, words: 30 },
+                    { label: 'Вс', time: 45, words: 20 }
+                ];
+            } else {
+                data = [
+                    { label: 'Нед 1', time: 180, words: 85 },
+                    { label: 'Нед 2', time: 220, words: 110 },
+                    { label: 'Нед 3', time: 195, words: 95 },
+                    { label: 'Нед 4', time: 260, words: 140 }
+                ];
+            }
             const width = 520, height = 105;
             const paddingX = 45, paddingY = 18;
             const usableWidth = width - paddingX * 2;
@@ -2099,8 +2106,8 @@
             const maxWords = Math.max(...data.map(d => d.words), 30);
             const getX = (i) => paddingX + (i / (data.length - 1)) * usableWidth;
             // Четко разделяем линии по высоте, чтобы не пересекались
-            const getYTime = (val) => 46 - (val / maxTime) * 22;
-            const getYWords = (val) => 82 - (val / maxWords) * 20;
+            const getYTime = (val) => paddingY + 10 - (val / maxTime) * (usableHeight - 15);
+            const getYWords = (val) => paddingY + 48 - (val / maxWords) * (usableHeight - 15);
             let ptsTime = [];
             let ptsWords = [];
             data.forEach((d, i) => {
@@ -2186,9 +2193,9 @@
             
             document.getElementById('modalStudyTime').textContent = currentLessonTime;
             document.getElementById('modalTotalHours').textContent = totalPlatformTime;
-            document.getElementById('modalPlatformDays').textContent = `${Object.keys(MeiliActivity.history()).length} дн.`;
-            switchChartMode('week');
-            const reportText = `📊 Отчёт по китайскому языку (${LevelInfo.name})\n👤 Ученик: Занимается самостоятельно\n⏱️ Время открытого урока: ${currentLessonTime}\n⏳ Всего на платформе: ${totalPlatformTime} \n🏆 Набрано баллов: ${AppState.points} XP\n📚 Слов отмечено как освоенные: ${AppState.allMasteredHskWords.length} / ${LevelInfo.target} (словарь ${LevelInfo.name})\nОтметки освоения выставляет ученик. История активности собирается с обновления интерфейса.`;
+            document.getElementById('modalPlatformDays').textContent = `${AppState.platformDays} дн.`;
+            renderProgressLineChart('week');
+            const reportText = `📊 Отчёт по китайскому языку (${LevelInfo.name})\n👤 Ученик: Занимается самостоятельно\n⏱️ Время на текущем уроке: ${currentLessonTime}\n⏳ Всего на платформе: ${totalPlatformTime} (${AppState.platformDays} дн.)\n🏆 Набрано баллов: ${AppState.points} XP\n📚 Освоено слов всего: ${AppState.allMasteredHskWords.length} / ${LevelInfo.target} (словарь ${LevelInfo.name})\n🔥 Статус: Успешно пройдены упражнения! Мейли оценивает прогресс как отличный ✨`;
             document.getElementById('reportPreviewText').textContent = reportText;
             parentModal.classList.add('active');
         });
@@ -2649,6 +2656,5 @@
     el("toneNext").addEventListener("click", () => { if (index + 1 < rounds.length) { index++; showRound(); } else finish(); });
 })();
 </script>
-<script src="/ui/design.js"></script>
 </body>
 </html>

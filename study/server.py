@@ -78,16 +78,8 @@ def require_teacher(credentials: HTTPBasicCredentials = Depends(security)):
     return True
 
 @app.get("/", response_class=HTMLResponse)
-def home(design: str = ""):
-    page = APP_DIR / "design-versions" / "2026-10-05-before-redesign" / "app.html" if design == "classic" else APP_DIR / "app.html"
-    return FileResponse(page, headers={"Cache-Control": "no-cache"})
-
-@app.get("/ui/{name}")
-def study_ui(name: str):
-    types = {"design.css": "text/css", "design.js": "application/javascript", "activity.js": "application/javascript"}
-    if name not in types:
-        raise HTTPException(status_code=404)
-    return FileResponse(APP_DIR / name, media_type=types[name], headers={"Cache-Control": "no-cache"})
+def home():
+    return FileResponse(APP_DIR / "app.html")
 
 # «Письмо» (hanzi/): the writing exercise and its stroke data (Make Me a Hanzi, Arphic PL — licences alongside),
 # and «Прописные» with its handwritten font subsets (Liu Jian Mao Cao, Long Cang — SIL OFL alongside).
