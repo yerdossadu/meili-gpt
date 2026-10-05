@@ -1,0 +1,120 @@
+/* Meili GPT learning shell. Published textbook pages keep their own geometry. */
+html { min-width: 0; }
+body { height: 100dvh; min-height: 0; display: flex; flex-direction: column; overflow: hidden; padding: 14px 20px; gap: 12px; }
+body > .toolbar { flex: none; width: 100%; max-width: 1680px; height: auto; margin: 0 auto; padding: 14px 16px; border-radius: 12px; }
+.toolbar .brand-group { width: 100%; height: auto; flex-direction: row; flex-wrap: wrap; align-items: center; gap: 12px; }
+.toolbar .brand-row { flex: none; }
+.toolbar .book-kind { order: 0; flex: 0 0 auto; height: auto; }
+.toolbar .book-kind button { min-height: 40px; padding: 8px 12px; }
+.toolbar .side-field { flex: 1 1 180px; max-width: 330px; gap: 4px; }
+.toolbar .side-label { display: block; font-size: 10px; }
+.toolbar .lesson-dropdown, .toolbar .page-dropdown { width: 100%; max-width: none; min-height: 40px; font-size: 13px; }
+.toolbar .side-stats { flex-direction: row; gap: 6px; }
+.toolbar .side-spacer { display: none; }
+.toolbar .side-action, .toolbar .theme-toggle-btn { min-height: 40px; }
+.toolbar .side-action span, .toolbar #themeLabel { display: inline; }
+.classic-link { font-size: 12px; color: var(--ink-gray); text-underline-offset: 3px; margin-left: auto; white-space: nowrap; padding: 10px 4px; }
+.workspace-nav { flex: none; width: 100%; max-width: 1680px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.workspace-nav .tab-switcher { background: var(--paper-white); border: 1px solid var(--hsk5-border); padding: 4px; gap: 4px; }
+.workspace-nav .tab-btn { min-height: 40px; padding: 10px 18px; font-size: 13px; white-space: nowrap; color: var(--ink-gray); }
+.workspace-nav .tab-btn.active { color: var(--paper-white); background: var(--hsk5-teal); box-shadow: none; }
+body.dark-mode .workspace-nav .tab-btn.active { color: #101b1b; }
+.workspace-note { color: var(--ink-gray); font-size: 12px; }
+body > .main-stage { flex: 1 1 0; min-height: 0; min-width: 0; width: 100%; max-width: 1680px; margin: 0 auto; gap: 16px; grid-template-columns: minmax(0,1fr) minmax(300px,340px); }
+.main-stage > * { min-width: 0; }
+.main-stage .book-page, .main-stage .middle-vocab-column, .main-stage .companion-panel { min-height: 0; height: 100%; }
+.book-page { padding: 16px; gap: 12px; }
+.book-bar { min-width: 0; gap: 10px; padding-bottom: 10px; }
+.book-bar-title { min-width: 0; }
+.book-bar-title h1 { font-size: 19px; }
+.book-bar-title .lesson-ru-subtitle { font-size: 13px; }
+.page-nav-arrow { min-width: 40px; min-height: 40px; }
+.page-content-stage { min-width: 0; min-height: 0; overflow: auto; }
+.forma-page-root.fit { overflow: auto; }
+.forma-page-root.zoomed { align-items: flex-start; }
+.forma-sheet { flex-shrink: 0; }
+.forma-toolbar { opacity: 1; position: sticky; top: 0; right: auto; align-self: flex-end; flex: none; margin-bottom: 6px; }
+.forma-toolbar button { min-height: 32px; padding: 5px 9px; }
+.middle-vocab-column { padding: 16px; overflow: hidden; }
+.vocab-tools { flex: none; }
+.vocab-scope button { min-height: 38px; font-size: 12px; }
+.vocab-search input { min-width: 0; min-height: 36px; font-size: 13px; }
+.vocab-table-scroll { flex: 1 1 0; min-height: 0; max-height: none; overflow-y: auto; }
+.vocab-row { min-height: 58px; grid-template-columns: 16px minmax(52px,1fr) minmax(48px,1fr) 20px minmax(65px,1.25fr); gap: 5px; padding: 12px 4px; }
+.vocab-row .vr-trans { overflow-wrap: anywhere; }
+body[data-study-mode="read"] .companion-panel { display: none; }
+body[data-study-mode="tutor"] .main-stage { grid-template-columns: minmax(0,1fr) minmax(340px,420px); }
+body[data-study-mode="tutor"] .middle-vocab-column { display: none; }
+body[data-study-mode="vocab"] .main-stage { display: block; max-width: 1040px; }
+body[data-study-mode="vocab"] .book-page, body[data-study-mode="vocab"] .companion-panel { display: none; }
+body[data-study-mode="vocab"] .middle-vocab-column { width: 100%; }
+body[data-study-mode="vocab"] .vocab-row { grid-template-columns: 36px minmax(100px,1fr) minmax(100px,1fr) 50px minmax(160px,2fr); font-size: 16px; }
+body[data-study-mode="vocab"] .vocab-tools { display: flex; flex-direction: row; gap: 12px; }
+body[data-study-mode="vocab"] .vocab-search { flex: 1; }
+body[data-study-mode="cards"] .main-stage, body[data-study-mode="write"] .main-stage, body[data-study-mode="record"] .main-stage { display: block; max-width: 900px; }
+body[data-study-mode="cards"] .book-page, body[data-study-mode="write"] .book-page, body[data-study-mode="record"] .book-page,
+body[data-study-mode="cards"] .middle-vocab-column, body[data-study-mode="write"] .middle-vocab-column, body[data-study-mode="record"] .middle-vocab-column { display: none; }
+.companion-panel { gap: 12px; overflow: auto; }
+.companion-panel > .avatar-widget { flex: none; padding: 14px; }
+.companion-panel > .bento-module:not(.avatar-widget) { flex: 1 1 auto; min-height: 0; padding: 20px; overflow: auto; }
+.companion-panel .avatar-frame { width: 48px; height: 48px; flex: none; }
+#hanziWrite .hw-stage { min-height: 0; height: auto; }
+#hanziWrite .hw-stage canvas { height: clamp(180px,28dvh,260px); width: 100%; }
+#hanziWrite > *, #hanziWrite .hw-stage > * { flex-shrink: 0; }
+body[data-study-mode="cards"] .card-stage { max-width: 600px; height: clamp(160px,28dvh,240px); margin: 12px auto; }
+body:is([data-study-mode="cards"],[data-study-mode="write"],[data-study-mode="record"]) .avatar-widget { display: none; }
+body[data-study-mode="cards"] .fc-char { font-size: 64px; }
+body[data-study-mode="cards"] .card-hint-badge { font-size: 13px; line-height: 1.5; }
+.fc-nav-btn, .effort-btn { min-width: 48px; min-height: 44px; }
+.card-face[aria-hidden="true"] { visibility: hidden; }
+.tea-prompt-banner { flex: none; font-size: 13px; }
+.chart-empty { padding: 22px 14px; color: var(--ink-gray); font-size: 14px; line-height: 1.6; }
+.progress-caption { color: var(--ink-gray); font-size: 12px; margin: 8px 0; }
+.parent-modal .modal-content { max-height: calc(100dvh - 32px); overflow-y: auto; }
+:is(button,a,input,select,textarea,[tabindex]):focus-visible { outline: 3px solid var(--tea-gold); outline-offset: 3px; }
+@media (max-width: 1100px) {
+  body { padding: 10px; }
+  .toolbar .brand-group { gap: 8px; }
+  .toolbar .side-field { order: 2; max-width: none; flex: 1 1 40%; }
+  .toolbar .book-kind { order: 1; }
+  .toolbar .side-action span, .toolbar #themeLabel { display: none; }
+  .toolbar .side-stats { margin-left: auto; }
+  .classic-link { margin-left: 0; }
+  .workspace-nav .tab-btn { padding: 10px 12px; }
+  .workspace-note { display: none; }
+  body > .main-stage { grid-template-columns: minmax(0,1fr) minmax(270px,310px); }
+  body[data-study-mode="tutor"] .main-stage { grid-template-columns: minmax(0,1fr) minmax(300px,350px); }
+  .main-stage .book-page, .main-stage .middle-vocab-column, .main-stage .companion-panel { height: 100% !important; }
+}
+@media (max-width: 760px) {
+  body { padding: 8px; gap: 8px; }
+  body > .toolbar { padding: 10px; }
+  .toolbar .logo-tag { font-size: 12px; }
+  .toolbar .book-kind { flex: 1 1 100%; }
+  .toolbar .classic-link { font-size: 11px; }
+  .toolbar .side-stats .timer-badge-header { display: none; }
+  .toolbar .side-action, .toolbar .theme-toggle-btn { padding: 8px; min-width: 38px; }
+  .toolbar .side-field { min-width: 0; }
+  .workspace-nav { min-width: 0; overflow-x: auto; padding-bottom: 3px; }
+  .workspace-nav .tab-switcher { flex: none; min-width: max-content; }
+  .workspace-nav .tab-btn { padding: 10px 13px; }
+  body > .main-stage, body[data-study-mode="tutor"] .main-stage { display: block; overflow-y: auto; }
+  body[data-study-mode="read"] .middle-vocab-column { display: none; }
+  body[data-study-mode="tutor"] .book-page { display: none; }
+  .main-stage .book-page { min-width: 0; min-height: 0; padding: 10px; }
+  .book-bar { flex-wrap: wrap; gap: 6px; }
+  .book-bar-title { flex: 1 1 100px; }
+  .book-bar-title h1 { font-size: 17px; }
+  .book-bar .book-series-title { display: none; }
+  .book-page .page-content-stage { width: 100%; }
+  .main-stage .middle-vocab-column { padding: 12px; }
+  body[data-study-mode="vocab"] .vocab-tools { display: block; }
+  body[data-study-mode="vocab"] .vocab-search { margin-top: 8px; }
+  body[data-study-mode="vocab"] .vocab-row { grid-template-columns: 18px minmax(52px,1fr) minmax(48px,1fr) 18px minmax(72px,1.35fr); font-size: 14px; }
+  .companion-panel > .bento-module:not(.avatar-widget) { padding: 14px; }
+  body[data-study-mode="cards"] .card-stage { height: 220px; margin: 12px auto; }
+  body[data-study-mode="cards"] .fc-char { font-size: 54px; }
+  .parent-modal .modal-content { width: calc(100% - 16px); padding: 16px; }
+  .stat-num { font-size: 20px; }
+}
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; } }
