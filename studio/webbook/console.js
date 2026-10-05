@@ -2,6 +2,7 @@
 // service (webbook/server.mjs) and edits its results. Pages are drawn with the
 // same core renderer the exported site uses, so what you see is what ships.
 import * as core from './core.mjs';
+import { pdfLayoutPanel, mountPdfLayout } from './pdf-layout-console.js';
 
 const API = '/local/webbook';
 const PREF = 'forma.webbook.v1';
@@ -45,6 +46,8 @@ export async function syncCast(bookId) {
   const chars = (studio.characters || []).map(c => ({ id: c.id, names: [c.nameZh, c.nameRu, c.name].map(s => String(s || '').trim()).filter(Boolean) })).filter(c => c.id && c.names.length);
   const files = await Promise.all(chars.map(c => studioFile('character:' + c.id)));
   const manual = studio.webbookSpeakers || {};
+  // A fresh browser has no cast to sync; preserve the saved book characters.
+  if (!chars.length && !Object.keys(manual).length) return { changed: false };
   const signature = JSON.stringify([chars.map((c, i) => [c.id, c.names, files[i]?.size || 0, files[i]?.type || '']), manual]);
   const current = await call(`/books/${bookId}/cast`).catch(() => ({}));
   if (current.signature === signature) return { changed: false };
@@ -68,14 +71,15 @@ function shell() {
   S.mode = pref.mode || 'side'; S.opacity = pref.opacity ?? 50; S.lang = pref.lang || 'russian';
   S.view.innerHTML = `
   <div class="heading"><div><div class="eyebrow">Учебные материалы / PDF → Web</div><h1>PDF → Web</h1>
-    <p>Постраничная конвертация учебника в веб-страницы для учебной платформы: структура от модели, геометрия, цвета и шрифты — со скана.</p></div>
-    <span class="badge">LOCAL OCR + OPENROUTER</span></div>
+    <p>Перенос исходного дизайна PDF в веб-версию или создание редактируемых учебных блоков через OCR и ИИ.</p></div>
+    <span class="badge">PDF2HTMLEX · OCR + ИИ</span></div>
   <section class="panel wb-toolbar">
     <label class="wb-field"><span>Книга</span><select id="wbBook"></select></label>
     <label class="btn-quiet wb-upload" title="PDF хранится локально в папке library">＋ Загрузить PDF<input id="wbFile" type="file" accept="application/pdf,.pdf" hidden></label>
     <label class="wb-field wb-grow"><span>Модель разметки (Vision)</span><select class="input" id="wbModel" data-kind="chat"></select></label>
     <div class="wb-pager"><button class="btn-quiet" data-go="-1" title="Предыдущая (←)">←</button><input id="wbPage" class="input" type="number" min="1" value="1"><span id="wbTotal">/ —</span><button class="btn-quiet" data-go="1" title="Следующая (→)">→</button></div>
   </section>
+  ${pdfLayoutPanel()}
   <div class="wb-work">
     <aside class="panel wb-pages" aria-label="Страницы"><div class="wb-pages-head"><b>Страницы</b><span id="wbDone"></span></div><div id="wbList" class="wb-list"></div></aside>
     <section class="panel wb-stage-panel">
@@ -233,6 +237,7 @@ async function openPage(n) {
   S.layout = null; S.dirty = false; S.selected = -1;
   S.view.querySelectorAll('.wb-thumb').forEach(b => b.classList.toggle('on', Number(b.dataset.n) === S.page));
   S.view.querySelector('.wb-thumb.on')?.scrollIntoView({ block: 'nearest' });
+  void mountPdfLayout(S.view, S.book.id, S.page, S.book.pages);
   const [job, layout] = await Promise.all([call(`/books/${S.book.id}/pages/${S.page}/job`).catch(() => null), call(`/books/${S.book.id}/pages/${S.page}/layout`).catch(() => null)]);
   S.job = job; S.fid = null;
   if (layout) { S.layout = layout.layout; S.assets = layout.assets; S.html = layout.html; }

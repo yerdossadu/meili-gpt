@@ -1256,7 +1256,7 @@ export function createWebbook({ root, getApiKey, getAliKey = () => '', origin = 
     }
   }
 
-  return { handle };
+  return { handle, renderScan: ensureScan };
 }
 
 // ---- minimal ZIP writer (stored entries; images are already compressed) ----
@@ -1273,7 +1273,7 @@ async function collect(dir, base = '') {
   return out;
 }
 
-async function writeZip(dir, zipPath) {
+export async function writeZip(dir, zipPath) {
   const parts = [], central = [];
   let offset = 0;
   for (const { rel, full } of await collect(dir)) {

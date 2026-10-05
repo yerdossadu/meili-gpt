@@ -7,6 +7,7 @@ import { tmpdir } from 'node:os';
 import { randomUUID } from 'node:crypto';
 import { spawn } from 'node:child_process';
 import { createWebbook } from './webbook/server.mjs';
+import { createPdfLayout } from './webbook/pdf-layout.mjs';
 import { createAiLog } from './ailog.mjs';
 
 const root = fileURLToPath(new URL('.', import.meta.url));
@@ -56,11 +57,13 @@ const videoJobCleanup = setInterval(() => expireVideoJobs().catch(()=>{}), 5 * 6
 videoJobCleanup.unref();
 
 const webbook = createWebbook({ root, getApiKey: () => apiKey, getAliKey: () => aliKey, origin: `http://127.0.0.1:${port}` });
+const pdfLayout = createPdfLayout({ root, renderScan: webbook.renderScan });
 // Journal of every AI image and video (kept beside the books, on drive D through the library junction).
 const aiLog = createAiLog(join(root, 'library', 'ai-log'));
 
 const server = http.createServer(async (req, res) => {
   const url = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
+  if (await pdfLayout.handle(req, res, url)) return;
   if (await webbook.handle(req, res, url)) return;
   if (await aiLog.handle(req, res, url)) return;
   if (req.method === 'POST' && url.pathname === '/local/pdf/page') {

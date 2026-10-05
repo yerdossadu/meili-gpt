@@ -1,5 +1,15 @@
 /* Forma "PDF → Web" console. Uses the studio tokens (--panel, --line, --lime…);
    only the page stage is light, so print colours are judged on paper. */
+.pdf-layout-panel{padding:16px;margin-bottom:14px;display:grid;gap:12px}
+.pdf-layout-panel p{font-size:13px;line-height:1.6;color:var(--muted,#aeb4a7);margin:6px 0 0;max-width:980px}
+.pdf-layout-actions,.pdf-layout-result{display:flex;align-items:center;flex-wrap:wrap;gap:10px}
+.pdf-layout-actions label{display:flex;align-items:center;gap:6px;font-size:12px}.pdf-layout-actions input{width:76px}
+.pdf-layout-result{padding:10px 0;border-top:1px solid var(--line,#333);font-size:13px}.pdf-layout-result>span:first-child{min-width:130px}
+.pdf-layout-error{color:#efac8b;overflow-wrap:anywhere}.pdf-layout-dialog{width:min(1480px,96vw);height:94vh;max-height:94vh;border:1px solid #bbb;border-radius:12px;background:#f5f3ed;color:#333;padding:18px}
+.pdf-layout-dialog::backdrop{background:#000b}.pdf-layout-dialog header{display:flex;align-items:center;justify-content:space-between}.pdf-layout-dialog header button{background:#244d46;color:white}
+.pdf-layout-dialog p{color:#555;line-height:1.5;font-size:13px;margin:10px 0}
+.pdf-layout-compare{display:grid;grid-template-columns:1fr 1fr;gap:14px;height:calc(100% - 90px);min-height:250px}.pdf-layout-compare figure{margin:0;display:flex;flex-direction:column;min-width:0;min-height:0;gap:8px}.pdf-layout-compare figure>div{overflow:auto;background:white;flex:1}.pdf-layout-compare img{width:100%;display:block}.pdf-layout-compare iframe{width:100%;flex:1;min-height:0;border:0;background:white}
+@media(max-width:700px){.pdf-layout-compare{grid-template-columns:1fr;height:auto}.pdf-layout-compare figure>div,.pdf-layout-compare iframe{height:65vh;min-height:65vh}.pdf-layout-dialog{overflow:auto}.pdf-layout-actions .btn{width:100%}}
 #view:has(.wb-work){max-width:1640px}
 /* A converted page inside the "Учебник HSK" card: no card padding or grid. */
 .ebook-page-content.webbook-page{display:block;min-height:0;margin-top:8px;padding:0;background:none;box-shadow:0 4px 14px #0002;border-radius:0}
