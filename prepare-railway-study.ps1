@@ -2,6 +2,10 @@ $ErrorActionPreference = 'Stop'
 $root = $PSScriptRoot
 $destination = Join-Path $root 'railway-study'
 $data = Join-Path $root 'data\study'
+New-Item -ItemType Directory -Force -Path $destination | Out-Null
+foreach ($template in @('Dockerfile','launch.py','prepare_seed.py','railway.json')) {
+    Copy-Item -LiteralPath (Join-Path $root "deploy\railway\$template") -Destination (Join-Path $destination $template) -Force
+}
 $checks = @((Join-Path $data 'library.sqlite3'), (Join-Path $data 'forma\books'), (Join-Path $root 'study\server.py'), (Join-Path $root 'study\testing_gateway.py'))
 foreach ($item in $checks) { if (-not (Test-Path -LiteralPath $item)) { throw "Required local source is missing: $item" } }
 if (-not (Test-Path -LiteralPath (Join-Path $destination 'Dockerfile'))) { throw 'Railway package is incomplete.' }
