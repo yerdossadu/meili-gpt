@@ -13,8 +13,9 @@ import { measureTitlePage } from './title-page.mjs';
 import { measureImprintPage } from './imprint-page.mjs';
 import { measureCreditsPage } from './credits-page.mjs';
 import { measureForewordPage } from './foreword-page.mjs';
+import { measureCharacterPage } from './character-page.mjs';
 import {wordLabels} from './word-labels.mjs';
-import {toneKey} from './tone-audio.mjs';
+import {toneKey,recordingKey} from './tone-audio.mjs';
 import {reconcileAnswerGrid,measureDialogueOptions,clipImagesBeforeText,dialogueLabels,measureReadingGrid} from './workbook-drills.mjs';
 export {toneRecordings,phoneticRecordings} from './tone-audio.mjs';
 export const NORM_VERSION = 3;
@@ -28,7 +29,7 @@ box — рамка блока в ДОЛЯХ страницы от 0 до 1: x,y 
 Пример: блок, который начинается на 12% ширины и 15% высоты страницы, шириной 72% и высотой 4%: {"x":0.12,"y":0.15,"w":0.72,"h":0.04}.
 Точность рамок проверяется по скану отдельно; главное — правильно определить блоки и их текст.
 Таблицу инициалей и финалей передавай текстом по группам: «声母\\nInitials\\n<строки инициалей>\\n韵母\\nFinals\\n<строки финалей>». Сохраняй ü, i [i], iou (iu) и все клетки. Упражнения чтения передавай строками слогов в печатном порядке с точными тонами, включая последнюю смешанную строку.
-Для каждого текста дай: cn (китайский дословно, без пиньиня), en (английский дословно), ru (точный русский перевод английского, по возможности не длиннее английского), py (пиньинь, если он напечатан над иероглифами, дословно с тонами).
+Во вводных страницах сохраняй каждый заголовок и абзац отдельным блоком; если оригинал только английский, cn оставляй пустым. В двуязычных представлениях персонажей держи китайский текст и его английский перевод в одном блоке, портрет — отдельным image. Не включай соседний текст и цветной фон страницы в рамку портрета.\nДля каждого текста дай: cn (китайский дословно, без пиньиня), en (английский дословно), ru (точный русский перевод английского, по возможности не длиннее английского), py (пиньинь, если он напечатан над иероглифами, дословно с тонами).
 Переносы строк, напечатанные в cn, py и en (стихи, скороговорки), передавай символом \\n; в ru — в тех же местах, что в en.
 Типы блоков:
 - runhead: колонтитул вверху. cn, en, ru; number — крупная цифра урока рядом с колонтитулом (напр. "2"), если есть; в en и ru её не повторяй.
@@ -39,7 +40,7 @@ box — рамка блока в ДОЛЯХ страницы от 0 до 1: x,y 
 - para: абзац или задание. icon: "pin" | "square" | "none"; cn, en, ru, py; track (номер аудио, напр. "1-3", если есть). Нумерованный пункт ("1 汉语的基本语序") — para с полем number ("1").
 - tip: плашка-подсказка. label{cn,en,ru}; cn, en, ru; avatar: box картинки персонажа над плашкой или null.
 - dialogue: столбец реплик с аватарами слева и пузырями справа. box охватывает все реплики. turns[{speaker{cn,py,ru,avatar:"photo"|"group"|"none",avatarBox}, py, hz, highlight}] (speaker.ru — имя говорящего по-русски, напр. "Ван Ифэй"). hz — иероглифы реплики; highlight — символы, выделенные цветом (или ""). avatarBox — рамка круглого портрета, если avatar="photo".
-- image: фотография или иллюстрация (будет вырезана из скана). alt по-русски.
+- image: фотография или иллюстрация (будет вырезана из скана). alt по-русски. Каждая учебная картинка с рамкой — отдельный image; напечатанную подпись передавай как caption{hz,py,en,ru}, перевод caption.ru обязательно включай в kz. В упражнениях на сопоставление не связывай перемешанные подписи с картинками наугад.
 - card: цветная карточка с переводом диалога. lines[{en,ru}].
 - words: таблица новых слов. heading{cn,en,ru}; track; rows[{i (номер в кружке, напр. "②"), hz, py, pos_en, pos_ru, en, ru}]. Подзаголовок внутри таблицы — отдельная строка {"group":{cn,en,ru}}.
 - folio: номер страницы. text.
@@ -168,6 +169,9 @@ export function normalize(parsed, scale = { sx: 1, sy: 1 }) {
   repairStructure(blocks);
   // «2 拼写规则 / 2 Spelling Rules» given as a section tab: a numbered heading (red number box + title).
   for (const [k, b] of blocks.entries()) {
+    if(b.cn&&/[āáǎàēéěèīíǐìōóǒòūúǔùǖǘǚǜ]/u.test(b.cn)&&/^[a-züāáǎàēéěèīíǐìōóǒòūúǔùǖǘǚǜ\s]+$/u.test(b.cn)&&b.cn.trim().split(/\s+/).length>=8){
+      b.py=b.cn;b.cn='';b.en='';b.ru='';
+    }
     const m = b.type === 'section' && !b.track && /^(\d{1,2})\s+(\S.*)$/.exec(b.cn || '');
     if (!m) continue;
     const cut = s => String(s || '').replace(new RegExp('^' + m[1] + '\\s+'), '');
@@ -1657,6 +1661,7 @@ export function snap(layout, grid, ocr) {
   measureImprintPage({...layout,blocks},lines);
   measureCreditsPage({...layout,blocks},grid,lines);
   measureForewordPage({...layout,blocks,theme},grid,lines);
+  measureCharacterPage({...layout,blocks,theme},grid,lines);
   const accent = blocks.find(b => ['section', 'lesson', 'folio'].includes(b.type) && b.fill && b.fill !== '#ffffff')?.fill;
   if (accent) theme.accent = accent;
   const result = attachInteractiveCaptions({ ...layout, blocks, theme, snapVersion: SNAP_VERSION, ocrLines: lines.length });
@@ -1702,7 +1707,7 @@ const CAPTION_RU = {
   '手机':'смартфон','医生':'врач','出租车':'такси','春':'весна','村':'деревня','睡':'спать','嘴':'рот',
   '你好':'привет','哪里':'где','小语':'Сяоюй','水果':'фрукты','妈妈':'мама','爸爸':'папа','椅子':'стул','饺子':'пельмени',
   '面条儿':'лапша','好玩儿':'интересный, весёлый','一点儿':'немного','饭馆儿':'ресторан','那儿':'там','这儿':'здесь','玩儿':'играть','歌儿':'песня',
-  '五':'пять','哥哥':'старший брат','学生':'ученик, студент','六十岁':'шестьдесят лет','老师':'учитель'
+  '九':'девять','牛奶':'молоко','休息':'отдыхать','朋友':'друг','五':'пять','哥哥':'старший брат','学生':'ученик, студент','六十岁':'шестьдесят лет','老师':'учитель'
 };
 const HAN = /\p{Script=Han}/u;
 const cleanHanzi = value => String(value || '').replace(/[^\p{Script=Han}]/gu, '');
@@ -1733,6 +1738,8 @@ export function attachInteractiveCaptions(layout) {
       continue;
     }
     if (shuffledMatchingExercise) continue;
+    const described=String(image.alt||'').match(/пиньинем\s+([\p{Script=Latin}ü]+)\s+и\s+иероглиф(?:ом|ами)\s+([\p{Script=Han}]+)/iu);
+    if(described){const hz=described[2],word=wordLabels[hz];image.caption={py:described[1],hz,ru:CAPTION_RU[hz]||hz,...(word?{en:word.en}:{})};continue;}
     const box = image.box || {}, cx = box.x + box.w / 2, bottom = box.y + box.h;
     const possible = labels.map(label => {
       const lb = label.box || {}, lx = lb.x + lb.w / 2, ly = lb.y + lb.h / 2, dy = lb.y - bottom;
@@ -2098,7 +2105,7 @@ export function render(layout, { assets = {}, pinyin = true, lang = '', editable
   // Kazakh rides on the Russian layer: each Russian text carries its
   // translation (layout.kz, keyed by the Russian text) and setLang swaps it in.
   const kz = layout.kz || {};
-  const ed = (n, path, value, cls = '') => { const b=layout.blocks[n],isRu=/(^|[._])ru$/.test(path),k=isRu && (b?.translations?.[path]?.kk || kz[String(value ?? '').trim()]),en=isRu&&(b?.foreword||b?.credits||b?.imprint||b?.titlePageRole)&&path.replace(/ru$/,'en').split('.').reduce((o,p)=>o?.[p],b);return `<span class="${cls}"${k ? ` data-kz="${esc(k)}"` : ''}${en?` data-en="${esc(en)}"`:''}${editable ? ` contenteditable="true" data-hsk-block="${n}" data-hsk-path="${esc(path)}"` : ''}>${esc(value)}</span>`; };
+  const ed = (n, path, value, cls = '') => { const b=layout.blocks[n],isRu=/(^|[._])ru$/.test(path),k=isRu && (b?.translations?.[path]?.kk || kz[String(value ?? '').trim()]),en=isRu&&(b?.characterRibbon||b?.bilingualPrint||b?.foreword||b?.credits||b?.imprint||b?.titlePageRole)&&path.replace(/ru$/,'en').split('.').reduce((o,p)=>o?.[p],b);return `<span class="${cls}"${k ? ` data-kz="${esc(k)}"` : ''}${en?` data-en="${esc(en)}"`:''}${editable ? ` contenteditable="true" data-hsk-block="${n}" data-hsk-path="${esc(path)}"` : ''}>${esc(value)}</span>`; };
   const trio = (n, prefix, o) => (o?.cn ? ed(n, prefix + 'cn', o.cn, 'cn') : '') + (o?.en ? ed(n, prefix + 'en', o.en, 'en') : '') + (o?.ru ? ed(n, prefix + 'ru', o.ru, 'ru') : '');
   // A track mark («🔊 1-3») plays its recording when the book has it. One shared
   // player: a new track stops the previous one, the same mark again pauses.
@@ -2158,8 +2165,14 @@ export function render(layout, { assets = {}, pinyin = true, lang = '', editable
     if (Number.isInteger(b.photoCaptionOwner) && layout.blocks[b.photoCaptionOwner]?.caption) return '';
     const at = tag(n, b), h = `height:${pct(b.box.h)};`, minH = `min-height:${pct(b.box.h)};`;
     if(b.forewordFolio)return `<span ${at} class="hsk-at hsk-foreword-folio${b.forewordFolioSide==='right'?' hsk-foreword-folio-right':''}" style="${pos(b,h)}">${esc(b.text)}</span>`;
+    if(b.characterRibbon)return '<header '+at+' data-hsk-manual="1" class="hsk-at hsk-character-ribbon" style="'+pos(b,h)+'"><span class="cn">'+esc(b.cn)+'</span><span class="hsk-character-ribbon-translation"><span class="en">'+esc(b.en)+'</span>'+ed(n,'ru',b.ru,'ru')+'</span></header>';
+    if(b.bilingualPrint){
+      const p=b.bilingualPrint,draw=(rows,lang,font)=>rows.map(l=>'<span class="hsk-bilingual-line '+lang+'" style="left:'+pct((l.box.x-b.box.x)/b.box.w)+';top:'+pct((l.box.y-b.box.y)/b.box.h)+';font-size:'+font+'cqw">'+(p.heading?esc(l.text):esc(l.text).replace(/^([^：:]+[：:])/,'<strong class="hsk-character-name">$1</strong>'))+'</span>').join('');
+      const q=p.translationBox;
+      return '<section '+at+' data-hsk-manual="1" class="hsk-at hsk-bilingual-print'+(p.heading?' hsk-bilingual-heading':'')+'" style="'+pos(b,h)+'">'+draw(p.cn,'cn',p.cnFont)+draw(p.en,'en',p.enFont)+'<div class="hsk-bilingual-translation" style="left:'+pct((q.x-b.box.x)/b.box.w)+';top:'+pct((q.y-b.box.y)/b.box.h)+';width:'+pct(q.w/b.box.w)+';height:'+pct(q.h/b.box.h)+';font-size:'+p.enFont+'cqw">'+ed(n,'ru',b.ru,'ru')+'</div>'+(b.characterRule?'<span class="hsk-character-rule" style="left:'+pct((b.characterRule.x-b.box.x)/b.box.w)+';top:'+pct((b.characterRule.y-b.box.y)/b.box.h)+';width:'+pct(b.characterRule.w/b.box.w)+'"></span>':'')+'</section>';
+    }
     if(b.foreword){
-      const p=b.foreword,original=p.lines.map(l=>{const label=/^([\u3400-\u9fff]{2,8}[：:])/.exec(l.text),text=label?`<strong>${esc(label[1])}</strong>${esc(l.text.slice(label[1].length))}`:esc(l.text);return `<span class="hsk-foreword-line" style="left:${pct((l.box.x-b.box.x)/b.box.w)};top:${pct((l.box.y-b.box.y)/b.box.h)};${p.heading?`width:${pct(l.box.w/b.box.w)};`:''}">${text}</span>`;}).join('');
+      const p=b.foreword,original=p.lines.map(l=>{const label=/^([\u3400-\u9fff]{2,8}[：:])/.exec(l.text),text=label?`<strong>${esc(label[1])}</strong>${esc(l.text.slice(label[1].length))}`:esc(l.text);return `<span class="hsk-foreword-line${p.latin?' hsk-foreword-latin':''}" style="left:${pct((l.box.x-b.box.x)/b.box.w)};top:${pct((l.box.y-b.box.y)/b.box.h)};${p.heading?`width:${pct(l.box.w/b.box.w)};`:''}">${text}</span>`;}).join('');
       return `<section ${at} data-hsk-manual="1" class="hsk-at hsk-foreword${p.heading?' hsk-foreword-heading':p.banner?' hsk-foreword-banner':p.paragraph?p.compact?' hsk-foreword-item':' hsk-foreword-prose':' hsk-foreword-signature'}" style="${pos(b,h)}font-size:${p.font}cqw;${p.banner?`background:${p.banner.color};`:''}">${original}${ed(n,'ru',b.ru,'ru hsk-foreword-translation')}</section>`;
     }
     if(b.creditsFolio)return `<span ${at} class="hsk-at hsk-credits-folio" style="${pos(b,h)}background:${b.creditsFolio.color}">${esc(b.text||b.number||'')}</span>`;
@@ -2207,7 +2220,7 @@ export function render(layout, { assets = {}, pinyin = true, lang = '', editable
     }
     if(b.readingTokens){
       const handler=`event.stopPropagation();speechSynthesis.cancel();var p=this.closest('.hsk-page');p.querySelectorAll('audio').forEach(function(a){a.pause()});var a=p.querySelector('audio.hsk-tone-player');if(!a){a=document.createElement('audio');a.className='hsk-tone-player';a.hidden=true;p.appendChild(a)}a.src=this.dataset.src;a.play().catch(function(){})`;
-      return `<section ${at} data-hsk-manual="1" class="hsk-at hsk-reading-grid" style="${pos(b,h)}">${b.readingTokens.map(t=>{const key=toneKey(t.text),src=assets['tone-'+key];return `<span class="hsk-reading-cell" data-reading-row="${t.row}" style="${rel(t.box,b.box)}"><button type="button" class="hsk-table-speak" data-hsk-speak="${esc(t.text)}" data-tone-key="${key}" data-src="${esc(src||'')}" aria-label="Слог ${esc(t.text)}, тон ${key?.slice(-1)}" ${src?`onclick="${esc(handler)}"`:'disabled'}>${esc(t.text)}</button></span>`;}).join('')}</section>`;
+      return `<section ${at} data-hsk-manual="1" class="hsk-at hsk-reading-grid" style="${pos(b,h)}">${b.readingTokens.map(t=>{const key=recordingKey(t.text),src=assets['tone-'+key],label=toneKey(t.text)&&/\d$/.test(key||'')?`Слог ${t.text}, тон ${key?.slice(-1)}`:`Слово ${t.text}`;return `<span class="hsk-reading-cell" data-reading-row="${t.row}" style="${rel(t.box,b.box)}"><button type="button" class="hsk-table-speak" data-hsk-speak="${esc(t.text)}" data-tone-key="${key}" data-src="${esc(src||'')}" aria-label="${esc(label)}" ${src?`onclick="${esc(handler)}"`:'disabled'}>${esc(t.text)}</button></span>`;}).join('')}</section>`;
     }
     if (b.exactTokens) {
       const T=b.textTable, R=layout.page.width/layout.page.height;
@@ -2470,6 +2483,8 @@ export function setLang(page, lang) {
 
 export function fit(page) {
   if (!page) return;
+  for(const cap of page.querySelectorAll('.hsk-photo-caption')){if(cap.offsetParent===null)continue;const rows=[...cap.children].filter(e=>e.offsetParent!==null);for(const row of rows)row.style.zoom='';let z=1;while(rows.reduce((n,e)=>n+e.getBoundingClientRect().height,0)>cap.clientHeight-2&&z>.65){z*=.97;for(const row of rows)row.style.zoom=z;}}
+  for(const el of page.querySelectorAll('.hsk-bilingual-translation')){if(el.offsetParent===null)continue;let size=parseFloat(getComputedStyle(el).fontSize);el.style.fontSize='';size=parseFloat(getComputedStyle(el).fontSize);while((el.scrollHeight>el.clientHeight+2||el.scrollWidth>el.clientWidth+2)&&size>page.clientWidth*.01){size*=.97;el.style.fontSize=size+'px';}}
   const prose=[...page.querySelectorAll('.hsk-foreword-prose .hsk-foreword-translation')].filter(e=>e.offsetParent!==null);
   let proseSize=page.clientWidth*.019;
   for(const el of prose){let size=proseSize;el.style.fontSize=size+'px';while(el.scrollHeight>el.parentElement.clientHeight+2&&size>page.clientWidth*.009){size*=.97;el.style.fontSize=size+'px';}proseSize=Math.min(proseSize,size);}
@@ -2626,7 +2641,7 @@ ${FONT_LINKS.map(href => `<link rel="stylesheet" href="${href}">`).join('\n')}
 </head>
 <body class="wb-body">
 <div class="wb-controls" role="group" aria-label="Язык страницы">
-  <button type="button" data-lang="orig">Оригинал</button><button type="button" data-lang="ru" aria-pressed="true">Русский</button>${layout.blocks.some(b=>b.en&&b.ru&&(b.foreword||b.credits||b.imprint||b.titlePageRole))?'<button type="button" data-lang="en">English</button>':''}${Object.keys(layout.kz || {}).length ? '<button type="button" data-lang="kz">Қазақша</button>' : ''}<button type="button" data-pinyin aria-pressed="true">Пиньинь</button>
+  <button type="button" data-lang="orig">Оригинал</button><button type="button" data-lang="ru" aria-pressed="true">Русский</button>${layout.blocks.some(b=>b.en&&b.ru&&(b.characterRibbon||b.bilingualPrint||b.foreword||b.credits||b.imprint||b.titlePageRole))?'<button type="button" data-lang="en">English</button>':''}${Object.keys(layout.kz || {}).length ? '<button type="button" data-lang="kz">Қазақша</button>' : ''}<button type="button" data-pinyin aria-pressed="true">Пиньинь</button>
 </div>
 <main class="wb-sheet">
 ${render(layout, { assets, lang: 'russian' })}

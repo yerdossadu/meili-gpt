@@ -52,6 +52,10 @@ Start-LocalService 'studio' $node @('--use-system-ca', $studioScript) (Join-Path
 $pdfScript = '"' + (Join-Path $root 'studio\pdf-renderer.mjs') + '"'
 Start-LocalService 'pdf' $node @('--use-system-ca', $pdfScript) (Join-Path $root 'studio') 4181 '/health'
 $ocrPython = Join-Path $root 'studio\ocr-runtime\Scripts\python.exe'
+if (-not (Test-Path -LiteralPath $ocrPython)) {
+    $existingOcrPython = Join-Path $root '.local\structure-runtime\Scripts\python.exe'
+    if (Test-Path -LiteralPath $existingOcrPython) { $ocrPython = $existingOcrPython }
+}
 if (Test-Path -LiteralPath $ocrPython) {
     $ocrScript = '"' + (Join-Path $root 'studio\pdf-ocr.py') + '"'
     Start-LocalService 'ocr' $ocrPython @($ocrScript) (Join-Path $root 'studio') 4182 '/health'

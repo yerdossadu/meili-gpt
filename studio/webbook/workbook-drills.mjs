@@ -1,13 +1,13 @@
 const median=a=>{const s=a.filter(Number.isFinite).sort((a,b)=>a-b);return s.length?(s[Math.floor(s.length/2)]+s[Math.floor((s.length-1)/2)])/2:NaN;};
 const normalize=s=>s.normalize('NFD').replace(/\u0306/g,'\u030c').normalize('NFC');
-const base=s=>normalize(s).normalize('NFD').replace(/\p{Mark}/gu,'').toLowerCase();
+const base=s=>normalize(s).normalize('NFD').replace(/[\u0304\u0301\u030c\u0300]/g,'').normalize('NFC').toLowerCase();
 
 // A reading exercise can be returned as one syllable per line, including a
 // final row of unrelated syllables. Recover rows from OCR, never reorder by tone.
 export function measureReadingGrid(b,lines){
-  if(b.toneRows||b.exactTokens||b.type!=='text')return null;
+  if(b.toneRows||b.exactTokens||!['text','para'].includes(b.type))return null;
   const values=String(b.cn||b.py||'').trim().split(/\s+/).map(normalize);
-  if(values.length<8||values.some(s=>! /^(?=.*[āáǎàēéěèīíǐìōóǒòūúǔùǖǘǚǜ])[a-züāáǎàēéěèīíǐìōóǒòūúǔùǖǘǚǜ]+$/u.test(s)))return null;
+  if(values.length<4||values.some(s=>! /^(?=.*[āáǎàēéěèīíǐìōóǒòūúǔùǖǘǚǜ])[a-züāáǎàēéěèīíǐìōóǒòūúǔùǖǘǚǜ]+$/u.test(s)))return null;
   const near=lines.filter(l=>l.box.y>=b.box.y-.015&&l.box.y<b.box.y+b.box.h+.015&&l.box.x>=b.box.x-.02&&l.box.x<b.box.x+b.box.w+.02);
   const used=new Set(),cells=values.map(text=>({text}));
   for(const c of cells){const found=near.find(l=>!used.has(l)&&normalize(l.text.trim())===c.text);if(found){used.add(found);c.source=found;}}
@@ -15,18 +15,19 @@ export function measureReadingGrid(b,lines){
     const found=near.find(l=>!used.has(l)&&base(l.text.trim())===base(c.text)&&(l.confidence??1)>=.9);
     if(found){used.add(found);c.ocrText=c.text;c.text=normalize(found.text.trim());c.source=found;}
   }
+  for(const c of cells.filter(c=>!c.source&&base(c.text).includes('ü'))){const found=near.find(l=>!used.has(l)&&base(l.text.trim())===base(c.text).replace(/ü/g,'u'));if(found){used.add(found);c.source=found;}}
   if(cells.filter(c=>c.source).length<values.length*.7)return null;
   const rows=[];
   for(let i=0;i<cells.length;){
     const quartet=cells.slice(i,i+4);
-    if(quartet.length===4&&quartet.every(c=>base(c.text)===base(quartet[0].text))){rows.push(quartet);i+=4;continue;}
+    if(quartet.length===4&&quartet.every(c=>base(c.text)===base(quartet[0].text))&&!(cells[i+4]?.source&&quartet.some(c=>c.source&&Math.abs(c.source.box.y-cells[i+4].source.box.y)<.012))){rows.push(quartet);i+=4;continue;}
     const row=[],first=cells[i].source;if(!first)return null;
     while(i<cells.length&&cells[i].source&&Math.abs(cells[i].source.box.y-first.box.y)<.012)row.push(cells[i++]);
     rows.push(row);
   }
   const centres=rows.map(row=>median(row.filter(c=>c.source).map(c=>c.source.box.y+c.source.box.h/2)));
-  const pitch=median(centres.slice(1).map((y,i)=>y-centres[i])),start=median(centres.map((y,i)=>y-i*pitch));
-  if(!Number.isFinite(start)||pitch<=0)return null;
+  const pitch=rows.length>1?median(centres.slice(1).map((y,i)=>y-centres[i])):0,start=median(centres.map((y,i)=>y-i*pitch));
+  if(!Number.isFinite(start)||(rows.length>1&&pitch<=0))return null;
   const columns=Array.from({length:Math.max(...rows.map(r=>r.length))},(_,i)=>median(rows.flatMap(r=>r[i]?.source?[r[i].source.box.x]:[])));
   if(columns.some(x=>!Number.isFinite(x)))return null;
   const readingTokens=rows.flatMap((row,r)=>row.map((c,col)=>({text:c.text,row:r,column:col,box:{x:columns[col],y:start+r*pitch-.011,w:Math.max(.025,(c.source?.box.w||.025)),h:.022},...(c.ocrText?{semanticText:c.ocrText,source:'ocr-tone-correction'}:{}),...(!c.source?{source:'semantic-cell-measured-column'}:{})})));
