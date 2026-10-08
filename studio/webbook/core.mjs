@@ -1774,6 +1774,7 @@ export function pageVocabulary(layout) {
     const c = image.caption; add({ hz: c.hz, py: c.py, ru: c.ru || CAPTION_RU[cleanHanzi(c.hz)], en:c.en });
   }
   for (const block of blocks.filter(b => ['text', 'para'].includes(b.type))) {
+    if(block.bilingualPrint?.speakText&&block.py)add({hz:block.cn,py:block.py,ru:block.ru,en:block.en});
     const item = lexicalLabel(block);
     if (item) add({ ...item, ru: item.ru || CAPTION_RU[item.hz] });
     for(const t of block.optionTurns||[]){const label=dialogueLabels[cleanHanzi(t.hz)];if(label)add({hz:t.hz,py:t.py,ru:label.ru,en:label.en});}

@@ -1,10 +1,14 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {fromModel,render} from './core.mjs';
+import {fromModel,render,pageVocabulary} from './core.mjs';
 import {measureAnswerLattice} from './workbook-drills.mjs';
 import {restorePhoneticTokens} from './source-geometry.mjs';
 import {phoneticRecordingKey} from './tone-audio.mjs';
 const box=(x,y,w=.02,h=.016)=>({x,y,w,h});
+test('classroom speech phrases enter the page dictionary with original English',()=>{
+ const b={type:'para',box:box(.1,.2),cn:'现在上课。',py:'Xiànzài shàngkè.',ru:'Начинаем урок.',en:'Class begins now.',bilingualPrint:{speakText:'现在上课。'}};
+ const v=pageVocabulary({blocks:[b,b]});assert.equal(v.length,1);assert.equal(v[0].word,'现在上课');assert.equal(v[0].trans_en,'Class begins now.');
+});
 test('answer blanks never become reordered tone quartets',()=>{
  const text='___ián\t___īn\t___iǎng\n___iào\t___iè\t___ǐng\n___ǐ\t___ù\t___ià';
  const l=fromModel({blocks:[{type:'text',box:box(.13,.17,.45,.08),py:text}]});
