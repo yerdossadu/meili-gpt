@@ -1,5 +1,7 @@
 $ErrorActionPreference = 'Stop'
 $root = $PSScriptRoot
+& node (Join-Path $root 'export-web-pages.mjs')
+if ($LASTEXITCODE -ne 0) { throw 'Web page export failed.' }
 $source = Join-Path $root 'approved-web-pages'
 $destination = Join-Path ([Environment]::GetFolderPath('Desktop')) 'web версии страниц'
 if (-not (Test-Path -LiteralPath $source -PathType Container)) { throw 'Prepared web pages are missing.' }

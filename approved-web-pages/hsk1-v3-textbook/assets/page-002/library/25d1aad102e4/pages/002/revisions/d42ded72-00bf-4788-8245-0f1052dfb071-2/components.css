@@ -1,0 +1,365 @@
+/* Forma "PDF → Web" page components.
+   Sizes are in cqw (percent of page width) so a page scales as one picture.
+   Block positions come inline as left/top/width/height percentages measured
+   on the scan; --k scales a block's font to the measured print size and
+   --fill carries the panel colour sampled from the scan. */
+.hsk-page{
+  --red:#d9534f;--red-soft:#e07a72;--line:#e2837b;--peach:#f5bcab;--peach-soft:#f8cfc3;--ink:#2f2826;
+  /* Metric-compatible open fonts first, so line breaks match on any system. */
+  --serif:Tinos,"Times New Roman",Times,serif;
+  --sans:Arimo,Arial,"Helvetica Neue",sans-serif;
+  --hei:"Noto Sans SC","Microsoft YaHei","PingFang SC",SimHei,sans-serif;
+  --kai:"Noto Serif SC","Source Han Serif SC","Songti SC",SimSun,serif;
+  position:relative;width:100%;aspect-ratio:1171/1595;container-type:inline-size;overflow:hidden;
+  background:#fff;color:var(--ink);font:1.8cqw/1.45 var(--serif);
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility
+}
+.hsk-at{position:absolute;box-sizing:border-box;margin:0;z-index:1}
+.hsk-title-text{font-family:var(--sans);line-height:1.2;white-space:pre-line}
+.hsk-title-text>.cn{display:block;font-weight:700}
+.hsk-title-text>.ru,.hsk-title-text>.en{display:block}
+.hsk-title-title{font-weight:700}
+.hsk-title-title>.cn{display:none}
+.hsk-title-credit>.ru{margin-top:.5em;font-size:.8em}
+.hsk-title-publisher>.en{font-size:.58em;font-weight:700}
+.hsk-title-publisher>.ru{margin-top:.3em;font-size:.68em}
+.hsk-title-original-line{position:absolute;white-space:nowrap;font-family:var(--hei)}
+.hsk-page[data-lang=ru] .hsk-title-original-line{display:none}
+.hsk-page[data-lang=orig] .hsk-title-publisher>.cn,.hsk-page[data-lang=orig] .hsk-title-publisher>.en,.hsk-page[data-lang=orig] .hsk-title-credit>.en{display:none}
+.hsk-background{z-index:0}
+/* bold set in the editor for a whole block */
+.hsk-page [data-hsk-bold],.hsk-page [data-hsk-bold] *{font-weight:700!important}
+/* printed marks with no component (arrows, rules), cut out of the scan.
+   Drawn above the blocks, as in print: an arrow crosses speech bubbles, and
+   the cut-out is transparent everywhere except the strokes. */
+.hsk-at.hsk-deco{display:block;z-index:3;pointer-events:none;object-fit:fill}
+.hsk-at.hsk-frame{z-index:0;border:.16cqw solid var(--frame,#e69e96);border-radius:1.1cqw;background:none}
+.hsk-page .cn{font-family:var(--hei)}
+.hsk-page .py{display:none;font:1.1cqw/1.1 var(--sans);color:#4a3f3c}
+.hsk-page[data-pinyin=on] .py{display:block}
+.hsk-page[data-lang=ru] .en,.hsk-page[data-lang=orig] .ru,
+[data-language-mode=russian] .hsk-page:not([data-lang]) .en,[data-language-mode=original] .hsk-page:not([data-lang]) .ru{display:none}
+.hsk-page[data-lang=ru] .hsk-translation-only>.cn,.hsk-page[data-lang=ru] .hsk-translation-only>.en{display:none}
+.hsk-page .hsk-translation-only{z-index:4}
+.hsk-page .hsk-translation-only>.ru{white-space:pre-line}
+/* printed pinyin over hanzi, one reading per pinyin word */
+.hsk-ruby ruby{ruby-position:over;ruby-align:center}
+.hsk-ruby rt{font:400 1.12cqw/1.25 var(--sans);letter-spacing:0;color:#3b3431;text-align:center}
+.hsk-page:not([data-pinyin=on]) .hsk-ruby rt{visibility:hidden}
+.hsk-lines{white-space:pre-line}
+/* generated clip in place of a photo (textbook studio) */
+.hsk-photo video{display:block;width:100%;height:100%;object-fit:cover;background:#000}
+/* Big centred play button over the clip's cover; hidden while it plays. */
+.hsk-play{position:absolute;inset:0;margin:auto;z-index:2;width:clamp(40px,24%,104px);aspect-ratio:1;height:auto;max-height:70%;padding:0;border:0;border-radius:50%;background:rgba(0,0,0,.55);box-shadow:0 0 0 3px rgba(255,255,255,.85),0 6px 22px rgba(0,0,0,.35);cursor:pointer;display:grid;place-items:center;transition:transform .15s,background .15s}
+.hsk-play:hover,.hsk-play:focus-visible{transform:scale(1.07);background:rgba(0,0,0,.72);outline:none}
+.hsk-play span{display:block;width:36%;height:42%;margin-left:9%;background:#fff;clip-path:polygon(0 0,100% 50%,0 100%)}
+.hsk-clip.playing .hsk-play{display:none}
+
+/* running head */
+.hsk-runhead{padding-left:1.2cqw;border-left:.22cqw solid var(--red);color:var(--red);font-family:var(--sans)}
+.hsk-runhead b{display:block;font:700 calc(2cqw*var(--k,1))/1.15 var(--hei)}
+.hsk-runhead>span{display:block;margin-top:.25cqw;font-size:calc(1.55cqw*var(--k,1));line-height:1.1;white-space:nowrap}
+/* odd pages: "我叫李文 | Lesson 2" on one line, the lesson number large */
+.hsk-runhead-right{display:flex;align-items:baseline;justify-content:flex-end;gap:.7cqw;padding:0;border:0;white-space:nowrap;font-size:calc(1.85cqw*var(--k,1))}
+.hsk-runhead-right b{display:inline;color:var(--ink);font:400 1em/1 var(--hei)}
+.hsk-runhead-right i{align-self:center;width:.18cqw;height:1.1em;background:var(--red)}
+.hsk-runhead-right .en,.hsk-runhead-right .ru{font:400 1em/1 var(--sans);color:var(--red-soft)}
+.hsk-runhead-right strong{margin-left:.3cqw;color:var(--red-soft);font:700 var(--no,4cqw)/.8 var(--sans)}
+
+/* lesson header: big number + title banner */
+.hsk-lesson{display:grid;grid-template-columns:19% 81%;background:var(--fill,var(--red));color:#fff}
+.hsk-flap{position:absolute;background:color-mix(in srgb,var(--fill,var(--red)) 65%,#ffc28a);clip-path:polygon(0 0,100% 0,0 100%)}
+.hsk-lesson-no{display:flex;align-items:flex-end;justify-content:center;margin:.55cqw 0;border-radius:0 1.2cqw 1.2cqw 0;background:#fff;color:var(--fill,var(--red));font:700 15cqw/.83 var(--sans);overflow:hidden}
+.hsk-lesson-title{position:relative;padding:3.6cqw 2.3cqw .5cqw}
+.hsk-lesson-title small{position:absolute;top:-1.9cqw;left:-16cqw;display:grid;place-items:center;width:10.4cqw;height:3.7cqw;border-radius:1.6cqw;background:var(--fill,var(--red));font:700 2.3cqw/1 var(--sans)}
+.hsk-lesson-title .cn{display:block;font:500 calc(4.7cqw*var(--k,1))/1.1 var(--kai);white-space:nowrap}
+.hsk-lesson-title .en,.hsk-lesson-title .ru{display:block;margin-top:1.4cqw;font:2.6cqw/1.1 var(--serif)}
+
+/* objectives box */
+.hsk-objectives{padding:3cqw 3.7cqw 1.9cqw;border:.19cqw solid var(--line);border-top:0;border-radius:0 0 1.5cqw 1.5cqw;background:var(--fill,#fff)}
+.hsk-objectives h3{margin:0 0 1.6cqw;color:var(--red);font:700 calc(2.9cqw*var(--k,1))/1.2 var(--sans)}
+.hsk-objectives h3 .cn{margin-right:.45cqw}
+.hsk-target{width:1.05em;height:1.05em;margin:0 .25cqw 0 -.3cqw;vertical-align:-.16em;fill:none;stroke:var(--red);stroke-width:2.3;stroke-linecap:round}
+.hsk-target .dot{fill:var(--red);stroke:none}
+.hsk-objective{display:grid;grid-template-columns:1.8cqw 1fr;gap:1cqw;margin-top:1.4cqw;font-size:calc(1.86cqw*var(--k,1));line-height:1.39}
+.hsk-check{width:1.8cqw;height:1.8cqw;margin-top:.24cqw;border:.12cqw solid var(--line);box-sizing:border-box}
+.hsk-objective .cn{margin-right:.35em}
+
+/* section tab: 课文 2 | Text 2 */
+.hsk-section{display:flex;align-items:flex-end;font-family:var(--sans)}
+.hsk-section>.cn{display:flex;align-items:center;justify-content:flex-end;box-sizing:border-box;height:calc(var(--tab-h,1)*100%);flex:0 0 calc(var(--split,.72)*100%);padding-right:.5cqw;border-radius:0 1.3cqw 0 0;background:var(--fill,var(--red));color:#fff;font-size:calc(var(--cn,3.4cqw)*var(--k,1));font-weight:700;white-space:nowrap}
+.hsk-section .tag{flex:1 1 auto;display:flex;align-items:center;box-sizing:border-box;height:58%;padding:0 .6cqw;border:.14cqw solid var(--line);background:#fff;color:var(--red);font-size:calc(2cqw*var(--k,1));font-weight:700;white-space:nowrap}
+.hsk-section .tag .hsk-track{font-weight:400;font-family:var(--serif)}
+.hsk-track svg.fill{fill:currentColor;stroke:none}
+/* feature tab (小语的彩蛋, 小语讲堂): the character stands over its left end */
+.hsk-at.hsk-feature{z-index:2}
+.hsk-feature>.cn{padding-left:var(--face,0);justify-content:center}
+.hsk-at.hsk-sec-avatar{z-index:3;object-fit:fill}
+
+/* paragraph with a leading icon (pin, square) */
+.hsk-para{display:grid;grid-template-columns:auto 1fr;column-gap:1cqw;align-items:start;font-size:calc(1.8cqw*var(--k,1))}
+.hsk-para .cn{margin-right:.3em}
+.hsk-pin{width:2.3cqw;height:2.9cqw;margin:-.3cqw 0 0 -3.2cqw;position:absolute;fill:var(--red)}
+.hsk-square{width:1.5cqw;height:1.5cqw;margin-top:.45cqw;background:var(--red)}
+.hsk-para>.hsk-plainnum{position:absolute;right:100%;top:0;padding-right:.35em;white-space:nowrap;color:#2b2b2b;font-weight:400}
+.hsk-para>.hsk-num{position:absolute;left:-3.4cqw;top:.05em;display:grid;place-items:center;box-sizing:border-box;min-width:2.3cqw;height:2.3cqw;padding:0 .4cqw;background:var(--red-soft);color:#fff;font:700 1.7cqw/1 var(--sans)}
+.hsk-option>.hsk-num{position:static;min-width:0;height:auto;padding:0;background:none;color:var(--red);font:700 1.9cqw/1 Georgia,'Times New Roman',serif}
+.hsk-opt-letter{margin-right:.35em;color:var(--red);font:700 .9em Georgia,'Times New Roman',serif}
+.hsk-option .en,.hsk-option .ru{display:block;margin-top:.2em;font-size:.62em;line-height:1.2;color:#5a4a46}
+/* verse with pinyin (tongue twisters) */
+.hsk-verse{display:block}
+.hsk-verse .cn{display:block;margin-bottom:.4cqw;font:500 var(--vhz,2.3cqw)/1.35 var(--kai);letter-spacing:var(--vtrack,.08em)}
+.hsk-verse .hsk-verse-line{white-space:nowrap}
+/* Printed line pitch and translation size, measured per verse. */
+.hsk-verse .hsk-verse-line,.hsk-verse .hsk-ruby{line-height:var(--vline,calc(var(--vhz,2.3cqw)*1.85))}
+.hsk-verse .hsk-ruby rt{font-size:var(--py,1.2cqw);line-height:1}
+.hsk-verse .en,.hsk-verse .ru{line-height:var(--vlh,1.45);font-size:var(--ven,1em)}
+/* lesson title pinyin */
+.hsk-lesson-title .hsk-ruby rt{font:400 1.75cqw/1 var(--sans);color:#fff}
+.hsk-verse-line{display:block}
+.hsk-verse .en,.hsk-verse .ru{display:block}
+.hsk-track{color:var(--red);white-space:nowrap;margin-left:.4em}
+/* A mark with a recording is a button: same look, a hint on hover, a pulse while it plays. */
+.hsk-track-play{font:inherit;line-height:inherit;padding:0 .25em;border:0;border-radius:.4em;background:transparent;cursor:pointer;transition:background .15s}
+.hsk-track-play:hover,.hsk-track-play:focus-visible{background:rgba(212,72,72,.12);outline:none}
+.hsk-track-play.playing{background:rgba(212,72,72,.18);animation:hsk-track-pulse 1.2s ease-in-out infinite}
+@keyframes hsk-track-pulse{50%{background:rgba(212,72,72,.05)}}
+.hsk-track svg{width:1.7cqw;height:1.7cqw;vertical-align:-.25cqw;fill:none;stroke:currentColor;stroke-width:1.8}
+
+/* tip box with character */
+.hsk-tip{display:grid;grid-template-columns:9.2cqw 1fr;align-items:center;padding:.8cqw 1.6cqw .8cqw 0;border-radius:1cqw;background:var(--fill,var(--peach-soft));font-size:calc(1.65cqw*var(--k,1));line-height:1.55}
+.hsk-tip-label{align-self:end;padding-bottom:.4cqw;text-align:center;color:var(--red);font:700 1.3cqw/1.2 var(--hei)}
+.hsk-tip-label small{display:block;font:700 1cqw/1.2 var(--sans)}
+.hsk-tip-avatar{object-fit:contain;z-index:2}
+.hsk-tip .cn{font-family:var(--kai);font-weight:500}
+
+/* dialogue: avatar column + speech bubble */
+.hsk-dialogue{display:grid;grid-auto-rows:11.62cqw}
+.hsk-turn{display:grid;grid-template-columns:7cqw 1fr;column-gap:1.3cqw;align-items:start}
+.hsk-speaker{margin:0;text-align:center}
+.hsk-speaker img,.hsk-speaker svg{display:block;width:5.6cqw;height:5.6cqw;margin:0 auto}
+.hsk-speaker img{box-sizing:border-box;border:.2cqw solid var(--red);border-radius:50%;object-fit:cover}
+.hsk-speaker svg{fill:var(--red-soft)}
+.hsk-speaker .py{display:block;margin-top:.9cqw;font-size:.85cqw}
+.hsk-speaker b{display:block;font:500 1.9cqw/1.1 var(--kai)}
+.hsk-page:not([data-pinyin=on]) .hsk-speaker b{margin-top:1.2cqw}
+.hsk-bubble{position:relative;box-sizing:border-box;display:flex;flex-direction:column;justify-content:center;height:var(--bubble-h,6.7cqw);padding:0 1.3cqw;border:.13cqw solid var(--line);border-radius:.5cqw;background:#fff}
+.hsk-bubble::before{content:"";position:absolute;left:-.72cqw;top:calc(50% - .6cqw);width:1.2cqw;height:1.2cqw;background:#fff;border-left:.13cqw solid var(--line);border-bottom:.13cqw solid var(--line);transform:rotate(45deg)}
+.hsk-bubble .hz{font:500 2.6cqw/1.15 var(--kai);letter-spacing:.08em;white-space:nowrap}
+.hsk-bubble .hz em{font-style:normal;color:var(--red)}
+.hsk-bubble .py{margin-bottom:.4cqw}
+
+/* dialogue with measured geometry: every part placed as printed */
+.hsk-dialogue-exact{display:block}
+.hsk-dialogue-exact>.hsk-turn{display:contents}
+.hsk-dialogue-exact .hsk-face,.hsk-dialogue-exact .hsk-name,.hsk-dialogue-exact .hsk-name-py,.hsk-dialogue-exact .hsk-bubble{position:absolute;box-sizing:border-box;margin:0}
+.hsk-dialogue-exact img.hsk-face{border:.2cqw solid var(--red);border-radius:50%;object-fit:cover}
+.hsk-dialogue-exact .hsk-group svg{display:block;width:100%;height:100%;fill:var(--red-soft)}
+.hsk-dialogue-exact .hsk-name{display:block;height:auto!important;text-align:center;font:500 1.9cqw/1 var(--kai);white-space:nowrap}
+.hsk-dialogue-exact .hsk-name-py{display:block;height:auto!important;text-align:center;font:.85cqw/1 var(--sans);white-space:nowrap}
+.hsk-page:not([data-pinyin=on]) .hsk-dialogue-exact .hsk-name-py{visibility:hidden}
+.hsk-dialogue-exact .hsk-bubble{justify-content:center;padding:0 .3cqw 0 1.1cqw;font-size:calc(var(--hz,2.4cqw)*var(--k,1))}
+/* printed line breaks come as <br>: no other wrapping */
+.hsk-dialogue-exact .hsk-bubble .hz{font:500 1em/1.2 var(--kai);letter-spacing:var(--track,0);white-space:nowrap}
+.hsk-dialogue-exact .hsk-bubble .hsk-ruby{line-height:2.05}
+/* ruby lines sit a little low in their line box: match the print */
+.hsk-dialogue-exact .hsk-bubble:has(.hsk-ruby){padding-top:.35em}
+.hsk-dialogue-exact .hsk-bubble .hsk-ruby rt{font-size:calc(var(--py,1.2cqw)*var(--k,1));line-height:1}
+
+/* video bonus panel: title, a picture and a player bar */
+/* A picture on the panel may stand out of it (an easel): no clipping; the
+   bar rounds its own corners. */
+.hsk-bonus{overflow:visible;border-radius:1.2cqw;background:var(--fill,var(--peach))}
+.hsk-bonus-title{position:absolute;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;font:var(--ben,calc(1.9cqw*var(--k,1)))/1.35 var(--serif)}
+.hsk-bonus-title b{font:400 var(--bcn,calc(2.5cqw*var(--k,1)))/1.3 var(--hei)}
+.hsk-bonus-title .ru{font-size:.92em}
+.hsk-bonus-img{position:absolute;display:block;object-fit:fill}
+.hsk-bonus-bar{position:absolute;left:0;right:0;bottom:0;height:var(--bar-h,13%);display:flex;align-items:center;gap:2.2cqw;padding:0 3.2cqw;border-radius:0 0 1.2cqw 1.2cqw;background:var(--bar,var(--red-soft));box-sizing:border-box}
+.hsk-bonus-bar svg{flex:none;width:3.3cqw;height:3.3cqw;fill:none;stroke:#fff;stroke-width:2}
+.hsk-bonus-bar .pb-play{fill:#fff;stroke:none}
+/* The printed track is a thick strip darker than the bar. */
+.hsk-bonus-bar .pb-track{flex:1;height:.8cqw;background:color-mix(in srgb,var(--bar,var(--red-soft)) 82%,#8c1c14);position:relative}
+.hsk-bonus-bar .pb-track i{position:absolute;left:0;top:-.1cqw;bottom:-.1cqw;width:5%;background:#fff}
+
+/* photo */
+.hsk-photo{overflow:hidden;border-radius:.9cqw}
+.hsk-photo img{display:block;width:100%;height:100%;object-fit:cover}
+.hsk-photo-caption{position:absolute;inset:auto 1px 1px;height:34%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.02em;background:#fff;color:#171513;line-height:1.08;text-align:center;border-radius:0 0 .75cqw .75cqw}
+.hsk-photo-caption .py{font:400 1.8cqw/1.1 var(--serif);white-space:nowrap}
+.hsk-photo-caption .py{display:block}
+.hsk-photo-caption .cn{font:500 2.3cqw/1 var(--kai);letter-spacing:.08em;white-space:nowrap}
+.hsk-photo-caption .ru{display:block;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font:400 1.25cqw/1.05 var(--sans);color:#555}
+.hsk-photo-speaking{cursor:pointer}
+.hsk-photo-speaking:focus-visible{outline:.25cqw solid var(--red);outline-offset:.15cqw}
+
+/* translation card */
+.hsk-card{display:flex;flex-direction:column;justify-content:center;padding:0 2cqw;border-radius:.9cqw;background:var(--fill,var(--peach));font-size:calc(1.9cqw*var(--k,1));line-height:1.6}
+.hsk-card p{margin:0}
+.hsk-card .ru{font-size:.87em}
+
+/* word table */
+.hsk-words{padding:2.9cqw 0 0 1.2cqw;background:var(--fill,var(--peach));font-size:calc(1.85cqw*var(--k,1))}
+.hsk-words-tab{position:absolute;top:-3.1cqw;left:-1.35cqw;display:flex;align-items:center;gap:.8cqw;margin:0;padding:.45cqw 1.3cqw;border:.13cqw solid var(--line);background:#fff;color:var(--red);font:700 1.85cqw/1.3 var(--sans);white-space:nowrap}
+.hsk-words-tab::after{content:"";position:absolute;left:-.13cqw;top:100%;border-top:1.3cqw solid var(--red);border-left:1.3cqw solid transparent}
+.hsk-words-tab .cn{font-size:2.05cqw}
+.hsk-words-tab .hsk-track{margin:0;font:400 1.75cqw var(--serif)}
+.hsk-words-group{margin:1.1cqw 0 .6cqw;color:var(--red);font:700 1.65cqw/1.25 var(--sans)}
+.hsk-words-group .cn{margin-right:.7cqw}
+.hsk-word{display:grid;grid-template-columns:2.8cqw minmax(6.6cqw,max-content) auto 5.8cqw 1fr;align-items:center;min-height:calc(3.62cqw*var(--k,1));padding:.1cqw 0;border-bottom:.12cqw dashed var(--red-soft);font-size:1em;line-height:1.3}
+.hsk-word>*{grid-row:1}
+.hsk-words-cols{padding-left:calc(1.2cqw / var(--z,1));padding-top:calc(2.9cqw / var(--z,1))}
+.hsk-words-cols .hsk-word{grid-template-columns:var(--word-cols);min-height:calc(3.62cqw * var(--k,1) / var(--z,1))}
+.hsk-words-cols .hsk-word .hz,.hsk-words-cols .hsk-word .py{padding-right:.6cqw}
+.hsk-page[data-pinyin=on] .hsk-words-cols .hsk-word .py{min-width:0}
+.hsk-page:not([data-pinyin=on]) .hsk-words-cols .hsk-word .py{display:block;visibility:hidden}
+.hsk-word .i{grid-column:1;color:var(--red);font:1.03em/1 var(--sans)}
+.hsk-word .hz{grid-column:2;padding-right:1cqw;font:500 1.08em/1 var(--kai);letter-spacing:.1em;white-space:nowrap}
+.hsk-word .py{grid-column:3;display:none;padding-right:1cqw;font:1em var(--sans);color:var(--ink)}
+.hsk-page[data-pinyin=on] .hsk-word .py{display:block;min-width:10.2cqw}
+.hsk-word .pos{grid-column:4}
+.hsk-word>.en,.hsk-word>.ru{grid-column:5;padding:.3cqw .8cqw .3cqw 0}
+.hsk-word>.ru{font-size:.92em;line-height:1.25}
+.hsk-word:last-child{border-bottom:0}
+
+/* Phonetic tables keep every cell as selectable HTML text. */
+.hsk-phonetic-chart{padding:0;background:#fff;font-size:1.6cqw}
+.hsk-phonetic-table{width:100%;height:100%;table-layout:fixed;border-collapse:collapse;color:var(--ink);font:1em/1.15 var(--serif);text-align:center}
+.hsk-phonetic-table th:nth-child(-n+4),.hsk-phonetic-table td:nth-child(-n+4){width:17%}
+.hsk-phonetic-table th:nth-child(5),.hsk-phonetic-table td:nth-child(5){width:32%}
+.hsk-page .hsk-phonetic-table td.py,.hsk-page[data-pinyin=on] .hsk-phonetic-table td.py{display:table-cell;text-align:center}
+.hsk-phonetic-table th{padding:.2cqw .12cqw;background:#e9a092;color:#fff;border:1px solid #f3d4cc;font:600 1.35cqw/1.1 var(--sans);vertical-align:middle}
+.hsk-phonetic-table th .cn,.hsk-phonetic-table th .en,.hsk-phonetic-table th .ru{display:block}
+.hsk-phonetic-table th .en,.hsk-phonetic-table th .ru{margin-top:.12em}
+.hsk-phonetic-table td{padding:.04cqw;border:1px solid #e9c2b9;vertical-align:middle;font-size:1.75cqw;line-height:1}
+.hsk-phonetic-table td .hz{font:500 2.1cqw/1 var(--kai)}
+.hsk-phonetic-table td.py{font:1.75cqw/1 var(--sans)}
+.hsk-phonetic-table td .hz[contenteditable=true]{outline:none}
+
+/* page number */
+.hsk-folio{display:flex;align-items:center;justify-content:center;border-radius:0 2cqw 2cqw 0;background:var(--fill,var(--red));color:#fff;font:calc(2.4cqw*var(--k,1))/1 var(--serif)}
+.hsk-folio-right{border-radius:2cqw 0 0 2cqw}
+
+/* free text */
+.hsk-text{font-size:calc(1.8cqw*var(--k,1))}
+.hsk-text .cn{margin-right:.3em}
+.hsk-text-s{font-size:calc(1.45cqw*var(--k,1))}.hsk-text-l{font-size:calc(2.6cqw*var(--k,1));font-weight:700}
+.hsk-text .pyc{font-family:var(--sans);white-space:pre-line}
+/* workbook running head: white title on a coloured tab, English beside it */
+.hsk-runhead-tab{display:flex;align-items:stretch;white-space:nowrap;font-size:1.25cqw}
+.hsk-runhead-tab>b{flex:0 0 var(--tabw);display:flex;align-items:center;justify-content:center;background:var(--tab);color:#fff;font:700 1em/1 var(--sans);clip-path:polygon(0 0,100% 0,96% 100%,0 100%)}
+.hsk-runhead-tab>span{display:flex;align-items:center;padding-left:.8em;font:700 .95em/1 var(--sans);color:#1d1d1d}
+/* workbook drills: rows/columns of syllables, answer blanks */
+.hsk-grid{display:grid;grid-template-columns:repeat(var(--cols),minmax(0,1fr));align-content:space-around;column-gap:1.5em}
+.hsk-grid.hsk-text-l{font-size:calc(1.9cqw*var(--k,1));font-weight:400}
+.hsk-grid-cell{white-space:nowrap;line-height:1.6}.hsk-grid-cell.pyc,.hsk-grid-cell.cn{font-family:var(--sans)}
+.hsk-grid > .hsk-grid-src,.hsk-grid > .ru{grid-column:1/-1;font-size:.7em;opacity:.6}
+.hsk-blank{display:inline-block;width:4.2em;height:1.25em;margin:0 .15em;padding:0;border:0;border-bottom:.08em solid currentColor;background:transparent;font:inherit;color:#1d4ed8;text-align:center;vertical-align:baseline;outline:none}
+.hsk-grid-abs{font-weight:400}
+.hsk-grid-abs.hsk-text-l{font-size:calc(1.9cqw*var(--k,1))}
+.hsk-gcell{position:absolute;transform:translateY(-50%);white-space:nowrap;line-height:1.2;font-family:var(--sans)}
+.hsk-gcell .hsk-blank{width:var(--bw,4.2em);margin:0}
+.hsk-gcell .hsk-gl{position:absolute;right:100%;bottom:0;padding-right:.15em}
+.hsk-gcell > .hsk-blank{margin-left:.1em}
+.hsk-blank:focus{border-bottom-color:#d35b5a;background:#fdf1ef}
+
+/* ---- Standalone page (export for the learning platform) ---- */
+.wb-body{margin:0;background:#e9e7e2;font-family:system-ui,sans-serif}
+.wb-sheet{max-width:900px;margin:24px auto;box-shadow:0 6px 28px #0002}
+.wb-controls{position:fixed;top:12px;right:12px;z-index:10;display:flex;gap:4px;padding:4px;border-radius:10px;background:#fffffff0;box-shadow:0 2px 10px #0002}
+.wb-controls button{padding:6px 10px;border:0;border-radius:7px;background:transparent;color:#333;font:12px system-ui,sans-serif;cursor:pointer}
+.wb-controls button[aria-pressed=true]{background:#2c6055;color:#fff}
+.wb-nav{display:flex;justify-content:space-between;max-width:900px;margin:0 auto 32px;padding:0 4px;font:14px system-ui,sans-serif}
+.wb-nav a{color:#2c6055;text-decoration:none}
+@media (max-width:920px){.wb-sheet{margin:0;box-shadow:none}.wb-controls{top:auto;bottom:12px}}
+@media print{.wb-controls,.wb-nav{display:none}.wb-body{background:#fff}.wb-sheet{margin:0;box-shadow:none;max-width:none}}
+
+/* Pictures laid over the text (characters, cut-out decorations, outlines) never catch clicks: the audio marks and words under them stay clickable. */
+.hsk-page > .hsk-tip-avatar,.hsk-page > .hsk-sec-avatar,.hsk-page > .hsk-deco,.hsk-page > .hsk-frame,.hsk-page > .hsk-flap,.hsk-page > .hsk-background{pointer-events:none}
+
+/* Body lines stay above characters laid next to them: a translation runs longer than the print and may reach a character's (white) box. */
+.hsk-page > .hsk-para{z-index:4}
+
+/* Lines of one item (A: … / B: …) stand one under the other as printed; a gloss in brackets is smaller and lighter. */
+.hsk-para .cn{white-space:pre-line}
+/* The translation of an instruction starts its own line, as printed. */
+.hsk-para-break .cn::after{content:"\A"}
+/* first-line indent of rule paragraphs, Chinese and its translation alike */
+.hsk-para-indent .cn::before,.hsk-para-indent .en::before,.hsk-para-indent .ru::before{content:'';display:inline-block;width:2em}
+.hsk-para .hsk-gloss{font-size:.85em;color:#444}
+.hsk-para .hsk-gloss .gl-py{font-family:var(--sans);font-size:.95em}
+.hsk-page:not([data-pinyin=on]) .hsk-gloss .gl-pyw{display:none}
+.hsk-gloss .en,.hsk-gloss .ru{display:inline}
+.hsk-page[data-lang=ru] .hsk-gloss .en,.hsk-page[data-lang=orig] .hsk-gloss .ru{display:none}
+/* Exact printed view keeps selectable OCR text; Russian/Kazakh remain live blocks. */
+.hsk-source-page{display:none;position:absolute;inset:0;background:white;z-index:30}
+.hsk-page[data-lang=orig]>.hsk-source-page{display:block}
+.hsk-page.hsk-has-source[data-lang=orig]>.hsk-at,.hsk-page.hsk-has-source[data-lang=orig]>.hsk-sec-avatar,.hsk-page.hsk-has-source[data-lang=orig]>.hsk-tip-avatar{visibility:hidden}
+.hsk-source-page>img{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;user-select:none}
+.hsk-source-line{position:absolute;color:transparent;white-space:pre;overflow:hidden;line-height:1;user-select:text;cursor:text;font-family:serif}
+.hsk-source-line::selection{background:#76b6ef88;color:transparent}
+.hsk-phonetic-cell{position:absolute;z-index:40;border:0;background:transparent;color:transparent;padding:0;font:inherit;cursor:pointer;user-select:text;border-radius:3px}
+.hsk-phonetic-cell:hover,.hsk-phonetic-cell:focus-visible,.hsk-phonetic-cell[aria-pressed=true]{outline:2px solid #287366;background:#2e987822}
+.hsk-phonetic-status{position:absolute!important;width:1px;height:1px;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+.hsk-page.hsk-source-translated>.hsk-source-page{display:block}
+.hsk-page.hsk-source-translated>.hsk-at,.hsk-page.hsk-source-translated>.hsk-sec-avatar,.hsk-page.hsk-source-translated>.hsk-tip-avatar{visibility:hidden}
+.hsk-source-translation{position:absolute;z-index:2;box-sizing:border-box;padding:0 .12cqw;line-height:1.12;font-family:var(--serif);display:flex;align-items:center;overflow:auto}
+.hsk-page[data-lang=orig] .hsk-source-translation{display:none}
+.hsk-source-translation .ru{display:block}
+.hsk-source-translation .ru{white-space:pre-line}
+/* Source-measured print geometry: no template padding or flex redistribution. */
+.hsk-page .hsk-printed{margin:0;padding:0;background:none;border:0;overflow:visible}
+.hsk-printed>svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.hsk-page .hsk-printed-text{position:absolute;display:block;margin:0;padding:0;line-height:1;white-space:nowrap}
+.hsk-page .hsk-printed-cn>.cn{font:inherit;color:inherit;line-height:1;display:block}
+.hsk-printed-lesson .hsk-printed-cn{font-family:var(--kai);color:white;font-weight:400}
+.hsk-printed-section .hsk-printed-cn{font-family:var(--hei);color:white;font-weight:700}
+.hsk-page .hsk-printed-number{font-family:var(--sans);font-weight:700;color:#080808;transform:translateY(-.11em)}
+.hsk-page .hsk-printed-py{font-family:var(--sans);color:white}
+.hsk-page .hsk-printed-translation{font-family:var(--serif);color:white}
+.hsk-page .hsk-printed-section .hsk-printed-translation{font-family:var(--sans);color:#151515;font-weight:700}
+.hsk-printed-translation>.en,.hsk-printed-translation>.ru{font:inherit;line-height:inherit;margin:0;padding:0}
+.hsk-page[data-lang=en] .ru{display:none}
+.hsk-caption-frame:after{content:'';position:absolute;inset:0;border:1px solid #df9e92;border-radius:2cqw;pointer-events:none}
+.hsk-tone-panel{position:absolute;top:0;bottom:0;background:#faf9f6;border-radius:2.5cqw}
+.hsk-option-dialogue .hsk-option-py{position:absolute;font:1.35cqw/1 var(--sans);white-space:nowrap}
+.hsk-option-dialogue .hsk-option-cn{position:absolute;border:0;padding:0;background:transparent;color:var(--ink);font:2.3cqw/1 var(--kai);white-space:nowrap;text-align:left;cursor:pointer}
+.hsk-option-dialogue .hsk-option-translation{position:absolute;font:1.15cqw/1.1 var(--sans);color:#555}
+.hsk-option-number{position:absolute;left:-3.3cqw;top:2cqw;width:2cqw;height:2cqw;border-radius:50%;background:var(--red);color:white;font:1.6cqw/2cqw var(--sans);text-align:center}
+.hsk-gcell .hsk-blank{color:var(--ink);border-bottom-color:#555}
+.hsk-picture-answer{position:absolute;left:1.8%;top:2.5%;width:12%;height:23%;padding:0;border:1px solid #dfb9b1;border-radius:.6cqw;background:#fff;color:var(--ink);text-align:center;font:1.8cqw var(--sans);box-sizing:border-box}
+.hsk-picture-answer:focus{outline:1px solid var(--red)}
+.hsk-section-tab>svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.hsk-section-pill{position:absolute;border:1px solid #d59182;border-radius:0 2cqw 2cqw 0;box-sizing:border-box}
+.hsk-section-cn{position:absolute;color:white;white-space:nowrap;font-weight:bold;line-height:1.1}
+.hsk-section-translation{position:absolute;display:flex;align-items:center;justify-content:center;color:#c45038;font:bold 1.85cqw/1 var(--sans);white-space:nowrap}
+.hsk-section-translation .ru{font-size:1.35cqw}
+.hsk-section-track{position:absolute;font:1.6cqw/1 var(--sans);color:#ce7663}
+.hsk-para>.hsk-num{border-radius:.45cqw;background:var(--red)}
+.hsk-grid-abs .hsk-gcell{white-space:nowrap}
+.hsk-table-surface{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.hsk-exact-token.hsk-table-header{color:#fff;font-weight:bold;text-align:center;overflow:visible;white-space:nowrap}
+.hsk-exact-token.hsk-phonetic-token{font-family:var(--sans);text-align:center;overflow:visible;white-space:nowrap}
+.hsk-printed-runhead .hsk-printed-cn{font-family:var(--sans);font-weight:bold;color:#fff;white-space:nowrap}
+.hsk-page .hsk-printed-runhead .hsk-printed-translation{font-family:var(--sans);font-weight:bold;white-space:nowrap;color:#151515}
+.hsk-para .hsk-printed-paragraph{display:block;position:relative;margin:0;white-space:normal}
+.hsk-printed-paragraph>span{position:absolute;display:block;white-space:pre;line-height:1;font-family:var(--hei)}
+.hsk-printed-paragraph.en>span{font-family:var(--serif)}
+.hsk-para:has(.hsk-printed-paragraph)>span>.en,.hsk-para:has(.hsk-printed-paragraph)>span>.ru{white-space:pre-line}
+.hsk-folio-measured{display:grid;place-items:center;color:white;font:2.1cqw/1 var(--serif)}
+.hsk-folio-measured>svg{position:absolute;inset:0;width:100%;height:100%}
+.hsk-folio-measured>span{position:relative}
+.hsk-table-speak{display:flex;align-items:center;justify-content:center;min-height:2.4cqw;width:100%;margin:0;padding:0;border:0;background:transparent;color:inherit;font:inherit;line-height:1.2;cursor:pointer;text-align:center}
+.hsk-table-speak:hover,.hsk-table-speak:focus-visible,.hsk-table-speak[aria-pressed=true]{outline:1px solid #287366;background:#2e987822;border-radius:2px}
+.hsk-phonetic-table td:nth-child(-n+2) .hz{font:1.75cqw/1.2 var(--sans)}
+.hsk-exact-token.hsk-phonetic-token{display:flex;align-items:center;justify-content:center;line-height:1.2}
+.hsk-tone-grid{background:#faf9f6;border-radius:2.5cqw;font:2cqw/1.2 var(--sans)}
+.hsk-tone-grid-cell{position:absolute;transform:translate(-50%,-50%)}
+.hsk-tone-grid-cell>button{padding:.1cqw .5cqw;border:0;background:transparent;color:inherit;font:inherit;cursor:pointer}
+.hsk-tone-grid-cell>button:hover,.hsk-tone-grid-cell>button:focus-visible{outline:1px solid #287366;background:#2e987822;border-radius:2px}
+.hsk-graph-label{position:absolute;display:flex;align-items:center;justify-content:center;background:#fff;font:1.6cqw/1.1 var(--serif);white-space:nowrap}
+.hsk-graph-label .cn{font-size:1.8cqw}
+.hsk-page[data-lang=ru] .hsk-graph-label .cn{display:none}
+.hsk-page .hsk-printed-section .hsk-printed-translation{color:var(--red)}
+.hsk-page .hsk-printed-section:has(path[fill="#f5efe6"]) .hsk-printed-translation{color:#151515}
+.hsk-exact-token{position:absolute;display:block;white-space:pre;line-height:1;font-family:var(--kai)}
+.hsk-exact-text>.ru{position:absolute;left:0;top:100%;font:1.6cqw/1.15 var(--serif)}
