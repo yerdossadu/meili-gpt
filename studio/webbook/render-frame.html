@@ -13,13 +13,13 @@ f.onload = () => {
   const d = f.contentDocument;
   const st = d.createElement('style');
   st.textContent = '.wb-controls,.wb-nav{display:none!important}' +
+    '.hsk-source-page{display:none!important}.hsk-page>.hsk-at,.hsk-page>.hsk-sec-avatar,.hsk-page>.hsk-tip-avatar{visibility:visible!important}' +
     '.wb-body{background:#fff!important;margin:0!important;padding:0!important}' +
     '.wb-sheet{max-width:none!important;width:' + w + 'px!important;margin:0!important;box-shadow:none!important;border-radius:0!important}';
   d.head.appendChild(st);
   const page = d.querySelector('.hsk-page');
   if (page) { page.dataset.lang = 'orig'; page.dataset.pinyin = 'on'; }
-  // The page fitted itself to its default language on load: fit again for
-  // the original text (the page re-fits on resize).
+  // Compare real HTML in the original language, with the source scan hidden.
   f.contentWindow.dispatchEvent(new Event('resize'));
 };
 f.src = q.get('src') + '?' + Date.now();

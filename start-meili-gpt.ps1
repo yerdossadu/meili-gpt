@@ -57,5 +57,5 @@ if (Test-Path -LiteralPath $ocrPython) {
     Start-LocalService 'ocr' $ocrPython @($ocrScript) (Join-Path $root 'studio') 4182 '/health'
 } else { Write-Output 'OCR is not installed in this copy. The platform, studio and PDF viewer are available.' }
 Write-Output 'Meili GPT: http://127.0.0.1:8010'
-Write-Output 'Meili GPT Studio: http://127.0.0.1:4180'
+Write-Output 'Forma Studio GPT: http://127.0.0.1:4180'
 if (-not $NoBrowser) { Start-Process 'http://127.0.0.1:8010'; Start-Process 'http://127.0.0.1:4180' }

@@ -1,0 +1,82 @@
+const median=a=>{const s=a.filter(Number.isFinite).sort((a,b)=>a-b);return s.length?(s[Math.floor(s.length/2)]+s[Math.floor((s.length-1)/2)])/2:NaN;};
+const normalize=s=>s.normalize('NFD').replace(/\u0306/g,'\u030c').normalize('NFC');
+const base=s=>normalize(s).normalize('NFD').replace(/\p{Mark}/gu,'').toLowerCase();
+
+// Correct source-aligned cells, never by a global letter replacement. Missing
+// narrow initials require visible ink at an otherwise empty lattice position.
+export function reconcileAnswerGrid(b,lines,grid){
+  if(!b.py?.includes('___')||!b.gridX?.length||!b.gridY?.length)return null;
+  const rows=b.py.split('\n').map(r=>r.trim().split(/\s+/).map(normalize)),X=b.gridX,Y=b.gridY;
+  if(rows.length!==Y.length)return null;
+  const leading=rows.every(r=>r.every(s=>s.startsWith('___'))),trailing=rows.every(r=>r.every(s=>s.endsWith('___')));
+  if(!leading&&!trailing)return null;
+  const evidence=[];const next=Y.map((y,r)=>X.map((x,c)=>{
+    const original=rows[r][c]||'',old=original.replace(/_/g,'');
+    const found=lines.filter(l=>Math.abs(l.box.x-x)<.025&&Math.abs(l.box.y+l.box.h/2-y)<.012).sort((a,b)=>Math.abs(a.box.x-x)-Math.abs(b.box.x-x))[0];
+    let value=old;
+    if(found){
+      const text=normalize(found.text.trim());
+      // Initials have a closed alphabet; low-confidence O must not replace d.
+      const valid=leading?/^[a-züāáǎàēéěèīíǐìōóǒòūúǔùǖǘǚǜ]+$/u.test(text):/^(?:b|p|m|f|d|t|n|l|g|k|h|j|q|x|zh|ch|sh|r|z|c|s)$/.test(text);
+      if(valid&&(found.confidence??1)>=.8){value=text;if(value!==old)evidence.push({row:r,column:c,before:old,after:value,source:'ocr-cell',box:found.box});}
+    }
+    const displaced=rows[r].length<X.length&&(!original||lines.some(l=>normalize(l.text.trim())===old&&Math.abs(l.box.y+l.box.h/2-y)<.012&&Math.abs(l.box.x-x)>.04));
+    if(trailing&&!found&&displaced&&grid){
+      const g=grid.hi||grid.raw||grid,pts=[];
+      for(let yy=Math.floor((y-.012)*g.H);yy<(y+.006)*g.H;yy++)for(let xx=Math.floor((x-.006)*g.W);xx<(x+.03)*g.W;xx++){
+        if(xx<0||xx>=g.W||yy<0||yy>=g.H)continue;
+        if(Math.max(...g.at(xx,yy))<140)pts.push([xx/g.W,yy/g.H]);
+      }
+      // A nearby answer rule is horizontal; exclude it before measuring the
+      // missing initial's vertical stroke.
+      const counts=new Map();for(const p of pts){const x=Math.round(p[0]*g.W);counts.set(x,(counts.get(x)||0)+1);}
+      const stems=pts.filter(p=>(counts.get(Math.round(p[0]*g.W))||0)>g.H*.007);
+      if(stems.length){const w=Math.max(...stems.map(p=>p[0]))-Math.min(...stems.map(p=>p[0])),h=Math.max(...stems.map(p=>p[1]))-Math.min(...stems.map(p=>p[1]));
+        if(h>.007&&w/h<.5){value='l';evidence.push({row:r,column:c,before:old,after:value,source:'printed-vertical-initial'});}
+      }
+    }
+    return leading?'___'+value:value+'___';
+  }));
+  // Do not shift a final known token left when the model omitted a cell.
+  const pitch=median(Y.slice(1).map((y,i)=>y-Y[i])),start=median(Y.map((y,i)=>y-i*pitch));
+  return {py:next.map(r=>r.join('\t')).join('\n'),gridY:Y.map((_,i)=>start+i*pitch),drillCorrections:evidence,drillManual:true};
+}
+
+export const dialogueLabels={
+  '你好':{ru:'Привет!',kk:'Сәлем!',en:'Hello!'},
+  '你们好':{ru:'Здравствуйте!',kk:'Сәлеметсіздер ме!',en:'Hello, everyone!'},
+  '谢谢':{ru:'Спасибо!',kk:'Рақмет!',en:'Thank you!'},
+  '不客气':{ru:'Пожалуйста!',kk:'Оқасы жоқ!',en:"You're welcome!"}
+};
+const han=s=>String(s||'').replace(/[^\p{Script=Han}]/gu,'');
+export function measureDialogueOptions(b,lines){
+  if(!b.dialogueOptions)return null;
+  const near=lines.filter(l=>l.box.x>b.box.x-.02&&l.box.x<b.box.x+b.box.w+.01&&l.box.y>b.box.y-.015&&l.box.y<b.box.y+b.box.h+.015);
+  const used=new Set(),turns=b.dialogueOptions.map(t=>{
+    const cn=near.find(l=>!used.has(l)&&new RegExp('^'+t.speaker+'[：:]').test(l.text)&&han(l.text)===han(t.hz));
+    if(!cn)return null;used.add(cn);
+    const py=near.filter(l=>l.box.y<cn.box.y&&!/[A-Z][：:]|\p{Script=Han}/u.test(l.text)&&/[a-zāáǎà]/i.test(l.text)).sort((a,c)=>c.box.y-a.box.y)[0];
+    return {...t,cnBox:cn.box,pyBox:py?.box,translation:dialogueLabels[han(t.hz)]};
+  });
+  return turns.every(Boolean)?{optionTurns:turns}:null;
+}
+
+export function clipImagesBeforeText(blocks,lines){
+  for(const img of blocks.filter(b=>b.type==='image'&&!b.caption)){
+    const candidates=blocks.filter(b=>b.dialogueOptions&&b.box.x<img.box.x+img.box.w&&b.box.x+b.box.w>img.box.x);
+    const text=candidates.flatMap(b=>lines.filter(l=>l.box.x>img.box.x&&l.box.x<img.box.x+img.box.w&&l.box.y>img.box.y+img.box.h*.3&&l.box.y<b.box.y+b.box.h&&(/^[A-Z][：:]/.test(l.text)||/^(Nǐ|Xiè|Bú)/.test(l.text))));
+    if(text.length){const end=Math.min(...text.map(l=>l.box.y))-.01;if(end>img.box.y+.035&&end<img.box.y+img.box.h){img.box={...img.box,h:end-img.box.y};delete img.frame;}}
+  }
+  // Printed matching strips share their frames even when a pale photograph
+  // floods down to just its dark subject. Use the intact peer plus the source
+  // speaker columns, rather than stretching the subject's bounding box.
+  const options=blocks.filter(b=>b.optionTurns?.length).sort((a,b)=>a.optionTurns[0].cnBox.x-b.optionTurns[0].cnBox.x);
+  const photos=blocks.filter(b=>b.type==='image'&&!b.caption).sort((a,b)=>a.box.x-b.box.x);
+  if(options.length>=3&&photos.length===options.length){
+    const first=photos[0],base=options[0].optionTurns[0].cnBox;
+    if(first.box.w>.18&&first.box.w<.35&&first.box.h>.05&&first.box.h<.15&&photos.every(p=>Math.abs(p.box.y-first.box.y)<.05)){
+      const offset=first.box.x-base.x,top=first.box.y,bottom=Math.min(...options.map(b=>b.optionTurns[0].pyBox?.y??b.optionTurns[0].cnBox.y))-.006;
+      photos.forEach((p,i)=>{p.box={x:options[i].optionTurns[0].cnBox.x+offset,y:top,w:first.box.w,h:bottom-top};p.matchingInput=true;delete p.frame;});
+    }
+  }
+}

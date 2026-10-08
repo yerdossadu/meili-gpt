@@ -2,7 +2,7 @@
 // service (webbook/server.mjs) and edits its results. Pages are drawn with the
 // same core renderer the exported site uses, so what you see is what ships.
 import * as core from './core.mjs';
-import { pdfLayoutPanel, mountPdfLayout } from './pdf-layout-console.js';
+import { autoRequest, pageJobs, startRebuild, rebuiltPageUrl } from './rebuild-client.mjs';
 
 const API = '/local/webbook';
 const PREF = 'forma.webbook.v1';
@@ -79,7 +79,6 @@ function shell() {
     <label class="wb-field wb-grow"><span>Модель разметки (Vision)</span><select class="input" id="wbModel" data-kind="chat"></select></label>
     <div class="wb-pager"><button class="btn-quiet" data-go="-1" title="Предыдущая (←)">←</button><input id="wbPage" class="input" type="number" min="1" value="1"><span id="wbTotal">/ —</span><button class="btn-quiet" data-go="1" title="Следующая (→)">→</button></div>
   </section>
-  ${pdfLayoutPanel()}
   <div class="wb-work">
     <aside class="panel wb-pages" aria-label="Страницы"><div class="wb-pages-head"><b>Страницы</b><span id="wbDone"></span></div><div id="wbList" class="wb-list"></div></aside>
     <section class="panel wb-stage-panel">
@@ -235,17 +234,18 @@ async function openPage(n) {
   savePref({ pages: { ...(loadPref().pages || {}), [S.book.id]: S.page } });
   S.view.querySelector('#wbPage').value = S.page;
   S.layout = null; S.dirty = false; S.selected = -1;
+  S.autoJob = null; S.autoResult = null; clearTimeout(S.autoPoll);
   S.view.querySelectorAll('.wb-thumb').forEach(b => b.classList.toggle('on', Number(b.dataset.n) === S.page));
   S.view.querySelector('.wb-thumb.on')?.scrollIntoView({ block: 'nearest' });
-  void mountPdfLayout(S.view, S.book.id, S.page, S.book.pages);
   const [job, layout] = await Promise.all([call(`/books/${S.book.id}/pages/${S.page}/job`).catch(() => null), call(`/books/${S.book.id}/pages/${S.page}/layout`).catch(() => null)]);
   S.job = job; S.fid = null;
-  if (layout) { S.layout = layout.layout; S.assets = layout.assets; S.html = layout.html; }
+  if (layout) { S.layout = layout.layout; S.layout.sourceLines = layout.view?.sourceLines; S.layout.phonetics = layout.view?.phonetics; S.layout.sourceRegions = layout.view?.sourceRegions; S.assets = layout.assets; S.html = layout.html; }
   resetHistory();
   renderSteps(); renderStage(); renderBlocks(); renderActions();
   loadFidelity();
   if (S.castNote) { S.view.querySelector('#wbStatus').textContent = S.castNote; S.castNote = ''; }
   if (job && ['queued', 'running'].includes(job.state)) watchJob();
+  await loadRebuiltPage(S.book.id, S.page);
 }
 
 // ---- stage ----
@@ -381,6 +381,13 @@ function changeFont(dir) {
 // ---- inspector ----
 
 function renderSteps() {
+  if (S.autoJob) {
+    S.view.querySelector('#wbSteps').innerHTML = '<li>PDF → распознавание структуры → повторное OCR → проверка пиньиня и пропусков → HTML/CSS и отдельные иллюстрации</li>';
+    const status = S.view.querySelector('#wbStatus');
+    status.dataset.state = S.autoJob.state;
+    status.textContent = S.autoJob.state === 'done' ? `HTML/CSS создан.${S.layout?.validation?.state==='review' ? ' Есть сомнительные фрагменты: '+S.layout.validation.warnings.length+'.' : ''} Требуется сравнение с оригиналом.` : S.autoJob.state === 'error' ? 'Ошибка: ' + S.autoJob.error : S.autoJob.state === 'queued' ? 'Конвертация в очереди.' : 'Идёт локальное распознавание и сборка HTML/CSS. Для одной страницы это может занять несколько минут.';
+    return;
+  }
   const steps = S.job?.steps || [['render', 'Рендер страницы PDF'], ['ocr', 'Локальный OCR'], ['model', 'Разметка моделью'], ['layout', 'Привязка к скану'], ['assets', 'Картинки'], ['html', 'HTML-страница']].map(([key, label]) => ({ key, label, status: 'wait' }));
   S.view.querySelector('#wbSteps').innerHTML = steps.map(s => `<li data-status="${s.status}"><i>${STEP_ICON[s.status] || '○'}</i><span>${esc(s.label)}</span><em>${s.ms != null && s.status !== 'wait' ? (s.ms / 1000).toFixed(1) + ' с' : ''}</em>${s.note ? `<small>${esc(s.note)}</small>` : ''}</li>`).join('');
   const status = S.view.querySelector('#wbStatus');
@@ -391,14 +398,15 @@ function renderSteps() {
 
 function renderActions() {
   const state = S.book?.pageStates.find(p => p.n === S.page) || {};
-  const busy = ['queued', 'running'].includes(S.job?.state);
+  const busy = ['queued', 'running'].includes(S.autoJob?.state) || ['queued', 'running'].includes(S.job?.state);
   const btn = S.view.querySelector('#wbConvert');
   btn.disabled = busy || !S.book;
   btn.textContent = busy ? 'Конвертация…' : state.state === 'done' ? 'Пересобрать страницу' : 'Конвертировать страницу';
-  S.view.querySelector('#wbCostHint').textContent = !S.book ? '' : state.model ? 'Ответ модели уже есть — пересборка бесплатна.' : 'Будет один платный запрос к модели (обычно $0,02–0,05).';
+  S.view.querySelector('#wbCostHint').textContent = 'Пересборка использует улучшенный локальный OCR → HTML/CSS-конвейер; предыдущая версия сохраняется.';
   S.view.querySelector('#wbRemodel').disabled = busy || !state.model;
   const open = S.view.querySelector('#wbOpen');
-  open.hidden = !S.html; if (S.html) open.href = S.html + '?t=' + Date.now();
+  const shownHtml = S.html;
+  open.hidden = !shownHtml; if (shownHtml) open.href = shownHtml + '?t=' + Date.now();
   S.view.querySelector('#wbSave').disabled = !S.dirty;
   S.view.querySelector('#wbSave').textContent = S.dirty ? 'Сохранить правки' : 'Правок нет';
   S.view.querySelector('#wbUndo').disabled = !S.history?.length;
@@ -487,6 +495,22 @@ function setBox(n, patch) {
 
 async function convert(opts = {}) {
   if (!S.book) return;
+  if (!opts.forceModel) {
+    const book = S.book.id, page = S.page;
+    try {
+      if (S.dirty) { S.view.querySelector('#wbStatus').textContent = 'Сначала сохраните или отмените несохранённые правки.'; return; }
+      S.autoJob = {state: 'queued'}; renderSteps(); renderActions();
+      const job = await startRebuild(book, page);
+      if (S.book?.id !== book || S.page !== page) return;
+      S.autoJob = job;
+      savePref({legacyPages: {...loadPref().legacyPages, [book + ':' + page]: false}});
+      await loadRebuiltPage(book, page);
+    } catch (error) {
+      if (S.book?.id !== book || S.page !== page) return;
+      S.autoJob = {state: 'error', error: error.message}; renderSteps(); renderActions();
+    }
+    return;
+  }
   let model;
   try { model = chosenModel(); } catch (e) { const st = S.view.querySelector('#wbStatus'); st.textContent = e.message; st.dataset.state = 'error'; return; }
   const state = S.book.pageStates.find(p => p.n === S.page) || {};
@@ -496,6 +520,36 @@ async function convert(opts = {}) {
   S.job = await call(`/books/${S.book.id}/pages/${S.page}/convert`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ model, ...opts }) });
   S.dirty = false;
   renderSteps(); renderActions(); watchJob(); refreshBook();
+}
+
+async function loadRebuiltPage(book, page) {
+  clearTimeout(S.autoPoll);
+  try {
+    const jobs = pageJobs(await autoRequest(book), page);
+    if (S.book?.id !== book || S.page !== page) return;
+    if (loadPref().legacyPages?.[book + ':' + page]) return;
+    const latest = jobs[0];
+    if (!latest) return;
+    S.autoJob = latest;
+    const completed = jobs.find(j => j.state === 'done' && j.canonical?.[page]) || null;
+    S.autoResult = null;
+    if (completed && !S.dirty) {
+      const current = await call(`/books/${book}/pages/${page}/layout`);
+      if (S.book?.id !== book || S.page !== page) return;
+      if (current.layout.conversionId !== S.layout?.conversionId) {
+        S.layout=current.layout;S.assets=current.assets;S.html=current.html;
+        S.layout.sourceLines=current.view?.sourceLines;S.layout.phonetics=current.view?.phonetics;
+        resetHistory();await refreshBook();renderStage();renderBlocks();
+      }
+    }
+    renderSteps(); renderActions();
+    if (['queued','running'].includes(latest.state)) S.autoPoll = setTimeout(() => loadRebuiltPage(book, page), 2000);
+  } catch (error) {
+    if (S.book?.id === book && S.page === page) {
+      S.view.querySelector('#wbStatus').textContent = 'Не удалось проверить HTML/CSS: ' + error.message;
+      if (['queued','running'].includes(S.autoJob?.state)) S.autoPoll = setTimeout(() => loadRebuiltPage(book, page), 4000);
+    }
+  }
 }
 
 function watchJob() {
@@ -639,7 +693,7 @@ async function loadPlatform() {
 
 function renderPublish() {
   const v = S.view, st = S.book?.pageStates.find(p => p.n === S.page) || {};
-  const ready = st.state === 'done' && !['queued', 'running'].includes(S.job?.state);
+  const ready = st.state === 'done' && !['queued', 'running'].includes(S.job?.state) && !['queued', 'running'].includes(S.autoJob?.state);
   v.querySelector('#wbPublish').disabled = !ready || S.dirty;
   v.querySelector('#wbPublish').title = S.dirty ? 'Сначала сохраните правки' : '';
   v.querySelector('#wbPublish').textContent = st.published ? (st.stale ? 'Опубликовать изменения' : 'Опубликовать заново') : 'Подтвердить и опубликовать';
@@ -674,7 +728,10 @@ async function publishPages(from, to) {
   const errors = [];
   for (const [i, n] of pages.entries()) {
     out.textContent = `Публикую страницу ${n} (${i + 1} из ${pages.length})…`; out.dataset.state = 'running';
-    try { await call(`/books/${S.book.id}/pages/${n}/publish`, { method: 'POST' }); }
+    try {
+      const current=n===S.page?S.layout:(await call(`/books/${S.book.id}/pages/${n}/layout`)).layout;
+      await call(`/books/${S.book.id}/pages/${n}/publish`, { method: 'POST',headers:{'content-type':'application/json'},body:JSON.stringify({conversionId:current?.conversionId}) });
+    }
     catch (e) { errors.push(`стр. ${n}: ${e.message}`); if (/токен|адрес|не отвечает/i.test(e.message)) break; }
   }
   await refreshBook(); renderPublish();

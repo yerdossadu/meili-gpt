@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "source": "Workbook page 3, printed initials and finals in the syllable table",
+  "cells": [
+    { "box": { "x": 0.165, "y": 0.582, "w": 0.035, "h": 0.022 }, "text": "b", "kind": "initial" },
+    { "box": { "x": 0.165, "y": 0.605, "w": 0.035, "h": 0.022 }, "text": "b", "kind": "initial" },
+    { "box": { "x": 0.165, "y": 0.628, "w": 0.035, "h": 0.022 }, "text": "b", "kind": "initial" },
+    { "box": { "x": 0.165, "y": 0.651, "w": 0.035, "h": 0.022 }, "text": "b", "kind": "initial" },
+    { "box": { "x": 0.301, "y": 0.582, "w": 0.035, "h": 0.022 }, "text": "a", "kind": "final" },
+    { "box": { "x": 0.301, "y": 0.605, "w": 0.035, "h": 0.022 }, "text": "a", "kind": "final" },
+    { "box": { "x": 0.301, "y": 0.628, "w": 0.035, "h": 0.022 }, "text": "a", "kind": "final" },
+    { "box": { "x": 0.301, "y": 0.651, "w": 0.035, "h": 0.022 }, "text": "a", "kind": "final" },
+    { "box": { "x": 0.301, "y": 0.674, "w": 0.035, "h": 0.022 }, "text": "a", "kind": "final" },
+    { "box": { "x": 0.301, "y": 0.697, "w": 0.035, "h": 0.022 }, "text": "a", "kind": "final" }
+  ]
+}

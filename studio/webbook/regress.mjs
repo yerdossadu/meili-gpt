@@ -40,7 +40,7 @@ async function workRoot() { return join(dirname(await realpath(LIB)), 'regress')
 
 async function codeStamp() {
   const h = createHash('sha256');
-  for (const f of ['core.mjs', 'server.mjs', 'components.css']) h.update(await readFile(join(ROOT, 'webbook', f)));
+  for (const f of ['core.mjs', 'source-geometry.mjs', 'page-contract.mjs', 'server.mjs', 'components.css', 'render-frame.html']) h.update(await readFile(join(ROOT, 'webbook', f)));
   return h.digest('hex').slice(0, 10);
 }
 
@@ -67,7 +67,7 @@ async function stage(sandbox, book, n) {
     if (existsSync(join(src, 'cast'))) await cp(join(src, 'cast'), join(dst, 'cast'), { recursive: true });
   }
   const clip = await readJson(join(page, 'clip.json'));
-  for (const f of ['scan.png', 'ocr.json', 'model.json', 'clip.json', clip?.file, clip?.poster].filter(Boolean))
+  for (const f of ['scan.png', 'ocr.json', 'model.json', 'layout.json', 'phonetics.json', 'clip.json', clip?.file, clip?.poster].filter(Boolean))
     if (existsSync(join(page, f))) await copyFile(join(page, f), join(out, f));
 }
 

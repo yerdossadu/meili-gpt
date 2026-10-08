@@ -1,0 +1,10 @@
+[
+ {"ru":"Новый курс HSK 1 · Рабочая тетрадь","box":{"x":0.255,"y":0.014,"w":0.32,"h":0.019},"size":1.2},
+ {"en":"Initials and Finals (1)","box":{"x":0.303,"y":0.238,"w":0.255,"h":0.027},"size":1.8},
+ {"enPrefix":"In Chinese, initials and finals combine","box":{"x":0.123,"y":0.384,"w":0.794,"h":0.163},"size":1.95,"align":"start"},
+ {"en":"Listen and repeat the initials and finals, then read aloud.","box":{"x":0.160,"y":0.582,"w":0.69,"h":0.023},"size":1.75},
+ {"ru":"Инициали","box":{"x":0.229,"y":0.638,"w":0.095,"h":0.023},"fill":"#e98463","color":"#fff","size":1.6},
+ {"ru":"Финали","box":{"x":0.604,"y":0.638,"w":0.095,"h":0.023},"fill":"#e98463","color":"#fff","size":1.6},
+ {"en":"Tones","box":{"x":0.181,"y":0.783,"w":0.087,"h":0.026},"size":1.8},
+ {"enPrefix":"There are four basic tones in Chinese:","box":{"x":0.125,"y":0.880,"w":0.79,"h":0.07},"size":1.95,"align":"start"}
+]

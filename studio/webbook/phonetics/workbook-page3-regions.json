@@ -1,0 +1,128 @@
+[
+  {
+    "en": "Hello, AI Xiaoyu!",
+    "box": {
+      "x": 0.237,
+      "y": 0.136,
+      "w": 0.29,
+      "h": 0.032
+    },
+    "fill": "#d83421",
+    "color": "#fff",
+    "size": 2.8
+  },
+  {
+    "en": "Xiaoyu's Classroom",
+    "box": {
+      "x": 0.524,
+      "y": 0.249,
+      "w": 0.21,
+      "h": 0.023
+    },
+    "fill": "#f6f0e6",
+    "size": 2.0
+  },
+  {
+    "en": "Pronunciation",
+    "box": {
+      "x": 0.248,
+      "y": 0.344,
+      "w": 0.138,
+      "h": 0.022
+    },
+    "fill": "#fff",
+    "color": "#c95442",
+    "size": 1.9
+  },
+  {
+    "en": "Chinese Syllables",
+    "box": {
+      "x": 0.215,
+      "y": 0.383,
+      "w": 0.166,
+      "h": 0.025
+    },
+    "size": 1.8
+  },
+  {
+    "en": "In Chinese, each character typically corresponds to one syllable. A Chinese character-syllable generally consists of an initial, a final, and a tone, though sometimes it contains only a final and a tone. For example:",
+    "box": {
+      "x": 0.109,
+      "y": 0.458,
+      "w": 0.794,
+      "h": 0.069
+    },
+    "size": 1.95,
+    "align": "start"
+  },
+  {
+    "ru": "Инициали",
+    "box": {
+      "x": 0.13,
+      "y": 0.559,
+      "w": 0.1,
+      "h": 0.023
+    },
+    "fill": "#e9a092",
+    "color": "#fff",
+    "size": 1.5
+  },
+  {
+    "ru": "Финали",
+    "box": {
+      "x": 0.27,
+      "y": 0.559,
+      "w": 0.1,
+      "h": 0.023
+    },
+    "fill": "#e9a092",
+    "color": "#fff",
+    "size": 1.5
+  },
+  {
+    "ru": "Тоны",
+    "box": {
+      "x": 0.421,
+      "y": 0.559,
+      "w": 0.075,
+      "h": 0.023
+    },
+    "fill": "#e9a092",
+    "color": "#fff",
+    "size": 1.5
+  },
+  {
+    "ru": "Слоги",
+    "box": {
+      "x": 0.548,
+      "y": 0.559,
+      "w": 0.094,
+      "h": 0.023
+    },
+    "fill": "#e9a092",
+    "color": "#fff",
+    "size": 1.5
+  },
+  {
+    "ru": "Примеры",
+    "box": {
+      "x": 0.683,
+      "y": 0.559,
+      "w": 0.193,
+      "h": 0.023
+    },
+    "fill": "#e9a092",
+    "color": "#fff",
+    "size": 1.5
+  },
+  {
+    "en": "Look at the pictures, listen and repeat the syllables, then read aloud.",
+    "box": {
+      "x": 0.147,
+      "y": 0.768,
+      "w": 0.68,
+      "h": 0.026
+    },
+    "size": 1.65
+  }
+]

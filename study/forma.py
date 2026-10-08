@@ -19,6 +19,7 @@ regular `lessons` table, so /api/lessons delivers them with all other lessons.
 import base64
 import binascii
 import json
+import hashlib
 import os
 import re
 import secrets
@@ -189,6 +190,14 @@ def mount(app: FastAPI, data_dir: Path, connect_db, require_teacher):
         if len(files) != len(data["files"]):
             raise HTTPException(400, "Страница не принята: список файлов не совпадает с вложениями.")
         slug, n = data["book"]["slug"], data["page"]["n"]
+        # A page pins its runtime. Publishing another book must not restyle it.
+        runtime_hash = hashlib.sha256((css + "\n" + script).encode("utf-8")).hexdigest()[:20]
+        runtime_css = f"components-{runtime_hash}.css"
+        runtime_script = f"forma-page-{runtime_hash}.js"
+        if not css.strip() or len(css) >= 512 * 1024 or not script.strip() or len(script) >= 256 * 1024:
+            raise HTTPException(400, "Страница не принята: отсутствует или слишком велик runtime.")
+        (root / runtime_css).write_text(css, encoding="utf-8")
+        (root / runtime_script).write_text(script, encoding="utf-8")
         book_dir, target = books / slug, page_dir(slug, n)
         # A new version replaces the page's files; the book's cast is shared.
         staging = target.with_name(target.name + f".new-{secrets.token_hex(4)}")
@@ -209,7 +218,7 @@ def mount(app: FastAPI, data_dir: Path, connect_db, require_teacher):
                 "systemPrompt": p["systemPrompt"], "content": {"vocab": p["vocab"]}, "i18n": p.get("i18n") or {},
                 "forma": {"html": html, "aspect": p["aspect"], "crop": p.get("crop", {}), "base": base, "sourcePage": n,
                           **({"scan": base + p["scan"]} if p.get("scan") else {}),
-                          "css": f"/forma/components.css?v={int(time.time())}", "script": f"/forma/forma-page.js?v={int(time.time())}"},
+                          "css": f"/forma/{runtime_css}", "script": f"/forma/{runtime_script}"},
             }
             record = {**data, "platformPage": platform_page, "publishedAt": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}
             (staging / "page.json").write_text(json.dumps(record, ensure_ascii=False), encoding="utf-8")
@@ -219,10 +228,11 @@ def mount(app: FastAPI, data_dir: Path, connect_db, require_teacher):
         finally:
             if staging.exists():
                 shutil.rmtree(staging, ignore_errors=True)
-        # Runtime shared by all Forma pages: styles and the text-fitting script.
-        if css.strip() and len(css) < 512 * 1024:
+        # Keep legacy shared URLs working, but freeze them for older pages.
+        # New pages always use the content-addressed runtime above.
+        if not (root / "components.css").exists():
             (root / "components.css").write_text(css, encoding="utf-8")
-        if script.strip() and len(script) < 256 * 1024:
+        if not (root / "forma-page.js").exists():
             (root / "forma-page.js").write_text(script, encoding="utf-8")
         rebuild_lessons(slug)
         return {"ok": True, "lessonId": f"forma-{slug}-{data['lesson']['number']:03}", "page": n,
@@ -264,7 +274,7 @@ def mount(app: FastAPI, data_dir: Path, connect_db, require_teacher):
     @app.get("/forma/{path:path}")
     def forma_file(path: str):
         """Published pages' files, the shared runtime and cast portraits."""
-        if path in ("components.css", "forma-page.js"):
+        if path in ("components.css", "forma-page.js") or re.fullmatch(r"(?:components-[a-f0-9]{20}\.css|forma-page-[a-f0-9]{20}\.js)", path):
             target = root / path
         elif re.fullmatch(r"books/[a-z0-9][a-z0-9-]{0,63}/" + FILE_PATH.pattern, path):
             target = root / path

@@ -14,9 +14,10 @@
 import { mkdir, readFile, writeFile, readdir, stat, rm, rename, copyFile } from 'node:fs/promises';
 import { spawn } from 'node:child_process';
 import { createWriteStream, existsSync } from 'node:fs';
-import { join } from 'node:path';
-import { createHash } from 'node:crypto';
-import { pathToFileURL } from 'node:url';
+import { join, extname } from 'node:path';
+import { createHash, randomUUID } from 'node:crypto';
+import { digest, localizeLayout, validatePage, layoutFromOcr } from './page-contract.mjs';
+import { pathToFileURL, fileURLToPath } from 'node:url';
 import { tmpdir } from 'node:os';
 import * as core from './core.mjs';
 import { scorePage } from './fidelity.mjs';
@@ -24,6 +25,12 @@ import { scorePage } from './fidelity.mjs';
 const RUNTIME = join(process.env.USERPROFILE || '', '.cache', 'codex-runtimes', 'codex-primary-runtime', 'dependencies', 'node', 'node_modules');
 const OCR_URL = process.env.FORMA_OCR_URL || 'http://127.0.0.1:4182/ocr';
 const SCAN_DPI = 288;
+const CODE = fileURLToPath(new URL('.', import.meta.url));
+// A geometry or CSS fix changes the renderer just as a core change does.
+// Frozen revisions must never be published as if they used those new rules.
+const RENDERER_FILES=['core.mjs','components.css','source-geometry.mjs','word-labels.mjs','tone-audio.mjs','workbook-drills.mjs','title-page.mjs','imprint-page.mjs','credits-page.mjs','foreword-page.mjs','page-contract.mjs'];
+const RENDERER_HASH = digest(await Promise.all(RENDERER_FILES.map(async name=>[name,await readFile(join(CODE,name),'utf8')])));
+const rendererScript = () => `window.FormaPage=(function(){${core.fit.toString()}\n${core.autoFit.toString()}\n${core.setLang.toString()}\nreturn{fit,autoFit,setLang};})();`;
 const STEPS = [['render', 'Рендер страницы PDF'], ['ocr', 'Локальный OCR'], ['model', 'Разметка моделью'], ['layout', 'Привязка к скану'], ['assets', 'Картинки'], ['html', 'HTML-страница']];
 
 let canvasPromise, pdfjsPromise;
@@ -37,7 +44,11 @@ const pdfjsLib = () => (pdfjsPromise ||= (async () => {
 const pad3 = n => String(n).padStart(3, '0');
 const sendJson = (res, status, data) => { res.writeHead(status, { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' }); res.end(JSON.stringify(data)); };
 const readJson = async path => { try { return JSON.parse(await readFile(path, 'utf8')); } catch { return null; } };
-const writeJson = (path, data) => writeFile(path, JSON.stringify(data, null, 1));
+async function atomicWrite(path, data) {
+  const temp = path + '.new-' + randomUUID();
+  await writeFile(temp, data); await rename(temp, path);
+}
+const writeJson = (path, data) => atomicWrite(path, JSON.stringify(data, null, 1));
 async function bodyJson(req, limit = 8 * 1024 * 1024) {
   const chunks = []; let size = 0;
   for await (const c of req) { size += c.length; if (size > limit) throw new Error('Слишком большой запрос.'); chunks.push(c); }
@@ -90,8 +101,12 @@ export function createWebbook({ root, getApiKey, getAliKey = () => '', origin = 
   // ---- pipeline steps ----
 
   async function stepOcr(dir, n, force) {
+    const sourceHash=digest(await readFile(join(dir,'scan.png')));
     const cached = !force && await readJson(join(dir, 'ocr.json'));
-    if (cached?.lines?.length) return { ocr: cached, note: `из кэша, ${cached.lines.length} строк` };
+    if (cached?.lines?.length && (!cached.sourceHash || cached.sourceHash===sourceHash)) {
+      if(!cached.sourceHash){cached.sourceHash=sourceHash;await writeJson(join(dir,'ocr.json'),cached);}
+      return { ocr: cached, note: `из кэша, ${cached.lines.length} строк` };
+    }
     const png = await readFile(join(dir, 'scan.png'));
     let response;
     try { response = await fetch(`${OCR_URL}?page=${n}&dpi=${SCAN_DPI}`, { method: 'POST', headers: { 'content-type': 'image/png' }, body: png, signal: AbortSignal.timeout(240000) }); }
@@ -99,13 +114,19 @@ export function createWebbook({ root, getApiKey, getAliKey = () => '', origin = 
     const ocr = await response.json().catch(() => ({}));
     if (!response.ok) throw new Error(ocr.error || `OCR вернул HTTP ${response.status}.`);
     if (!ocr.lines?.length) throw new Error('OCR не нашёл текста на странице.');
+    ocr.sourceHash=sourceHash;
     await writeJson(join(dir, 'ocr.json'), ocr);
     return { ocr, note: `${ocr.lines.length} строк` };
   }
 
   async function stepModel(dir, model, force, scanImage) {
+    const sourceHash=digest(await readFile(join(dir,'scan.png'))), promptHash=digest(core.PROMPT);
     const cached = await readJson(join(dir, 'model.json'));
-    if (cached?.content && !force) return { answer: cached, note: `из кэша (${cached.model}), без запроса` };
+    if (cached?.content && !force && (!cached.sourceHash || cached.sourceHash===sourceHash)) {
+      if(!cached.sourceHash){cached.sourceHash=sourceHash;cached.promptHash=promptHash;await writeJson(join(dir,'model.json'),cached);}
+      if(cached.promptHash!==promptHash)cached.needsReview='Изменился prompt разметки; сохранённый ответ требует проверки.';
+      return { answer: cached, note: `из кэша (${cached.model}), без запроса${cached.needsReview?' · требует проверки':''}` };
+    }
     const key = getApiKey();
     if (!key) throw new Error('Ключ OpenRouter не подключён: добавьте его в «Настроить ключ».');
     if (!model) throw new Error('Выберите модель с поддержкой изображений.');
@@ -135,7 +156,7 @@ export function createWebbook({ root, getApiKey, getAliKey = () => '', origin = 
     }
     const finish = d.choices?.[0]?.finish_reason;
     if (finish === 'length') throw new Error('Ответ модели обрезан. Выберите другую модель или повторите.');
-    const answer = { model, content: d.choices?.[0]?.message?.content || '', cost: d.usage?.cost ?? null, finish, at: new Date().toISOString() };
+    const answer = { model, sourceHash, promptHash, content: d.choices?.[0]?.message?.content || '', cost: d.usage?.cost ?? null, finish, at: new Date().toISOString() };
     core.parseModelJson(answer.content); // fail now rather than in the next step
     await writeJson(join(dir, 'model.json'), answer);
     return { answer, note: `${model}${answer.cost != null ? `, $${Number(answer.cost).toFixed(4)}` : ''}` };
@@ -328,6 +349,8 @@ export function createWebbook({ root, getApiKey, getAliKey = () => '', origin = 
   }
 
   const assetUrls = (id, n, files) => Object.fromEntries(Object.entries(files || {}).map(([k, v]) => [k, `/library/${id}/pages/${pad3(n)}/${v}`]));
+  const readPhonetics = async (id,n) => await readJson(join(pageDir(id,n),'phonetics.json')) || (id === '8bf3af15d090' && [3,4,7,11].includes(n) ? await readJson(join(root,'webbook','phonetics',`workbook-page${n}.json`)) : null);
+  const readSourceRegions = async (id,n) => id === '8bf3af15d090' && n === 4 ? await readJson(join(root,'webbook','phonetics',`workbook-page${n}-regions.json`)) : null;
 
   // Studio characters for the book (portraits replace scanned avatars in
   // every output). Kept in library/<book>/cast/.
@@ -449,7 +472,12 @@ export function createWebbook({ root, getApiKey, getAliKey = () => '', origin = 
     const [cast, clip, have] = await Promise.all([readCast(id), readClip(id, n), bookAudio(id)]);
     const { layout: shown, assets } = core.applyCast(layout, cast, c => castUrl(id, c));
     const audio = Object.fromEntries(tracksOf(layout).filter(t => have[t]).map(t => [t, `/library/${id}/audio/${have[t].file}?v=${have[t].v}`]));
-    return { layout: shown, assets: { ...assetUrls(id, n, layout.assets), ...assets, ...clipAssets(clip, `/library/${id}/pages/${pad3(n)}/`), audio } };
+    const ocr = await readJson(join(pageDir(id, n), 'ocr.json'));
+    if (ocr?.lines?.length) shown.sourceLines = ocr.lines;
+    shown.phonetics = await readPhonetics(id,n);
+    shown.sourceRegions = await readSourceRegions(id,n);
+    const sounds = Object.fromEntries((shown.phonetics?.cells || []).map(c=>[`phonetic-${c.text}`,`/webbook/phonetics/${c.text}.mp3`]));
+    return { layout: shown, assets: { ...assetUrls(id, n, layout.assets), ...assets, ...clipAssets(clip, `/library/${id}/pages/${pad3(n)}/`), audio, ...sounds, ...(ocr?.lines?.length ? {sourceScan:`/library/${id}/pages/${pad3(n)}/scan.png`} : {}) } };
   }
 
   async function saveBody(req, path, limit) {
@@ -534,10 +562,80 @@ export function createWebbook({ root, getApiKey, getAliKey = () => '', origin = 
   }
 
   async function writePageHtml(id, n, layout) {
+    layout = core.attachInteractiveCaptions(layout);
     const view = await presented(id, n, layout);
-    const html = core.pageDocument(view.layout, { title: `Страница ${n}`, css: '/webbook/components.css', assets: view.assets });
-    await writeFile(join(pageDir(id, n), 'index.html'), html);
+    const css = layout.conversionId ? `/library/${id}/pages/${pad3(n)}/revisions/${layout.conversionId}/components.css` : '/webbook/components.css';
+    const html = core.pageDocument(view.layout, { title: `Страница ${n}`, css, assets: view.assets });
+    await atomicWrite(join(pageDir(id, n), 'index.html'), html);
     autoScore(id, n);
+  }
+
+  async function commitPage(id, n, candidate, { conversionId = randomUUID(), image, quality, engine = 'vision' } = {}) {
+    quality ||= candidate.quality;
+    const dir = pageDir(id,n), before = await readJson(join(dir,'layout.json'));
+    const revision = join(dir,'revisions',conversionId);
+    await mkdir(revision,{recursive:true});
+    let layout = localizeLayout(core.attachInteractiveCaptions(candidate),before);
+    const validation=validatePage(layout,{requireKz:Boolean(Object.keys(before?.kz||{}).length)});
+    validation.warnings.push(...(quality?.issues||[]).map(i=>i.note||i.kind));
+    if(validation.state==='passed'&&validation.warnings.length)validation.state='review';
+    layout={...layout,conversionId,engine,rendererHash:RENDERER_HASH,validation,builtAt:new Date().toISOString()};
+    if(validation.errors.length){await writeJson(join(revision,'validation.json'),validation);throw new Error('Новая версия не активирована: '+validation.errors.join('; '));}
+    // Keep the previous pre-versioning page as a complete rollback snapshot.
+    if(before&&!before.conversionId){
+      const backup=join(dir,'revisions','legacy-'+Date.now());await mkdir(backup,{recursive:true});
+      for(const f of ['layout.json','index.html','ocr.json'])if(existsSync(join(dir,f)))await copyFile(join(dir,f),join(backup,f));
+      if(existsSync(join(dir,'assets')))await (await import('node:fs/promises')).cp(join(dir,'assets'),join(backup,'assets'),{recursive:true});
+    }
+    if(image){
+      const files=await writeAssets(revision,layout,image);
+      layout.assets=Object.fromEntries(Object.entries(files).map(([k,v])=>[k,`revisions/${conversionId}/${v}`]));
+    }
+    // Store exact-tone recordings in the immutable revision, so studio,
+    // export and publication all use the same local audio files.
+    for(const key of core.toneRecordings(layout)){
+      const name=`tone-${key}.mp3`,source=join(CODE,'phonetics','tones',`${key}.mp3`);
+      if(!existsSync(source))throw new Error(`Нет записи слога с тоном: ${key}. Синтез речи не заменяет учебную запись.`);
+      await mkdir(join(revision,'assets'),{recursive:true});
+      await copyFile(source,join(revision,'assets',name));
+      layout.assets||={};layout.assets[`tone-${key}`]=`revisions/${conversionId}/assets/${name}`;
+    }
+    await copyFile(join(CODE,'components.css'),join(revision,'components.css'));
+    await writeFile(join(revision,'runtime.js'),rendererScript());
+    await writeJson(join(revision,'layout.json'),layout);
+    // Assets are immutable before the active layout is replaced. Failed asset
+    // extraction never removes the currently displayed page's files.
+    const previousHtml=await readFile(join(dir,'index.html')).catch(()=>null);
+    try {
+      await writeJson(join(dir,'layout.json'),layout);
+      await writePageHtml(id,n,layout);
+    } catch(error) {
+      if(before)await writeJson(join(dir,'layout.json'),before);
+      else await rm(join(dir,'layout.json'),{force:true});
+      if(previousHtml)await atomicWrite(join(dir,'index.html'),previousHtml);
+      throw error;
+    }
+    await copyFile(join(dir,'index.html'),join(revision,'index.html'));
+    if(validation.state==='passed')autoRepublish(id,n);
+    return {conversionId,validation,html:`/library/${id}/pages/${pad3(n)}/index.html`};
+  }
+
+  async function adoptLocal({ book:id, page:n, conversionId, ocr, quality }) {
+    const dir=pageDir(id,n), cached=await readJson(join(dir,'model.json'));
+    const {loadImage}=await canvasLib(), image=await loadImage(await readFile(join(dir,'scan.png')));
+    const grid=await pixelGrid(image);
+    // Preserve the semantic understanding from a cached model, while geometry
+    // and fine print come from the current local OCR. No new paid request.
+    let base=cached?.content?core.fromModel(core.parseModelJson(cached.content),image.width,image.height):layoutFromOcr(ocr);
+    // The original line OCR and refined word/character OCR are complementary.
+    // Line boxes drive grouping; refined tokens remain source evidence.
+    const lineOcr=await readJson(join(dir,'ocr.json'));
+    let layout=cached?.content?core.snap(base,grid,lineOcr?.lines?.length?lineOcr:ocr):base;
+    layout.sourceTokens=ocr.lines;layout.quality=quality;
+    layout.decorations=core.absorbIntoImages(layout,core.findDecorations(layout,grid));
+    const result=await commitPage(id,n,layout,{conversionId,image,quality,engine:'local-structure'});
+    await writeJson(join(dir,'status.json'),{state:'done',conversionId,validation:result.validation,finishedAt:new Date().toISOString(),steps:[]});
+    return result;
   }
 
   // ---- fidelity: the page as readers see it, scored against its scan ----
@@ -547,7 +645,10 @@ export function createWebbook({ root, getApiKey, getAliKey = () => '', origin = 
     if (!origin) throw new Error('Оценка сходства доступна только в запущенной студии.');
     const dir = pageDir(id, n);
     if (!existsSync(join(dir, 'index.html'))) throw new Error('Страница ещё не сконвертирована.');
-    const { report, heatPng } = await scorePage({ scanFile: await ensureScan(id, n), frameUrl: `${origin}/webbook/render-frame.html`, pageUrl: `/library/${id}/pages/${pad3(n)}/index.html`, work: join(tmpdir(), 'forma-fidelity', `${id}-${pad3(n)}`) });
+    const version=(await readJson(join(dir,'layout.json')))?.conversionId;
+    const { report, heatPng } = await scorePage({ scanFile: await ensureScan(id, n), frameUrl: `${origin}/webbook/render-frame.html`, pageUrl: `/library/${id}/pages/${pad3(n)}/index.html`, work: join(dir,'checks',version||'legacy') });
+    report.conversionId=version;
+    if((await readJson(join(dir,'layout.json')))?.conversionId!==version)return {...report,stale:true};
     await writeFile(join(dir, 'fidelity.png'), heatPng);
     await writeJson(join(dir, 'fidelity.json'), report);
     return report;
@@ -645,17 +746,13 @@ export function createWebbook({ root, getApiKey, getAliKey = () => '', origin = 
         const snapped = core.snap(base, grid, ocr);
         snapped.decorations = core.absorbIntoImages(snapped, core.findDecorations(snapped, grid));
         snapped.model = answer.model; snapped.cost = answer.cost; snapped.builtAt = new Date().toISOString();
+        if(answer.needsReview)snapped.quality={issues:[{note:answer.needsReview}]};
         return { value: snapped, note: `${snapped.blocks.length} блоков, OCR-строк ${snapped.ocrLines}, декор ${snapped.decorations.length}` };
       });
-      const files = await step('assets', async () => { const f = await writeAssets(dir, layout.value, image); return { value: f, note: `${Object.keys(f).length} шт.` }; });
-      layout.value.assets = files.value;
-      // The Kazakh translation is keyed by the Russian texts: it survives a rebuild for every text that did not change.
-      const before = await readJson(join(dir, 'layout.json')).catch(() => null);
-      if (before?.kz) layout.value.kz = before.kz;
-      await writeJson(join(dir, 'layout.json'), layout.value);
-      await step('html', async () => { await writePageHtml(id, n, layout.value); return { note: 'index.html' }; });
+      const committed = await step('assets', async () => ({value:await commitPage(id,n,layout.value,{image}),note:'Версия и ресурсы сохранены'}));
+      job.conversionId=committed.value.conversionId;job.validation=committed.value.validation;
+      await step('html', async () => ({note:committed.value.html}));
       job.state = 'done';
-      autoRepublish(id, n);
     } catch (e) {
       job.state = 'error'; job.error = e.message;
     } finally {
@@ -764,6 +861,20 @@ export function createWebbook({ root, getApiKey, getAliKey = () => '', origin = 
         assets[key] = `assets/${name}`;
       }
       Object.assign(assets, applied.assets);
+      layout.phonetics = await readPhonetics(id,n);
+      layout.sourceRegions = await readSourceRegions(id,n);
+      for (const cell of layout.phonetics?.cells || []) {
+        const sound = `${cell.text}.mp3`;
+        await writeFile(join(out,'assets',sound),await readFile(join(root,'webbook','phonetics',sound)));
+        assets[`phonetic-${cell.text}`] = `assets/${sound}`;
+      }
+      const sourceOcr = await readJson(join(pageDir(id,n),'ocr.json'));
+      if (sourceOcr?.lines?.length) {
+        layout.sourceLines = sourceOcr.lines;
+        const sourceName = `p${pad3(n)}-source.png`;
+        await writeFile(join(out,'assets',sourceName),await readFile(await ensureScan(id,n)));
+        assets.sourceScan = `assets/${sourceName}`;
+      }
       const clip = await readClip(id, n);
       if (clip) {
         const clipName = `p${pad3(n)}-${clip.file}`;
@@ -869,16 +980,18 @@ export function createWebbook({ root, getApiKey, getAliKey = () => '', origin = 
   // the tutor's context.
   function pageMeta(layout, n, lesson, level, bookStrip = 0) {
     const blocks = layout.blocks;
-    const folio = blocks.find(b => b.type === 'folio' && /\d/.test(b.text || ''))?.text?.replace(/^0+/, '') || String(n);
+    // The platform page number follows the source PDF order. A printed
+    // workbook folio (for example, 001 on PDF page 3) is page content, not
+    // the page's position in the uploaded document.
+    const sourcePage = String(n);
     const section = blocks.find(b => b.type === 'section')?.cn || '';
-    const vocab = blocks.filter(b => b.type === 'words').flatMap(b => b.rows || []).filter(r => !r.group && r.hz)
-      .map(r => {
-        // Meanings in every page language: the platform shows the one the reader chose.
-        const kz = layout.kz || {}, k = s => kz[String(s || '').trim()] || '';
-        return { word: r.hz, py: r.py || r.hz, pos: r.pos_ru || r.pos_en || '', trans: r.ru || r.en || r.hz,
-          ...(r.en ? { trans_en: r.en } : {}), ...(r.pos_en ? { pos_en: r.pos_en } : {}),
-          ...(k(r.ru) ? { trans_kz: k(r.ru) } : {}), ...(k(r.pos_ru) ? { pos_kz: k(r.pos_ru) } : {}) };
-      }).slice(0, 20);
+    // Build the dictionary from this page's semantic labels and vocabulary,
+    // excluding phonetics tables such as initials/finals/tones.
+    const kz = layout.kz || {}, k = s => kz[String(s || '').trim()] || '';
+    const vocab = core.pageVocabulary(layout).map(item => ({ ...item,
+      ...(item.trans_en ? { trans_en: item.trans_en } : {}),
+      ...(k(item.trans) ? { trans_kz: k(item.trans) } : {})
+    }));
     const square = blocks.find(b => b.type === 'para' && b.icon === 'square');
     const pin = blocks.find(b => b.type === 'para' && b.icon === 'pin');
     const turns = blocks.filter(b => b.type === 'dialogue').flatMap(b => b.turns || []);
@@ -908,11 +1021,11 @@ export function createWebbook({ root, getApiKey, getAliKey = () => '', origin = 
         && !(layout.decorations || []).some(d => d.box.x < 0.97 && d.box.x + d.box.w > 1 - margin + 0.005)) crop.right = +margin.toFixed(4);
     const about = `Урок ${lesson.number}: ${lesson.title}${lesson.subtitle ? ` (${lesson.subtitle})` : ''}`;
     return {
-      n, pageNum: `с. ${folio}`, navLabel: `Стр. ${folio}${section ? ' · ' + section : ''}`, aspect: `${layout.page?.width || 2342}/${layout.page?.height || 3190}`, crop,
+      n, pageNum: `с. ${sourcePage}`, navLabel: `Стр. ${sourcePage}${section ? ' · ' + section : ''}`, aspect: `${layout.page?.width || 2342}/${layout.page?.height || 3190}`, crop,
       chaoIntro: (pin ? pin.ru || pin.en || pin.cn : '') || `${about}. Нажимай на слова и реплики, чтобы услышать их.`,
       task: square ? [square.cn, square.ru || square.en].filter(Boolean).join(' ') : 'Прочитай страницу и повтори новые слова.',
       builderWords: pieces.filter(Boolean).slice(0, 12),
-      systemPrompt: `Ты Мейли — репетитор ${level}. ${about}. Страница ${folio}.${lines ? ' Реплики страницы: ' + lines.slice(0, 1500) : ''}`,
+      systemPrompt: `Ты Мейли — репетитор ${level}. ${about}. Страница ${sourcePage}.${lines ? ' Реплики страницы: ' + lines.slice(0, 1500) : ''}`,
       // Xiaoyu's intro and the page task in the other platform languages (Russian stays the default).
       i18n: (() => {
         const kz = layout.kz || {}, k = s => kz[String(s || '').trim()] || '';
@@ -1027,9 +1140,7 @@ export function createWebbook({ root, getApiKey, getAliKey = () => '', origin = 
       for (const [ru] of part) if (typeof got[ru] === 'string' && got[ru].trim()) kz[ru] = got[ru].trim();
     }
     layout.kz = kz;
-    await writeJson(join(dir, 'layout.json'), layout);
-    await writePageHtml(id, n, layout);
-    autoRepublish(id, n);
+    await commitPage(id,n,layout);
     return { texts: texts.size, translated: [...texts.keys()].filter(ru => kz[ru]).length };
   }
 
@@ -1045,9 +1156,13 @@ export function createWebbook({ root, getApiKey, getAliKey = () => '', origin = 
     return out;
   }
 
-  async function publishPage(id, n) {
+  async function publishPage(id, n, expectedId) {
     const dir = pageDir(id, n), layout = await readJson(join(dir, 'layout.json'));
     if (!layout) throw new Error(`Страница ${n} ещё не сконвертирована.`);
+    if(expectedId && expectedId!==layout.conversionId)throw new Error('Версия страницы изменилась. Обновите предпросмотр перед публикацией.');
+    if(layout.rendererHash && layout.rendererHash!==RENDERER_HASH)throw new Error('Движок страницы обновлён. Пересоберите страницу перед публикацией новой версией движка.');
+    const checked=validatePage(layout,{requireKz:Boolean(Object.keys(layout.kz||{}).length)});
+    if(checked.errors.length)throw new Error('Публикация остановлена: '+checked.errors.join('; '));
     const { book, section, level, slug } = await bookPlatform(id);
     const base = `/forma/books/${slug}/`, pageBase = `${base}pages/${pad3(n)}/`;
     const cast = await readCast(id);
@@ -1055,7 +1170,10 @@ export function createWebbook({ root, getApiKey, getAliKey = () => '', origin = 
     const castPaths = new Map();
     const applied = core.applyCast(layout, cast, c => { castPaths.set(c.file, `cast/${c.file}`); return `${base}cast/${c.file}?v=${c.v || 0}`; });
     const assets = {};
-    for (const [key, rel] of Object.entries(layout.assets || {})) { assets[key] = pageBase + rel; files.push([`pages/${pad3(n)}/${rel}`, join(dir, rel)]); }
+    for (const [key, rel] of Object.entries(layout.assets || {})) {
+      const target=layout.conversionId?`assets/${layout.conversionId}-${key}${extname(rel)}`:rel;
+      assets[key] = pageBase + target; files.push([`pages/${pad3(n)}/${target}`, join(dir, rel)]);
+    }
     Object.assign(assets, applied.assets);
     for (const [file, path] of castPaths) files.push([path, join(bookDir(id), 'cast', file)]);
     const clip = await readClip(id, n);
@@ -1075,17 +1193,29 @@ export function createWebbook({ root, getApiKey, getAliKey = () => '', origin = 
     // A light copy of the printed page, for the reader's «original» button.
     const scan = await webScan(dir);
     if (scan) files.push([`pages/${pad3(n)}/scan.webp`, scan]);
+    const sourceOcr = await readJson(join(dir,'ocr.json'));
+    if (scan && sourceOcr?.lines?.length) {
+      applied.layout.sourceLines = sourceOcr.lines;
+      assets.sourceScan = `${pageBase}scan.webp`;
+    }
+    applied.layout.phonetics = await readPhonetics(id,n);
+    applied.layout.sourceRegions = await readSourceRegions(id,n);
+    for (const cell of applied.layout.phonetics?.cells || []) {
+      const name = `${cell.text}.mp3`;
+      files.push([`pages/${pad3(n)}/assets/${name}`,join(root,'webbook','phonetics',name)]);
+      assets[`phonetic-${cell.text}`] = `${pageBase}assets/${name}`;
+    }
     const lesson = await lessonOf(id, n);
     const html = core.render(applied.layout, { assets, lang: 'russian', pinyin: true });
-    const meta = { book: { slug, title: book.name, section, level }, page: { ...pageMeta(applied.layout, n, lesson, level, await bookStripOf(id)), ...(scan ? { scan: 'scan.webp' } : {}) }, lesson, files: files.map(f => f[0]) };
+    const meta = { book: { slug, title: book.name, section, level }, page: { ...pageMeta(applied.layout, n, lesson, level, await bookStripOf(id)), ...(scan ? { scan: 'scan.webp' } : {}) }, conversionId:layout.conversionId, lesson, files: files.map(f => f[0]) };
     const form = new FormData();
     form.append('meta', JSON.stringify(meta));
     form.append('html', html);
-    form.append('css', await readFile(join(root, 'webbook', 'components.css'), 'utf8'));
-    form.append('script', `window.FormaPage=(function(){${core.fit.toString()}\n${core.autoFit.toString()}\n${core.setLang.toString()}\nreturn{fit,autoFit,setLang};})();`);
+    form.append('css', await readFile(layout.conversionId?join(dir,'revisions',layout.conversionId,'components.css'):join(root, 'webbook', 'components.css'), 'utf8'));
+    form.append('script', layout.conversionId && existsSync(join(dir,'revisions',layout.conversionId,'runtime.js')) ? await readFile(join(dir,'revisions',layout.conversionId,'runtime.js'),'utf8') : rendererScript());
     for (const [path, local] of files) form.append('files', new Blob([await readFile(local)]), path.split('/').pop());
     const result = await platformCall('/api/forma/pages', { method: 'POST', body: form });
-    const record = { publishedAt: result.publishedAt || new Date().toISOString(), lessonId: result.lessonId, lesson: lesson.number, section, slug };
+    const record = { publishedAt: result.publishedAt || new Date().toISOString(), lessonId: result.lessonId, lesson: lesson.number, section, slug, conversionId:layout.conversionId };
     await writeJson(join(dir, 'published.json'), record);
     return record;
   }
@@ -1102,6 +1232,8 @@ export function createWebbook({ root, getApiKey, getAliKey = () => '', origin = 
       autoTimers.delete(key);
       const file = join(pageDir(id, n), 'published.json'), record = await readJson(file);
       if (!record || !platformToken || !(await platformSettings()).url) return;
+      const active=await readJson(join(pageDir(id,n),'layout.json'));
+      if(active?.validation && active.validation.state!=='passed')return;
       try { await publishPage(id, n); }
       catch (e) { await writeJson(file, { ...record, autoError: e.message, autoErrorAt: new Date().toISOString() }).catch(() => {}); }
     }, 1500));
@@ -1203,7 +1335,7 @@ export function createWebbook({ root, getApiKey, getAliKey = () => '', origin = 
       if (what === 'fidelity' && req.method === 'GET') return sendJson(res, 200, await readJson(join(dir, 'fidelity.json')) || {}), true;
       if (what === 'fidelity' && req.method === 'POST') return sendJson(res, 200, await scoreNow(id, n)), true;
       if (what === 'golden' && req.method === 'PUT') return sendJson(res, 200, await setGolden(id, n, Boolean((await bodyJson(req)).on))), true;
-      if (what === 'publish' && req.method === 'POST') return sendJson(res, 200, await publishPage(id, n)), true;
+      if (what === 'publish' && req.method === 'POST') return sendJson(res, 200, await publishPage(id, n,(await bodyJson(req)).conversionId)), true;
       if (what === 'publish' && req.method === 'DELETE') return sendJson(res, 200, await unpublishPage(id, n)), true;
       if (what === 'clip' && req.method === 'GET') return sendJson(res, 200, await readClip(id, n) || {}), true;
       if (what === 'clip' && req.method === 'PUT') {
@@ -1229,6 +1361,22 @@ export function createWebbook({ root, getApiKey, getAliKey = () => '', origin = 
       if (what === 'job' && req.method === 'GET') {
         return sendJson(res, 200, jobs.get(`${id}:${n}`) || await readJson(join(dir, 'status.json')) || { state: 'none' }), true;
       }
+      if(what==='revisions' && req.method==='GET') {
+        const base=join(dir,'revisions'),list=[];
+        for(const name of await readdir(base).catch(()=>[])){
+          const saved=await readJson(join(base,name,'layout.json'));
+          if(saved)list.push({conversionId:name,builtAt:saved.builtAt,validation:saved.validation});
+        }
+        return sendJson(res,200,list),true;
+      }
+      if(what==='rollback' && req.method==='POST') {
+        const {conversionId}=await bodyJson(req);
+        if(typeof conversionId!=='string'||!/^[a-zA-Z0-9-]{1,90}$/.test(conversionId))throw new Error('Некорректный ID версии.');
+        const saved=await readJson(join(dir,'revisions',conversionId,'layout.json'));
+        if(!saved)throw new Error('Сохранённая версия не найдена.');
+        const result=await commitPage(id,n,saved,{engine:'rollback'});
+        return sendJson(res,200,result),true;
+      }
       if (what === 'layout' && req.method === 'GET') {
         const layout = await readJson(join(dir, 'layout.json'));
         if (!layout) return sendJson(res, 404, { error: 'Страница ещё не сконвертирована.' }), true;
@@ -1243,10 +1391,8 @@ export function createWebbook({ root, getApiKey, getAliKey = () => '', origin = 
         if (!old || !Array.isArray(b.layout?.blocks)) return sendJson(res, 400, { error: 'Нет сохранённой страницы или неверные данные.' }), true;
         // Only editable parts are accepted; measurements stay server-owned.
         const layout = { ...old, blocks: b.layout.blocks, theme: b.layout.theme || old.theme, editedAt: new Date().toISOString() };
-        await writeJson(join(dir, 'layout.json'), layout);
+        await commitPage(id,n,layout);
         await writeFile(join(dir, 'edited.flag'), layout.editedAt);
-        await writePageHtml(id, n, layout);
-        autoRepublish(id, n);
         return sendJson(res, 200, { ok: true, editedAt: layout.editedAt }), true;
       }
       return sendJson(res, 404, { error: 'Не найдено.' }), true;
@@ -1256,7 +1402,7 @@ export function createWebbook({ root, getApiKey, getAliKey = () => '', origin = 
     }
   }
 
-  return { handle, renderScan: ensureScan };
+  return { handle, renderScan: ensureScan, adoptLocal };
 }
 
 // ---- minimal ZIP writer (stored entries; images are already compressed) ----

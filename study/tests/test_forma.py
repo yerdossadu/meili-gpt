@@ -56,6 +56,21 @@ class FormaPublishTest(unittest.TestCase):
         self.assertEqual(self.publish(meta(), headers={}).status_code, 401)
         self.assertEqual(self.publish(meta(), headers={"authorization": "Bearer wrong"}).status_code, 401)
 
+    def test_runtime_is_pinned_when_another_page_is_published(self):
+        self.assertEqual(self.publish(meta(n=41, lesson=6)).status_code, 200)
+        lessons = self.client.get('/api/lessons').json()
+        page = next(p for l in lessons if l.get('source') == 'forma' for p in l['pages']
+                    if p.get('forma', {}).get('sourcePage') == 41)
+        css_url = page['forma']['css']
+        first_css = self.client.get(css_url).text
+        response = self.client.post('/api/forma/pages', headers=AUTH, data={
+            'meta': json.dumps(meta(n=42, lesson=6, files=[])), 'html':'<div class="hsk-page">新</div>',
+            'css':'.hsk-page{color:red}', 'script':'window.FormaPage={changed:true}'})
+        self.assertEqual(response.status_code, 200, response.text)
+        self.assertEqual(self.client.get(css_url).status_code, 200)
+        self.assertEqual(self.client.get(css_url).text, first_css)
+        self.assertNotEqual(css_url, '/forma/components.css')
+
     def test_rejects_foreign_paths_and_scripts(self):
         bad = meta(files=["../server.py"])
         self.assertEqual(self.publish(bad).status_code, 400)

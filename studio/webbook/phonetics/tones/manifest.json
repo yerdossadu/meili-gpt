@@ -1,0 +1,414 @@
+{
+  "source": "https://github.com/cmguo/PinYinSound",
+  "license": "No license declared upstream; same recordings source as existing local initials/finals. Local evaluation only; redistribution rights not established.",
+  "files": [
+    {
+      "syllable": "a",
+      "tone": 1,
+      "name": "a1.mp3",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/a1.mp3",
+      "bytes": 7863,
+      "sha256": "8da92f23ecbe7947d5fffd8ea843caa781395f61bd3ca0cf9f3cba7d2b42d988"
+    },
+    {
+      "syllable": "a",
+      "tone": 2,
+      "name": "a2.mp3",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/a2.mp3",
+      "bytes": 8411,
+      "sha256": "1de37bb68b9c13bb0ff772f260055fbedf9114855dc134970f528a13e1808f28"
+    },
+    {
+      "syllable": "a",
+      "tone": 3,
+      "name": "a3.mp3",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/a3.mp3",
+      "bytes": 8411,
+      "sha256": "d8711a7aac3d3ef011e7561cd332e6691211a18fad7188148c6659e1a36b0d9b"
+    },
+    {
+      "syllable": "a",
+      "tone": 4,
+      "name": "a4.mp3",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/a4.mp3",
+      "bytes": 7314,
+      "sha256": "9a76c330190041a5393421d5adbd02b1eb2042c69a52b4527873be5aff0a6efe"
+    },
+    {
+      "syllable": "e",
+      "tone": 1,
+      "name": "e1.mp3",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/e1.mp3",
+      "bytes": 7680,
+      "sha256": "491d969ac086b39699f5d83301aa7f95442b52aefe0b1a513b09849976e5c531"
+    },
+    {
+      "syllable": "e",
+      "tone": 2,
+      "name": "e2.mp3",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/e2.mp3",
+      "bytes": 9691,
+      "sha256": "39781334626bdb262900efbc88db7f7aaebbbfea3624aebaa55b77cd6255e2dc"
+    },
+    {
+      "syllable": "e",
+      "tone": 3,
+      "name": "e3.mp3",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/e3.mp3",
+      "bytes": 9874,
+      "sha256": "40f8ae25312435e10836ea6d4cf4292ebf89785c40f8ca31b83997928ae0f4cb"
+    },
+    {
+      "syllable": "e",
+      "tone": 4,
+      "name": "e4.mp3",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/e4.mp3",
+      "bytes": 7680,
+      "sha256": "de0095181a6f4ecc7f43c38358f9aad52f30f0a39447fb725f8a01d01fd6867d"
+    },
+    {
+      "syllable": "er",
+      "tone": 2,
+      "name": "er2.mp3",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/er2.mp3",
+      "bytes": 6949,
+      "sha256": "2492ba9de4804e464546a100da554d6aa99525b9ff743e893f35c96f57875d87"
+    },
+    {
+      "syllable": "er",
+      "tone": 3,
+      "name": "er3.mp3",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/er3.mp3",
+      "bytes": 7314,
+      "sha256": "15a87c6284f4ed82e4f797acd62b151984dae82af31b5b6761e3071bb1aac5ee"
+    },
+    {
+      "syllable": "er",
+      "tone": 4,
+      "name": "er4.mp3",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/er4.mp3",
+      "bytes": 5851,
+      "sha256": "98da54bb475fee6999803e81b40e80c6d99dc84004a5465783be924bd6baccce"
+    },
+    {
+      "syllable": "da",
+      "tone": 1,
+      "name": "da1.mp3",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/da1.mp3",
+      "bytes": 19897,
+      "sha256": "1579cf6ab6efb05bc072a7ba3c9b1835017c3724c5a7037f41865cb41bd1e06a"
+    },
+    {
+      "syllable": "da",
+      "tone": 2,
+      "name": "da2.mp3",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/da2.mp3",
+      "bytes": 22405,
+      "sha256": "747ee09f1bef049fc14e8bbb8765deaad05b0d97275dae7e4b061722e29d3ae5"
+    },
+    {
+      "syllable": "da",
+      "tone": 3,
+      "name": "da3.mp3",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/da3.mp3",
+      "bytes": 17614,
+      "sha256": "1640e8889405e64c4b128420da604334a356370eaf6793dacfdff6ae262707d1"
+    },
+    {
+      "syllable": "da",
+      "tone": 4,
+      "name": "da4.mp3",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/da4.mp3",
+      "bytes": 13852,
+      "sha256": "3e9a526b3e7c7239aa8f04d46e1cb7b65853947ffb947b13abb33cf78e53a7c2"
+    },
+    {
+      "syllable": "ke",
+      "tone": 1,
+      "name": "ke1.mp3",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/ke1.mp3",
+      "bytes": 7497,
+      "sha256": "3bbfac5843670dd67fa1c855188ec4ca70b700c6406d06a14ca472c22388b563"
+    },
+    {
+      "syllable": "ke",
+      "tone": 2,
+      "name": "ke2.mp3",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/ke2.mp3",
+      "bytes": 9691,
+      "sha256": "7acab62adc1e8fd75813dfc75cf8acbe302d3b1d56a12978819b8b867b05faa1"
+    },
+    {
+      "syllable": "ke",
+      "tone": 3,
+      "name": "ke3.mp3",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/ke3.mp3",
+      "bytes": 8960,
+      "sha256": "595c2f1b6ca2605cb8a6a7e5a6063d608008dd49f22df7a6884905851dde1de4"
+    },
+    {
+      "syllable": "ke",
+      "tone": 4,
+      "name": "ke4.mp3",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/ke4.mp3",
+      "bytes": 7131,
+      "sha256": "c1ffd9bb370a86efb85a0819739bd68f52863c9c4dd9ec3c785ef5d957e9b746"
+    },
+    {
+      "syllable": "mo",
+      "tone": 1,
+      "name": "mo1.mp3",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/mo1.mp3",
+      "bytes": 7680,
+      "sha256": "5b9b346e67d8b695709f7c81824d0eadb30770ccb55ce555333269f0f55de9d9"
+    },
+    {
+      "syllable": "mo",
+      "tone": 2,
+      "name": "mo2.mp3",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/mo2.mp3",
+      "bytes": 8960,
+      "sha256": "6edae37dc4386112a14f209e9afb87348da223e93d8165c02a9e545b5cd24d1f"
+    },
+    {
+      "syllable": "mo",
+      "tone": 3,
+      "name": "mo3.mp3",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/mo3.mp3",
+      "bytes": 9509,
+      "sha256": "b389e094c198c411f1fe423da6318cfd57a4d1f656150dec24d801fcb28b8524"
+    },
+    {
+      "syllable": "mo",
+      "tone": 4,
+      "name": "mo4.mp3",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/mo4.mp3",
+      "bytes": 6217,
+      "sha256": "0865601ad944c44014666c23cc35c137634148ef6dad8df514d4ec74a365bf22"
+    },
+    {
+      "syllable": "lou",
+      "tone": 1,
+      "name": "lou1.mp3",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/lou1.mp3",
+      "bytes": 17612,
+      "sha256": "b66888c12c2ec800eb9fb01734065d5d8ead9eba0ef1fd848df28cfb07c2f3ae"
+    },
+    {
+      "syllable": "lou",
+      "tone": 2,
+      "name": "lou2.mp3",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/lou2.mp3",
+      "bytes": 19493,
+      "sha256": "080a4913dc8869bb78cdbc4e193f3f8f8f4f23c346dd6aae69c05e95f5190653"
+    },
+    {
+      "syllable": "lou",
+      "tone": 3,
+      "name": "lou3.mp3",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/lou3.mp3",
+      "bytes": 20747,
+      "sha256": "4e8c073a009c815bfc0c4eaf6dbfa49563a3af83575cd9982754fe00dbda0d60"
+    },
+    {
+      "syllable": "lou",
+      "tone": 4,
+      "name": "lou4.mp3",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/lou4.mp3",
+      "bytes": 15731,
+      "sha256": "89b8fee06072d8cd119e15e1dcc0f5942afd54c682623eea33de5533736833dc"
+    },
+    {
+      "syllable": "fu",
+      "tone": 1,
+      "name": "fu1.mp3",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/fu1.mp3",
+      "bytes": 18239,
+      "sha256": "c5a2d41820f564514adda1ac4b0054eaaded3e6777ed218f026ef52eba4c3b3a"
+    },
+    {
+      "syllable": "fu",
+      "tone": 2,
+      "name": "fu2.mp3",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/fu2.mp3",
+      "bytes": 15104,
+      "sha256": "7b2b175540d2f23b684cc53d99b121ff44f08291a2ca7d1faa655e746fdaa826"
+    },
+    {
+      "syllable": "fu",
+      "tone": 3,
+      "name": "fu3.mp3",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/fu3.mp3",
+      "bytes": 27643,
+      "sha256": "68daafed8f06f416963afe2491be8340c2aba3442d0baa554e205fecd04210dc"
+    },
+    {
+      "syllable": "fu",
+      "tone": 4,
+      "name": "fu4.mp3",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/fu4.mp3",
+      "bytes": 19270,
+      "sha256": "d5ac4f10da007e6a3d68bda1135c6d33c5ce4c688819f77907eb3af60caa16eb"
+    },
+    {
+      "syllable": "han",
+      "tone": 1,
+      "name": "han1.mp3",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/han1.mp3",
+      "bytes": 15731,
+      "sha256": "515d0238a785cee858ec2a7b836b8c68e87a8d6a586979bc72cbd59a27aaa82b"
+    },
+    {
+      "syllable": "han",
+      "tone": 2,
+      "name": "han2.mp3",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/han2.mp3",
+      "bytes": 18239,
+      "sha256": "6c1ef472c0d562b4b3e2a1ffb6158e8c536933eaf8cee0453d7b0dac9fa9355c"
+    },
+    {
+      "syllable": "han",
+      "tone": 3,
+      "name": "han3.mp3",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/han3.mp3",
+      "bytes": 25762,
+      "sha256": "f6f645805bd2fad05a402d320d2c996350d05ac0d46e114ad8617242f9d13fb6"
+    },
+    {
+      "syllable": "han",
+      "tone": 4,
+      "name": "han4.mp3",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/han4.mp3",
+      "bytes": 15731,
+      "sha256": "b7e7efbb01aa8c6e13ef996b42db20e3ead248e64b90769e9f5836fa578f5ddb"
+    },
+    {
+      "syllable": "di",
+      "tone": 1,
+      "name": "di1.mp3",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/di1.mp3",
+      "bytes": 15106,
+      "sha256": "c66493097eb2c9cefa7b5e6fcf78559c2dbd46912edbcdf959f4c0173f71578a"
+    },
+    {
+      "syllable": "di",
+      "tone": 2,
+      "name": "di2.mp3",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/di2.mp3",
+      "bytes": 19897,
+      "sha256": "23188a99fe6288b0d1c6f22f793769e29f8824ecfdabc3fc6a42f96cc9279d58"
+    },
+    {
+      "syllable": "di",
+      "tone": 3,
+      "name": "di3.mp3",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/di3.mp3",
+      "bytes": 15733,
+      "sha256": "f893dcea4314f949df241be36474778fd64e077cb10a96c66d95c8b6067e230c"
+    },
+    {
+      "syllable": "di",
+      "tone": 4,
+      "name": "di4.mp3",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/di4.mp3",
+      "bytes": 9464,
+      "sha256": "a76d4af4ba1b18d9ad82905a750f84e2993697d60b2974baac865b13d9f7bf8e"
+    },
+    {
+      "syllable": "pang",
+      "tone": 1,
+      "name": "pang1.mp3",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/pang1.mp3",
+      "bytes": 14477,
+      "sha256": "ec501c32ae533133b9026f21b28fad725f1ecc49e892a78931d0a2715e2af266"
+    },
+    {
+      "syllable": "pang",
+      "tone": 2,
+      "name": "pang2.mp3",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/pang2.mp3",
+      "bytes": 16985,
+      "sha256": "a1516b9d6cc51f586e0d2479f22eb412a5f9839405f9e4172c302045091ff129"
+    },
+    {
+      "syllable": "pang",
+      "tone": 3,
+      "name": "pang3.mp3",
+      "url": "https://dao.sg/sites/default/files/pysb_voice_2c/pang3.mp3",
+      "bytes": 21941,
+      "sha256": "6eb2b8605384cdb87a854c735fc2485b6e557336a81d41670c9ec346d9b09e6f"
+    },
+    {
+      "syllable": "pang",
+      "tone": 4,
+      "name": "pang4.mp3",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/pang4.mp3",
+      "bytes": 14477,
+      "sha256": "464d03c6add74bc90438a4c6b1b68435c5b0e16aa6ea0e45938f3d4fd80cec8a"
+    },
+    {
+      "syllable": "tao",
+      "tone": 1,
+      "name": "tao1.mp3",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/tao1.mp3",
+      "bytes": 18413,
+      "sha256": "807a29197da69f2bbcaa7ab1333b812e8ff9546aff11732c245fce3efff04a70"
+    },
+    {
+      "syllable": "tao",
+      "tone": 2,
+      "name": "tao2.mp3",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/tao2.mp3",
+      "bytes": 15905,
+      "sha256": "dde8812f9e3474dcf5915d62376b2d5198c4379f7759d2c0ade5051f2299265e"
+    },
+    {
+      "syllable": "tao",
+      "tone": 3,
+      "name": "tao3.mp3",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/tao3.mp3",
+      "bytes": 20294,
+      "sha256": "e343c3d80cd998d161515543ef50273aace266ba6f9d7e8fe86a935701e34050"
+    },
+    {
+      "syllable": "tao",
+      "tone": 4,
+      "name": "tao4.mp3",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/tao4.mp3",
+      "bytes": 14024,
+      "sha256": "6b8e0b86c8e593d578a9d13aa7a64334324adc48b053427192518e7c260e5b4b"
+    },
+    {
+      "syllable": "gen",
+      "tone": 1,
+      "name": "gen1.mp3",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/gen1.mp3",
+      "bytes": 14477,
+      "sha256": "f25684e0d9444827c0f63571f83941c6aae3c8fd36edce5b8802c269dbd290e1"
+    },
+    {
+      "syllable": "gen",
+      "tone": 2,
+      "name": "gen2.mp3",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/gen2.mp3",
+      "bytes": 13850,
+      "sha256": "8d3d7d451e851a630fb25a3b1cac664302c44902fe1b64daacdd1a997897cf5c"
+    },
+    {
+      "syllable": "gen",
+      "tone": 3,
+      "name": "gen3.mp3",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/gen3.mp3",
+      "bytes": 21373,
+      "sha256": "ec18fcc7ce1c192578a08439cd1ea8ff698d6cede4d4bc554f41c9abf404bbd7"
+    },
+    {
+      "syllable": "gen",
+      "tone": 4,
+      "name": "gen4.mp3",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/gen4.mp3",
+      "bytes": 12596,
+      "sha256": "b950fb678157e0c25e06926b2a66b1ec40456630c66c5c0f608b6d93551f5d31"
+    }
+  ]
+}

@@ -77,11 +77,12 @@
             min-width: 95px; text-align: center; cursor: pointer; transition: 0.2s;
         }
         .timer-badge-header:hover { border-color: var(--hsk5-teal); background: var(--hsk5-teal-light); color: var(--hsk5-teal); }
-        .lesson-dropdown, .page-dropdown {
+        .course-dropdown, .lesson-dropdown, .page-dropdown {
             padding: 6px 12px; border: 1px solid var(--hsk5-border); border-radius: 8px;
             font-size: 13px; color: var(--hsk5-teal); background: var(--paper-white); font-weight: 600; cursor: pointer; outline: none;
             max-width: 280px; text-overflow: ellipsis;
         }
+        .course-dropdown { max-width: 180px; }
         .page-dropdown { max-width: 200px; }
         .api-input {
             padding: 6px 10px; border: 1px solid var(--hsk5-border); border-radius: 8px;
@@ -103,7 +104,7 @@
         .book-kind[hidden] { display: none; }
         .book-kind button { flex: 1 1 0; border: 0; border-radius: 8px; padding: 7px 6px; background: transparent; color: inherit; font: inherit; font-size: 12px; font-weight: 600; cursor: pointer; white-space: nowrap; }
         .book-kind button[aria-selected="true"] { background: var(--paper-white, #fff); box-shadow: 0 1px 3px rgba(0,0,0,.12); }
-        .toolbar .book-kind { order: 4; flex: 1 1 100%; }
+        .toolbar .book-kind { flex: 1 1 100%; }
         .side-label { display: none; font-size: 10px; font-weight: 700; letter-spacing: .4px; text-transform: uppercase; color: var(--ink-gray); }
         .side-stats { display: flex; gap: 6px; }
         .side-stats .reward-badge, .side-stats .timer-badge-header { min-width: 0; padding: 5px 10px; }
@@ -117,7 +118,9 @@
             .toolbar { padding: 6px 8px; }
             .toolbar .brand-group { width: 100%; gap: 6px; }
             .toolbar .side-field { order: 5; flex: 1 1 40%; }
-            .toolbar .lesson-dropdown, .toolbar .page-dropdown { width: 100%; max-width: none; padding: 5px 8px; font-size: 12px; }
+            .toolbar .book-kind { order: 6; flex: 1 1 100%; }
+            .toolbar .side-label { display: block; }
+            .toolbar .course-dropdown, .toolbar .lesson-dropdown, .toolbar .page-dropdown { width: 100%; max-width: none; padding: 5px 8px; font-size: 12px; }
             .toolbar .side-action span, .toolbar #themeLabel { display: none; }
             .toolbar .side-action, .toolbar .theme-toggle-btn { padding: 6px 8px; }
             .toolbar .side-stats .reward-badge, .toolbar .side-stats .timer-badge-header { padding: 4px 8px; font-size: 11px; }
@@ -535,7 +538,7 @@
                 justify-content: flex-start;
             }
             .toolbar .brand-group { flex-direction: column; flex-wrap: nowrap; align-items: stretch; gap: 12px; height: 100%; }
-            .toolbar .lesson-dropdown, .toolbar .page-dropdown { width: 100%; max-width: none; padding: 6px 8px; font-size: 12px; }
+            .toolbar .course-dropdown, .toolbar .lesson-dropdown, .toolbar .page-dropdown { width: 100%; max-width: none; padding: 6px 8px; font-size: 12px; }
             .toolbar .side-label { display: block; }
             .toolbar .side-stats { flex-direction: column; }
             .toolbar .side-stats .reward-badge, .toolbar .side-stats .timer-badge-header { justify-content: flex-start; border-radius: 8px; }
@@ -592,14 +595,14 @@
 .forma-page-root { position:relative; width:100%; height:100%; min-height:0; overflow:auto; display:flex; flex-direction:column; align-items:center; }
         /* whole page in view: the sheet is sized to the stage (see sizeFormaPage) */
         .forma-page-root.fit { overflow:hidden; justify-content:flex-start; }
-        .forma-toolbar { position:absolute; top:6px; right:6px; z-index:6; display:flex; gap:4px; padding:3px; border-radius:9px; background:rgba(255,255,255,.94); box-shadow:0 1px 6px rgba(0,0,0,.12); opacity:.55; transition:opacity .15s; }
+        .forma-toolbar { position:absolute; top:6px; right:6px; z-index:40; display:flex; gap:4px; padding:3px; border-radius:9px; background:rgba(255,255,255,.94); box-shadow:0 1px 6px rgba(0,0,0,.12); opacity:.55; transition:opacity .15s; }
         .forma-page-root:hover .forma-toolbar, .forma-toolbar:focus-within { opacity:1; }
         .forma-toolbar button { margin:0; min-width:30px; padding:3px 6px; font-weight:700; border:0; border-radius:6px; background:transparent; color:#333; font-size:11px; cursor:pointer; }
         .forma-toolbar button[aria-pressed="true"] { background:var(--hsk5-teal, #1f5f61); color:#fff; }
         .forma-sheet { width:100%; flex:none; overflow:hidden; box-shadow:0 2px 12px rgba(0,0,0,.12); }
         .forma-sheet > .hsk-page { width:var(--forma-w,100%); margin-left:var(--forma-ml,0); }
         .forma-sheet { position:relative; }
-        .forma-sheet > .forma-scan { display:none; position:absolute; top:0; left:0; z-index:5; width:var(--forma-w,100%); height:100%; margin-left:var(--forma-ml,0); object-fit:fill; background:#fff; }
+        .forma-sheet > .forma-scan { display:none; position:absolute; top:0; left:0; z-index:35; width:var(--forma-w,100%); height:100%; margin-left:var(--forma-ml,0); object-fit:fill; background:#fff; }
         .forma-page-root.show-scan .forma-sheet > .forma-scan { display:block; }
         .forma-sheet .hsk-bubble { cursor:pointer; }
         .forma-sheet .hsk-bubble.playing { box-shadow:0 0 0 2px rgba(31,95,97,.45); }
@@ -677,8 +680,8 @@
          a compact bar on phones. -->
     <header class="toolbar">
         <div class="brand-group">
-            <div class="brand-row"><span class="logo-tag">Meili GPT</span><span class="level-chip" id="levelChip">HSK</span></div>
-            <div class="book-kind" id="bookKind" role="tablist" aria-label="Книга" hidden><button type="button" role="tab" data-kind="textbook">Учебник</button><button type="button" role="tab" data-kind="workbook">Рабочая тетрадь</button></div>
+            <div class="brand-row"><span class="logo-tag">Meili GPT</span></div>
+            <label class="side-field"><span class="side-label">Курс</span><select id="courseSelect" class="course-dropdown"></select></label>
             <label class="side-field"><span class="side-label">Урок</span><select id="lessonSelect" class="lesson-dropdown"></select></label>
             <label class="side-field"><span class="side-label">Страница</span><select id="pageSelect" class="page-dropdown"></select></label>
             <div class="side-stats">
@@ -687,6 +690,7 @@
             </div>
             <button type="button" class="side-action" id="openProgressBtn" title="Дашборд прогресса и отчёт для родителей"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><span>Прогресс и отчёт</span></button>
             <span class="side-spacer"></span>
+            <div class="book-kind" id="bookKind" role="tablist" aria-label="Книга" hidden><button type="button" role="tab" data-kind="textbook">Учебник</button><button type="button" role="tab" data-kind="workbook">Рабочая тетрадь</button></div>
             <button id="themeToggleBtn" class="theme-toggle-btn" title="Сменить тему">
                 <span id="themeIcon" aria-hidden="true"></span> <span id="themeLabel">Тёмная тема</span>
             </button>
@@ -951,7 +955,7 @@
             { emoji: "🧘‍♂️", cn: "放松全身，闭 eyes！", py: "fàngsōng quánshēn, hǎohǎo xiūxí!", ru: "«Расслабим всё тело, отдохнем!»" }
         ];
         const AppState = {
-            currentLessonIdx: 0, activePageIndex: 0, currentCardIdx: 0,
+            currentLessonIdx: 0, activePageIndex: 0, currentCardIdx: 0, course: '',
             points: parseInt(localStorage.getItem('chao_points')) || 0,
             masteredWords: [], allMasteredHskWords: JSON.parse(localStorage.getItem('all_mastered_hsk5_words') || '[]'),
             totalPlatformSeconds: parseInt(localStorage.getItem('chao_total_seconds')) || 0,
@@ -981,9 +985,10 @@
             applyTheme(localStorage.getItem('chao_theme') === 'dark');
             if (!hskDatabase.length) {
                 // Nothing published yet: say where lessons come from.
+                document.getElementById('courseSelect').innerHTML = '<option>Курсы пока не загружены</option>';
                 document.getElementById('lessonSelect').innerHTML = '<option>Уроков пока нет</option>';
                 document.getElementById('pageSelect').innerHTML = '<option>—</option>';
-                ['lessonSelect', 'pageSelect', 'prevPageBtn', 'nextPageBtn'].forEach(id => document.getElementById(id).disabled = true);
+                ['courseSelect', 'lessonSelect', 'pageSelect', 'prevPageBtn', 'nextPageBtn'].forEach(id => document.getElementById(id).disabled = true);
                 document.getElementById('lessonTitle').textContent = 'Уроков пока нет';
                 document.getElementById('lessonBadge').textContent = 'Meili GPT';
                 ['lessonSubTitle', 'bookUnit', 'bookPageNum', 'pageNavIndicator'].forEach(id => document.getElementById(id).textContent = '');
@@ -997,6 +1002,7 @@
             const lastLesson = hskDatabase.findIndex(l => String(l.lessonId) === localStorage.getItem('chao_last_lesson'));
             if (lastLesson >= 0) AppState.currentLessonIdx = lastLesson;
             AppState.bookKind = lastLesson >= 0 ? bookKindOf(hskDatabase[lastLesson]) : (localStorage.getItem('chao_book_kind') || 'textbook');
+            AppState.course = lastLesson >= 0 ? courseOf(hskDatabase[lastLesson]) : (localStorage.getItem('chao_course') || courseOf(hskDatabase[0]));
             loadState(); initSelectors();
             document.getElementById('lessonSelect').value = AppState.currentLessonIdx;
             populatePageSelector();
@@ -1035,16 +1041,39 @@
             AppState.masteredWords = JSON.parse(localStorage.getItem(`mastered_words_lesson_${lessonId}`) || '[]');
         }
         function initSelectors() {
-            // Lessons of the chosen book (textbook / workbook), grouped by section (e.g. "HSK 1 v3.0" from Forma Studio).
-            const option = (les, i) => { const sub = localized(les, 'subtitle'); return `<option value="${i}">${escapeHtml(les.badge)}: ${escapeHtml(les.title)}${sub ? ` (${escapeHtml(sub)})` : ''}</option>`; };
-            const groups = [];
+            const courses = [...new Set(hskDatabase.map(courseOf).filter(Boolean))].sort((a, b) => Number((a.match(/\d+/) || [0])[0]) - Number((b.match(/\d+/) || [0])[0]));
+            const currentCourse = courses.includes(AppState.course) ? AppState.course : courses[0] || '';
+            AppState.course = currentCourse;
+            const courseSelect = document.getElementById('courseSelect');
+            courseSelect.innerHTML = courses.map(course => `<option value="${escapeHtml(course)}">${escapeHtml(course)}</option>`).join('');
+            courseSelect.value = currentCourse;
             const kinds = new Set(hskDatabase.map(bookKindOf)), switcher = document.getElementById('bookKind');
             switcher.hidden = kinds.size < 2;
-            if (!kinds.has(AppState.bookKind)) AppState.bookKind = bookKindOf(hskDatabase[AppState.currentLessonIdx] || hskDatabase[0]);
-            switcher.querySelectorAll('button').forEach(b => b.setAttribute('aria-selected', String(b.dataset.kind === AppState.bookKind)));
-            hskDatabase.forEach((les, i) => { if (bookKindOf(les) !== AppState.bookKind) return; const name = les.section || ''; let g = groups.find(x => x.name === name); if (!g) groups.push(g = { name, items: [] }); g.items.push(option(les, i)); });
-            document.getElementById('lessonSelect').innerHTML = groups.map(g => g.name ? `<optgroup label="${escapeHtml(g.name)}">${g.items.join('')}</optgroup>` : g.items.join('')).join('');
+            const courseLessons = hskDatabase.map((les, i) => ({ les, i })).filter(x => courseOf(x.les) === AppState.course);
+            const availableKinds = new Set(courseLessons.map(x => bookKindOf(x.les)));
+            if (!availableKinds.has(AppState.bookKind) && availableKinds.size) {
+                AppState.bookKind = availableKinds.has('textbook') ? 'textbook' : [...availableKinds][0];
+                localStorage.setItem('chao_book_kind', AppState.bookKind);
+            }
+            switcher.querySelectorAll('button').forEach(b => {
+                b.setAttribute('aria-selected', String(b.dataset.kind === AppState.bookKind));
+                b.disabled = !availableKinds.has(b.dataset.kind);
+            });
+            const lessons = courseLessons.filter(x => bookKindOf(x.les) === AppState.bookKind);
+            if (!lessons.some(x => x.i === AppState.currentLessonIdx) && lessons.length) AppState.currentLessonIdx = lessons[0].i;
+            document.getElementById('lessonSelect').innerHTML = lessons.map(({ les, i }) => lessonOptionHtml(les, i)).join('');
             populatePageSelector();
+        }
+        function courseOf(les) {
+            const text = [les && les.level, les && les.section, les && les.badge].filter(Boolean).join(' ');
+            const match = /HSK\s*([1-9])/i.exec(text);
+            return match ? `HSK ${match[1]}` : String(les && les.level || '').trim();
+        }
+        function lessonOptionHtml(les, i) {
+            const sub = localized(les, 'subtitle'), title = localized(les, 'title') || les.title || '';
+            const intro = /вводные страницы/i.test(title);
+            const label = intro ? escapeHtml(title) : `${escapeHtml(les.badge)}: ${escapeHtml(title)}`;
+            return `<option value="${i}">${label}${sub ? ` (${escapeHtml(sub)})` : ''}</option>`;
         }
         function populatePageSelector() {
             const lesson = hskDatabase[AppState.currentLessonIdx];
@@ -1053,13 +1082,28 @@
         }
         // Textbook or workbook: a Forma lesson says which; older lessons are textbook.
         function bookKindOf(les) { return les && les.kind === 'workbook' ? 'workbook' : 'textbook'; }
+        document.getElementById('courseSelect').addEventListener('change', (e) => {
+            AppState.course = e.target.value;
+            localStorage.setItem('chao_course', AppState.course);
+            const available = hskDatabase.filter(les => courseOf(les) === AppState.course);
+            const kinds = new Set(available.map(bookKindOf));
+            if (!kinds.has(AppState.bookKind) && kinds.size) {
+                AppState.bookKind = kinds.has('textbook') ? 'textbook' : [...kinds][0];
+                localStorage.setItem('chao_book_kind', AppState.bookKind);
+            }
+            const idx = hskDatabase.findIndex(les => courseOf(les) === AppState.course && bookKindOf(les) === AppState.bookKind);
+            if (idx < 0) return;
+            AppState.currentLessonIdx = idx; loadState(); initSelectors();
+            document.getElementById('lessonSelect').value = idx; loadPage(0);
+        });
         document.getElementById('bookKind').addEventListener('click', (e) => {
             const kind = e.target.closest('[data-kind]')?.dataset.kind;
             if (!kind || kind === AppState.bookKind) return;
             localStorage.setItem('chao_last_lesson_' + AppState.bookKind, String(hskDatabase[AppState.currentLessonIdx]?.lessonId || ''));
             AppState.bookKind = kind; localStorage.setItem('chao_book_kind', kind);
-            const remembered = hskDatabase.findIndex(l => String(l.lessonId) === localStorage.getItem('chao_last_lesson_' + kind));
-            AppState.currentLessonIdx = remembered >= 0 ? remembered : hskDatabase.findIndex(l => bookKindOf(l) === kind);
+            const remembered = hskDatabase.findIndex(l => String(l.lessonId) === localStorage.getItem('chao_last_lesson_' + kind) && courseOf(l) === AppState.course);
+            AppState.currentLessonIdx = remembered >= 0 ? remembered : hskDatabase.findIndex(l => bookKindOf(l) === kind && courseOf(l) === AppState.course);
+            if (AppState.currentLessonIdx < 0) return;
             loadState(); initSelectors(); document.getElementById('lessonSelect').value = AppState.currentLessonIdx; loadPage(0);
         });
         document.getElementById('lessonSelect').addEventListener('change', (e) => {
@@ -1074,9 +1118,7 @@
             // words on pages without a word table.
             if (activePage && activePage.type === "forma") {
                 const own = (activePage.content && activePage.content.vocab) || [];
-                if (own.length) return own;
-                const seen = new Set();
-                return lesson.pages.flatMap(p => (p.content && p.content.vocab) || []).filter(v => !seen.has(v.word) && seen.add(v.word));
+                return own;
             }
             const textbookPage = lesson.pages.find(p => p.type === "textbook") || lesson.pages[0];
             return (textbookPage.content && textbookPage.content.vocab) ? textbookPage.content.vocab : [];
@@ -1108,7 +1150,6 @@
             const m = /HSK\s*([1-9])/i.exec(text) || (page && page.type === 'hsk1_dialogues' ? [0, '1'] : null);
             const number = m ? Number(m[1]) : 5, v3 = /v\s*3|3\.0/i.test(lesson.section || lesson.unit || '');
             Object.assign(LevelInfo, { number, name: `HSK ${number}${v3 ? ' (3.0)' : ''}`, target: (v3 ? HSK3_WORDS : HSK2_WORDS)[number] || 2500 });
-            document.getElementById('levelChip').textContent = `HSK ${number}`;
             document.getElementById('fcHeading').textContent = `Карточки ${LevelInfo.name}`;
             document.getElementById('fcLevelName').textContent = LevelInfo.name;
             document.getElementById('modalWordsLabel').textContent = `Слов выучено (${LevelInfo.name})`;
@@ -1129,12 +1170,36 @@
         // script are loaded once from the platform (/forma/...), and fonts
         // from Google Fonts, like on Forma's own exported pages.
         const FORMA_FONTS = 'https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400;0,700;1,400&family=Noto+Sans+SC:wght@400;700&family=Noto+Serif+SC:wght@500;700&family=Tinos:ital,wght@0,400;0,700;1,400;1,700&display=swap';
+        const VOCAB_EN = {
+            '你好':'hello','王老师':'Teacher Wang','大家':'everyone','好':'good','学生':'student','们':'plural suffix','老师':'teacher','您':'you (polite)',
+            '你们':'you (plural)','谢谢':'thank you','不客气':'you’re welcome','同学':'classmate','再见':'goodbye','请问':'may I ask','你':'you',
+            '叫':'to be called','什么':'what','名字':'name','我':'I; me','不':'not','是':'to be','对不起':'sorry','没关系':'it’s okay',
+            '没事':'it’s okay','人':'person','的':'possessive particle','中国':'China','法国':'France','中文':'Chinese language','我妈妈':'my mother',
+            '茶':'tea','狗':'dog','猫':'cat','菜':'vegetables','杯子':'cup','鸡蛋':'egg','口':'mouth','饭':'meal; rice','喝':'to drink',
+            '二':'two','朋友':'friend','面包':'bread','妹妹':'younger sister','房间':'room','白天':'daytime','饭店':'restaurant','电脑':'computer',
+            '嘴':'mouth','春':'spring','村':'village','睡':'to sleep','书':'book'
+        };
+        const VOCAB_KZ = {
+            '你好':'сәлем','王老师':'Ван мұғалім','大家':'барлығы','好':'жақсы','学生':'оқушы','们':'көптік жалғауы','老师':'мұғалім','您':'Сіз',
+            '你们':'сендер','谢谢':'рақмет','不客气':'оқасы жоқ','同学':'сыныптас','再见':'сау бол','请问':'айтыңызшы','你':'сен',
+            '叫':'аталу','什么':'не','名字':'есім','我':'мен','不':'емес','是':'болу','对不起':'кешіріңіз','没关系':'ештеңе етпейді',
+            '没事':'ештеңе етпейді','人':'адам','的':'ілік септік жалғауы','中国':'Қытай','法国':'Франция','中文':'қытай тілі','我妈妈':'анам',
+            '茶':'шай','狗':'ит','猫':'мысық','菜':'көкөніс','杯子':'кесе','鸡蛋':'жұмыртқа','口':'ауыз','饭':'ас','喝':'ішу','书':'кітап',
+            '二':'екі','朋友':'дос','面包':'нан','妹妹':'сіңлі','房间':'бөлме','白天':'күндіз','饭店':'мейрамхана','电脑':'компьютер',
+            '嘴':'ауыз','春':'көктем','村':'ауыл','睡':'ұйықтау'
+        };
         const FormaView = { lang: localStorage.getItem('forma_lang') || 'ru', pinyin: localStorage.getItem('forma_pinyin') !== 'off' };
+        let formaRuntimeUrl = '', formaRuntimeLoad = Promise.resolve();
         function ensureFormaRuntime(forma) {
             const addCss = (href, id) => { if (document.getElementById(id)?.getAttribute('href') === href) return; document.getElementById(id)?.remove(); const l = document.createElement('link'); l.rel = 'stylesheet'; l.href = href; l.id = id; document.head.append(l); };
             addCss(FORMA_FONTS, 'formaFonts'); addCss(forma.css, 'formaCss');
-            if (window.FormaPage) return Promise.resolve();
-            return new Promise(resolve => { const s = document.createElement('script'); s.src = forma.script; s.onload = resolve; s.onerror = resolve; document.head.append(s); });
+            // Different published revisions may have different fitting code.
+            // Serialize loads so a slow previous page cannot overwrite it.
+            formaRuntimeLoad = formaRuntimeLoad.catch(() => {}).then(() => {
+                if (formaRuntimeUrl === forma.script && window.FormaPage) return;
+                return new Promise((resolve, reject) => { const s = document.createElement('script'); s.src = forma.script; s.onload = () => { formaRuntimeUrl = forma.script; resolve(); }; s.onerror = () => { s.remove(); reject(new Error('Не загружен движок страницы')); }; document.head.append(s); });
+            });
+            return formaRuntimeLoad;
         }
         // Cropping: the page inside is wider than the sheet and shifted left,
         // so the blank strip stays outside the sheet's visible area.
@@ -1148,7 +1213,7 @@
             const f = page.forma;
             return `<div class="forma-page-root"><div class="forma-toolbar" role="group" aria-label="Язык страницы">
                 <button type="button" data-forma-lang="ru" aria-pressed="${FormaView.lang === 'ru'}" title="Русский перевод" aria-label="Русский перевод">RU</button>
-                <button type="button" data-forma-lang="orig" aria-pressed="${FormaView.lang === 'orig'}" title="Оригинал (английский)" aria-label="Оригинал (английский)">EN</button>${f.html.includes('data-kz=') ? `
+                <button type="button" data-forma-lang="orig" aria-pressed="${FormaView.lang === 'orig'}" title="Оригинал (английский)" aria-label="Оригинал (английский)">EN</button>${f.html.includes('data-kz=') || ((page.content || {}).vocab || []).some(v => v.trans_kz) ? `
                 <button type="button" data-forma-lang="kz" aria-pressed="${FormaView.lang === 'kz'}" title="Қазақша аударма" aria-label="Қазақша аударма">KZ</button>` : ''}
                 <button type="button" data-forma-pinyin aria-pressed="${FormaView.pinyin}" title="Пиньинь над иероглифами" aria-label="Пиньинь над иероглифами">pīn</button>${f.scan ? `
                 <button type="button" data-forma-scan aria-pressed="false" title="Оригинал страницы учебника (скан PDF)" aria-label="Оригинал страницы учебника">📄</button>` : ''}</div>
@@ -1235,7 +1300,7 @@
             'Загрузка перевода...': ['Loading translation...', 'Аударма жүктелуде...'],
             'В карточки': ['To flashcards', 'Карточкаларға'],
             'Спросить Мейли': ['Ask Meili', 'Мейлиден сұрау'],
-            'Урок': ['Lesson', 'Сабақ'], 'Учебник': ['Textbook', 'Оқулық'], 'Рабочая тетрадь': ['Workbook', 'Жұмыс дәптері'], 'Урок:': ['Lesson:', 'Сабақ:'], 'Страница': ['Page', 'Бет'], 'Раздел': ['Section', 'Бөлім'], 'Всего': ['Total', 'Барлығы'],
+            'Курс': ['Course', 'Курс'], 'Урок': ['Lesson', 'Сабақ'], 'Учебник': ['Textbook', 'Оқулық'], 'Рабочая тетрадь': ['Workbook', 'Жұмыс дәптері'], 'Урок:': ['Lesson:', 'Сабақ:'], 'Страница': ['Page', 'Бет'], 'Раздел': ['Section', 'Бөлім'], 'Всего': ['Total', 'Барлығы'],
             'Прогресс и отчёт': ['Progress and report', 'Үлгерім және есеп'],
             'Тёмная тема': ['Dark theme', 'Қараңғы тақырып'], 'Светлая тема': ['Light theme', 'Ашық тақырып'], 'Сменить тему': ['Change theme', 'Тақырыпты ауыстыру'],
             'Словарь урока': ['Lesson dictionary', 'Сабақ сөздігі'],
@@ -1440,35 +1505,48 @@
             const lesson = hskDatabase[AppState.currentLessonIdx], page = lesson && lesson.pages && lesson.pages[AppState.activePageIndex];
             if (!lesson) return;
             const sub = document.getElementById('lessonSubTitle'); if (sub) sub.textContent = localized(lesson, 'subtitle');
-            document.querySelectorAll('#lessonSelect option').forEach(o => { const les = hskDatabase[Number(o.value)]; if (les) { const s = localized(les, 'subtitle'); o.textContent = `${les.badge}: ${les.title}${s ? ` (${s})` : ''}`; } });
+            document.querySelectorAll('#lessonSelect option').forEach(o => { const les = hskDatabase[Number(o.value)]; if (les) o.outerHTML = lessonOptionHtml(les, Number(o.value)); });
             if (page) {
                 const t = document.getElementById('taskQuestion'); if (t) t.textContent = localized(page, 'task');
                 const c = document.getElementById('chaoSpeech'); if (c && localized(page, 'chaoIntro')) c.textContent = localized(page, 'chaoIntro');
             }
         }
 
-        // Word meanings follow the page language: EN on the original, KZ when the page has it, otherwise Russian.
+        // Dictionary meanings always follow the selected language; never show Russian as a silent fallback.
         function vocabText(v, key) {
             if (!v) return '';
-            return (FormaView.lang === 'kz' && v[key + '_kz']) || (FormaView.lang === 'orig' && v[key + '_en']) || v[key] || '';
+            if (FormaView.lang === 'kz') return v[key + '_kz'] || (key === 'trans' && VOCAB_KZ[v.word]) || '';
+            if (FormaView.lang === 'orig') return v[key + '_en'] || (key === 'trans' && VOCAB_EN[v.word]) || '';
+            return v[key] || '';
         }
         // Kazakh is the Russian layer with its texts swapped (FormaPage.setLang); a page without it stays Russian.
         function applyFormaLang(sheet) {
-            if (window.FormaPage && window.FormaPage.setLang) window.FormaPage.setLang(sheet, FormaView.lang);
-            else sheet.dataset.lang = FormaView.lang === 'kz' ? 'ru' : FormaView.lang;
+            const targetLang = FormaView.lang === 'orig' && sheet.querySelector('[data-en]') ? 'en' : FormaView.lang;
+            if (window.FormaPage && window.FormaPage.setLang) window.FormaPage.setLang(sheet, targetLang);
+            else {
+                const kz = targetLang === 'kz', en = targetLang === 'en';
+                sheet.querySelectorAll('[data-kz],[data-en]').forEach(el => {
+                    if (el.dataset.ru == null) el.dataset.ru = el.textContent;
+                    el.textContent = kz && el.dataset.kz ? el.dataset.kz : en && el.dataset.en ? el.dataset.en : el.dataset.ru;
+                });
+                sheet.dataset.lang = targetLang === 'orig' ? 'orig' : 'ru';
+                sheet.dataset.kz = kz ? 'on' : 'off';
+                sheet.dataset.en = en ? 'on' : 'off';
+            }
         }
         function mountFormaPage(stage, page) {
+            const mountedSheet = stage.querySelector('.hsk-page');
             sizeFormaPage(stage, page.forma);
             if (formaResize) formaResize.disconnect();
             formaResize = new ResizeObserver(() => sizeFormaPage(stage, page.forma));
             formaResize.observe(stage);
             ensureFormaRuntime(page.forma).then(() => {
                 const sheet = stage.querySelector('.hsk-page');
-                if (!sheet) return;
+                if (!sheet || sheet !== mountedSheet || !sheet.isConnected) return;
                 applyFormaLang(sheet); sheet.dataset.pinyin = FormaView.pinyin ? 'on' : 'off';
                 linkFormaVocab(sheet, getActiveVocab());
                 if (window.FormaPage) window.FormaPage.autoFit(sheet);
-            });
+            }).catch(error => console.error(error.message));
         }
         document.getElementById('pageContentStage').addEventListener('click', e => {
             const scan = e.target.closest('[data-forma-scan]');
@@ -1583,6 +1661,9 @@
         }
         function loadPage(idx) {
             const lesson = hskDatabase[AppState.currentLessonIdx]; AppState.activePageIndex = idx; const data = lesson.pages[idx];
+            // Start each newly opened page with its own words. Lesson/section
+            // scope can still be selected explicitly until the next page turn.
+            VocabView.scope = 'page'; localStorage.setItem('chao_vocab_scope', 'page');
             document.getElementById('bookUnit').textContent = lesson.unit;
             document.getElementById('bookPageNum').textContent = data.pageNum;
             document.getElementById('lessonBadge').textContent = lesson.badge;
@@ -2013,7 +2094,15 @@
             const wordSpan = e.target.closest('.hsk-word-inline');
             const dialogueLine = e.target.closest('.dialogue-text-line');
             const scanWord = e.target.closest('.scan-word');
+            const photo = e.target.closest('.forma-sheet .hsk-photo[data-hsk-speak]');
             const bubble = e.target.closest('.forma-sheet .hsk-bubble');
+            if (photo && !wordSpan) {
+                document.querySelectorAll('.forma-sheet .hsk-photo.playing').forEach(b => b.classList.remove('playing'));
+                const word = photo.dataset.hskSpeak, match = getActiveVocab().find(item => item.word === word);
+                if (match) selectVocabWord(match.word, photo);
+                else speakChinese(word, photo);
+                return;
+            }
             if (bubble && !wordSpan) {
                 // A reply in a Forma dialogue: read the whole line aloud.
                 const hz = bubble.querySelector('.hz');

@@ -8,6 +8,15 @@
 // scan. The model never produces HTML; pages are drawn from fixed components
 // (components.css) so every page of the book shares one design system.
 
+import { measurePrintedGeometry, hasPrintedCardFrame, printedCardBounds, measureTextTable, restorePhoneticTokens, printedParagraphLines } from './source-geometry.mjs';
+import { measureTitlePage } from './title-page.mjs';
+import { measureImprintPage } from './imprint-page.mjs';
+import { measureCreditsPage } from './credits-page.mjs';
+import { measureForewordPage } from './foreword-page.mjs';
+import {wordLabels} from './word-labels.mjs';
+import {toneKey} from './tone-audio.mjs';
+import {reconcileAnswerGrid,measureDialogueOptions,clipImagesBeforeText,dialogueLabels} from './workbook-drills.mjs';
+export {toneRecordings} from './tone-audio.mjs';
 export const NORM_VERSION = 3;
 export const SNAP_VERSION = 3;
 export const TYPES = ['runhead', 'lesson', 'objectives', 'section', 'para', 'tip', 'dialogue', 'image', 'card', 'words', 'folio', 'text', 'decor', 'bonus'];
@@ -144,7 +153,13 @@ export function normalize(parsed, scale = { sx: 1, sy: 1 }) {
     })).filter(t => t.hz);
     if (type === 'image' || type === 'decor') b.alt = str(raw.alt);
     if (type === 'card') b.lines = (raw.lines || []).slice(0, 12).map(l => ({ en: str(l?.en), ru: str(l?.ru) }));
-    if (type === 'words') Object.assign(b, { heading: tri(raw.heading), track: str(raw.track), rows: (raw.rows || []).slice(0, 24).map(r => r?.group ? { group: tri(r.group) } : ({ i: str(r?.i), hz: str(r?.hz), py: str(r?.py), pos_en: str(r?.pos_en), pos_ru: str(r?.pos_ru), en: str(r?.en), ru: str(r?.ru) })) });
+    if (type === 'words') {
+      const rows = (raw.rows || []).slice(0, 24).map(r => r?.group ? { group: tri(r.group) } : ({ i: str(r?.i), hz: str(r?.hz), py: str(r?.py), pos_en: str(r?.pos_en), pos_ru: str(r?.pos_ru), en: str(r?.en), ru: str(r?.ru) }));
+      const groups = rows.filter(r => r.group).map(r => [r.group.cn, r.group.en, r.group.ru].join(' ')).join(' ');
+      const phoneticChart = /声母|initials/i.test(groups) && /韵母|finals/i.test(groups) && /声调|tones/i.test(groups)
+        && rows.some(r => r.hz && r.py && r.pos_en && r.pos_ru);
+      Object.assign(b, { heading: tri(raw.heading), track: str(raw.track), rows, ...(phoneticChart ? { phoneticChart: true } : {}) });
+    }
     if (type === 'folio') b.text = str(raw.text);
     if (type === 'text') b.size = ['s', 'm', 'l'].includes(raw.size) ? raw.size : 'm';
     blocks.push(b);
@@ -165,7 +180,7 @@ export function normalize(parsed, scale = { sx: 1, sy: 1 }) {
     if (b.type !== 'dialogue' || !b.turns?.length || b.turns.length > 4) return;
     if (!b.turns.every(t => /^[A-ZА-Я]$/.test(t.speaker.cn || t.speaker.ru) && t.speaker.avatar === 'none')) return;
     const label = t => /^[A-Z]$/.test(t.speaker.cn) ? t.speaker.cn : String.fromCharCode(65 + Math.max(0, 'АБВГ'.indexOf(t.speaker.ru)));
-    const para = { type: 'para', box: b.box, cn: b.turns.map(t => `${label(t)}：${t.hz}`).join('\n'), py: b.turns.map(t => t.py).join('\n'), en: '', ru: '', icon: 'none', track: '', number: '' };
+    const para = { type: 'para', box: b.box, cn: b.turns.map(t => `${label(t)}：${t.hz}`).join('\n'), py: b.turns.map(t => t.py).join('\n'), en: '', ru: '', icon: 'none', track: '', number: '', dialogueOptions:b.turns.map(t=>({speaker:label(t),hz:t.hz,py:t.py})) };
     blocks[k] = para; options.push(para);
   });
   if (options.length >= 2) options.slice().sort((p, q) => Math.abs(p.box.y - q.box.y) > 0.03 ? p.box.y - q.box.y : p.box.x - q.box.x).forEach((p, i) => { p.number = String(i + 1); });
@@ -193,6 +208,15 @@ const inside = (a, r) => a.x + a.w / 2 >= r.x && a.x + a.w / 2 <= r.x + r.w && a
 function repairStructure(blocks) {
   const drop = new Set();
   for (const [k, b] of blocks.entries()) {
+    // Multi-row pinyin tone drills are a grid even when classified as verse.
+    if(!b.cn&&b.py?.includes('\n')){
+      const rows=b.py.split('\n').map(r=>r.trim().split(/\s+/));
+      const tone=s=>{const m=s.normalize('NFD').match(/[\u0304\u0301\u030c\u0306\u0300]/);return m?({'̄':1,'́':2,'̌':3,'̆':3,'̀':4}[m[0]]):0;};
+      if(rows.length>=3&&rows.length<=12&&rows.every(r=>r.length>=2&&r.length<=16&&r.every(t=>tone(t)))){
+        b.type='text';b.toneSourceBox={...b.box};const groups=Math.ceil(Math.max(...rows.map(r=>r.length))/4);b.toneAlign=groups>1?'left':'center';
+        b.toneRows=rows.map(r=>{const cells=new Array(groups*4).fill('');for(const [i,s]of r.entries())cells[Math.floor(i/4)*4+tone(s)-1]=s.normalize('NFD').replace(/\u0306/g,'\u030c').normalize('NFC');return cells;});b.py=b.toneRows.map(r=>r.join('\t')).join('\n');
+      }
+    }
     // A feature title marked as plain text.
     if (b.type === 'text' && isFeature(b)) Object.assign(b, { type: 'section', track: '', avatar: null });
     // A feature marked as a tip: its label is the tab, its text the panel.
@@ -623,7 +647,12 @@ function assignLines(blocks, ocrLines) {
       if (score < 0.6 || c.x < g.x || c.x > g.x + g.w || c.y < g.y || c.y > g.y + g.h) return;
       // A line that IS one of the block's own lines («Initials» in a table) beats a long text merely containing the word.
       const whole = String([b.cn, b.en, b.py, b.text].filter(Boolean).join('\n')).split('\n').some(s => plain(s) === t);
-      const rank = score - centerDist(line.box, b.box) * 1.5 + (whole ? 0.5 : 0);
+      // Prefer the block whose original model box actually contains the OCR
+      // line. A short heading such as «语音» is also a substring of a nearby
+      // paragraph («汉语音节»); fuzzy text alone can snap the heading to that
+      // paragraph and move both blocks on top of each other.
+      const inside = c.x >= b.box.x && c.x <= b.box.x + b.box.w && c.y >= b.box.y && c.y <= b.box.y + b.box.h;
+      const rank = score - centerDist(line.box, b.box) * 1.5 + (whole ? 0.5 : 0) + (inside ? 0.75 : 0);
       if (!best || rank > best.rank) best = { n, rank };
     });
     if (best) hits[best.n].push(line);
@@ -645,7 +674,7 @@ function assignLines(blocks, ocrLines) {
 }
 
 export function ocrLinesOf(ocr) {
-  return (ocr?.lines || []).map(l => ({ text: String(l.text || ''), box: { x: +l.position.x, y: +l.position.y, w: +(l.position.width ?? l.position.w), h: +(l.position.height ?? l.position.h) } }))
+  return (ocr?.lines || []).map(l => ({ text: String(l.text || ''),confidence:l.confidence, box: { x: +l.position.x, y: +l.position.y, w: +(l.position.width ?? l.position.w), h: +(l.position.height ?? l.position.h) } }))
     .filter(l => l.text && [l.box.x, l.box.y, l.box.w, l.box.h].every(Number.isFinite));
 }
 
@@ -1236,6 +1265,10 @@ export function snap(layout, grid, ocr) {
       if (b.type === 'words') {
         const tab = own.find(l => b.heading && matchScore(plain(l.text), plain([b.heading.cn, b.heading.en].join(''))) >= 0.6);
         if (tab) { const top = tab.box.y + tab.box.h / 2, bottom = next.box.y + next.box.h; if (top > next.box.y) next.box = { ...next.box, y: top, h: bottom - top }; }
+        // OCR sees only the printed glyphs inside a phonetic chart. Preserve
+        // the model's table frame as a lower bound instead of shrinking the
+        // component to the first few columns of text.
+        if (b.phoneticChart && b.box && next.box.w < b.box.w * 0.78) next.box = union([next.box, b.box]);
         const cols = wordColumns(next.box, own.filter(l => l !== tab), grid, (b.rows || []).some(r => r.pos_en || r.pos_ru) ? 4 : 3);
         if (cols) next.cols = cols;
       }
@@ -1265,6 +1298,12 @@ export function snap(layout, grid, ocr) {
         // Paragraphs printed with a first-line indent (the first line starts right of the others).
         const hs = han.slice().sort((p, q) => p.box.y - q.box.y);
         if (next.enBreak && hs.length >= 2 && hs[0].box.x - Math.min(...hs.slice(1).map(l => l.box.x)) > 0.02) next.indent = true;
+        // Long explanatory passages in HSK workbooks print the Chinese text
+        // first and the translation as a separate paragraph. Keep that
+        // reading order in the web version even when OCR merges language
+        // lines or assigns them inconsistently.
+        const hanCount = (String(b.cn).match(/\p{Script=Han}/gu) || []).length;
+        if (hanCount >= 24 && (String(b.ru || '').length >= 40 || String(b.en || '').length >= 40)) next.enBreak = true;
       }
       // A table flattened into lines (Chinese headers, then columns of short syllables: «声母 Initials |
       // 韵母 Finals» on workbook p7) cannot be rebuilt from the list: it is shown as cut from the scan,
@@ -1279,8 +1318,10 @@ export function snap(layout, grid, ocr) {
         const instr = k >= 0 ? hits[k].filter(l => /\p{Script=Han}|[a-z]{3}/iu.test(l.text)) : [];
         const body = lines.filter(l => l.box.y > 0.08 && l.box.y < 0.94 && l.box.w > 0.25), right = body.length ? Math.max(...body.map(l => l.box.x + l.box.w)) : area.x + area.w;
         if (instr.length) { const left = Math.min(...instr.map(l => l.box.x)) - 0.004, r = Math.max(area.x + area.w, right + 0.004); area = { ...area, x: Math.min(area.x, left), w: r - Math.min(area.x, left) }; } const top = Math.min(area.y, text.y - 0.012); area = { ...area, y: top, h: area.y + area.h - top };
-        Object.assign(next, { type: 'image', box: clampBox(area), alt: 'Таблица из учебника (как в скане)', cn: '', en: '', ru: '', py: '' });
-        SOLID_PHOTOS.add(next);
+        // A complex drill remains text even when its row/column structure is
+        // unresolved. Keep every OCR token at its printed coordinates.
+        const tokens = lines.filter(l => l.box.x+l.box.w/2>=area.x && l.box.x+l.box.w/2<=area.x+area.w && l.box.y+l.box.h/2>=area.y && l.box.y+l.box.h/2<=area.y+area.h);
+        Object.assign(next, { type: 'text', box: clampBox(area), exactTokens: tokens, unresolvedStructure: true });
       }
       // OCR sees the syllables of a drill, not its blank lines: blanks before
       // the syllables start where the instruction text starts, blanks after
@@ -1442,6 +1483,27 @@ export function snap(layout, grid, ocr) {
   }
   // A caption under a picture card («鸡 jī» under the photo) is printed centred on it.
   for (const b of blocks) {
+    if(b.type==='image'){
+      const toneLabels=lines.filter(l=>/^[一二三四]声$/.test(l.text.trim())&&inside(l.box,b.box)).sort((a,c)=>a.box.x-c.box.x);
+      if(toneLabels.length===4){
+        const ru=['Первый тон','Второй тон','Третий тон','Четвёртый тон'],kk=['Бірінші тон','Екінші тон','Үшінші тон','Төртінші тон'];
+        b.diagramLabels=toneLabels.map((l,i)=>({cn:l.text.trim(),ru:ru[i],kk:kk[i],box:{x:l.box.x+l.box.w/2-.075,y:l.box.y-.003,w:.15,h:l.box.h+.006}}));
+      }
+    }
+    if(b.toneRows){
+      const B=b.toneSourceBox,near=lines.filter(l=>l.box.x>=B.x-.08&&l.box.x<=B.x+B.w+.08&&l.box.y>=B.y-.015&&l.box.y<=B.y+B.h+.02);
+      const points=b.toneRows.flatMap((row,r)=>row.flatMap((text,c)=>{const l=text&&near.find(l=>l.text.trim().normalize('NFC')===text);return l?[{r,c,x:l.box.x+(b.toneAlign==='left'?0:l.box.w/2),y:l.box.y+l.box.h/2}]:[];}));
+      if(points.length>=5){
+        const X=Array.from({length:Math.max(...b.toneRows.map(r=>r.length))},(_,c)=>median(points.filter(p=>p.c===c).map(p=>p.x)));
+        const Y=b.toneRows.map((_,r)=>median(points.filter(p=>p.r===r).map(p=>p.y)));
+        const valid=Y.map((y,r)=>({y,r})).filter(p=>Number.isFinite(p.y));
+        const pitch=median(valid.slice(1).map((p,i)=>(p.y-valid[i].y)/(p.r-valid[i].r))),start=median(valid.map(p=>p.y-p.r*pitch));
+        if(X.every(Number.isFinite)&&Number.isFinite(pitch)){
+          b.gridX=X;b.gridY=Y.map((_,r)=>start+r*pitch);
+          b.box={x:X[0]-.035,y:b.gridY[0]-.021,w:X.at(-1)-X[0]+(b.toneAlign==='left'?.095:.07),h:b.gridY.at(-1)-b.gridY[0]+.042};
+        }
+      }
+    }
     if (b.type !== 'text' || gridRows(b) || String(b.cn || b.py || '').length > 12) continue;
     const cx = b.box.x + b.box.w / 2, pic = blocks.find(o => o.type === 'image' && cx > o.box.x && cx < o.box.x + o.box.w && b.box.y >= o.box.y + o.box.h * 0.5 && b.box.y - (o.box.y + o.box.h) < 0.06);
     if (pic) { b.box = { ...b.box, x: pic.box.x, w: pic.box.w }; b.align = 'center'; b.cardOf = pic; }
@@ -1455,6 +1517,10 @@ export function snap(layout, grid, ocr) {
     delete b.cardOf;
     if (b.en && !b.trOff) continue;
     pic.box = clampBox(grow(union([pic.box, b.box]), 0.006, 0.005));
+    // Preserve the semantic caption before dropping its separate block.
+    // The printed bitmap is only the illustration, not the caption source.
+    const label=lexicalLabel(b);
+    if(label){const word=wordLabels[label.hz];pic.caption={...label,ru:label.ru||CAPTION_RU[label.hz]||pic.alt||'',...(word?{en:word.en}:{})};}
     SOLID_PHOTOS.add(pic);
     b.dropCaption = true;   // removed after the graphics pass (it pairs blocks with the model's by index)
   }
@@ -1471,7 +1537,7 @@ export function snap(layout, grid, ocr) {
     const rowsOfPics = [];
     for (const p of pics.slice().sort((a, b) => a.box.x - b.box.x)) { const r = rowsOfPics.find(r => Math.abs(r[0].box.y - p.box.y) < 0.06); if (r) r.push(p); else rowsOfPics.push([p]); }
     for (const row of rowsOfPics) {
-      if (row.length < 3) continue;
+      if (row.length < 3 || !row.every(p=>p.caption)) continue;
       const top = Math.min(...row.map(p => p.box.y)), x0 = Math.min(...row.map(p => p.box.x)) - 0.05, x1 = Math.max(...row.map(p => p.box.x + p.box.w)) + 0.05;
       const caps = lines.filter(l => { const cx = l.box.x + l.box.w / 2, cy = l.box.y + l.box.h / 2; return cx > x0 && cx < x1 && cy > top + 0.06 && cy < top + 0.24 && l.text.trim().length <= 8 && (/\p{Script=Han}/u.test(l.text) || /[āáǎàēéěèīíǐìōóǒòūúǔùǖǘǚǜ]/.test(l.text)); });
       const centres = []; for (const l of caps.slice().sort((a, b) => (a.box.x + a.box.w / 2) - (b.box.x + b.box.w / 2))) { const cx = l.box.x + l.box.w / 2, c = centres[centres.length - 1]; if (c && cx - c.xs.at(-1) < 0.06) { c.xs.push(cx); c.bottom = Math.max(c.bottom, l.box.y + l.box.h); } else centres.push({ xs: [cx], bottom: l.box.y + l.box.h }); }
@@ -1542,7 +1608,7 @@ export function snap(layout, grid, ocr) {
   // instead of shrinking.
   const columnRight = Math.max(...blocks.filter(o => ['para', 'words', 'card', 'objectives', 'image', 'dialogue', 'tip'].includes(o.type)).map(o => o.box.x + o.box.w), 0.5);
   for (const b of blocks) {
-    if (!['para', 'text'].includes(b.type) || b.box.x > columnRight - 0.1) continue;
+    if (b.toneRows || !['para', 'text'].includes(b.type) || b.box.x > columnRight - 0.1) continue;
     let right = columnRight;
     for (const o of blocks) {
       if (o === b || o.type === 'decor' || o.type === 'runhead' || o.type === 'folio') continue;
@@ -1574,9 +1640,137 @@ export function snap(layout, grid, ocr) {
     }
   }
   for (const b of blocks) printedPinyin(b, lines);
+  for (const b of blocks) {
+    const measured = measurePrintedGeometry(b, grid, lines, layout.page);
+    if (measured) Object.assign(b, measured);
+    const table = measureTextTable(b,grid);
+    if(table){Object.assign(b,table);Object.assign(b,restorePhoneticTokens(b));}
+    const paragraph=printedParagraphLines(b,lines);if(paragraph)b.printedCnLines=paragraph;
+    const english=printedParagraphLines(b,lines,'en');if(english)b.printedEnLines=english;
+    const drill=reconcileAnswerGrid(b,lines,grid);if(drill)Object.assign(b,drill);
+    const dialogue=measureDialogueOptions(b,lines);if(dialogue)Object.assign(b,dialogue);
+  }
+  clipImagesBeforeText(blocks,lines);
+  measureTitlePage({...layout,blocks},grid,lines);
+  measureImprintPage({...layout,blocks},lines);
+  measureCreditsPage({...layout,blocks},grid,lines);
+  measureForewordPage({...layout,blocks,theme},grid,lines);
   const accent = blocks.find(b => ['section', 'lesson', 'folio'].includes(b.type) && b.fill && b.fill !== '#ffffff')?.fill;
   if (accent) theme.accent = accent;
-  return { ...layout, blocks, theme, snapVersion: SNAP_VERSION, ocrLines: lines.length };
+  const result = attachInteractiveCaptions({ ...layout, blocks, theme, snapVersion: SNAP_VERSION, ocrLines: lines.length });
+  for(const b of result.blocks.filter(b=>b.type==='runhead'&&b.box.x>.5&&b.number)){
+    const tokens=(ocr?.lines||[]).map(t=>({text:t.text,box:t.box||(t.position?{x:t.position.x,y:t.position.y,w:t.position.width,h:t.position.height}:null)})).filter(t=>t.box&&t.box.y<.07);
+    const label=tokens.find(t=>/^lesson$/i.test(t.text.trim())),number=label&&tokens.find(t=>t.text.trim()===b.number&&t.box.x>label.box.x);
+    if(label&&number)b.rightLesson={label:{...label.box,y:label.box.y+label.box.h*.3,h:label.box.h*.5},number:{...number.box,x:number.box.x-.006,w:number.box.w+.006}};
+    else {
+      const combined=tokens.find(t=>new RegExp('^Lesson\\s*'+b.number+'$','i').test(t.text.trim()));
+      if(combined){const q=combined.box;b.rightLesson={label:{x:q.x+.006,y:q.y+q.h*.38,w:q.w*.72,h:q.h*.5},number:{x:q.x+q.w*.78,y:q.y,w:q.w*.22,h:q.h}};}
+    }
+  }
+  result.kz={...(layout.kz||{})};
+  for(const b of result.blocks)if(b.foreword?.kk)result.kz[b.ru]=b.foreword.kk;
+  for(const b of result.blocks)if(b.credits?.kk)result.kz[b.ru]=b.credits.kk;
+  for(const b of result.blocks)for(const l of b.imprintLabels||[])if(l.ru)result.kz[l.ru]=l.kk;
+  for(const b of result.blocks)if(b.caption?.ru&&wordLabels[b.caption.hz])result.kz[b.caption.ru]=wordLabels[b.caption.hz].kk;
+  for(const b of result.blocks)for(const l of b.diagramLabels||[])result.kz[l.ru]=l.kk;
+  for(const b of result.blocks)for(const t of b.optionTurns||[])if(t.translation)result.kz[t.translation.ru]=t.translation.kk;
+  for (const b of result.blocks) if (b.type === 'image' && b.caption) {
+    b.captionFrame = hasPrintedCardFrame(b.box,grid);
+    const bounds=printedCardBounds(b.box,grid);if(bounds)b.box=bounds;
+    if(b.captionFrame)delete b.frame;
+  }
+  const cardRows=[];
+  for(const b of result.blocks.filter(b=>b.type==='image'&&b.captionFrame&&b.caption)){
+    const row=cardRows.find(r=>Math.abs(r[0].box.y-b.box.y)<.025);
+    if(row)row.push(b);else cardRows.push([b]);
+  }
+  for(const row of cardRows.filter(r=>r.length>=3)){
+    const y=median(row.map(b=>b.box.y)),bottom=median(row.map(b=>b.box.y+b.box.h));
+    if(row.every(b=>Math.abs(b.box.y-y)<.015&&Math.abs(b.box.y+b.box.h-bottom)<.015))
+      for(const b of row)b.box={...b.box,y,h:bottom-y};
+  }
+  return result;
+}
+
+// Turn labels printed beside a picture into a semantic, speakable caption.
+// Never guess across a matching exercise: its picture/word pairs are
+// intentionally shuffled and cannot be inferred from the nearest position.
+const CAPTION_RU = {
+  '茶':'чай','狗':'собака','猫':'кошка','菜':'овощи','人':'человек','坐':'сидеть','书':'книга',
+  '手机':'смартфон','医生':'врач','出租车':'такси','春':'весна','村':'деревня','睡':'спать','嘴':'рот',
+  '你好':'привет','哪里':'где','小语':'Сяоюй','水果':'фрукты','妈妈':'мама','爸爸':'папа','椅子':'стул','饺子':'пельмени',
+  '面条儿':'лапша','好玩儿':'интересный, весёлый','一点儿':'немного','饭馆儿':'ресторан','那儿':'там','这儿':'здесь','玩儿':'играть','歌儿':'песня',
+  '五':'пять','哥哥':'старший брат','学生':'ученик, студент','六十岁':'шестьдесят лет','老师':'учитель'
+};
+const HAN = /\p{Script=Han}/u;
+const cleanHanzi = value => String(value || '').replace(/[^\p{Script=Han}]/gu, '');
+const lexicalLabel = b => {
+  const hz = cleanHanzi(b?.cn), py = String(b?.py || '').trim();
+  if (!hz || hz.length > 4 || !py || !/^[\p{Script=Latin}\süÜāáǎàēéěèīíǐìōóǒòūúǔùǖǘǚǜńňḿ̀-]+$/u.test(py)) return null;
+  if (py.split(/\s+/).filter(Boolean).length > 4) return null;
+  return { hz, py, ru: String(b.ru || '').trim() };
+};
+
+export function attachInteractiveCaptions(layout) {
+  const blocks = (layout?.blocks || []).map(b => ({ ...b }));
+  const images = blocks.filter(b => b.type === 'image');
+  const labels = blocks.filter(b => ['text', 'para'].includes(b.type) && lexicalLabel(b));
+  const pageText = blocks.filter(b => ['text', 'para', 'section'].includes(b.type)).map(b => b.cn || '').join(' ');
+  const shuffledMatchingExercise = /选择.{0,8}对应|对应.{0,8}图片|подбер.{0,30}картин|соответствующ.{0,20}картин/i.test(pageText);
+  const labelOwner = new Map();
+
+  for (const image of images) {
+    if (image.caption?.hz) {
+      image.caption = { ...image.caption, ru: image.caption.ru || CAPTION_RU[cleanHanzi(image.caption.hz)] || String(image.alt || '').replace(/^\s*(?:карточка\s*:\s*)?/iu, '').trim() };
+      continue;
+    }
+    // Some early layouts encoded a complete label in the Russian alt text.
+    const fromAlt = String(image.alt || '').match(/^\s*(?:карточка\s*:\s*)?(.+?)\s*\(([^,()]+),\s*([\p{Script=Han}]+)\)\s*$/iu);
+    if (fromAlt) {
+      image.caption = { py: fromAlt[2].trim(), hz: fromAlt[3], ru: fromAlt[1].trim() };
+      continue;
+    }
+    if (shuffledMatchingExercise) continue;
+    const box = image.box || {}, cx = box.x + box.w / 2, bottom = box.y + box.h;
+    const possible = labels.map(label => {
+      const lb = label.box || {}, lx = lb.x + lb.w / 2, ly = lb.y + lb.h / 2, dy = lb.y - bottom;
+      const maxDx = Math.max(.022, box.w * .34);
+      const overlapsImageCaptionArea = ly > box.y + box.h * .72 && ly < bottom;
+      if (labelOwner.has(label) || (dy < -.006 && !overlapsImageCaptionArea) || dy > .055 || Math.abs(lx - cx) > maxDx) return null;
+      // Prefer labels centred below this image, close to its lower edge.
+      return { label, score: Math.abs(lx - cx) / maxDx + (overlapsImageCaptionArea ? 0 : Math.abs(dy) / .055) };
+    }).filter(Boolean).sort((a, b) => a.score - b.score);
+    const winner = possible[0];
+    if (!winner || winner.score > 1.25 || (possible[1] && possible[1].score - winner.score < .2)) continue;
+    labelOwner.set(winner.label, image);
+    const vocab = lexicalLabel(winner.label), ru = vocab.ru || CAPTION_RU[vocab.hz] || String(image.alt || '').trim();
+    image.caption = { py: vocab.py, hz: vocab.hz, ru };
+    winner.label.photoCaptionOwner = blocks.indexOf(image);
+  }
+  return { ...layout, blocks };
+}
+
+export function pageVocabulary(layout) {
+  const enriched = attachInteractiveCaptions(layout), blocks = enriched.blocks || [], result = [], seen = new Set();
+  const add = ({ hz, py, ru, en = '', pos = '' }) => {
+    hz = cleanHanzi(hz); py = String(py || '').trim(); ru = String(ru || '').trim(); en = String(en || '').trim();
+    if (!hz || !py || seen.has(hz) || (!ru && !en)) return;
+    seen.add(hz); result.push({ word: hz, py, pos, trans: ru || en, ...(en ? { trans_en: en } : {}) });
+  };
+  for (const image of blocks.filter(b => b.type === 'image' && b.caption?.hz)) {
+    const c = image.caption; add({ hz: c.hz, py: c.py, ru: c.ru || CAPTION_RU[cleanHanzi(c.hz)], en:c.en });
+  }
+  for (const block of blocks.filter(b => ['text', 'para'].includes(b.type))) {
+    const item = lexicalLabel(block);
+    if (item) add({ ...item, ru: item.ru || CAPTION_RU[item.hz] });
+    for(const t of block.optionTurns||[]){const label=dialogueLabels[cleanHanzi(t.hz)];if(label)add({hz:t.hz,py:t.py,ru:label.ru,en:label.en});}
+  }
+  const soundGroup = row => row?.group && /声母|韵母|声调|initials|finals|tones/i.test([row.group.cn, row.group.en, row.group.ru].join(' '));
+  for (const table of blocks.filter(b => b.type === 'words')) {
+    if ((table.rows || []).some(soundGroup)) continue;
+    for (const row of table.rows || []) if (!row.group) add({ hz: row.hz, py: row.py, ru: row.ru || CAPTION_RU[cleanHanzi(row.hz)], en: row.en, pos: row.pos_ru || row.pos_en });
+  }
+  return result.slice(0, 30);
 }
 
 // Columns of a word table as printed: every row shares them. Dark neutral
@@ -1654,6 +1848,8 @@ export function findDecorations(layout, grid) {
   // triangles just outside their boxes, and those must not be cut twice.
   for (const b of layout.blocks) {
     cover(b.box, 0.02); if (b.avatar) cover(b.avatar, 0.02);
+    if(b.titleArtwork)cover(b.titleArtwork.box,.003);
+    for(const l of b.imprintLabels||[])cover(l.box,.004);
     for (const t of b.turns || []) cover(t.speaker?.avatarBox, 0.02);
     // The pin sits a little above its line's box (p.25): its zone reaches up so it is not cut twice.
     if ((b.type === 'para' && b.icon !== 'none') || b.type === 'runhead') cover({ x: b.box.x - 0.05, y: b.box.y - (b.icon === 'pin' ? 0.03 : 0), w: 0.05, h: b.box.h + (b.icon === 'pin' ? 0.03 : 0) }, 0.01);
@@ -1764,6 +1960,8 @@ const secAvatarBox = b => { const a = b.avatar, bottom = Math.min(a.y + a.h, b.b
 export function assetBoxes(layout) {
   const out = [];
   layout.blocks.forEach((b, n) => {
+    if (b.printed?.texture) out.push({ key: `surface-${n}`, box: b.printed.texture });
+    if (b.textTable?.texture) out.push({ key: `table-surface-${n}`, box: b.textTable.texture });
     if (b.type === 'image') out.push({ key: `img-${n}`, box: b.box });
     // The character over a tip panel stands half on it, like those on tabs.
     if (b.type === 'tip' && b.avatar) out.push({ key: `tip-${n}`, box: b.avatar, transparent: true, flood: true, also: b.fill ? [b.fill] : [] });
@@ -1870,15 +2068,35 @@ const timesEm = s => [...String(s).normalize('NFD').replace(/[̀-ͯ]/g, '')].red
 // OCR boxes are ~12% wider than the ink; kept within sane label sizes.
 const nameSize = (text, w) => Math.max(0.7, Math.min(1.6, (w * 100 * 0.88) / Math.max(1, arialEm(text)))).toFixed(2);
 
+// A source-page number glyph can be extracted both as text and as a tiny
+// transparent decoration. Keep the scan cut-out and suppress the generated
+// number label when both describe the same printed marker.
+export function isPrintedNumberDecoration(decoration, block) {
+  const d = decoration?.box, b = block?.box;
+  if (!d || !b || block.type !== 'para' || !block.number || /^[(（]/.test(String(block.number))) return false;
+  return d.w < 0.05 && d.h < 0.035 && d.w / Math.max(d.h, 0.001) >= 0.8
+    && d.x + d.w <= b.x + 0.01 && d.x >= b.x - 0.10
+    && d.y + d.h / 2 >= b.y - 0.005 && d.y + d.h / 2 <= b.y + b.h;
+}
+
+function isPartialNumberDecoration(decoration, block) {
+  const d = decoration?.box, b = block?.box;
+  if (!d || !b || block.type !== 'para' || !block.number || /^[(（]/.test(String(block.number))) return false;
+  return d.w < 0.05 && d.h < 0.035 && d.w / Math.max(d.h, 0.001) < 0.8
+    && d.x + d.w <= b.x + 0.01 && d.x >= b.x - 0.10
+    && d.y + d.h / 2 >= b.y - 0.005 && d.y + d.h / 2 <= b.y + b.h;
+}
+
 export function render(layout, { assets = {}, pinyin = true, lang = '', editable = false, videoButton = '' } = {}) {
+  layout = attachInteractiveCaptions(layout);
   const ratio = (layout.page?.height || 1595) / (layout.page?.width || 1171);
   const pct = v => (v * 100).toFixed(3) + '%';
   const vars = b => (b.k ? `--k:${b.k};` : '') + (b.fill ? `--fill:${b.fill};` : '') + (b.split ? `--split:${b.split};` : '') + (b.tabH ? `--tab-h:${b.tabH};` : '') + (b.cnSize ? `--cn:${b.cnSize}cqw;` : '');
   const pos = (b, extra = '') => `left:${pct(b.box.x)};top:${pct(b.box.y)};width:${pct(b.box.w)};${vars(b)}${extra}`;
   // Kazakh rides on the Russian layer: each Russian text carries its
   // translation (layout.kz, keyed by the Russian text) and setLang swaps it in.
-  const kz = !editable && layout.kz || {};
-  const ed = (n, path, value, cls = '') => { const k = /(^|[._])ru$/.test(path) && kz[String(value ?? '').trim()]; return `<span class="${cls}"${k ? ` data-kz="${esc(k)}"` : ''}${editable ? ` contenteditable="true" data-hsk-block="${n}" data-hsk-path="${esc(path)}"` : ''}>${esc(value)}</span>`; };
+  const kz = layout.kz || {};
+  const ed = (n, path, value, cls = '') => { const b=layout.blocks[n],isRu=/(^|[._])ru$/.test(path),k=isRu && (b?.translations?.[path]?.kk || kz[String(value ?? '').trim()]),en=isRu&&(b?.foreword||b?.credits||b?.imprint||b?.titlePageRole)&&path.replace(/ru$/,'en').split('.').reduce((o,p)=>o?.[p],b);return `<span class="${cls}"${k ? ` data-kz="${esc(k)}"` : ''}${en?` data-en="${esc(en)}"`:''}${editable ? ` contenteditable="true" data-hsk-block="${n}" data-hsk-path="${esc(path)}"` : ''}>${esc(value)}</span>`; };
   const trio = (n, prefix, o) => (o?.cn ? ed(n, prefix + 'cn', o.cn, 'cn') : '') + (o?.en ? ed(n, prefix + 'en', o.en, 'en') : '') + (o?.ru ? ed(n, prefix + 'ru', o.ru, 'ru') : '');
   // A track mark («🔊 1-3») plays its recording when the book has it. One shared
   // player: a new track stops the previous one, the same mark again pauses.
@@ -1920,18 +2138,98 @@ export function render(layout, { assets = {}, pinyin = true, lang = '', editable
   const lines = s => String(s || '').split('\n');
   const rel = (r, B) => `left:${pct((r.x - B.x) / B.w)};top:${pct((r.y - B.y) / B.h)};width:${pct(r.w / B.w)};height:${pct(r.h / B.h)};`;
   // A size set by hand in the editor is final: the fit step leaves it alone.
-  const tag = (n, b) => `data-block="${n}" data-hsk-bottom="${(b.box.y + b.box.h).toFixed(4)}"${b.kManual ? ' data-hsk-manual="1"' : ''}${b.bold ? ' data-hsk-bold="1"' : ''}`;
+  const tag = (n, b) => `data-block="${n}" data-hsk-bottom="${(b.box.y + b.box.h).toFixed(4)}"${b.kManual||b.drillManual ? ' data-hsk-manual="1"' : ''}${b.bold ? ' data-hsk-bold="1"' : ''}`;
   const firstImage = layout.blocks.findIndex(x => x.type === 'image');
+  const printed = (b, n, at) => {
+    const p = b.printed, [W,H] = p.grid, B = b.box, id = `print-${n}`;
+    const tile = p.texture, tex = assets[`surface-${n}`];
+    const pattern = tex && tile ? `<defs><pattern id="${id}" patternUnits="userSpaceOnUse" width="${tile.w*W}" height="${tile.h*H}"><image href="${esc(tex)}" preserveAspectRatio="none" width="${tile.w*W}" height="${tile.h*H}"/></pattern></defs>` : '';
+    const placed = (box, text, cls, size) => `<span class="hsk-printed-text ${cls}" style="${rel(box,B)}font-size:${size}cqw">${text}</span>`;
+    const translation = {...p.enBox,w:Math.max(p.enBox.w,B.x+B.w-p.enBox.x-.01)};
+    const markup = `<header ${at} data-hsk-manual="1" class="hsk-at hsk-printed hsk-printed-${b.type}" style="${pos(b,`height:${pct(B.h)};`)}"><svg aria-hidden="true" preserveAspectRatio="none" viewBox="${B.x*W} ${B.y*H} ${B.w*W} ${B.h*H}">${pattern}<path d="${p.graphic}" fill="${b.fill || '#dc321e'}"/>${pattern ? `<path d="${p.graphic}" fill="url(#${id})" opacity=".25"/>` : ''}${p.tag ? `<path d="${p.tag}" fill="#f5efe6"/>` : ''}</svg>${p.number ? placed(p.number,esc(b.number),'hsk-printed-number',p.number.h/(layout.page.width/layout.page.height)*100*1.08) : ''}${placed(p.cnBox,ed(n,'cn',b.cn,'cn'),'hsk-printed-cn',p.cnSize)}${p.pyLines.map(l=>placed(l.box,esc(l.text),'hsk-printed-py',l.box.h/(layout.page.width/layout.page.height)*100*.78)).join('')}${placed(translation,(b.en ? ed(n,'en',b.en,'en') : '')+(b.ru ? ed(n,'ru',b.ru,'ru') : ''),'hsk-printed-translation',p.enSize)}</header>`;
+    const trackBox = p.trackBox || (b.track ? {...p.enBox,x:p.enBox.x+p.enBox.w+.012,w:.08} : null);
+    return trackBox ? markup.replace("</header>",placed(trackBox,track(b.track),"hsk-printed-track",p.enSize)+"</header>") : markup;
+  };
 
   const html = layout.blocks.map((b, n) => {
+    // A paired picture caption is rendered once inside its interactive card.
+    if (Number.isInteger(b.photoCaptionOwner) && layout.blocks[b.photoCaptionOwner]?.caption) return '';
     const at = tag(n, b), h = `height:${pct(b.box.h)};`, minH = `min-height:${pct(b.box.h)};`;
+    if(b.forewordFolio)return `<span ${at} class="hsk-at hsk-foreword-folio${b.forewordFolioSide==='right'?' hsk-foreword-folio-right':''}" style="${pos(b,h)}">${esc(b.text)}</span>`;
+    if(b.foreword){
+      const p=b.foreword,original=p.lines.map(l=>{const label=/^([\u3400-\u9fff]{2,8}[：:])/.exec(l.text),text=label?`<strong>${esc(label[1])}</strong>${esc(l.text.slice(label[1].length))}`:esc(l.text);return `<span class="hsk-foreword-line" style="left:${pct((l.box.x-b.box.x)/b.box.w)};top:${pct((l.box.y-b.box.y)/b.box.h)};${p.heading?`width:${pct(l.box.w/b.box.w)};`:''}">${text}</span>`;}).join('');
+      return `<section ${at} data-hsk-manual="1" class="hsk-at hsk-foreword${p.heading?' hsk-foreword-heading':p.banner?' hsk-foreword-banner':p.paragraph?p.compact?' hsk-foreword-item':' hsk-foreword-prose':' hsk-foreword-signature'}" style="${pos(b,h)}font-size:${p.font}cqw;${p.banner?`background:${p.banner.color};`:''}">${original}${ed(n,'ru',b.ru,'ru hsk-foreword-translation')}</section>`;
+    }
+    if(b.creditsFolio)return `<span ${at} class="hsk-at hsk-credits-folio" style="${pos(b,h)}background:${b.creditsFolio.color}">${esc(b.text||b.number||'')}</span>`;
+    if(b.credits){
+      const p=b.credits;
+      const original=p.lines.map((l,i)=>{
+        const label=i===0?p.label:null,body=label?l.text.replace(/^([^：:]+[：:])\s*/,''):l.text;
+        const start=label?label.box.x+label.box.w+.012:l.box.x;
+        return (label?`<span class="hsk-credits-label" style="left:${pct((label.box.x-b.box.x)/b.box.w)};top:${pct((l.box.y-b.box.y)/b.box.h)};width:${pct(label.box.w/b.box.w)};color:${p.color}">${esc(label.text)}</span>`:'')+`<span class="hsk-credits-cn" style="left:${pct((start-b.box.x)/b.box.w)};top:${pct((l.box.y-b.box.y)/b.box.h)};${p.heading?`color:${p.color};`:''}">${esc(body)}</span>`;
+      }).join('');
+      const kk=b.translations?.ru?.kk||kz[b.ru]||'',font=p.title?Math.min(p.font,3.1):Math.min(p.font,(b.box.w*100)/(Math.max(b.ru?.split('\n')[0].length||0,kk.split('\n')[0].length,b.en?.split('\n')[0].length||0)*.57||1));
+      return `<section ${at} data-hsk-manual="1" class="hsk-at hsk-credits${p.heading?' hsk-credits-heading':''}${p.title?' hsk-credits-title':''}" style="${pos(b,h)}font-size:${p.font}cqw;--translated-font:${font}cqw;--credits-color:${p.color}">${original}${ed(n,'ru',b.ru,'ru hsk-credits-translation')}</section>`;
+    }
+    if(b.imprintLabels){
+      return `<figure ${at} class="hsk-at" style="${pos(b,h)}"><img style="width:100%;height:100%;object-fit:fill" src="${esc(assets['img-'+n]||'')}" alt="${esc(b.alt||'')}"></figure>`+b.imprintLabels.map(l=>`<span class="hsk-at hsk-imprint-logo-label" style="left:${pct(l.box.x)};top:${pct(l.box.y)};width:${pct(l.ru?.6:l.box.w)};font-size:${l.box.h*ratio*100*.85}cqw">${l.ru?`<span class="en">${esc(l.text)}</span><span class="ru" data-en="${esc(l.en||({'记载人类文明':'Recording Human Civilization','沟通世界文化':'Connecting World Cultures'})[l.text]||l.text)}" data-kz="${esc(l.kk)}">${esc(l.ru)}</span>`:esc(l.text)}</span>`).join('');
+    }
+    if(b.imprint){
+      const p=b.imprint,style=box=>`left:${pct((box.x-b.box.x)/b.box.w)};top:${pct((box.y-b.box.y)/b.box.h)};width:${pct(box.w/b.box.w)};`;
+      const translated=!!b.ru;
+      const originals=p.kind==='rows'?p.rows.map(row=>`<span class="hsk-imprint-original" style="${style({x:b.box.x,y:row.y,w:b.box.w})}"><span class="hsk-imprint-label" style="width:${(p.valueX-b.box.x-.015)*100}cqw;margin-right:1.5cqw">${[...row.label].map(c=>`<span>${esc(c)}</span>`).join('')}</span>${esc(row.value)}</span>`).join(''):p.lines.map(l=>`<span class="hsk-imprint-original" style="${style(l.box)}">${esc(l.text)}</span>`).join('');
+      const translation=p.kind==='rows'?b.ru.split('\n').map((ru,i)=>{const kk=(b.translations?.ru?.kk||kz[b.ru]||'').split('\n')[i],en=b.en?.split('\n')[i],size=Math.min(p.font,b.box.w*100/(Math.max(ru.length,kk?.length||0,en?.length||0)*.58));return `<span class="hsk-imprint-row-translation" style="top:${pct(i*p.pitch/b.box.h)};font-size:${size}cqw"><span class="ru"${en?` data-en="${esc(en)}"`:''}${kk?` data-kz="${esc(kk)}"`:''}>${esc(ru)}</span></span>`;}).join(''):ed(n,'ru',b.ru,'ru hsk-imprint-translation');
+      return `<section ${at} data-hsk-manual="1" class="hsk-at hsk-imprint${translated?' hsk-imprint-translated':''}" style="${pos(b,h)}font-size:${p.font}cqw">${originals}${translated?translation:''}</section>`;
+    }
+    if(b.titlePageRole){
+      const a=b.titleArtwork;
+      const graphic=a?`<svg class="hsk-at hsk-title-art" role="img" aria-label="${esc(a.label)}" style="left:${pct(a.box.x)};top:${pct(a.box.y)};width:${pct(a.box.w)};height:${pct(a.box.h)}" viewBox="${a.viewBox}" preserveAspectRatio="none"><title>${esc(a.label)}</title><path d="${a.path}" fill="${a.color}"/></svg>`:'';
+      const original=(b.titleOriginalLines||[]).map(l=>`<span class="hsk-title-original-line" style="left:${pct((l.box.x-b.box.x)/b.box.w)};top:${pct((l.box.y-b.box.y)/b.box.h)};width:${pct(l.box.w/b.box.w)};font-size:${l.box.h*ratio*100*.92}cqw">${esc(l.text)}</span>`).join('');
+      return graphic+`<section ${at} data-hsk-manual="1" class="hsk-at hsk-title-text hsk-title-${b.titlePageRole}" style="${pos(b,h)}font-size:${b.titleFont}cqw;color:${b.color};text-align:${b.align}">${original}${trio(n,'',{...b,cn:b.titleCn||b.cn})}</section>`;
+    }
+    if(b.optionTurns?.length){
+      const speak=`event.stopPropagation();var u=new SpeechSynthesisUtterance(this.dataset.hskSpeak);u.lang='zh-CN';speechSynthesis.cancel();speechSynthesis.speak(u)`;
+      return `<section ${at} data-hsk-manual="1" class="hsk-at hsk-option-dialogue" style="${pos(b,h)}">${b.number?`<span class="hsk-option-number">${esc(b.number)}</span>`:''}${b.optionTurns.map((t,k)=>{
+        const end=b.box.x+b.box.w,translation={x:t.cnBox.x+t.cnBox.w+.01,y:t.cnBox.y,w:Math.max(.065,end-t.cnBox.x-t.cnBox.w-.01),h:.03};
+        return `${t.pyBox?`<span class="hsk-option-py" style="${rel(t.pyBox,b.box)}">${esc(t.py)}</span>`:''}<button type="button" class="hsk-option-cn" data-hsk-speak="${esc(t.hz)}" style="${rel(t.cnBox,b.box)}" onclick="${esc(speak)}">${esc(t.speaker)}：${esc(t.hz)}</button>${t.translation?`<span class="hsk-option-translation" style="${rel(translation,b.box)}">${ed(n,`optionTurns.${k}.translation.en`,t.translation.en,'en')}${ed(n,`optionTurns.${k}.translation.ru`,t.translation.ru,'ru')}</span>`:''}`;
+      }).join('')}</section>`;
+    }
+    if(b.toneRows&&b.gridX&&b.gridY){
+      const speak=`event.stopPropagation();speechSynthesis.cancel();document.querySelectorAll('audio').forEach(function(a){a.pause()});var p=this.closest('.hsk-page');var a=p.querySelector('audio.hsk-tone-player');if(!a){a=document.createElement('audio');a.className='hsk-tone-player';a.hidden=true;p.appendChild(a)}var b=this;a.src=this.dataset.src;a.play().catch(function(){b.title='Не удалось воспроизвести запись';b.setAttribute('aria-invalid','true')})`;
+      const cells=b.toneRows.map((row,r)=>row.map((s,c)=>{
+        if(!s)return '';const key=toneKey(s),src=assets[`tone-${key}`];
+        return `<span class="hsk-tone-grid-cell" style="left:${pct((b.gridX[c]-b.box.x)/b.box.w)};top:${pct((b.gridY[r]-b.box.y)/b.box.h)};${b.toneAlign==='left'?'transform:translateY(-50%)':''}"><button type="button" data-hsk-speak="${esc(s)}" data-tone-key="${esc(key||'')}" data-src="${esc(src||'')}" aria-label="Слог ${esc(s)}, тон ${c%4+1}" ${src?`onclick="${esc(speak)}"`:'disabled title="Для этого слога нужна запись соответствующего тона"'}>${esc(s)}</button></span>`;
+      }).join('')).join('');
+      const panels=b.gridX.length<=4?'':Array.from({length:b.gridX.length/4},(_,i)=>{const x=b.gridX[i*4]-.025,right=b.gridX[i*4+3]+.07;return `<span class="hsk-tone-panel" style="left:${pct((x-b.box.x)/b.box.w)};width:${pct((right-x)/b.box.w)}"></span>`;}).join('');
+      return `<section ${at} data-hsk-manual="1" class="hsk-at hsk-tone-grid" style="${pos(b,h)}${panels?'background:transparent;':''}">${panels}${cells}</section>`;
+    }
+    if (b.exactTokens) {
+      const T=b.textTable, R=layout.page.width/layout.page.height;
+      const rect=(box,fill,stroke='none')=>`<rect x="${box.x}" y="${box.y}" width="${box.w}" height="${box.h}" fill="${fill}" stroke="${stroke}" stroke-width=".001"/>`;
+      const tex=assets[`table-surface-${n}`];
+      const surface=T?`<svg class="hsk-table-surface" aria-hidden="true" preserveAspectRatio="none" viewBox="${b.box.x} ${b.box.y} ${b.box.w} ${b.box.h}"><defs>${tex?`<pattern id="table-${n}" patternUnits="userSpaceOnUse" width="${T.texture.w}" height="${T.texture.h}"><image href="${esc(tex)}" preserveAspectRatio="none" width="${T.texture.w}" height="${T.texture.h}"/></pattern>`:''}</defs>${rect(T.frame,'#fff','#e3a299')}${rect(T.header,'#e99080')}${tex?rect(T.header,`url(#table-${n})`):''}${T.splits.map(x=>`<path d="M${x} ${T.frame.y}V${T.frame.y+T.frame.h}" stroke="#e3a299" stroke-width=".001"/>`).join('')}</svg>`:'';
+      const tokens=b.exactTokens.map((t,k)=>{
+        const header=T&&t.box.y+t.box.h/2<T.header.y+T.header.h;
+        const english=header&&/^(Initials|Finals)$/.test(t.text);
+        const ru=t.text==='Initials'?'Инициали':'Финали', kk=t.text==='Initials'?'Бастапқы дыбыстар':'Финалдар';
+        const body=english?`<span class="en">${esc(t.text)}</span><span class="ru" data-kz="${kk}">${ru}</span>`:ed(n,`exactTokens.${k}.text`,t.text);
+        return `<span class="hsk-exact-token${header?' hsk-table-header':''}${b.phoneticTextTable&&!header?' hsk-phonetic-token':''}" style="${rel(t.box,b.box)}font-size:${b.phoneticTextTable&&!header?2.05:t.box.h/R*(header?88:78)}cqw">${body}</span>`;
+      }).join('');
+      return `<section ${at} data-hsk-manual="1" class="hsk-at hsk-exact-text" style="${pos(b,h)}">${surface}${tokens}${b.ru?`<span class="ru">${ed(n,'ru',b.ru)}</span>`:''}</section>`;
+    }
     switch (b.type) {
       case 'runhead':
+        if(b.rightLesson){
+          const l=b.rightLesson,atBox=q=>`left:${pct(q.x)};top:${pct(q.y)};width:${pct(q.w)};height:${pct(q.h)};`;
+          return `<header ${at} class="hsk-right-printed"><span class="hsk-at cn" style="${atBox(b.box)}font-size:1.6cqw">${ed(n,'cn',b.cn)}</span><span class="hsk-at ru" style="${atBox({...b.box,y:b.box.y+b.box.h,h:.016})}font-size:1.1cqw">${ed(n,'ru',b.ru)}</span><span class="hsk-at" style="${atBox(l.label)}font:bold 1.6cqw/1 var(--sans);color:var(--red)">Lesson</span><strong class="hsk-at" style="${atBox(l.number)}font:bold 3.5cqw/1 var(--sans);color:var(--red)">${esc(b.number)}</strong></header>`;
+        }
+        if (b.printed) return printed(b,n,at);
         // Odd pages: "我叫李文 | Lesson 2" on one line, the number large.
         if (b.box.x > 0.5) return `<header ${at} class="hsk-at hsk-runhead hsk-runhead-right" style="${pos(b, h)}${b.numSize ? `--no:${b.numSize}cqw;` : ''}"><b>${ed(n, 'cn', b.cn)}</b><i></i>${b.en ? ed(n, 'en', b.en, 'en') : ''}${b.ru ? ed(n, 'ru', b.ru, 'ru') : ''}${b.number ? `<strong>${esc(b.number)}</strong>` : ''}</header>`;
         if (b.tab) return `<header ${at} class="hsk-at hsk-runhead-tab" style="${pos(b, `height:${pct(b.box.h)};`)}--tab:${esc(b.tab)};--tabw:${(b.tabW / b.box.w * 100).toFixed(2)}%"><b>${ed(n, 'cn', b.cn)}</b><span>${b.en ? ed(n, 'en', b.en, 'en') : ''}${b.ru ? ed(n, 'ru', b.ru, 'ru') : ''}</span></header>`;
         return `<header ${at} class="hsk-at hsk-runhead" style="${pos(b)}"><b>${ed(n, 'cn', b.cn)}</b><span>${b.en ? ed(n, 'en', b.en, 'en') : ''}${b.ru ? ed(n, 'ru', b.ru, 'ru') : ''}</span></header>`;
       case 'lesson': {
+        if (b.printed) return printed(b,n,at);
         const title = b.py && rubyHtml(b.cn, b.py);
         // The band wraps around the objectives frame below it: where the band
         // sticks out past the frame's right edge it folds down (a 45° flap).
@@ -1946,9 +2244,14 @@ export function render(layout, { assets = {}, pinyin = true, lang = '', editable
       case 'objectives':
         return `<section ${at} class="hsk-at hsk-objectives" style="${pos(b, minH)}"><h3>${TARGET_ICON}${trio(n, 'heading.', { ...b.heading, cn: String(b.heading?.cn || '').replace(/^[◎⊙◉⦾]\s*/u, '') })}</h3>${(b.items || []).map((it, k) => `<div class="hsk-objective"><span class="hsk-check"></span><span>${trio(n, `items.${k}.`, it)}</span></div>`).join('')}</section>`;
       case 'section': {
+        if(b.printed?.kind==='section-tab'){
+          const p=b.printed,[W,H]=p.grid;
+          return `<header ${at} data-hsk-manual="1" class="hsk-at hsk-section-tab" style="${pos(b,h)}"><span class="hsk-section-pill" style="${rel(p.pill,b.box)}"></span><svg aria-hidden="true" preserveAspectRatio="none" viewBox="${b.box.x*W} ${b.box.y*H} ${b.box.w*W} ${b.box.h*H}"><path d="${p.graphic}" fill="${esc(b.fill||'#e59180')}"/></svg><span class="hsk-section-cn" style="${rel(p.cnBox,b.box)}font-size:${p.cnSize}cqw">${ed(n,'cn',b.cn)}</span><span class="hsk-section-translation" style="${rel(p.enBox,b.box)}">${ed(n,'en',b.en,'en')}${ed(n,'ru',b.ru,'ru')}</span>${p.trackBox?`<span class="hsk-section-track" style="${rel(p.trackBox,b.box)}">${track(b.track)}</span>`:''}</header>`;
+        }
         // Features ("小语的彩蛋") carry the character over the tab's left end.
         const fb = b.avatar && secAvatarBox(b);
         const face = fb && assets[`sec-${n}`] ? `<img class="hsk-at hsk-sec-avatar" style="left:${pct(fb.x)};top:${pct(fb.y)};width:${pct(fb.w)};height:${pct(fb.h)}" src="${esc(assets[`sec-${n}`])}" alt="">` : '';
+        if (b.printed) return printed(b,n,at) + face;
         const media = /^\d+-\d+$/.test(b.track || '') && b.avatar ? VIDEO_ICON : TRACK_ICON;
         return face + `<h2 ${at} class="hsk-at hsk-section${b.avatar ? ' hsk-feature' : ''}" style="${pos(b, h)}${b.avatar ? `--face:${pct(Math.max(0, (b.avatar.x + b.avatar.w - b.box.x) / b.box.w))};` : ''}">${ed(n, 'cn', b.cn, 'cn')}<span class="tag">${b.en ? ed(n, 'en', b.en, 'en') : ''}${b.ru ? ed(n, 'ru', b.ru, 'ru') : ''}${b.track ? `<span class="hsk-track">${media} ${esc(b.track)}</span>` : ''}</span></h2>`;
       }
@@ -1956,7 +2259,8 @@ export function render(layout, { assets = {}, pinyin = true, lang = '', editable
         const option = /^[A-Z]$/.test(String(b.number || '')) ? ' hsk-option' : ''; // A-F labels under a row of pictures
         // «(1)», «（2）»: plain printed numbers; bare digits are the pink numbered boxes.
         const plainNo = /^[(（]\d+[)）]$/.test(String(b.number || ''));
-        let icon = b.number ? (plainNo ? `<span class="hsk-plainnum">${esc(b.number)}</span>` : `<span class="hsk-num">${esc(b.number)}</span>`) : b.icon === 'pin' ? PIN_ICON + '<span></span>' : b.icon === 'square' ? '<span class="hsk-square"></span>' : '<span></span>';
+        const numberAlreadyInScan = b.number && (layout.decorations || []).some(d => isPrintedNumberDecoration(d, b));
+        let icon = b.number ? (numberAlreadyInScan ? '' : plainNo ? `<span class="hsk-plainnum">${esc(b.number)}</span>` : `<span class="hsk-num">${esc(b.number)}</span>`) : b.icon === 'pin' ? PIN_ICON + '<span></span>' : b.icon === 'square' ? '<span class="hsk-square"></span>' : '<span></span>';
         // Verse with pinyin (tongue twisters): ruby lines, then the translation
         // lines as printed — in the studio's editor too (its translation stays
         // editable in place), so the page there looks like the print.
@@ -1972,6 +2276,17 @@ export function render(layout, { assets = {}, pinyin = true, lang = '', editable
           const verse = pairs.map(([c, p]) => `<span class="hsk-verse-line">${lead}${annotated(c, p)}</span>`).join('');
           if (option) icon = '<span></span>';
           return `<div ${at} class="hsk-at hsk-para hsk-verse${option}"${b.fitSet ? ` data-fit-set="${esc(b.fitSet)}"` : ''} style="${pos(b)}${b.hzSize ? `--vhz:${b.hzSize}cqw;` : ''}${b.vtrack ? `--vtrack:${b.vtrack}cqw;` : ''}${b.pySize ? `--py:${b.pySize}cqw;` : ''}${b.vline ? `--vline:${b.vline}cqw;` : ''}${b.vlh ? `--vlh:${b.vlh}cqw;` : ''}${b.vEn ? `--ven:${b.vEn}cqw;` : ''}">${icon}<div><div class="cn">${verse}</div>${b.en && !b.trOff ? ed(n, 'en', b.en, 'en hsk-lines') : ''}${b.ru && !b.trOff ? ed(n, 'ru', b.ru, 'ru hsk-lines') : ''}${track(b.track, isVideoMark(b) ? 'video' : 'audio')}</div></div>`;
+        }
+        if(b.printedCnLines?.length&&!editable){
+          const ratio=layout.page.height/layout.page.width, end=Math.max(...b.printedCnLines.map(l=>l.box.y+l.box.h));
+          const cnFont=median(b.printedCnLines.map(l=>Math.min(l.box.h*ratio*100*.85,l.box.w*100/[...l.text].reduce((s,c)=>s+(/\p{Script=Han}/u.test(c)?1:/[\x00-\x7F]/.test(c)?.5:1),0))));
+          const cn=`<span class="cn hsk-printed-paragraph" style="height:${(end-b.box.y)*ratio*100}cqw">${b.printedCnLines.map(l=>{
+            const units=[...l.text].reduce((s,c)=>s+(/\p{Script=Han}/u.test(c)?1:/[\x00-\x7F]/.test(c)?.5:1),0),font=Math.min(l.box.h*ratio*100*.85,l.box.w*100/units);
+            return `<span style="left:${(l.box.x-b.box.x)*100}cqw;top:${(l.box.y-b.box.y)*ratio*100}cqw;font-size:${cnFont}cqw">${esc(l.text)}</span>`;
+          }).join('')}</span>`;
+          const enFont=b.printedEnLines?.length?median(b.printedEnLines.map(l=>l.box.h*ratio*78)):0;
+          const en=b.printedEnLines?.length?`<span class="en hsk-printed-paragraph" style="height:${(Math.max(...b.printedEnLines.map(l=>l.box.y+l.box.h))-end)*ratio*100}cqw">${b.printedEnLines.map(l=>`<span style="left:${(l.box.x-b.box.x)*100}cqw;top:${(l.box.y-end)*ratio*100}cqw;font-size:${enFont}cqw">${esc(l.text.trim())}</span>`).join('')}</span>`:b.en?ed(n,'en',b.en,'en'):'';
+          return `<p ${at} class="hsk-at hsk-para" style="${pos(b)}">${icon}<span>${cn}${en}${b.ru?ed(n,'ru',b.ru,'ru'):''}${track(b.track)}</span></p>`;
         }
         return `<p ${at} class="hsk-at hsk-para${option}${b.enBreak ? ' hsk-para-break' : ''}${b.indent ? ' hsk-para-indent' : ''}" style="${pos(b)}${b.ink ? 'color:' + b.ink + ';' : ''}">${icon}<span>${trio(n, '', b)}${track(b.track)}</span></p>`;
       }
@@ -2016,11 +2331,34 @@ export function render(layout, { assets = {}, pinyin = true, lang = '', editable
             + `<button type="button" class="hsk-play" aria-label="Смотреть видео" title="Смотреть видео" onclick="${CLIP_ZOOM}"><span></span></button>`
           : assets[`img-${n}`] ? `<img src="${esc(assets[`img-${n}`])}" alt="${esc(b.alt)}">` : '';
         const frame = b.frame ? `<div class="hsk-at hsk-deco hsk-frame" aria-hidden="true" style="left:${pct(b.frame.x)};top:${pct(b.frame.y)};width:${pct(b.frame.w)};height:${pct(b.frame.h)};--frame:${esc(b.frame.color || '#e69e96')}"></div>` : '';
-        return `${frame}<figure ${at} class="hsk-at hsk-photo${clip ? ' hsk-clip' : ''}" style="${pos(b, h)}">${media}${n === firstImage && !clip ? videoButton : ''}</figure>`;
+        const caption = b.caption ? `<figcaption class="hsk-photo-caption"><span class="py">${ed(n, 'caption.py', b.caption.py || '', 'py')}</span><span class="cn">${ed(n, 'caption.hz', b.caption.hz || '', 'cn')}</span>${b.caption.ru ? `<span class="ru">${ed(n, 'caption.ru', b.caption.ru, 'ru')}</span>` : ''}</figcaption>` : '';
+        const speech = b.caption?.hz ? `data-hsk-speak="${esc(b.caption.hz)}" role="button" tabindex="0" aria-label="${esc(`${b.caption.hz}, ${b.caption.ru || ''}. Нажмите, чтобы прослушать.`)}"` : '';
+        const labels=(b.diagramLabels||[]).map((l,k)=>`<span class="hsk-graph-label" style="${rel(l.box,b.box)}"><span class="cn">${esc(l.cn)}</span>${ed(n,`diagramLabels.${k}.ru`,l.ru,'ru')}</span>`).join('');
+        const answer=b.matchingInput?'<input class="hsk-picture-answer" inputmode="numeric" maxlength="1" pattern="[1-3]" aria-label="Номер подходящего диалога" autocomplete="off">':'';
+        return `${frame}<figure ${at} ${speech} class="hsk-at hsk-photo${b.caption?.hz ? ' hsk-photo-speaking' : ''}${b.captionFrame ? ' hsk-caption-frame' : ''}${clip ? ' hsk-clip' : ''}" style="${pos(b, h)}">${media}${caption}${labels}${answer}${n === firstImage && !clip ? videoButton : ''}</figure>`;
       }
       case 'card':
         return `<section ${at} class="hsk-at hsk-card" style="${pos(b, h)}"><div class="en">${(b.lines || []).map((l, k) => `<p>${ed(n, `lines.${k}.en`, l.en)}</p>`).join('')}</div><div class="ru">${(b.lines || []).map((l, k) => `<p>${ed(n, `lines.${k}.ru`, l.ru)}</p>`).join('')}</div></section>`;
       case 'words': {
+        if (b.phoneticChart) {
+          const headers = [
+            { cn: '声母', en: 'Initials', ru: 'Инициали' },
+            { cn: '韵母', en: 'Finals', ru: 'Финали' },
+            { cn: '声调', en: 'Tones', ru: 'Тоны' },
+            { cn: '音节', en: 'Syllables', ru: 'Слоги' },
+            { cn: '例字', en: 'Example Characters', ru: 'Примеры' }
+          ];
+          const speak=(text,speech,content,kind)=>{
+            if(!text)return '';
+            if(editable)return content;
+            const src=assets[`phonetic-${text}`]||'';
+            const handler=`var p=this.closest('.hsk-page');p.querySelectorAll('.hsk-table-speak').forEach(function(b){b.setAttribute('aria-pressed','false')});this.setAttribute('aria-pressed','true');var t=this.dataset.hskSpeak;var say=function(){var u=new SpeechSynthesisUtterance(t);u.lang='zh-CN';speechSynthesis.cancel();speechSynthesis.speak(u)};if(this.dataset.src){var a=p.querySelector('audio.hsk-table-player');if(!a){a=document.createElement('audio');a.className='hsk-table-player';a.hidden=true;p.appendChild(a)}a.pause();a.src=this.dataset.src;a.play().catch(say)}else say()`;
+            return `<button type="button" class="hsk-table-speak" data-hsk-speak="${esc(speech||text)}" data-src="${esc(src)}" aria-pressed="false" aria-label="${kind} ${esc(text)} — прослушать" onclick="${esc(handler)}">${content}</button>`;
+          };
+          const body = (b.rows || []).map((r,k)=>r.group?'':`<tr><td>${speak(r.pos_en,r.pos_en,ed(n,`rows.${k}.pos_en`,r.pos_en,'hz'),'Инициаль')}</td><td>${speak(r.pos_ru,r.pos_ru,ed(n,`rows.${k}.pos_ru`,r.pos_ru,'hz'),'Финаль')}</td><td>${ed(n,`rows.${k}.en`,r.en,'hz')}</td><td class="py">${speak(r.py,r.hz||r.py,esc(r.py),'Слог')}</td><td>${speak(r.hz,r.hz,ed(n,`rows.${k}.hz`,r.hz,'hz'),'Иероглиф')}</td></tr>`).join('');
+          const head = headers.map(h => `<th scope="col"><span class="cn">${esc(h.cn)}</span><span class="en">${esc(h.en)}</span><span class="ru"${layout.kz?.[h.ru] ? ` data-kz="${esc(layout.kz[h.ru])}"` : ''}>${esc(h.ru)}</span></th>`).join('');
+          return `<section ${at} class="hsk-at hsk-phonetic-chart" style="${pos(b, h)}"><table class="hsk-phonetic-table"><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table></section>`;
+        }
         // Columns measured on the scan, shared by every row (otherwise each
         // row sizes its own and a long word pushes its row out of line).
         const c = b.cols, w = v => `calc(${Math.max(0, v * 100).toFixed(2)}cqw / var(--z, 1))`;
@@ -2031,6 +2369,7 @@ export function render(layout, { assets = {}, pinyin = true, lang = '', editable
       case 'decor':
         return ''; // drawn in the graphics layer under the blocks
       case 'folio':
+        if(b.printed?.kind==='folio')return `<span ${at} class="hsk-at hsk-folio-measured" style="${pos(b,h)}"><svg aria-hidden="true" preserveAspectRatio="none" viewBox="${b.box.x*b.printed.grid[0]} ${b.box.y*b.printed.grid[1]} ${b.box.w*b.printed.grid[0]} ${b.box.h*b.printed.grid[1]}"><path d="${b.printed.graphic}" fill="${esc(b.fill||'#cb3023')}"/></svg><span>${esc(b.text)}</span></span>`;
         return `<span ${at} class="hsk-at hsk-folio${b.box.x > 0.5 ? ' hsk-folio-right' : ''}" style="${pos(b, h)}">${esc(b.text)}</span>`;
       default: {
         // Rows/columns (tab-separated) and answer blanks («____») — the shape of
@@ -2060,12 +2399,14 @@ export function render(layout, { assets = {}, pinyin = true, lang = '', editable
               const inner = (lead ? `<span class="hsk-gl">${blank}</span>` : '') + cell(text);
               return `<span class="hsk-gcell ${kind}" style="left:${((X[ci] - b.box.x) / b.box.w * 100).toFixed(2)}%;top:${((Y[ri] - b.box.y) / b.box.h * 100).toFixed(2)}%">${inner}</span>`;
             }).join('')).join('');
-            return `<div ${at} class="hsk-at hsk-text hsk-text-${b.size || 'm'} hsk-grid-abs" style="${pos(b, `height:${pct(b.box.h)};`)};--bw:${bw}cqw">${body}</div>`;
+            return `<div ${at} class="hsk-at hsk-text hsk-text-${b.size || 'm'} hsk-grid-abs" style="${pos(b, `height:${pct(b.box.h)};`)};--bw:${bw}cqw;${b.drillManual?'--k:1;font-size:1.9cqw;':''}">${body}</div>`;
           }
           const body = rows.map(r => r.map(c => `<span class="hsk-grid-cell ${kind}">${cell(c)}</span>`).join('') + '<span class="hsk-grid-end"></span>'.repeat(cols - r.length)).join('');
           return `<div ${at} class="hsk-at hsk-text hsk-text-${b.size || 'm'} hsk-grid" style="${pos(b)};--cols:${cols}">${body}</div>`;
         }
-        return `<p ${at} class="hsk-at hsk-text hsk-text-${b.size || 'm'}" style="${pos(b)}${b.align ? 'text-align:' + b.align + ';' : ''}">${b.cn ? '' : b.py ? ed(n, 'py', b.py, 'pyc') : ''}${trio(n, '', b.trOff ? { cn: b.cn } : b)}</p>`;
+        const translatedOnly = b.translationOnly === true ? ' hsk-translation-only' : '';
+        const color = /^#[\da-f]{6}$/i.test(b.color || '') ? `color:${b.color};` : '';
+        return `<p ${at} class="hsk-at hsk-text hsk-text-${b.size || 'm'}${translatedOnly}" style="${pos(b)}${color}${b.align ? 'text-align:' + b.align + ';' : ''}">${b.cn ? '' : b.py ? ed(n, 'py', b.py, 'pyc') : ''}${trio(n, '', b.trOff ? { cn: b.cn } : b)}</p>`;
       }
     }
   }).join('');
@@ -2079,8 +2420,27 @@ export function render(layout, { assets = {}, pinyin = true, lang = '', editable
     // A printed number mark («❶», a numbered square) cut out of the scan just
     // left of a numbered paragraph: the paragraph draws its own number there,
     // so the cut-out (often clipped) would show it twice.
-    + (layout.decorations || []).map((d, i) => layout.blocks.some(b => b.type === 'para' && b.number && !/^[(（]/.test(String(b.number)) && d.box.w < 0.035 && d.box.h < 0.035 && d.box.x + d.box.w <= b.box.x + 0.01 && d.box.x >= b.box.x - 0.06 && d.box.y + d.box.h / 2 >= b.box.y - 0.005 && d.box.y + d.box.h / 2 <= b.box.y + b.box.h) ? '' : cut(`deco-${i}`, d.box)).join('');
-  return `<div class="hsk-page"${lang ? ` data-lang="${lang === 'original' ? 'orig' : 'ru'}"` : ''} data-pinyin="${pinyin ? 'on' : 'off'}" style="${style}">${bg}${deco}${html}</div>`;
+    + (layout.decorations || []).map((d, i) => layout.blocks.some(b => isPartialNumberDecoration(d, b)||(b.rightLesson&&d.box.y<.07&&d.box.x>b.rightLesson.label.x-.015&&d.box.x+d.box.w<b.rightLesson.number.x+b.rightLesson.number.w+.015)) ? '' : cut(`deco-${i}`, d.box)).join('');
+  // Versioned conversions must display their actual HTML in every language.
+  // Legacy scan overlays otherwise conceal missing table structure and text.
+  const translatedSource = (layout.conversionId ? [] : layout.sourceRegions || []).map(r => {
+    const n = layout.blocks.findIndex(b => (r.en && b.en === r.en) || (r.enPrefix && b.en?.startsWith(r.enPrefix))), b = layout.blocks[n];
+    const text = b?.ru || r.ru;
+    if (!text) return '';
+    const translated = n >= 0 ? ed(n,'ru',text,'ru') : `<span class="ru">${esc(text)}</span>`;
+    return `<div class="hsk-source-translation" style="left:${pct(r.box.x)};top:${pct(r.box.y)};width:${pct(r.box.w)};height:${pct(r.box.h)};background:${esc(r.fill || '#fff')};color:${esc(r.color || '#222')};font-size:${Number(r.size)||1.7}cqw;align-items:${r.align === 'start' ? 'flex-start' : 'center'}">${translated}</div>`;
+  }).join('');
+  const source = !layout.conversionId && assets.sourceScan && layout.sourceLines?.length ? `<div class="hsk-source-page"><img src="${esc(assets.sourceScan)}" alt="Исходная страница" draggable="false">${layout.sourceLines.map(l => {
+    const b = l.position;
+    return b && Number.isFinite(b.x) && Number.isFinite(b.y) && Number.isFinite(b.width) && Number.isFinite(b.height) ? `<span class="hsk-source-line" style="left:${pct(b.x)};top:${pct(b.y)};width:${pct(b.width)};height:${pct(b.height)};font-size:${(b.height * ratio * 90).toFixed(3)}cqw">${esc(l.text)}</span>` : '';
+  }).join('')}${translatedSource}</div>` : '';
+  const phonetics = (layout.phonetics?.cells || []).filter(c=>!layout.blocks.some(b=>b.phoneticChart&&c.box.x+c.box.w/2>=b.box.x&&c.box.x+c.box.w/2<=b.box.x+b.box.w&&c.box.y+c.box.h/2>=b.box.y&&c.box.y+c.box.h/2<=b.box.y+b.box.h)).map(c => {
+    const src = assets[`phonetic-${c.text}`];
+    const kind = c.kind === 'initial' ? 'Инициаль' : c.kind === 'final' ? 'Финаль' : 'Слог';
+    const handler = `var p=this.closest('.hsk-page');p.querySelectorAll('.hsk-phonetic-cell').forEach(function(b){b.setAttribute('aria-pressed','false')});this.setAttribute('aria-pressed','true');var s=p.querySelector('.hsk-phonetic-status');s.textContent='${kind}: '+this.textContent;var say=function(){var u=new SpeechSynthesisUtterance(this.dataset.hskSpeak||this.textContent);u.lang='zh-CN';speechSynthesis.cancel();speechSynthesis.speak(u)}.bind(this);var a=p.querySelector('audio.hsk-phonetics-player');if(!a){a=document.createElement('audio');a.className='hsk-phonetics-player';a.hidden=true;p.appendChild(a)}if(this.dataset.src){a.pause();a.src=this.dataset.src;a.play().catch(say)}else say()`;
+    return `<button type="button" class="hsk-phonetic-cell" aria-label="${kind} ${esc(c.text)} — выбрать и прослушать" aria-pressed="false" data-hsk-speak="${esc(c.speak || c.text)}" data-src="${esc(src || '')}" style="left:${pct(c.box.x)};top:${pct(c.box.y)};width:${pct(c.box.w)};height:${pct(c.box.h)}" onclick="${esc(handler)}">${esc(c.text)}</button>`;
+  }).join('');
+  return `<div class="hsk-page${source ? ' hsk-has-source' : ''}${translatedSource ? ' hsk-source-translated' : ''}"${layout.conversionId ? ` data-conversion-id="${esc(layout.conversionId)}"` : ''}${lang ? ` data-lang="${lang === 'original' ? 'orig' : 'ru'}"` : ''} data-pinyin="${pinyin ? 'on' : 'off'}" style="${style}">${bg}${deco}${html}${source}${phonetics}${phonetics ? '<output class="hsk-phonetic-status" aria-live="polite">Нажмите на инициаль, финаль или слог, чтобы прослушать произношение.</output>' : ''}</div>`;
 }
 
 // ---- Fit (browser only) ------------------------------------------------
@@ -2089,18 +2449,24 @@ export function render(layout, { assets = {}, pinyin = true, lang = '', editable
 // scales its cqw font sizes, not its percentage box) until it neither runs
 // into the block below nor spills sideways; flag blocks that still overflow.
 // Self-contained so it can be embedded into exported pages as-is.
-// Language of a rendered page: 'orig', 'ru' or 'kz'. Kazakh uses the Russian
-// layer's places and swaps in the texts carried in data-kz (untranslated
-// texts stay Russian). Self-contained: it is shipped to the platform as text.
+// Native frontmatter keeps its Chinese source separate from translations.
+// English and Kazakh reuse the Russian layer's geometry with data-en/data-kz.
+// Self-contained: it is shipped to the platform as text.
 export function setLang(page, lang) {
-  const kz = lang === 'kz';
-  page.querySelectorAll('[data-kz]').forEach(el => { if (el.dataset.ru == null) el.dataset.ru = el.textContent; el.textContent = kz ? el.dataset.kz : el.dataset.ru; });
+  const kz = lang === 'kz',en=lang==='en';
+  page.querySelectorAll('[data-kz],[data-en]').forEach(el => { if (el.dataset.ru == null) el.dataset.ru = el.textContent; el.textContent = kz&&el.dataset.kz ? el.dataset.kz : en&&el.dataset.en ? el.dataset.en : el.dataset.ru; });
   page.dataset.lang = lang === 'orig' ? 'orig' : 'ru';
   page.dataset.kz = kz ? 'on' : 'off';
+  page.dataset.en = en ? 'on' : 'off';
 }
 
 export function fit(page) {
   if (!page) return;
+  const prose=[...page.querySelectorAll('.hsk-foreword-prose .hsk-foreword-translation')].filter(e=>e.offsetParent!==null);
+  let proseSize=page.clientWidth*.019;
+  for(const el of prose){let size=proseSize;el.style.fontSize=size+'px';while(el.scrollHeight>el.parentElement.clientHeight+2&&size>page.clientWidth*.009){size*=.97;el.style.fontSize=size+'px';}proseSize=Math.min(proseSize,size);}
+  for(const el of prose)el.style.fontSize=proseSize+'px';
+  for(const el of page.querySelectorAll('.hsk-foreword-signature .hsk-foreword-translation,.hsk-foreword-banner .hsk-foreword-translation,.hsk-foreword-item .hsk-foreword-translation')){if(el.offsetParent===null)continue;let size=page.clientWidth*(el.parentElement.classList.contains('hsk-foreword-banner')?.022:.019);el.style.fontSize=size+'px';while((el.scrollHeight>el.parentElement.clientHeight+2||el.scrollWidth>el.parentElement.clientWidth+2)&&size>page.clientWidth*.009){size*=.97;el.style.fontSize=size+'px';}}
   // The zoom is also exposed as --z: word tables divide their measured
   // column positions by it, so text grows while the columns stay put.
   const setZ = (el, z) => { el.style.zoom = z || ''; if (z) el.style.setProperty('--z', z); else el.style.removeProperty('--z'); };
@@ -2180,12 +2546,12 @@ export function fit(page) {
   // longer than English and would shrink their blocks). So each block gets ONE
   // zoom for all languages: the smallest that fits in every one of them.
   // Measured once per page width / pinyin state, then only re-applied.
-  const shown = page.dataset.kz === 'on' ? 'kz' : page.dataset.lang === 'orig' ? 'orig' : 'ru', hasKz = Boolean(page.querySelector('[data-kz]'));
+  const shown = page.dataset.en === 'on' ? 'en' : page.dataset.kz === 'on' ? 'kz' : page.dataset.lang === 'orig' ? 'orig' : 'ru', hasKz = Boolean(page.querySelector('[data-kz]')),hasEn=Boolean(page.querySelector('[data-en]'));
   if (!page.dataset.lang || typeof setLang !== 'function' || page.dataset.fitUnify === 'off') { pass(); return; }
-  const key = [page.clientWidth, page.dataset.pinyin, hasKz].join('|');
+  const key = [page.clientWidth, page.dataset.pinyin, hasKz,hasEn].join('|');
   let cache = page.__hskZooms;
   if (!cache || cache.key !== key) {
-    const runs = (hasKz ? ['ru', 'orig', 'kz'] : ['ru', 'orig']).map(l => { setLang(page, l); return pass(); });
+    const runs = ['ru','orig',...(hasKz?['kz']:[]),...(hasEn?['en']:[])].map(l => { setLang(page, l); return pass(); });
     cache = page.__hskZooms = { key, blocks: runs[0].blocks, zooms: runs[0].zooms.map((_, i) => Math.min(...runs.map(r => r.zooms[i]))) };
   }
   setLang(page, shown);
@@ -2220,6 +2586,23 @@ export const FONT_LINKS = [
   'https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400;0,700;1,400&family=Noto+Sans+SC:wght@400;700&family=Noto+Serif+SC:wght@500;700&family=Tinos:ital,wght@0,400;0,700;1,400;1,700&display=swap'
 ];
 
+function bindImageSpeech(root) {
+  if (!root || root.dataset.imageSpeechBound) return;
+  root.dataset.imageSpeechBound = 'true';
+  root.addEventListener('click', event => {
+    const figure = event.target.closest('.hsk-photo[data-hsk-speak]');
+    if (!figure || event.target.closest('.hsk-play,video')) return;
+    const utterance = new SpeechSynthesisUtterance(figure.dataset.hskSpeak);
+    utterance.lang = 'zh-CN';
+    figure.classList.add('playing');
+    utterance.onend = utterance.onerror = () => figure.classList.remove('playing');
+    speechSynthesis.cancel(); speechSynthesis.speak(utterance);
+  });
+  root.addEventListener('keydown', event => {
+    if ((event.key === 'Enter' || event.key === ' ') && event.target.matches('.hsk-photo[data-hsk-speak]')) { event.preventDefault(); event.target.click(); }
+  });
+}
+
 export function pageDocument(layout, { title = 'Страница', css = 'components.css', assets = {}, prev = '', next = '' } = {}) {
   const nav = prev || next ? `<nav class="wb-nav">${prev ? `<a href="${esc(prev)}">← Назад</a>` : '<span></span>'}${next ? `<a href="${esc(next)}">Далее →</a>` : '<span></span>'}</nav>` : '';
   return `<!doctype html>
@@ -2235,7 +2618,7 @@ ${FONT_LINKS.map(href => `<link rel="stylesheet" href="${href}">`).join('\n')}
 </head>
 <body class="wb-body">
 <div class="wb-controls" role="group" aria-label="Язык страницы">
-  <button type="button" data-lang="orig">Оригинал</button><button type="button" data-lang="ru" aria-pressed="true">Русский</button>${Object.keys(layout.kz || {}).length ? '<button type="button" data-lang="kz">Қазақша</button>' : ''}<button type="button" data-pinyin aria-pressed="true">Пиньинь</button>
+  <button type="button" data-lang="orig">Оригинал</button><button type="button" data-lang="ru" aria-pressed="true">Русский</button>${layout.blocks.some(b=>b.en&&b.ru&&(b.foreword||b.credits||b.imprint||b.titlePageRole))?'<button type="button" data-lang="en">English</button>':''}${Object.keys(layout.kz || {}).length ? '<button type="button" data-lang="kz">Қазақша</button>' : ''}<button type="button" data-pinyin aria-pressed="true">Пиньинь</button>
 </div>
 <main class="wb-sheet">
 ${render(layout, { assets, lang: 'russian' })}
@@ -2244,7 +2627,9 @@ ${nav}
 <script>
 ${fit.toString()}
 ${setLang.toString()}
+${bindImageSpeech.toString()}
 const page=document.querySelector('.hsk-page');
+bindImageSpeech(page);
 const refit=()=>requestAnimationFrame(()=>fit(page));
 document.querySelectorAll('.wb-controls [data-lang]').forEach(b=>b.onclick=()=>{setLang(page,b.dataset.lang);document.querySelectorAll('.wb-controls [data-lang]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));refit()});
 document.querySelector('[data-pinyin]').onclick=e=>{const on=page.dataset.pinyin!=='on';page.dataset.pinyin=on?'on':'off';e.currentTarget.setAttribute('aria-pressed',String(on));refit()};
