@@ -1,0 +1,101 @@
+{
+  "source": "https://github.com/cmguo/PinYinSound",
+  "files": [
+    {
+      "key": "j",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/j.mp3",
+      "bytes": 7497,
+      "name": "j.mp3"
+    },
+    {
+      "key": "iu",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/iu.mp3",
+      "bytes": 7497,
+      "name": "iu.mp3"
+    },
+    {
+      "key": "x",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/x.mp3",
+      "bytes": 8229,
+      "name": "x.mp3"
+    },
+    {
+      "key": "in",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/in.mp3",
+      "bytes": 6766,
+      "name": "in.mp3"
+    },
+    {
+      "key": "q",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/q.mp3",
+      "bytes": 7497,
+      "name": "q.mp3"
+    },
+    {
+      "key": "ie",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/ie.mp3",
+      "bytes": 7314,
+      "name": "ie.mp3"
+    },
+    {
+      "key": "ing",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/ing.mp3",
+      "bytes": 8046,
+      "name": "ing.mp3"
+    },
+    {
+      "key": "v",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/v.mp3",
+      "bytes": 21151,
+      "name": "v.mp3"
+    },
+    {
+      "key": "ve",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/ve.mp3",
+      "bytes": 22405,
+      "name": "ve.mp3"
+    },
+    {
+      "key": "vn",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/vn.mp3",
+      "bytes": 23032,
+      "name": "vn.mp3"
+    },
+    {
+      "key": "iao",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/iao.mp3",
+      "bytes": 22405,
+      "name": "iao.mp3"
+    },
+    {
+      "key": "iang",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/iang.mp3",
+      "bytes": 25539,
+      "name": "iang.mp3"
+    },
+    {
+      "key": "ian",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/ian.mp3",
+      "bytes": 23032,
+      "name": "ian.mp3"
+    },
+    {
+      "key": "iong",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/iong.mp3",
+      "bytes": 23032,
+      "name": "iong.mp3"
+    },
+    {
+      "key": "ia",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/ia.mp3",
+      "bytes": 23032,
+      "name": "ia.mp3"
+    },
+    {
+      "key": "van",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/van.mp3",
+      "bytes": 24286,
+      "name": "van.mp3"
+    }
+  ]
+}

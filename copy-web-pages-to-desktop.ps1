@@ -1,6 +1,7 @@
+param([string]$BookId = '', [int]$PageNumber = 0)
 $ErrorActionPreference = 'Stop'
 $root = $PSScriptRoot
-& node (Join-Path $root 'export-web-pages.mjs')
+& node (Join-Path $root 'export-web-pages.mjs') $BookId $PageNumber
 if ($LASTEXITCODE -ne 0) { throw 'Web page export failed.' }
 $source = Join-Path $root 'approved-web-pages'
 $destination = Join-Path ([Environment]::GetFolderPath('Desktop')) 'web версии страниц'

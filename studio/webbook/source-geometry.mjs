@@ -154,9 +154,10 @@ export function measureTextTable(block,grid) {
   const top=rows[0].y,bottom=rows.at(-1).y+1;
   if(bottom-top>H*.09)return null;
   const x0=Math.min(...rows.map(r=>r.x0)),x1=Math.max(...rows.map(r=>r.x1))+1;
-  const hi=grid.hi||g,pink=p=>p[0]>150&&p[0]>p[1]*1.08&&p[0]>p[2]*1.08;
+  const hi=grid.hi||g,pink=p=>p[0]>150&&p[0]>p[1]*1.02&&p[0]>p[2]*1.02&&p[0]-Math.min(p[1],p[2])>8;
   let end=b.y+b.h;
-  for(let y=Math.round(bottom/H*hi.H)+3;y<Math.min(hi.H,(b.y+b.h+.035)*hi.H);y++){
+  const lastText=Math.max(bottom/H,...block.exactTokens.map(t=>t.box.y+t.box.h));
+  for(let y=Math.round(lastText*hi.H)+3;y<Math.min(hi.H,(b.y+b.h+.035)*hi.H);y++){
     let hit=0,total=0;for(let x=Math.round(x0/W*hi.W);x<x1/W*hi.W;x+=4){total++;if(pink(hi.at(x,y)))hit++;}
     if(hit/Math.max(1,total)>.7)end=y/hi.H;
   }
@@ -173,15 +174,15 @@ export function restorePhoneticTokens(block) {
   if(!block.textTable||!block.exactTokens?.length||!/^声母\s*\nInitials\s*\n/u.test(block.cn||'')||!String(block.cn).includes('Finals'))return block;
   const parts=block.cn.split(/声母\s*\nInitials\s*\n|韵母\s*\nFinals\s*\n/).filter(Boolean);
   if(parts.length!==2)return block;
-  const groups=parts.map(s=>s.trim().split('\n').map(r=>r.replace(/i\s+\[i\]/g,'i[i]').trim().split(/\s+/)));
-  if(groups.flat(2).some(s=>!/^([a-zü]+|i\[i\])$/.test(s)))return block;
+  const groups=parts.map(s=>s.trim().split('\n').map(r=>(r.match(/[a-zü]+(?:\s*\[i\]|\s*\([a-zü]+\))?/gi)||[]).map(t=>t.replace(/i\s+\[i\]/g,'i[i]'))));
+  if(groups.flat(2).some(s=>!/^([a-zü]+(?:\s*\([a-zü]+\))?|i\s*\[i\])$/.test(s)))return block;
   const tokens=block.exactTokens.map(t=>({...t,box:{...t.box}})),head=block.textTable.header,split=block.textTable.splits[0];
   if(!split)return block;
   const fold=s=>s.toLowerCase().replace(/[\[\]\s]/g,'');
   for(let group=0;group<2;group++){
     const region=tokens.filter(t=>t.box.y>head.y+head.h-.002&&(t.box.x+t.box.w/2<split)===(group===0));
-    const rows=groups[group].map(row=>row.map(text=>{const token=region.find(t=>!t.used&&(fold(t.text)===fold(text)||(text==='i[i]'&&/^i\[[^\]]*\]$/.test(t.text))));if(token)token.used=true;return {text,token};}));
-    const has=rows.flat().filter(c=>c.token);if(has.length<rows.flat().length*.7)continue;
+    const rows=groups[group].map(row=>row.map(text=>{const token=region.find(t=>!t.used&&(fold(t.text)===fold(text)||(text.startsWith('ü')&&fold(t.text)===fold(text).replace('ü','u'))||(fold(text)==='ii'&&/^i\[[^\]]*\]$/.test(t.text))));if(token)token.used=true;return {text,token};}));
+    const has=rows.flat().filter(c=>c.token);if(has.length<Math.ceil(rows.flat().length*.65))continue;
     for(let ri=0;ri<rows.length;ri++){
       const row=rows[ri],matched=row.filter(c=>c.token);if(!matched.length)continue;
       const cy=matched.reduce((s,c)=>s+c.token.box.y+c.token.box.h/2,0)/matched.length;
@@ -190,6 +191,7 @@ export function restorePhoneticTokens(block) {
         let x;
         if(group===0){const same=rows.map(r=>r[ci]?.token).find(Boolean);if(same)x=same.box.x+same.box.w/2;}
         if(x==null){const before=row.slice(0,ci).findLast(c=>c.token),after=row.slice(ci+1).find(c=>c.token);if(before&&after){const a=row.indexOf(before),z=row.indexOf(after);x=before.token.box.x+before.token.box.w/2+(after.token.box.x+after.token.box.w/2-before.token.box.x-before.token.box.w/2)*(ci-a)/(z-a);}}
+        if(x==null){const peers=row.map((c,i)=>({c,i})).filter(p=>p.c.token);if(peers.length>=2){const a=peers[0],z=peers.at(-1),ax=a.c.token.box.x+a.c.token.box.w/2,zx=z.c.token.box.x+z.c.token.box.w/2;x=ax+(zx-ax)*(ci-a.i)/(z.i-a.i);}}
         if(x==null)return;
         const w=.012*Math.max(1,cell.text.length),h=.016;
         const t={text:cell.text,box:{x:x-w/2,y:cy-h/2,w,h},recoveredFrom:'semantic-grid',reviewRequired:true};tokens.push(t);cell.token=t;
@@ -200,7 +202,7 @@ export function restorePhoneticTokens(block) {
     // serve as independent text origins.
     const med=values=>{const v=values.slice().sort((a,b)=>a-b);return v[Math.floor(v.length/2)];};
     const centres=rows.map(row=>med(row.filter(c=>c.token).map(c=>c.token.box.y+c.token.box.h/2)));
-    const pitch=med(centres.slice(1).map((c,i)=>c-centres[i]));
+    const pitch=centres.length>1?med(centres.slice(1).map((c,i)=>c-centres[i])):0;
     const origin=med(centres.map((c,i)=>c-i*pitch));
     const columns=[];
     for(const cell of rows.flat().filter(c=>c.token).sort((a,b)=>a.token.box.x+a.token.box.w/2-b.token.box.x-b.token.box.w/2)){

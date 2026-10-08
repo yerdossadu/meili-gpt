@@ -3,6 +3,13 @@ import assert from 'node:assert/strict';
 import { measurePrintedGeometry, hasPrintedCardFrame, printedCardBounds, printedParagraphLines, measureTextTable, restorePhoneticTokens } from './source-geometry.mjs';
 import { render } from './core.mjs';
 
+test('a pale table border below the last glyph is not confused with the header bottom',()=>{
+ const grid={W:400,H:400,at(x,y){return y>=80&&y<104&&x>=40&&x<360?[233,110,90]:((y===160&&x>=40&&x<360)||(x===160&&y>=104&&y<=160))?[245,231,230]:[255,255,255];}};
+ const b={box:{x:.1,y:.19,w:.8,h:.22},exactTokens:[{text:'q',box:{x:.15,y:.32,w:.02,h:.02}}]};
+ const measured=measureTextTable(b,grid);assert.equal(measured.textTable.frame.y+measured.textTable.frame.h,.4);
+ assert.deepEqual(measured.textTable.splits,[.4]);
+});
+
 test('card border measurement separates adjacent rows despite an oversized model box',()=>{
   const g={W:1000,H:1000,at(x,y){return [100,300].some(top=>y>=top&&y<=top+180&&(x===100||x===300))?[220,150,140]:[255,255,255];}};
   const found=printedCardBounds({x:.1,y:.09,w:.2,h:.23},g);

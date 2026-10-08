@@ -476,7 +476,7 @@ export function createWebbook({ root, getApiKey, getAliKey = () => '', origin = 
     if (ocr?.lines?.length) shown.sourceLines = ocr.lines;
     shown.phonetics = await readPhonetics(id,n);
     shown.sourceRegions = await readSourceRegions(id,n);
-    const sounds = Object.fromEntries((shown.phonetics?.cells || []).map(c=>[`phonetic-${c.text}`,`/webbook/phonetics/${c.text}.mp3`]));
+    const sounds = Object.fromEntries((shown.phonetics?.cells || []).filter(c=>!layout.assets?.[`phonetic-${c.text}`]&&existsSync(join(CODE,'phonetics',`${c.text}.mp3`))).map(c=>[`phonetic-${c.text}`,`/webbook/phonetics/${c.text}.mp3`]));
     return { layout: shown, assets: { ...assetUrls(id, n, layout.assets), ...assets, ...clipAssets(clip, `/library/${id}/pages/${pad3(n)}/`), audio, ...sounds, ...(ocr?.lines?.length ? {sourceScan:`/library/${id}/pages/${pad3(n)}/scan.png`} : {}) } };
   }
 
@@ -593,6 +593,12 @@ export function createWebbook({ root, getApiKey, getAliKey = () => '', origin = 
     }
     // Store exact-tone recordings in the immutable revision, so studio,
     // export and publication all use the same local audio files.
+    for(const key of core.phoneticRecordings(layout)){
+      const name=`phonetic-${key.replace(/ü/g,'v')}.mp3`,source=join(CODE,'phonetics',`${key.replace(/ü/g,'v')}.mp3`);
+      if(!existsSync(source))throw new Error(`Нет учебной записи: ${key}`);
+      await mkdir(join(revision,'assets'),{recursive:true});await copyFile(source,join(revision,'assets',name));
+      layout.assets||={};layout.assets[`phonetic-${key}`]=`revisions/${conversionId}/assets/${name}`;
+    }
     for(const key of core.toneRecordings(layout)){
       const name=`tone-${key}.mp3`,source=join(CODE,'phonetics','tones',`${key}.mp3`);
       if(!existsSync(source))throw new Error(`Нет записи слога с тоном: ${key}. Синтез речи не заменяет учебную запись.`);
@@ -865,6 +871,7 @@ export function createWebbook({ root, getApiKey, getAliKey = () => '', origin = 
       layout.sourceRegions = await readSourceRegions(id,n);
       for (const cell of layout.phonetics?.cells || []) {
         const sound = `${cell.text}.mp3`;
+        if(!existsSync(join(root,'webbook','phonetics',sound))||assets[`phonetic-${cell.text}`])continue;
         await writeFile(join(out,'assets',sound),await readFile(join(root,'webbook','phonetics',sound)));
         assets[`phonetic-${cell.text}`] = `assets/${sound}`;
       }
@@ -1171,7 +1178,8 @@ export function createWebbook({ root, getApiKey, getAliKey = () => '', origin = 
     const applied = core.applyCast(layout, cast, c => { castPaths.set(c.file, `cast/${c.file}`); return `${base}cast/${c.file}?v=${c.v || 0}`; });
     const assets = {};
     for (const [key, rel] of Object.entries(layout.assets || {})) {
-      const target=layout.conversionId?`assets/${layout.conversionId}-${key}${extname(rel)}`:rel;
+      const safeKey=key.replace(/[^A-Za-z0-9_-]/gu,c=>'u'+c.codePointAt(0).toString(16));
+      const target=layout.conversionId?`assets/${layout.conversionId}-${safeKey}${extname(rel)}`:rel;
       assets[key] = pageBase + target; files.push([`pages/${pad3(n)}/${target}`, join(dir, rel)]);
     }
     Object.assign(assets, applied.assets);
@@ -1202,6 +1210,7 @@ export function createWebbook({ root, getApiKey, getAliKey = () => '', origin = 
     applied.layout.sourceRegions = await readSourceRegions(id,n);
     for (const cell of applied.layout.phonetics?.cells || []) {
       const name = `${cell.text}.mp3`;
+      if(!existsSync(join(root,'webbook','phonetics',name))||assets[`phonetic-${cell.text}`])continue;
       files.push([`pages/${pad3(n)}/assets/${name}`,join(root,'webbook','phonetics',name)]);
       assets[`phonetic-${cell.text}`] = `${pageBase}assets/${name}`;
     }

@@ -15,18 +15,19 @@ import { measureCreditsPage } from './credits-page.mjs';
 import { measureForewordPage } from './foreword-page.mjs';
 import {wordLabels} from './word-labels.mjs';
 import {toneKey} from './tone-audio.mjs';
-import {reconcileAnswerGrid,measureDialogueOptions,clipImagesBeforeText,dialogueLabels} from './workbook-drills.mjs';
-export {toneRecordings} from './tone-audio.mjs';
+import {reconcileAnswerGrid,measureDialogueOptions,clipImagesBeforeText,dialogueLabels,measureReadingGrid} from './workbook-drills.mjs';
+export {toneRecordings,phoneticRecordings} from './tone-audio.mjs';
 export const NORM_VERSION = 3;
 export const SNAP_VERSION = 3;
 export const TYPES = ['runhead', 'lesson', 'objectives', 'section', 'para', 'tip', 'dialogue', 'image', 'card', 'words', 'folio', 'text', 'decor', 'bonus'];
 
 export const PROMPT = `Ты размечаешь скан страницы китайского учебника HSK для пересборки в HTML из готовых компонентов.
-Верни ТОЛЬКО JSON вида {"blocks":[...]} без пояснений.
+Верни ТОЛЬКО JSON вида {"blocks":[...],"kz":{"русская строка":"казахский перевод"}} без пояснений. В kz включи каждую русскую строку блоков; имена и пиньинь сохраняй.
 Каждый блок: {"type":..., "box":{"x","y","w","h"}, ...поля типа}.
 box — рамка блока в ДОЛЯХ страницы от 0 до 1: x,y — левый верхний угол, w,h — ширина и высота. Не проценты и не пиксели.
 Пример: блок, который начинается на 12% ширины и 15% высоты страницы, шириной 72% и высотой 4%: {"x":0.12,"y":0.15,"w":0.72,"h":0.04}.
 Точность рамок проверяется по скану отдельно; главное — правильно определить блоки и их текст.
+Таблицу инициалей и финалей передавай текстом по группам: «声母\\nInitials\\n<строки инициалей>\\n韵母\\nFinals\\n<строки финалей>». Сохраняй ü, i [i], iou (iu) и все клетки. Упражнения чтения передавай строками слогов в печатном порядке с точными тонами, включая последнюю смешанную строку.
 Для каждого текста дай: cn (китайский дословно, без пиньиня), en (английский дословно), ru (точный русский перевод английского, по возможности не длиннее английского), py (пиньинь, если он напечатан над иероглифами, дословно с тонами).
 Переносы строк, напечатанные в cn, py и en (стихи, скороговорки), передавай символом \\n; в ru — в тех же местах, что в en.
 Типы блоков:
@@ -260,7 +261,7 @@ function repairStructure(blocks) {
 // to normalisation or snapping never need a new paid request.
 export function fromModel(parsed, width, height) {
   const scale = detectScale(parsed, width, height);
-  return { version: 1, normVersion: NORM_VERSION, unit: scale.unit, page: { width, height }, blocks: normalize(parsed, scale), source: parsed };
+  return { version: 1, normVersion: NORM_VERSION, unit: scale.unit, page: { width, height }, blocks: normalize(parsed, scale), kz: {...(parsed.kz||{})}, source: parsed };
 }
 
 export function parseModelJson(text) {
@@ -1648,6 +1649,7 @@ export function snap(layout, grid, ocr) {
     const paragraph=printedParagraphLines(b,lines);if(paragraph)b.printedCnLines=paragraph;
     const english=printedParagraphLines(b,lines,'en');if(english)b.printedEnLines=english;
     const drill=reconcileAnswerGrid(b,lines,grid);if(drill)Object.assign(b,drill);
+    const reading=measureReadingGrid(b,lines);if(reading)Object.assign(b,reading);
     const dialogue=measureDialogueOptions(b,lines);if(dialogue)Object.assign(b,dialogue);
   }
   clipImagesBeforeText(blocks,lines);
@@ -2203,6 +2205,10 @@ export function render(layout, { assets = {}, pinyin = true, lang = '', editable
       const panels=b.gridX.length<=4?'':Array.from({length:b.gridX.length/4},(_,i)=>{const x=b.gridX[i*4]-.025,right=b.gridX[i*4+3]+.07;return `<span class="hsk-tone-panel" style="left:${pct((x-b.box.x)/b.box.w)};width:${pct((right-x)/b.box.w)}"></span>`;}).join('');
       return `<section ${at} data-hsk-manual="1" class="hsk-at hsk-tone-grid" style="${pos(b,h)}${panels?'background:transparent;':''}">${panels}${cells}</section>`;
     }
+    if(b.readingTokens){
+      const handler=`event.stopPropagation();speechSynthesis.cancel();var p=this.closest('.hsk-page');p.querySelectorAll('audio').forEach(function(a){a.pause()});var a=p.querySelector('audio.hsk-tone-player');if(!a){a=document.createElement('audio');a.className='hsk-tone-player';a.hidden=true;p.appendChild(a)}a.src=this.dataset.src;a.play().catch(function(){})`;
+      return `<section ${at} data-hsk-manual="1" class="hsk-at hsk-reading-grid" style="${pos(b,h)}">${b.readingTokens.map(t=>{const key=toneKey(t.text),src=assets['tone-'+key];return `<span class="hsk-reading-cell" data-reading-row="${t.row}" style="${rel(t.box,b.box)}"><button type="button" class="hsk-table-speak" data-hsk-speak="${esc(t.text)}" data-tone-key="${key}" data-src="${esc(src||'')}" aria-label="Слог ${esc(t.text)}, тон ${key?.slice(-1)}" ${src?`onclick="${esc(handler)}"`:'disabled'}>${esc(t.text)}</button></span>`;}).join('')}</section>`;
+    }
     if (b.exactTokens) {
       const T=b.textTable, R=layout.page.width/layout.page.height;
       const rect=(box,fill,stroke='none')=>`<rect x="${box.x}" y="${box.y}" width="${box.w}" height="${box.h}" fill="${fill}" stroke="${stroke}" stroke-width=".001"/>`;
@@ -2212,7 +2218,9 @@ export function render(layout, { assets = {}, pinyin = true, lang = '', editable
         const header=T&&t.box.y+t.box.h/2<T.header.y+T.header.h;
         const english=header&&/^(Initials|Finals)$/.test(t.text);
         const ru=t.text==='Initials'?'Инициали':'Финали', kk=t.text==='Initials'?'Бастапқы дыбыстар':'Финалдар';
-        const body=english?`<span class="en">${esc(t.text)}</span><span class="ru" data-kz="${kk}">${ru}</span>`:ed(n,`exactTokens.${k}.text`,t.text);
+        const key=t.text.replace(/\s*\[i\]/g,'').replace(/^iou\s*\(iu\)$/,'iu'),src=assets['phonetic-'+key];
+        const sound=`event.stopPropagation();speechSynthesis.cancel();var p=this.closest('.hsk-page');p.querySelectorAll('audio').forEach(function(a){a.pause()});var a=p.querySelector('audio.hsk-phonetics-player');if(!a){a=document.createElement('audio');a.className='hsk-phonetics-player';a.hidden=true;p.appendChild(a)}a.src=this.dataset.src;a.play().catch(function(){})`;
+        const body=english?`<span class="en">${esc(t.text)}</span><span class="ru" data-kz="${kk}">${ru}</span>`:b.phoneticTextTable&&!header&&!editable?`<button type="button" class="hsk-table-speak" data-hsk-speak="${esc(key)}" data-src="${esc(src||'')}" ${src?`onclick="${esc(sound)}"`:'disabled title="Нужна учебная запись"'}>${esc(t.text)}</button>`:ed(n,`exactTokens.${k}.text`,t.text);
         return `<span class="hsk-exact-token${header?' hsk-table-header':''}${b.phoneticTextTable&&!header?' hsk-phonetic-token':''}" style="${rel(t.box,b.box)}font-size:${b.phoneticTextTable&&!header?2.05:t.box.h/R*(header?88:78)}cqw">${body}</span>`;
       }).join('');
       return `<section ${at} data-hsk-manual="1" class="hsk-at hsk-exact-text" style="${pos(b,h)}">${surface}${tokens}${b.ru?`<span class="ru">${ed(n,'ru',b.ru)}</span>`:''}</section>`;
@@ -2434,7 +2442,7 @@ export function render(layout, { assets = {}, pinyin = true, lang = '', editable
     const b = l.position;
     return b && Number.isFinite(b.x) && Number.isFinite(b.y) && Number.isFinite(b.width) && Number.isFinite(b.height) ? `<span class="hsk-source-line" style="left:${pct(b.x)};top:${pct(b.y)};width:${pct(b.width)};height:${pct(b.height)};font-size:${(b.height * ratio * 90).toFixed(3)}cqw">${esc(l.text)}</span>` : '';
   }).join('')}${translatedSource}</div>` : '';
-  const phonetics = (layout.phonetics?.cells || []).filter(c=>!layout.blocks.some(b=>b.phoneticChart&&c.box.x+c.box.w/2>=b.box.x&&c.box.x+c.box.w/2<=b.box.x+b.box.w&&c.box.y+c.box.h/2>=b.box.y&&c.box.y+c.box.h/2<=b.box.y+b.box.h)).map(c => {
+  const phonetics = (layout.phonetics?.cells || []).filter(c=>!layout.blocks.some(b=>(b.phoneticChart||b.phoneticTextTable||b.readingTokens)&&c.box.x+c.box.w/2>=b.box.x&&c.box.x+c.box.w/2<=b.box.x+b.box.w&&c.box.y+c.box.h/2>=b.box.y&&c.box.y+c.box.h/2<=b.box.y+b.box.h)).map(c => {
     const src = assets[`phonetic-${c.text}`];
     const kind = c.kind === 'initial' ? 'Инициаль' : c.kind === 'final' ? 'Финаль' : 'Слог';
     const handler = `var p=this.closest('.hsk-page');p.querySelectorAll('.hsk-phonetic-cell').forEach(function(b){b.setAttribute('aria-pressed','false')});this.setAttribute('aria-pressed','true');var s=p.querySelector('.hsk-phonetic-status');s.textContent='${kind}: '+this.textContent;var say=function(){var u=new SpeechSynthesisUtterance(this.dataset.hskSpeak||this.textContent);u.lang='zh-CN';speechSynthesis.cancel();speechSynthesis.speak(u)}.bind(this);var a=p.querySelector('audio.hsk-phonetics-player');if(!a){a=document.createElement('audio');a.className='hsk-phonetics-player';a.hidden=true;p.appendChild(a)}if(this.dataset.src){a.pause();a.src=this.dataset.src;a.play().catch(say)}else say()`;
