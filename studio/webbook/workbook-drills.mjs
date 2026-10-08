@@ -74,11 +74,32 @@ export function reconcileAnswerGrid(b,lines,grid){
   return {py:next.map(r=>r.join('\t')).join('\n'),gridY:Y.map((_,i)=>start+i*pitch),drillCorrections:evidence,drillManual:true};
 }
 
+// Explicit semantic rows survive sparse OCR. Locate their lattice without
+// assigning repeated letters globally or treating answer blanks as tone drills.
+export function measureAnswerLattice(b,source,lines){
+ if(b.type!=='text'||!b.py?.includes('\t')||!b.py.includes('___'))return null;
+ const rows=b.py.split('\n').map(r=>r.split('\t')),R=rows.length,C=Math.max(...rows.map(r=>r.length)),q=source?.box||b.box;
+ const near=lines.filter(l=>l.box.x>=q.x-.008&&l.box.x<q.x+q.w+.02&&l.box.y>=q.y-.006&&l.box.y+l.box.h/2<q.y+q.h+.008&&/^[a-züāáǎàēéěèīíǐìōóǒòūúǔùǖǘǚǜ]+$/i.test(l.text.trim()));
+ const group=(values,gap)=>{const groups=[];for(const v of values.sort((a,b)=>a-b)){const g=groups.at(-1);if(g&&v-median(g)<gap)g.push(v);else groups.push([v]);}return groups.map(median)};
+ let X=group(near.map(l=>l.box.x),.025),Y=group(near.map(l=>l.box.y+l.box.h/2),.012);
+ if(Y.length!==R||X.length<Math.ceil(C/2)||X.length>C)return null;
+ if(X.length<C){const pitch=median(X.slice(1).map((x,i)=>x-X[i]));if(!Number.isFinite(pitch)||pitch<.05)return null;while(X.length<C)X.push(X.at(-1)+pitch);}
+ return {gridX:X,gridY:Y,drillManual:true,box:{x:Math.min(q.x,X[0]-.005),y:Y[0]-.013,w:Math.max(q.x+q.w,X.at(-1)+.07)-Math.min(q.x,X[0]-.005),h:Y.at(-1)-Y[0]+.026},drillSource:'semantic rows + sparse OCR lattice'};
+}
+
 export const dialogueLabels={
   '你好':{ru:'Привет!',kk:'Сәлем!',en:'Hello!'},
   '你们好':{ru:'Здравствуйте!',kk:'Сәлеметсіздер ме!',en:'Hello, everyone!'},
   '谢谢':{ru:'Спасибо!',kk:'Рақмет!',en:'Thank you!'},
-  '不客气':{ru:'Пожалуйста!',kk:'Оқасы жоқ!',en:"You're welcome!"}
+  '不客气':{ru:'Пожалуйста!',kk:'Оқасы жоқ!',en:"You're welcome!"},
+  '老师再见':{ru:'До свидания, учитель!',kk:'Сау болыңыз, мұғалім!',en:'Goodbye, teacher!'},
+  '再见':{ru:'До свидания!',kk:'Сау болыңыз!',en:'Goodbye!'},
+  '对不起':{ru:'Извините.',kk:'Кешіріңіз.',en:'Sorry.'},
+  '没关系':{ru:'Ничего страшного.',kk:'Оқасы жоқ.',en:"That’s OK."},
+  '很高兴认识你':{ru:'Приятно познакомиться.',kk:'Танысқаныма қуаныштымын.',en:'Nice to meet you.'},
+  '认识你我也很高兴':{ru:'Мне тоже приятно познакомиться.',kk:'Мен де танысқаныма қуаныштымын.',en:'Nice to meet you too.'},
+  '大家好我叫白家月':{ru:'Всем привет! Я Бай Цзяюэ.',kk:'Бәріне сәлем! Менің атым Бай Цзяюэ.',en:'Hello, everyone! My name is Bai Jiayue.'},
+  '白家月你好':{ru:'Привет, Бай Цзяюэ.',kk:'Сәлем, Бай Цзяюэ.',en:'Hello, Bai Jiayue.'}
 };
 const han=s=>String(s||'').replace(/[^\p{Script=Han}]/gu,'');
 export function measureDialogueOptions(b,lines){

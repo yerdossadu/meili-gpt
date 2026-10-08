@@ -14,9 +14,10 @@ import { measureImprintPage } from './imprint-page.mjs';
 import { measureCreditsPage } from './credits-page.mjs';
 import { measureForewordPage } from './foreword-page.mjs';
 import { measureCharacterPage } from './character-page.mjs';
+import { measureClassroomPage } from './classroom-page.mjs';
 import {wordLabels} from './word-labels.mjs';
-import {toneKey,recordingKey} from './tone-audio.mjs';
-import {reconcileAnswerGrid,measureDialogueOptions,clipImagesBeforeText,dialogueLabels,measureReadingGrid} from './workbook-drills.mjs';
+import {toneKey,recordingKey,phoneticRecordingKey} from './tone-audio.mjs';
+import {reconcileAnswerGrid,measureDialogueOptions,clipImagesBeforeText,dialogueLabels,measureReadingGrid,measureAnswerLattice} from './workbook-drills.mjs';
 export {toneRecordings,phoneticRecordings} from './tone-audio.mjs';
 export const NORM_VERSION = 3;
 export const SNAP_VERSION = 3;
@@ -214,7 +215,7 @@ function repairStructure(blocks) {
   const drop = new Set();
   for (const [k, b] of blocks.entries()) {
     // Multi-row pinyin tone drills are a grid even when classified as verse.
-    if(!b.cn&&b.py?.includes('\n')){
+    if(!b.cn&&b.py?.includes('\n')&&!b.py.includes('___')){
       const rows=b.py.split('\n').map(r=>r.trim().split(/\s+/));
       const tone=s=>{const m=s.normalize('NFD').match(/[\u0304\u0301\u030c\u0306\u0300]/);return m?({'̄':1,'́':2,'̌':3,'̆':3,'̀':4}[m[0]]):0;};
       if(rows.length>=3&&rows.length<=12&&rows.every(r=>r.length>=2&&r.length<=16&&r.every(t=>tone(t)))){
@@ -1652,6 +1653,8 @@ export function snap(layout, grid, ocr) {
     if(table){Object.assign(b,table);Object.assign(b,restorePhoneticTokens(b));}
     const paragraph=printedParagraphLines(b,lines);if(paragraph)b.printedCnLines=paragraph;
     const english=printedParagraphLines(b,lines,'en');if(english)b.printedEnLines=english;
+    const source=(layout.source?.blocks||[]).find(o=>o.type===b.type&&o.py===b.py);
+    const lattice=measureAnswerLattice(b,source,lines);if(lattice)Object.assign(b,lattice);
     const drill=reconcileAnswerGrid(b,lines,grid);if(drill)Object.assign(b,drill);
     const reading=measureReadingGrid(b,lines);if(reading)Object.assign(b,reading);
     const dialogue=measureDialogueOptions(b,lines);if(dialogue)Object.assign(b,dialogue);
@@ -1662,6 +1665,7 @@ export function snap(layout, grid, ocr) {
   measureCreditsPage({...layout,blocks},grid,lines);
   measureForewordPage({...layout,blocks,theme},grid,lines);
   measureCharacterPage({...layout,blocks,theme},grid,lines);
+  measureClassroomPage({...layout,blocks,theme},grid,lines);
   const accent = blocks.find(b => ['section', 'lesson', 'folio'].includes(b.type) && b.fill && b.fill !== '#ffffff')?.fill;
   if (accent) theme.accent = accent;
   const result = attachInteractiveCaptions({ ...layout, blocks, theme, snapVersion: SNAP_VERSION, ocrLines: lines.length });
@@ -2167,9 +2171,9 @@ export function render(layout, { assets = {}, pinyin = true, lang = '', editable
     if(b.forewordFolio)return `<span ${at} class="hsk-at hsk-foreword-folio${b.forewordFolioSide==='right'?' hsk-foreword-folio-right':''}" style="${pos(b,h)}">${esc(b.text)}</span>`;
     if(b.characterRibbon)return '<header '+at+' data-hsk-manual="1" class="hsk-at hsk-character-ribbon" style="'+pos(b,h)+'"><span class="cn">'+esc(b.cn)+'</span><span class="hsk-character-ribbon-translation"><span class="en">'+esc(b.en)+'</span>'+ed(n,'ru',b.ru,'ru')+'</span></header>';
     if(b.bilingualPrint){
-      const p=b.bilingualPrint,draw=(rows,lang,font)=>rows.map(l=>'<span class="hsk-bilingual-line '+lang+'" style="left:'+pct((l.box.x-b.box.x)/b.box.w)+';top:'+pct((l.box.y-b.box.y)/b.box.h)+';font-size:'+font+'cqw">'+(p.heading?esc(l.text):esc(l.text).replace(/^([^：:]+[：:])/,'<strong class="hsk-character-name">$1</strong>'))+'</span>').join('');
-      const q=p.translationBox;
-      return '<section '+at+' data-hsk-manual="1" class="hsk-at hsk-bilingual-print'+(p.heading?' hsk-bilingual-heading':'')+'" style="'+pos(b,h)+'">'+draw(p.cn,'cn',p.cnFont)+draw(p.en,'en',p.enFont)+'<div class="hsk-bilingual-translation" style="left:'+pct((q.x-b.box.x)/b.box.w)+';top:'+pct((q.y-b.box.y)/b.box.h)+';width:'+pct(q.w/b.box.w)+';height:'+pct(q.h/b.box.h)+';font-size:'+p.enFont+'cqw">'+ed(n,'ru',b.ru,'ru')+'</div>'+(b.characterRule?'<span class="hsk-character-rule" style="left:'+pct((b.characterRule.x-b.box.x)/b.box.w)+';top:'+pct((b.characterRule.y-b.box.y)/b.box.h)+';width:'+pct(b.characterRule.w/b.box.w)+'"></span>':'')+'</section>';
+      const p=b.bilingualPrint,draw=(rows,lang,font)=>rows.map(l=>{let text=p.heading?esc(l.text):esc(l.text).replace(/^([^：:]+[：:])/,'<strong class="hsk-character-name">$1</strong>');if(p.speakText&&lang==='cn')text=`<button type="button" class="hsk-classroom-speak" data-hsk-speak="${esc(p.speakText)}" onclick="event.stopPropagation();speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(this.dataset.hskSpeak);u.lang='zh-CN';speechSynthesis.speak(u)">${text}</button>`;return '<span class="hsk-bilingual-line '+lang+'" style="left:'+pct((l.box.x-b.box.x)/b.box.w)+';top:'+pct((l.box.y-b.box.y)/b.box.h)+';font-size:'+font+'cqw">'+text+'</span>'}).join('');
+      const q=p.translationBox,ribbon=b.classroomRibbon?'<span class="hsk-at" style="'+rel(b.classroomRibbon.frame,b.box)+'background:#d66d71;border-radius:0 .8cqw 0 0"></span><span class="hsk-at" style="'+rel(b.classroomRibbon.translation,b.box)+'background:white;border:.1cqw solid #d66d71;box-sizing:border-box"></span>':'';
+      return (b.classroomBanner?'<div class="hsk-at hsk-classroom-banner" style="left:0;top:8%;width:93%;height:8%"></div>':'')+'<section '+at+' data-hsk-manual="1" class="hsk-at hsk-bilingual-print'+(p.heading?' hsk-bilingual-heading':'')+(b.classroomBanner?' hsk-classroom-title':'')+(b.classroomRibbon?' hsk-classroom-ribbon':'')+'" style="'+pos(b,h)+'">'+ribbon+draw(p.cn,'cn',p.cnFont)+draw(p.en,'en',p.enFont)+draw(p.py||[],'pyc',p.pyFont)+'<div class="hsk-bilingual-translation" style="left:'+pct((q.x-b.box.x)/b.box.w)+';top:'+pct((q.y-b.box.y)/b.box.h)+';width:'+pct(q.w/b.box.w)+';height:'+pct(q.h/b.box.h)+';font-size:'+p.enFont+'cqw">'+ed(n,'ru',b.ru,'ru')+'</div>'+(b.characterRule?'<span class="hsk-character-rule" style="left:'+pct((b.characterRule.x-b.box.x)/b.box.w)+';top:'+pct((b.characterRule.y-b.box.y)/b.box.h)+';width:'+pct(b.characterRule.w/b.box.w)+'"></span>':'')+'</section>';
     }
     if(b.foreword){
       const p=b.foreword,original=p.lines.map(l=>{const label=/^([\u3400-\u9fff]{2,8}[：:])/.exec(l.text),text=label?`<strong>${esc(label[1])}</strong>${esc(l.text.slice(label[1].length))}`:esc(l.text);return `<span class="hsk-foreword-line${p.latin?' hsk-foreword-latin':''}" style="left:${pct((l.box.x-b.box.x)/b.box.w)};top:${pct((l.box.y-b.box.y)/b.box.h)};${p.heading?`width:${pct(l.box.w/b.box.w)};`:''}">${text}</span>`;}).join('');
@@ -2226,12 +2230,12 @@ export function render(layout, { assets = {}, pinyin = true, lang = '', editable
       const T=b.textTable, R=layout.page.width/layout.page.height;
       const rect=(box,fill,stroke='none')=>`<rect x="${box.x}" y="${box.y}" width="${box.w}" height="${box.h}" fill="${fill}" stroke="${stroke}" stroke-width=".001"/>`;
       const tex=assets[`table-surface-${n}`];
-      const surface=T?`<svg class="hsk-table-surface" aria-hidden="true" preserveAspectRatio="none" viewBox="${b.box.x} ${b.box.y} ${b.box.w} ${b.box.h}"><defs>${tex?`<pattern id="table-${n}" patternUnits="userSpaceOnUse" width="${T.texture.w}" height="${T.texture.h}"><image href="${esc(tex)}" preserveAspectRatio="none" width="${T.texture.w}" height="${T.texture.h}"/></pattern>`:''}</defs>${rect(T.frame,'#fff','#e3a299')}${rect(T.header,'#e99080')}${tex?rect(T.header,`url(#table-${n})`):''}${T.splits.map(x=>`<path d="M${x} ${T.frame.y}V${T.frame.y+T.frame.h}" stroke="#e3a299" stroke-width=".001"/>`).join('')}</svg>`:'';
+      const surface=T?`<svg class="hsk-table-surface" aria-hidden="true" preserveAspectRatio="none" viewBox="${b.box.x} ${b.box.y} ${b.box.w} ${b.box.h}"><defs>${tex?`<pattern id="table-${n}" patternUnits="userSpaceOnUse" width="${T.texture.w}" height="${T.texture.h}"><image href="${esc(tex)}" preserveAspectRatio="none" width="${T.texture.w}" height="${T.texture.h}"/></pattern>`:''}</defs>${rect(T.frame,'#fff','#e3a299')}${rect(T.header,'#e99080')}${tex?rect(T.header,`url(#table-${n})`):''}${T.splits.map(x=>`<path d="M${x} ${T.frame.y}V${T.frame.y+T.frame.h}" stroke="#e3a299" stroke-width=".001"/>`).join('')}${(T.horizontalRules||[]).map(r=>`<path d="M${r.x} ${r.y}H${r.x+r.w}" stroke="#e3a299" stroke-width=".001"/>`).join('')}</svg>`:'';
       const tokens=b.exactTokens.map((t,k)=>{
         const header=T&&t.box.y+t.box.h/2<T.header.y+T.header.h;
         const english=header&&/^(Initials|Finals)$/.test(t.text);
         const ru=t.text==='Initials'?'Инициали':'Финали', kk=t.text==='Initials'?'Бастапқы дыбыстар':'Финалдар';
-        const key=t.text.replace(/\s*\[i\]/g,'').replace(/^iou\s*\(iu\)$/,'iu'),src=assets['phonetic-'+key];
+        const key=phoneticRecordingKey(t.text),src=assets['phonetic-'+key];
         const sound=`event.stopPropagation();speechSynthesis.cancel();var p=this.closest('.hsk-page');p.querySelectorAll('audio').forEach(function(a){a.pause()});var a=p.querySelector('audio.hsk-phonetics-player');if(!a){a=document.createElement('audio');a.className='hsk-phonetics-player';a.hidden=true;p.appendChild(a)}a.src=this.dataset.src;a.play().catch(function(){})`;
         const body=english?`<span class="en">${esc(t.text)}</span><span class="ru" data-kz="${kk}">${ru}</span>`:b.phoneticTextTable&&!header&&!editable?`<button type="button" class="hsk-table-speak" data-hsk-speak="${esc(key)}" data-src="${esc(src||'')}" ${src?`onclick="${esc(sound)}"`:'disabled title="Нужна учебная запись"'}>${esc(t.text)}</button>`:ed(n,`exactTokens.${k}.text`,t.text);
         return `<span class="hsk-exact-token${header?' hsk-table-header':''}${b.phoneticTextTable&&!header?' hsk-phonetic-token':''}" style="${rel(t.box,b.box)}font-size:${b.phoneticTextTable&&!header?2.05:t.box.h/R*(header?88:78)}cqw">${body}</span>`;
@@ -2355,7 +2359,8 @@ export function render(layout, { assets = {}, pinyin = true, lang = '', editable
         const caption = b.caption ? `<figcaption class="hsk-photo-caption"><span class="py">${ed(n, 'caption.py', b.caption.py || '', 'py')}</span><span class="cn">${ed(n, 'caption.hz', b.caption.hz || '', 'cn')}</span>${b.caption.ru ? `<span class="ru">${ed(n, 'caption.ru', b.caption.ru, 'ru')}</span>` : ''}</figcaption>` : '';
         const speech = b.caption?.hz ? `data-hsk-speak="${esc(b.caption.hz)}" role="button" tabindex="0" aria-label="${esc(`${b.caption.hz}, ${b.caption.ru || ''}. Нажмите, чтобы прослушать.`)}"` : '';
         const labels=(b.diagramLabels||[]).map((l,k)=>`<span class="hsk-graph-label" style="${rel(l.box,b.box)}"><span class="cn">${esc(l.cn)}</span>${ed(n,`diagramLabels.${k}.ru`,l.ru,'ru')}</span>`).join('');
-        const answer=b.matchingInput?'<input class="hsk-picture-answer" inputmode="numeric" maxlength="1" pattern="[1-3]" aria-label="Номер подходящего диалога" autocomplete="off">':'';
+        const optionCount=layout.blocks.filter(o=>o.dialogueOptions||o.optionTurns).length||3;
+        const answer=b.matchingInput?'<input class="hsk-picture-answer" '+(optionCount===4?'style="left:0;top:0;width:21%;height:18%" ':'')+'inputmode="numeric" maxlength="1" pattern="[1-'+Math.min(9,optionCount)+']" aria-label="Номер подходящего диалога" autocomplete="off">':'';
         return `${frame}<figure ${at} ${speech} class="hsk-at hsk-photo${b.caption?.hz ? ' hsk-photo-speaking' : ''}${b.captionFrame ? ' hsk-caption-frame' : ''}${clip ? ' hsk-clip' : ''}" style="${pos(b, h)}">${media}${caption}${labels}${answer}${n === firstImage && !clip ? videoButton : ''}</figure>`;
       }
       case 'card':
@@ -2441,7 +2446,7 @@ export function render(layout, { assets = {}, pinyin = true, lang = '', editable
     // A printed number mark («❶», a numbered square) cut out of the scan just
     // left of a numbered paragraph: the paragraph draws its own number there,
     // so the cut-out (often clipped) would show it twice.
-    + (layout.decorations || []).map((d, i) => layout.blocks.some(b => isPartialNumberDecoration(d, b)||(b.rightLesson&&d.box.y<.07&&d.box.x>b.rightLesson.label.x-.015&&d.box.x+d.box.w<b.rightLesson.number.x+b.rightLesson.number.w+.015)) ? '' : cut(`deco-${i}`, d.box)).join('');
+    + (layout.decorations || []).map((d, i) => layout.blocks.some(b => (b.classroomBanner&&d.box.y<.18)||isPartialNumberDecoration(d, b)||(b.rightLesson&&d.box.y<.07&&d.box.x>b.rightLesson.label.x-.015&&d.box.x+d.box.w<b.rightLesson.number.x+b.rightLesson.number.w+.015)) ? '' : cut(`deco-${i}`, d.box)).join('');
   // Versioned conversions must display their actual HTML in every language.
   // Legacy scan overlays otherwise conceal missing table structure and text.
   const translatedSource = (layout.conversionId ? [] : layout.sourceRegions || []).map(r => {

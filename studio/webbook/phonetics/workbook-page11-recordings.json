@@ -1,0 +1,111 @@
+{
+  "source": "https://github.com/cmguo/PinYinSound",
+  "files": [
+    {
+      "key": "zh",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/zh.mp3",
+      "bytes": 7314,
+      "sha256": "9b9de365fd1bcd564ad82f7338685b23bc76442a60c3279a23903e71ee9b720b"
+    },
+    {
+      "key": "ch",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/ch.mp3",
+      "bytes": 6583,
+      "sha256": "dda420e1508844ccdee7126586f3cfc9ccc2bca96acc5caaeb133d31fc77236e"
+    },
+    {
+      "key": "sh",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/sh.mp3",
+      "bytes": 7314,
+      "sha256": "d2c7e6e4cd4fc3910416c2676bcbcc28a1cd9d53481891ec5d76cb64c3cf7670"
+    },
+    {
+      "key": "r",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/r.mp3",
+      "bytes": 6949,
+      "sha256": "8bd190253ed7aecf90fefa602f6281e0fb406978bcb154fb5ec4b716be709455"
+    },
+    {
+      "key": "z",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/z.mp3",
+      "bytes": 7680,
+      "sha256": "001820da929c55c9f230f02ab2574ecb71cca16de4d7ffdbeef1e335ce84116b"
+    },
+    {
+      "key": "c",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/c.mp3",
+      "bytes": 8229,
+      "sha256": "783c852f489920849bda0b8a528ae8a81d5f045ff3ec8359564ffc8d1e688811"
+    },
+    {
+      "key": "s",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/s.mp3",
+      "bytes": 7314,
+      "sha256": "ce01b88f7d083214c269a0909d048fdb483c7d3f19c76a62b7fe73baddee5fba"
+    },
+    {
+      "key": "ua",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/ua.mp3",
+      "bytes": 21151,
+      "sha256": "d616e255a69be42fb469138bd7080761260a59504d8317a06cc40f6dde053ca2"
+    },
+    {
+      "key": "uo",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/uo.mp3",
+      "bytes": 18643,
+      "sha256": "12af3c0a22dca5ce2c661fd86f1e17568e520cc115b96c8e364a54722845182d"
+    },
+    {
+      "key": "uai",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/uai.mp3",
+      "bytes": 24913,
+      "sha256": "75f78328c7d33ed9920f39769c233b86d3f8c68d6c29d3f157b313c8af30aef0"
+    },
+    {
+      "key": "uan",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/uan.mp3",
+      "bytes": 20524,
+      "sha256": "977995e1b43246cd84f85b685b8839ee22c83b71c386e85e71dd90cd4c2db7a7"
+    },
+    {
+      "key": "uang",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/uang.mp3",
+      "bytes": 23659,
+      "sha256": "df7b3c50e1c1473f52c6032c8059a2d702b0a2534336a97c27fa4467f54d6b21"
+    },
+    {
+      "key": "ui",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/ui.mp3",
+      "bytes": 6583,
+      "sha256": "1024c88dc1588d5642733c800b72564b7c7ff941445c9b0c94d13911617e27ab"
+    },
+    {
+      "key": "un",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/un.mp3",
+      "bytes": 6034,
+      "sha256": "0b57b7e651518a3b9aecf7e77a7c816684864abf22a39666417832074ff9d60c"
+    },
+    {
+      "key": "weng1",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/weng1.mp3",
+      "bytes": 17159,
+      "sha256": "32c6f7107507ac901b08410e4fa45e5196d53d08fcfb9e9b202aa265362c660e"
+    },
+    {
+      "key": "zhi1",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/zhi1.mp3",
+      "bytes": 7314,
+      "sha256": "9b9de365fd1bcd564ad82f7338685b23bc76442a60c3279a23903e71ee9b720b"
+    },
+    {
+      "key": "zi1",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/zi1.mp3",
+      "bytes": 7680,
+      "sha256": "001820da929c55c9f230f02ab2574ecb71cca16de4d7ffdbeef1e335ce84116b"
+    }
+  ],
+  "notes": {
+    "apical-i": "Two example syllables zi1 and zhi1 for apical vowels; not the ordinary i [i].",
+    "ueng": "weng1 is the independently spelled pronunciation of ueng."
+  }
+}

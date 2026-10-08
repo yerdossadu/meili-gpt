@@ -167,21 +167,26 @@ export function measureTextTable(block,grid) {
     if(hit/Math.max(1,total)>.8&&(!splits.length||x/hi.W-splits.at(-1)>.01))splits.push(x/hi.W);
   }
   const header={x:x0/W,y:top/H,w:(x1-x0)/W,h:(bottom-top)/H};
-  return {box:union([b,{x:header.x,y:header.y,w:header.w,h:end-header.y}]),textTable:{header,frame:{x:header.x,y:header.y,w:header.w,h:end-header.y},splits,texture:texture(g,header)}};
+  const horizontalRules=[];
+  if(splits.length===1){const start=splits[0],span=x1/W-start;for(let y=Math.round((header.y+header.h+.015)*hi.H);y<(end-.01)*hi.H;y++){let hit=0,total=0;for(let x=Math.round((start+.004)*hi.W);x<(x1/W-.004)*hi.W;x++){total++;if(pink(hi.at(x,y)))hit++;}if(hit/Math.max(1,total)>.85&&(!horizontalRules.length||y/hi.H-horizontalRules.at(-1).y>.008))horizontalRules.push({x:start,y:y/hi.H,w:span});}}
+  return {box:union([b,{x:header.x,y:header.y,w:header.w,h:end-header.y}]),textTable:{header,frame:{x:header.x,y:header.y,w:header.w,h:end-header.y},splits,horizontalRules,texture:texture(g,header)}};
 }
 
 export function restorePhoneticTokens(block) {
   if(!block.textTable||!block.exactTokens?.length||!/^声母\s*\nInitials\s*\n/u.test(block.cn||'')||!String(block.cn).includes('Finals'))return block;
   const parts=block.cn.split(/声母\s*\nInitials\s*\n|韵母\s*\nFinals\s*\n/).filter(Boolean);
   if(parts.length!==2)return block;
-  const groups=parts.map(s=>s.trim().split('\n').map(r=>(r.match(/[a-zü]+(?:\s*\[i\]|\s*\([a-zü]+\))?/gi)||[]).map(t=>t.replace(/i\s+\[i\]/g,'i[i]'))));
-  if(groups.flat(2).some(s=>!/^([a-zü]+(?:\s*\([a-zü]+\))?|i\s*\[i\])$/.test(s)))return block;
-  const tokens=block.exactTokens.map(t=>({...t,box:{...t.box}})),head=block.textTable.header,split=block.textTable.splits[0];
+  const groups=parts.map(s=>s.trim().split('\n').map(r=>(r.match(/[a-zü]+(?:\s*\[[^\]]+\]|\s*\([a-zü]+\))?/gi)||[]).map(t=>t.replace(/i\s+\[/g,'i['))));
+  if(groups.flat(2).some(s=>!/^([a-zü]+(?:\s*\([a-zü]+\))?|i\s*\[[^\]]+\])$/.test(s)))return block;
+  const tokens=block.exactTokens.flatMap(t=>{
+    const words=t.text.trim().split(/\s+/);if(words.length<2||!words.every(w=>/^[a-zü]{1,3}$/i.test(w)))return[{...t,box:{...t.box}}];
+    return words.map((text,i)=>({...t,text,box:{...t.box,x:t.box.x+i*t.box.w/words.length,w:t.box.w/words.length}}));
+  }),head=block.textTable.header,split=block.textTable.splits[0];
   if(!split)return block;
   const fold=s=>s.toLowerCase().replace(/[\[\]\s]/g,'');
   for(let group=0;group<2;group++){
     const region=tokens.filter(t=>t.box.y>head.y+head.h-.002&&(t.box.x+t.box.w/2<split)===(group===0));
-    const rows=groups[group].map(row=>row.map(text=>{const token=region.find(t=>!t.used&&(fold(t.text)===fold(text)||(text.startsWith('ü')&&fold(t.text)===fold(text).replace('ü','u'))||(fold(text)==='ii'&&/^i\[[^\]]*\]$/.test(t.text))));if(token)token.used=true;return {text,token};}));
+    const rows=groups[group].map(row=>row.map(text=>{const token=region.find(t=>!t.used&&(fold(t.text)===fold(text)||(text.startsWith('ü')&&fold(t.text)===fold(text).replace('ü','u'))||(/^i\[/.test(text)&&/^i\[[^\]]*\]$/.test(t.text))));if(token)token.used=true;return {text,token};}));
     const has=rows.flat().filter(c=>c.token);if(has.length<Math.ceil(rows.flat().length*.65))continue;
     for(let ri=0;ri<rows.length;ri++){
       const row=rows[ri],matched=row.filter(c=>c.token);if(!matched.length)continue;
@@ -213,7 +218,8 @@ export function restorePhoneticTokens(block) {
       if(!cell.token)return;
       const t=cell.token,cx=t.box.x+t.box.w/2,col=columns.map(v=>med(v)).sort((a,b)=>Math.abs(a-cx)-Math.abs(b-cx))[0];
       t.ocrBox ||= {...t.box};
-      t.box={x:col-t.box.w/2,y:origin+ri*pitch-.008,w:t.box.w,h:.016};
+      const irregular=centres.slice(1).some((y,i)=>Math.abs(y-centres[i]-pitch)>pitch*.3);
+      t.box={x:col-t.box.w/2,y:(irregular?centres[ri]:origin+ri*pitch)-.008,w:t.box.w,h:.016};
       t.tableRow=`${group}-${ri}`;
     }));
   }

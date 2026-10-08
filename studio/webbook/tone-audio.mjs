@@ -13,6 +13,7 @@ export function toneRecordings(layout) {
 }
 export const wordRecordingKeys={'yóuyǒng':'you2-yong3','lǚyóu':'lv3-you2','péngyou':'pengyou'};
 export const recordingKey=value=>wordRecordingKeys[value]||toneKey(value)||null;
+export const phoneticRecordingKey=value=>/^i\[[ɿʅ/]+\]$/.test(value)?'apical-i':value.replace(/\s*\[[^\]]+\]/g,'').replace(/^iou\s*\(iu\)$/,'iu').replace(/^uei\s*\(ui\)$/,'ui').replace(/^uen\s*\(un\)$/,'un').replace(/^ueng$/,'weng1');
 export function phoneticRecordings(layout) {
-  return [...new Set((layout.blocks||[]).filter(b=>b.phoneticTextTable).flatMap(b=>(b.exactTokens||[]).filter(t=>t.tableRow).map(t=>t.text.replace(/\s*\[i\]/g,'').replace(/^iou\s*\(iu\)$/,'iu'))))];
+  return [...new Set((layout.blocks||[]).filter(b=>b.phoneticTextTable).flatMap(b=>(b.exactTokens||[]).filter(t=>t.tableRow).map(t=>phoneticRecordingKey(t.text))))];
 }
