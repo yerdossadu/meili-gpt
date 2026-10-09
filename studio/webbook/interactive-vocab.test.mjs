@@ -3,6 +3,11 @@ import assert from 'node:assert/strict';
 import * as core from './core.mjs';
 
 const box = (x, y, w = .18, h = .1) => ({ x, y, w, h });
+test('explicit pinyin and Chinese labels in cached photo descriptions become native captions',()=>{
+ const l=core.attachInteractiveCaptions({blocks:[{type:'image',box:box(.1,.1),alt:'xièxie 谢谢 (спасибо). Рукопожатие.'}]});
+ assert.deepEqual(l.blocks[0].caption,{py:'xièxie',hz:'谢谢',ru:'спасибо'});
+ assert.match(core.render({...l,page:{width:1000,height:1400}}),/data-hsk-speak="谢谢"/);
+});
 
 test('extracts a printed picture label and makes it a translated speech caption', () => {
   const input = { page: { width: 1000, height: 1400 }, blocks: [

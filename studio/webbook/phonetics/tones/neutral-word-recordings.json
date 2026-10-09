@@ -1,0 +1,174 @@
+{
+  "source": "Microsoft Edge TTS via https://github.com/rany2/edge-tts",
+  "records": [
+    {
+      "key": "word-pengchang-33",
+      "py": "pěngchǎng",
+      "text": "捧场",
+      "voice": "zh-CN-XiaoxiaoNeural",
+      "rate": "-15%",
+      "sha256": "ed743b9b6030bef70f275080aa919b4d891913592d54b909460753b722b441d9"
+    },
+    {
+      "key": "word-haojiu-33",
+      "py": "hǎojiǔ",
+      "text": "好久",
+      "voice": "zh-CN-XiaoxiaoNeural",
+      "rate": "-15%",
+      "sha256": "409748c0e8e638f01725453bdf76edea36b252a2bc7fb281535540dc048eb5dd"
+    },
+    {
+      "key": "word-wandian-33",
+      "py": "wǎndiǎn",
+      "text": "晚点",
+      "voice": "zh-CN-XiaoxiaoNeural",
+      "rate": "-15%",
+      "sha256": "6ef8e1a35f4408c27a7bfc8fc71801e6ca26dab1f5e1a194b92d8827abf84787"
+    },
+    {
+      "key": "word-liaojie-33",
+      "py": "liǎojiě",
+      "text": "了解",
+      "voice": "zh-CN-XiaoxiaoNeural",
+      "rate": "-15%",
+      "sha256": "68e169fa7b53c2ee5a0fa43f9034af722838b7d0ebd9417967f6ee6dbac9d1c2"
+    },
+    {
+      "key": "word-xizao-33",
+      "py": "xǐzǎo",
+      "text": "洗澡",
+      "voice": "zh-CN-XiaoxiaoNeural",
+      "rate": "-15%",
+      "sha256": "7236d27963e2dbdf8d6065b2f49c0f7732938f10fc4005b0cedda2d78a599a3f"
+    },
+    {
+      "key": "word-zhiyou-33",
+      "py": "zhǐyǒu",
+      "text": "只有",
+      "voice": "zh-CN-XiaoxiaoNeural",
+      "rate": "-15%",
+      "sha256": "eedb9d24ef1261356bbf9b873635e7c8f8935454d26919b9787615941fe40416"
+    },
+    {
+      "key": "word-baozi-1",
+      "py": "bāozi",
+      "text": "包子",
+      "voice": "zh-CN-XiaoxiaoNeural",
+      "rate": "-15%",
+      "sha256": "41a8be79377b1ce9192ecac4ba52ee672f99fd8b5906d446a09c48b6b5225579"
+    },
+    {
+      "key": "word-xiexie-4",
+      "py": "xièxie",
+      "text": "谢谢",
+      "voice": "zh-CN-XiaoxiaoNeural",
+      "rate": "-15%",
+      "sha256": "ae66a9b2991bb90f6c539418ca06a9fda6fc2e66417915dee7a9c764eef93d06"
+    },
+    {
+      "key": "word-pianyi-2",
+      "py": "piányi",
+      "text": "便宜",
+      "voice": "zh-CN-XiaoxiaoNeural",
+      "rate": "-15%",
+      "sha256": "299d1dd891e6f3607abc0a38a09ab85a99f9878d5c4b5029db149a684baa2058"
+    },
+    {
+      "key": "word-didi-4",
+      "py": "dìdi",
+      "text": "弟弟",
+      "voice": "zh-CN-XiaoxiaoNeural",
+      "rate": "-15%",
+      "sha256": "88eeb680e11ef295be40519cc2c677ca13ef736bc892a08ed818b3a4f069c591"
+    },
+    {
+      "key": "word-piaoliang-4",
+      "py": "piàoliang",
+      "text": "漂亮",
+      "voice": "zh-CN-XiaoxiaoNeural",
+      "rate": "-15%",
+      "sha256": "2e6a4e2453c4eac5be042421d2211ba9a92986c36088a927d870bc9821a2895d"
+    },
+    {
+      "key": "word-meiguanxi-21",
+      "py": "méiguānxi",
+      "text": "没关系",
+      "voice": "zh-CN-XiaoxiaoNeural",
+      "rate": "-15%",
+      "sha256": "2d4ffe00514f1cf5e421c26fe506492aab32582b3cd07c1ceecd0634db752913"
+    },
+    {
+      "key": "word-duibuqi-43",
+      "py": "duìbuqǐ",
+      "text": "对不起",
+      "voice": "zh-CN-XiaoxiaoNeural",
+      "rate": "-15%",
+      "sha256": "97b30b6f74f5c4414722e73b372ea91b47bc74cfd4ac0bd2bed795ab6796926a"
+    },
+    {
+      "key": "word-renshi-4",
+      "py": "rènshi",
+      "text": "认识",
+      "voice": "zh-CN-XiaoxiaoNeural",
+      "rate": "-15%",
+      "sha256": "b1900f4f28747724a0006721e50fef4319b348c426e8d60f2b5d0db1ddcfa4c0"
+    },
+    {
+      "key": "word-sunzi-1",
+      "py": "sūnzi",
+      "text": "孙子",
+      "voice": "zh-CN-XiaoxiaoNeural",
+      "rate": "-15%",
+      "sha256": "d2476f5b26bf163ed94192c8bd2983b619adfdf9e0deae29564393329695cf3d"
+    },
+    {
+      "key": "word-dongxi-1",
+      "py": "dōngxi",
+      "text": "东西",
+      "voice": "zh-CN-XiaoxiaoNeural",
+      "rate": "-15%",
+      "sha256": "dad54ed02eeb473a65eeefa76d9cee85957018d75e2de0e75b79881bf8893e18"
+    },
+    {
+      "key": "word-yunqi-4",
+      "py": "yùnqi",
+      "text": "运气",
+      "voice": "zh-CN-XiaoxiaoNeural",
+      "rate": "-15%",
+      "sha256": "696741b666d942c64e7dabb89d65d5f8738f57078bfe182ed73d51d2ad282bd6"
+    },
+    {
+      "key": "word-laozi-3",
+      "py": "lǎozi",
+      "text": "老子",
+      "voice": "zh-CN-XiaoxiaoNeural",
+      "rate": "-15%",
+      "sha256": "aa7bc848ed53711b3019f3216d8561c8a9fa69da41e2a557dc13bd3de082043c"
+    },
+    {
+      "key": "word-difang-4",
+      "py": "dìfang",
+      "text": "地方",
+      "voice": "zh-CN-XiaoxiaoNeural",
+      "rate": "-15%",
+      "sha256": "4a77924a9c2233fdf983756bfc0d5673f48ce45b16b65088ad8a07954abc218a"
+    },
+    {
+      "key": "word-mamahuhu-3311",
+      "py": "mǎmǎhūhū",
+      "text": "马马虎虎",
+      "voice": "zh-CN-XiaoxiaoNeural",
+      "rate": "-15%",
+      "sha256": "9d6ccc5efbe2f5d31fcdcec837f97e0e16871f8bdfc717d6a041194fae69a3d0"
+    },
+    {
+      "key": "word-mahu-3",
+      "py": "mǎhu",
+      "text": "马虎",
+      "voice": "zh-CN-XiaoxiaoNeural",
+      "rate": "-15%",
+      "sha256": "397156e5d3e622360cd0587b2441aebcccbca10d045419d2ef1097db00665737"
+    }
+  ],
+  "note": "Whole Mandarin words. Homograph tone contrasts use separate recorded syllables; synthesized pronunciation needs listening review."
+}

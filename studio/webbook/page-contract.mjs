@@ -1,5 +1,6 @@
 // Shared identity, localization and validation for every conversion engine.
 import { createHash } from 'node:crypto';
+import {reviewedKazakh} from './reviewed-kazakh.mjs';
 export const digest = value => createHash('sha256').update(typeof value === 'string' || value instanceof Uint8Array ? value : JSON.stringify(value)).digest('hex');
 const sourceOf = o => {
   if (Array.isArray(o)) return o.map(sourceOf);
@@ -39,7 +40,9 @@ export function localizeLayout(layout, before) {
       const corrections=b.nameCorrections||[];
       const priorRu=corrections.reduce((s,c)=>s.replaceAll(c.ru.to,c.ru.from),f.value);
       const correctedKk=corrections.length&&before?.kz?.[priorRu] ? corrections.reduce((s,c)=>s.replaceAll(c.ru.from,c.ru.to),before.kz[priorRu]) : '';
-      const kk=layout.kz?.[f.value] || (unchanged ? previous?.kk || before?.kz?.[oldValue] : '') || correctedKk;
+      const heading=/^Текст (\d+)$/.exec(f.value);
+      const knownHeading=heading?'Мәтін '+heading[1]:/^Новый курс HSK \d+\s+Рабочая тетрадь$/.test(f.value)?f.value.replace('Новый курс','Жаңа курс').replace('Рабочая тетрадь','Жұмыс дәптері'):'';
+      const kk=layout.kz?.[f.value] || (unchanged ? previous?.kk || before?.kz?.[oldValue] : '') || correctedKk || knownHeading || reviewedKazakh.get(f.value);
       translations[f.path]={ru:f.value,...(kk?{kk}:{}),sourceHash};
     }
     return {...b,id,sourceHash,translations};
@@ -61,6 +64,24 @@ export function validatePage(layout,{requireKz=false}={}) {
     if(b.unresolvedStructure)warnings.push(`Требует уточнения структура ${b.id}.`);
   }
   return {state:errors.length?'failed':warnings.length?'review':'passed',errors,warnings};
+}
+export function localizationCoverage(layout){
+ const fields=(layout?.blocks||[]).flatMap(b=>russianFields(b).map(f=>({id:b.id,path:f.path,value:f.value,kk:b.translations?.[f.path]?.kk||layout.kz?.[f.value]||''})));
+ return{total:fields.length,translated:fields.filter(f=>f.kk).length,missing:fields.filter(f=>!f.kk).map(({id,path,value})=>({id,path,value}))};
+}
+export function validatePageRevision(layout,before){
+ const oldCoverage=localizationCoverage(before),coverage=localizationCoverage(layout);
+ const result=validatePage(layout,{requireKz:oldCoverage.total>0&&oldCoverage.translated===oldCoverage.total});
+ // Legacy partial coverage must not block an unrelated geometry repair.
+ // Every previously present translation, however, remains mandatory.
+ for(const old of before?.blocks||[])for(const field of russianFields(old)){
+  const kk=old.translations?.[field.path]?.kk||before.kz?.[field.value];if(!kk)continue;
+  const current=layout.blocks.find(b=>b.id===old.id)||layout.blocks.find(b=>russianFields(b).some(f=>f.value===field.value));
+  const now=current&&russianFields(current).find(f=>f.path===field.path||f.value===field.value);
+  if(!now||!(current.translations?.[field.path]?.kk||layout.kz?.[now.value]))result.errors.push(`Утрачен казахский перевод: ${field.value}`);
+ }
+ if(result.errors.length)result.state='failed';
+ return{...result,languageCoverage:{kz:coverage}};
 }
 
 // Local OCR can start a page without a paid Vision answer. Keep each original

@@ -1,0 +1,59 @@
+{
+  "records": [
+    {
+      "key": "word-sunzi-13",
+      "py": "sūnzǐ",
+      "parts": [
+        "sun1",
+        "zi3"
+      ],
+      "source": "https://github.com/cmguo/PinYinSound",
+      "sha256": "ddc6b8650842c48369a6e7571f6c077a7ccab237337adbeedb55694743a0f31b",
+      "note": "Recorded syllables, not a continuous native word recording. Lao Tzu first syllable demonstrates third-tone sandhi."
+    },
+    {
+      "key": "word-laozi-33",
+      "py": "lǎozǐ",
+      "parts": [
+        "lao2",
+        "zi3"
+      ],
+      "source": "https://github.com/cmguo/PinYinSound",
+      "sha256": "db5422f85b0c532ec893989845d501558d46b896c75018585f667ede322a3b67",
+      "note": "Recorded syllables, not a continuous native word recording. Lao Tzu first syllable demonstrates third-tone sandhi."
+    },
+    {
+      "key": "word-yunqi-44",
+      "py": "yùnqì",
+      "parts": [
+        "yun4",
+        "qi4"
+      ],
+      "source": "https://github.com/cmguo/PinYinSound",
+      "sha256": "884764d50e27eed98e35eb6cfbcb0bc7b2a0cd0bf4490d34361580656374340f",
+      "note": "Recorded syllables, not a continuous native word recording. Lao Tzu first syllable demonstrates third-tone sandhi."
+    },
+    {
+      "key": "word-dongxi-11",
+      "py": "dōngxī",
+      "parts": [
+        "dong1",
+        "xi1"
+      ],
+      "source": "https://github.com/cmguo/PinYinSound",
+      "sha256": "d9b385bc100f4a075389e09f2b59d895ad280c3d163f61905c845850e4dc963c",
+      "note": "Recorded syllables, not a continuous native word recording. Lao Tzu first syllable demonstrates third-tone sandhi."
+    },
+    {
+      "key": "word-difang-41",
+      "py": "dìfāng",
+      "parts": [
+        "di4",
+        "fang1"
+      ],
+      "source": "https://github.com/cmguo/PinYinSound",
+      "sha256": "21d8f9139d2d20505398ec25f8efebd9acb983d06163a621fbcbd68f9a8cb155",
+      "note": "Recorded syllables, not a continuous native word recording. Lao Tzu first syllable demonstrates third-tone sandhi."
+    }
+  ]
+}

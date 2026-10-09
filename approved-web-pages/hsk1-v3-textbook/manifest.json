@@ -1,150 +1,419 @@
 [
   {
     "sourcePage": 1,
-    "conversionId": null,
-    "exportedAt": "2026-10-08T13:07:04.717Z",
-    "englishLayers": 0,
+    "conversionId": "86625b43-1c2b-47b1-992e-338e7989cafb",
+    "exportedAt": "2026-10-09T07:36:25.395Z",
+    "englishLayers": 4,
     "resources": [
-      "assets/page-001/webbook/components.css",
-      "assets/page-001/library/25d1aad102e4/pages/001/assets/deco-b0.png",
-      "assets/page-001/library/25d1aad102e4/pages/001/assets/deco-b2.png",
-      "assets/page-001/library/25d1aad102e4/pages/001/assets/img-5.webp",
-      "assets/page-001/library/25d1aad102e4/pages/001/scan.png"
+      "assets/page-001/library/25d1aad102e4/pages/001/revisions/86625b43-1c2b-47b1-992e-338e7989cafb/components.css",
+      "assets/page-001/library/25d1aad102e4/pages/001/revisions/08c7b2b7-2da6-487e-a98d-8c198de1322e/assets/deco-b0.png",
+      "assets/page-001/library/25d1aad102e4/pages/001/revisions/08c7b2b7-2da6-487e-a98d-8c198de1322e/assets/deco-b2.png",
+      "assets/page-001/library/25d1aad102e4/pages/001/revisions/08c7b2b7-2da6-487e-a98d-8c198de1322e/assets/img-5.webp"
     ]
   },
   {
     "sourcePage": 2,
-    "conversionId": "d42ded72-00bf-4788-8245-0f1052dfb071-2",
-    "exportedAt": "2026-10-08T13:07:04.765Z",
-    "englishLayers": 0,
+    "conversionId": "ec990310-31fb-4ae7-a27b-aafc3678a1be",
+    "exportedAt": "2026-10-09T07:36:25.403Z",
+    "englishLayers": 5,
     "resources": [
-      "assets/page-002/library/25d1aad102e4/pages/002/revisions/d42ded72-00bf-4788-8245-0f1052dfb071-2/components.css"
+      "assets/page-002/library/25d1aad102e4/pages/002/revisions/ec990310-31fb-4ae7-a27b-aafc3678a1be/components.css"
     ]
   },
   {
     "sourcePage": 3,
-    "conversionId": "8e07ec2c-0e33-456a-beed-731990ce6618",
-    "exportedAt": "2026-10-08T13:07:04.778Z",
+    "conversionId": "ee2f754b-617e-4026-b3e8-912b642a9ca9",
+    "exportedAt": "2026-10-09T07:36:25.409Z",
     "englishLayers": 24,
     "resources": [
-      "assets/page-003/library/25d1aad102e4/pages/003/revisions/8e07ec2c-0e33-456a-beed-731990ce6618/components.css",
-      "assets/page-003/library/25d1aad102e4/pages/003/revisions/5cd80366-fab1-46ff-ad41-147ac9dfc5c2-3/assets/img-8.webp"
+      "assets/page-003/library/25d1aad102e4/pages/003/revisions/ee2f754b-617e-4026-b3e8-912b642a9ca9/components.css",
+      "assets/page-003/library/25d1aad102e4/pages/003/revisions/8857b225-064b-4f0f-b949-f7eb50ea704c/assets/img-8.webp"
     ]
   },
   {
     "sourcePage": 4,
-    "conversionId": "8c4759e5-21b5-44b5-a43b-b5baebf262e8",
-    "exportedAt": "2026-10-08T13:07:04.791Z",
+    "conversionId": "3475702b-88f0-40c0-984a-3e6c26f4d5e7",
+    "exportedAt": "2026-10-09T07:36:25.413Z",
     "englishLayers": 18,
     "resources": [
-      "assets/page-004/library/25d1aad102e4/pages/004/revisions/8c4759e5-21b5-44b5-a43b-b5baebf262e8/components.css"
+      "assets/page-004/library/25d1aad102e4/pages/004/revisions/3475702b-88f0-40c0-984a-3e6c26f4d5e7/components.css"
     ]
   },
   {
     "sourcePage": 5,
-    "conversionId": "65b1c6b4-fe59-4887-bc35-818c40605c01",
-    "exportedAt": "2026-10-08T13:07:04.805Z",
+    "conversionId": "065d0ed2-022f-4ef1-ba49-1876a6adff23",
+    "exportedAt": "2026-10-09T07:36:25.417Z",
     "englishLayers": 7,
     "resources": [
-      "assets/page-005/library/25d1aad102e4/pages/005/revisions/65b1c6b4-fe59-4887-bc35-818c40605c01/components.css"
+      "assets/page-005/library/25d1aad102e4/pages/005/revisions/065d0ed2-022f-4ef1-ba49-1876a6adff23/components.css"
     ]
   },
   {
     "sourcePage": 6,
-    "conversionId": "1d29e511-1eb4-455b-abf1-441c27e25836",
-    "exportedAt": "2026-10-08T13:07:04.820Z",
+    "conversionId": "c65f66af-a5c1-4f04-831e-8419417592c9",
+    "exportedAt": "2026-10-09T07:36:25.421Z",
     "englishLayers": 7,
     "resources": [
-      "assets/page-006/library/25d1aad102e4/pages/006/revisions/1d29e511-1eb4-455b-abf1-441c27e25836/components.css"
+      "assets/page-006/library/25d1aad102e4/pages/006/revisions/c65f66af-a5c1-4f04-831e-8419417592c9/components.css"
     ]
   },
   {
     "sourcePage": 7,
-    "conversionId": "55b57a26-ddc6-49d7-9731-c45f1e06608c",
-    "publishedAt": "2026-10-08T09:24:59Z",
-    "englishLayers": 17
+    "conversionId": "4f5f17a8-afa9-45fb-98dd-2f572cb482d4",
+    "exportedAt": "2026-10-09T07:36:25.425Z",
+    "englishLayers": 17,
+    "resources": [
+      "assets/page-007/library/25d1aad102e4/pages/007/revisions/4f5f17a8-afa9-45fb-98dd-2f572cb482d4/components.css"
+    ]
   },
   {
     "sourcePage": 8,
-    "conversionId": "5c94255f-39f1-487d-9654-74f4cd475783",
-    "exportedAt": "2026-10-08T15:06:25.926Z",
+    "conversionId": "84ff2e58-17f6-4f86-ad80-f11466288c0c",
+    "exportedAt": "2026-10-09T07:36:25.429Z",
     "englishLayers": 17,
     "resources": [
-      "assets/page-008/library/25d1aad102e4/pages/008/revisions/5c94255f-39f1-487d-9654-74f4cd475783/components.css"
+      "assets/page-008/library/25d1aad102e4/pages/008/revisions/84ff2e58-17f6-4f86-ad80-f11466288c0c/components.css"
     ]
   },
   {
     "sourcePage": 9,
-    "conversionId": "f260d502-0f39-4a75-92a5-4d357995ca67",
-    "exportedAt": "2026-10-08T15:06:26.097Z",
+    "conversionId": "142c51e0-69fc-46f7-9b71-ec6033b373ee",
+    "exportedAt": "2026-10-09T07:36:25.438Z",
     "englishLayers": 7,
     "resources": [
-      "assets/page-009/library/25d1aad102e4/pages/009/revisions/f260d502-0f39-4a75-92a5-4d357995ca67/components.css",
-      "assets/page-009/library/25d1aad102e4/pages/009/revisions/f260d502-0f39-4a75-92a5-4d357995ca67/assets/img-3.webp",
-      "assets/page-009/library/25d1aad102e4/pages/009/revisions/f260d502-0f39-4a75-92a5-4d357995ca67/assets/img-6.webp",
-      "assets/page-009/library/25d1aad102e4/pages/009/revisions/f260d502-0f39-4a75-92a5-4d357995ca67/assets/img-8.webp"
+      "assets/page-009/library/25d1aad102e4/pages/009/revisions/142c51e0-69fc-46f7-9b71-ec6033b373ee/components.css",
+      "assets/page-009/library/25d1aad102e4/pages/009/revisions/7492f1b4-4361-4234-8519-8879d0eb1d37/assets/img-3.webp",
+      "assets/page-009/library/25d1aad102e4/pages/009/revisions/7492f1b4-4361-4234-8519-8879d0eb1d37/assets/img-6.webp",
+      "assets/page-009/library/25d1aad102e4/pages/009/revisions/7492f1b4-4361-4234-8519-8879d0eb1d37/assets/img-8.webp"
     ]
   },
   {
     "sourcePage": 10,
-    "conversionId": "5bc1ff55-09e9-462e-a929-94dcb3228f31",
-    "exportedAt": "2026-10-08T15:36:04.862Z",
+    "conversionId": "b19d978c-8edb-479d-b1ce-86731e1248c8",
+    "exportedAt": "2026-10-09T07:36:25.455Z",
     "englishLayers": 9,
     "resources": [
-      "assets/page-010/library/25d1aad102e4/pages/010/revisions/5bc1ff55-09e9-462e-a929-94dcb3228f31/components.css",
-      "assets/page-010/library/25d1aad102e4/pages/010/revisions/5bc1ff55-09e9-462e-a929-94dcb3228f31/assets/img-0.webp",
-      "assets/page-010/library/25d1aad102e4/pages/010/revisions/5bc1ff55-09e9-462e-a929-94dcb3228f31/assets/img-2.webp",
-      "assets/page-010/library/25d1aad102e4/pages/010/revisions/5bc1ff55-09e9-462e-a929-94dcb3228f31/assets/img-4.webp",
-      "assets/page-010/library/25d1aad102e4/pages/010/revisions/5bc1ff55-09e9-462e-a929-94dcb3228f31/assets/img-7.webp",
-      "assets/page-010/library/25d1aad102e4/pages/010/revisions/5bc1ff55-09e9-462e-a929-94dcb3228f31/assets/img-9.webp",
-      "assets/page-010/library/25d1aad102e4/pages/010/revisions/5bc1ff55-09e9-462e-a929-94dcb3228f31/assets/img-11.webp",
-      "assets/page-010/library/25d1aad102e4/pages/010/revisions/5bc1ff55-09e9-462e-a929-94dcb3228f31/assets/img-13.webp",
-      "assets/page-010/library/25d1aad102e4/pages/010/revisions/5bc1ff55-09e9-462e-a929-94dcb3228f31/assets/img-15.webp"
+      "assets/page-010/library/25d1aad102e4/pages/010/revisions/b19d978c-8edb-479d-b1ce-86731e1248c8/components.css",
+      "assets/page-010/library/25d1aad102e4/pages/010/revisions/7daf70f3-c957-4dff-a9e4-a9c8959ee432/assets/img-0.webp",
+      "assets/page-010/library/25d1aad102e4/pages/010/revisions/7daf70f3-c957-4dff-a9e4-a9c8959ee432/assets/img-2.webp",
+      "assets/page-010/library/25d1aad102e4/pages/010/revisions/7daf70f3-c957-4dff-a9e4-a9c8959ee432/assets/img-4.webp",
+      "assets/page-010/library/25d1aad102e4/pages/010/revisions/7daf70f3-c957-4dff-a9e4-a9c8959ee432/assets/img-7.webp",
+      "assets/page-010/library/25d1aad102e4/pages/010/revisions/7daf70f3-c957-4dff-a9e4-a9c8959ee432/assets/img-9.webp",
+      "assets/page-010/library/25d1aad102e4/pages/010/revisions/7daf70f3-c957-4dff-a9e4-a9c8959ee432/assets/img-11.webp",
+      "assets/page-010/library/25d1aad102e4/pages/010/revisions/7daf70f3-c957-4dff-a9e4-a9c8959ee432/assets/img-13.webp",
+      "assets/page-010/library/25d1aad102e4/pages/010/revisions/7daf70f3-c957-4dff-a9e4-a9c8959ee432/assets/img-15.webp"
     ]
   },
   {
     "sourcePage": 11,
-    "conversionId": "6e3c88be-5968-4ea2-bc5d-e178fd2e357a",
-    "exportedAt": "2026-10-08T15:36:05.055Z",
+    "conversionId": "6ac079af-9c48-4d64-914a-f5ef1cc6d206",
+    "exportedAt": "2026-10-09T07:36:25.459Z",
     "englishLayers": 17,
     "resources": [
-      "assets/page-011/library/25d1aad102e4/pages/011/revisions/6e3c88be-5968-4ea2-bc5d-e178fd2e357a/components.css"
+      "assets/page-011/library/25d1aad102e4/pages/011/revisions/6ac079af-9c48-4d64-914a-f5ef1cc6d206/components.css"
     ]
   },
   {
     "sourcePage": 12,
-    "conversionId": "74635183-92b4-49ec-a09a-88f4ad055e5b",
-    "exportedAt": "2026-10-09T01:51:55.758Z",
+    "conversionId": "91fe9d85-bc14-4d78-ad30-bfda34cd70dc",
+    "exportedAt": "2026-10-09T07:36:25.463Z",
     "englishLayers": 24,
     "resources": [
-      "assets/page-012/library/25d1aad102e4/pages/012/revisions/74635183-92b4-49ec-a09a-88f4ad055e5b/components.css"
+      "assets/page-012/library/25d1aad102e4/pages/012/revisions/91fe9d85-bc14-4d78-ad30-bfda34cd70dc/components.css"
     ]
   },
   {
     "sourcePage": 13,
-    "conversionId": "7d5a1f17-d11d-4368-a31e-2f3289572f4a",
-    "exportedAt": "2026-10-09T01:51:54.494Z",
+    "conversionId": "b3aba4ae-e148-41ed-aaf1-eea9f1ee2ed7",
+    "exportedAt": "2026-10-09T07:36:25.466Z",
     "englishLayers": 28,
     "resources": [
-      "assets/page-013/library/25d1aad102e4/pages/013/revisions/7d5a1f17-d11d-4368-a31e-2f3289572f4a/components.css"
+      "assets/page-013/library/25d1aad102e4/pages/013/revisions/b3aba4ae-e148-41ed-aaf1-eea9f1ee2ed7/components.css"
     ]
   },
   {
     "sourcePage": 14,
-    "conversionId": "bf9e00c8-086e-407a-ac5c-9481aa751554",
-    "exportedAt": "2026-10-09T05:32:38.688Z",
+    "conversionId": "c32ea9f2-cc20-4b42-9f54-17f3eab47a51",
+    "exportedAt": "2026-10-09T07:36:25.471Z",
     "englishLayers": 15,
     "resources": [
-      "assets/page-014/library/25d1aad102e4/pages/014/revisions/bf9e00c8-086e-407a-ac5c-9481aa751554/components.css"
+      "assets/page-014/library/25d1aad102e4/pages/014/revisions/c32ea9f2-cc20-4b42-9f54-17f3eab47a51/components.css"
     ]
   },
   {
     "sourcePage": 15,
-    "conversionId": "296fa3b0-f7c2-479f-b617-b47f34d07748",
-    "exportedAt": "2026-10-09T05:32:35.151Z",
+    "conversionId": "2efed471-a8f6-451f-a427-7cdde9c83297",
+    "exportedAt": "2026-10-09T07:36:25.474Z",
     "englishLayers": 0,
     "resources": [
-      "assets/page-015/library/25d1aad102e4/pages/015/revisions/296fa3b0-f7c2-479f-b617-b47f34d07748/components.css"
+      "assets/page-015/library/25d1aad102e4/pages/015/revisions/2efed471-a8f6-451f-a427-7cdde9c83297/components.css"
+    ]
+  },
+  {
+    "sourcePage": 16,
+    "conversionId": "3e4e34e8-4f8f-4688-9b59-9202d576b336",
+    "exportedAt": "2026-10-09T07:36:25.488Z",
+    "englishLayers": 13,
+    "resources": [
+      "assets/page-016/library/25d1aad102e4/pages/016/revisions/3e4e34e8-4f8f-4688-9b59-9202d576b336/components.css",
+      "assets/page-016/library/25d1aad102e4/audio/1-1.mp3",
+      "assets/page-016/library/25d1aad102e4/cast/8e3bb7d8-9717-40b9-806b-95b77e25cc6c.webp",
+      "assets/page-016/library/25d1aad102e4/cast/c09b63c7-51e7-4176-923f-6133669474ea.webp",
+      "assets/page-016/library/25d1aad102e4/pages/016/clip.mp4",
+      "assets/page-016/library/25d1aad102e4/audio/1-2.mp3"
+    ]
+  },
+  {
+    "sourcePage": 17,
+    "conversionId": "a8a5e19b-ee9f-4c85-ad09-bd3c6e309189",
+    "exportedAt": "2026-10-09T07:36:25.508Z",
+    "englishLayers": 27,
+    "resources": [
+      "assets/page-017/library/25d1aad102e4/pages/017/revisions/a8a5e19b-ee9f-4c85-ad09-bd3c6e309189/components.css",
+      "assets/page-017/library/25d1aad102e4/pages/017/revisions/654c7757-f817-45e6-95f1-79381fbfc977/assets/deco-b5.png",
+      "assets/page-017/library/25d1aad102e4/audio/1-3.mp3",
+      "assets/page-017/library/25d1aad102e4/pages/017/revisions/654c7757-f817-45e6-95f1-79381fbfc977/assets/tip-4.png",
+      "assets/page-017/library/25d1aad102e4/cast/8e3bb7d8-9717-40b9-806b-95b77e25cc6c.webp",
+      "assets/page-017/library/25d1aad102e4/cast/c09b63c7-51e7-4176-923f-6133669474ea.webp",
+      "assets/page-017/library/25d1aad102e4/pages/017/clip.mp4",
+      "assets/page-017/library/25d1aad102e4/audio/1-4.mp3"
+    ]
+  },
+  {
+    "sourcePage": 18,
+    "conversionId": "08da979b-03d1-45eb-81c0-77c617a4d8ef",
+    "exportedAt": "2026-10-09T07:36:27.580Z",
+    "englishLayers": 18,
+    "resources": [
+      "assets/page-018/library/25d1aad102e4/pages/018/revisions/08da979b-03d1-45eb-81c0-77c617a4d8ef/components.css",
+      "assets/page-018/library/25d1aad102e4/audio/1-5.mp3",
+      "assets/page-018/library/25d1aad102e4/pages/018/clip.mp4",
+      "assets/page-018/library/25d1aad102e4/cast/c09b63c7-51e7-4176-923f-6133669474ea.webp",
+      "assets/page-018/library/25d1aad102e4/cast/8e3bb7d8-9717-40b9-806b-95b77e25cc6c.webp",
+      "assets/page-018/library/25d1aad102e4/audio/1-6.mp3"
+    ]
+  },
+  {
+    "sourcePage": 19,
+    "conversionId": "f5d76344-eb0a-4802-a955-2bba34713338",
+    "exportedAt": "2026-10-09T07:36:27.615Z",
+    "englishLayers": 7,
+    "resources": [
+      "assets/page-019/library/25d1aad102e4/pages/019/revisions/f5d76344-eb0a-4802-a955-2bba34713338/components.css",
+      "assets/page-019/library/25d1aad102e4/pages/019/revisions/810eeb73-95b2-45ff-b1ef-fb0f03ca376d/assets/deco-b4.png",
+      "assets/page-019/library/25d1aad102e4/pages/019/revisions/810eeb73-95b2-45ff-b1ef-fb0f03ca376d/assets/deco-0.png",
+      "assets/page-019/library/25d1aad102e4/pages/019/revisions/810eeb73-95b2-45ff-b1ef-fb0f03ca376d/assets/deco-1.png",
+      "assets/page-019/library/25d1aad102e4/pages/019/revisions/810eeb73-95b2-45ff-b1ef-fb0f03ca376d/assets/tip-3.png",
+      "assets/page-019/library/25d1aad102e4/pages/019/revisions/810eeb73-95b2-45ff-b1ef-fb0f03ca376d/assets/surface-5.webp",
+      "assets/page-019/library/25d1aad102e4/pages/019/revisions/810eeb73-95b2-45ff-b1ef-fb0f03ca376d/assets/sec-5.png",
+      "assets/page-019/library/25d1aad102e4/pages/019/revisions/810eeb73-95b2-45ff-b1ef-fb0f03ca376d/assets/bon-6.webp"
+    ]
+  },
+  {
+    "sourcePage": 20,
+    "conversionId": "d387e02e-29d7-4c0b-8dbc-23a20b1adbe4",
+    "exportedAt": "2026-10-09T07:36:27.629Z",
+    "englishLayers": 9,
+    "resources": [
+      "assets/page-020/library/25d1aad102e4/pages/020/revisions/d387e02e-29d7-4c0b-8dbc-23a20b1adbe4/components.css",
+      "assets/page-020/library/25d1aad102e4/audio/2-1.mp3",
+      "assets/page-020/library/25d1aad102e4/pages/020/clip.mp4"
+    ]
+  },
+  {
+    "sourcePage": 21,
+    "conversionId": "eb5602e6-11ce-4ec1-9188-dfb10e02c603",
+    "exportedAt": "2026-10-09T07:36:27.650Z",
+    "englishLayers": 20,
+    "resources": [
+      "assets/page-021/library/25d1aad102e4/pages/021/revisions/eb5602e6-11ce-4ec1-9188-dfb10e02c603/components.css",
+      "assets/page-021/library/25d1aad102e4/pages/021/revisions/946a812b-6e37-4012-9de0-0dab65d9384e/assets/deco-b9.png",
+      "assets/page-021/library/25d1aad102e4/cast/8e3bb7d8-9717-40b9-806b-95b77e25cc6c.webp",
+      "assets/page-021/library/25d1aad102e4/cast/3ca8117d-a771-438b-ba43-43a168cc635a.webp",
+      "assets/page-021/library/25d1aad102e4/pages/021/clip.mp4",
+      "assets/page-021/library/25d1aad102e4/pages/021/revisions/946a812b-6e37-4012-9de0-0dab65d9384e/assets/tip-3.png",
+      "assets/page-021/library/25d1aad102e4/audio/2-2.mp3",
+      "assets/page-021/library/25d1aad102e4/pages/021/revisions/946a812b-6e37-4012-9de0-0dab65d9384e/assets/img-8.webp"
+    ]
+  },
+  {
+    "sourcePage": 22,
+    "conversionId": "cdceb107-d2c7-4077-a9d4-821e02cd6027",
+    "exportedAt": "2026-10-09T07:36:27.673Z",
+    "englishLayers": 23,
+    "resources": [
+      "assets/page-022/library/25d1aad102e4/pages/022/revisions/cdceb107-d2c7-4077-a9d4-821e02cd6027/components.css",
+      "assets/page-022/library/25d1aad102e4/pages/022/revisions/e7b5484a-de24-40d7-82da-0ef1ee98c437/assets/deco-b8.png",
+      "assets/page-022/library/25d1aad102e4/audio/2-3.mp3",
+      "assets/page-022/library/25d1aad102e4/pages/022/clip.mp4",
+      "assets/page-022/library/25d1aad102e4/cast/3ca8117d-a771-438b-ba43-43a168cc635a.webp",
+      "assets/page-022/library/25d1aad102e4/cast/c4ce74ef-08d4-43fc-a514-b76ebfdd3bb9.webp",
+      "assets/page-022/library/25d1aad102e4/audio/2-4.mp3",
+      "assets/page-022/library/25d1aad102e4/pages/022/revisions/e7b5484a-de24-40d7-82da-0ef1ee98c437/assets/tip-7.png"
+    ]
+  },
+  {
+    "sourcePage": 23,
+    "conversionId": "7bdda988-22d0-4388-a26e-e5a0ee96b0d2",
+    "exportedAt": "2026-10-09T07:36:27.698Z",
+    "englishLayers": 14,
+    "resources": [
+      "assets/page-023/library/25d1aad102e4/pages/023/revisions/7bdda988-22d0-4388-a26e-e5a0ee96b0d2/components.css",
+      "assets/page-023/library/25d1aad102e4/pages/023/revisions/af6be22e-0a2c-4b77-8667-b73894f6f788/assets/deco-b12.png",
+      "assets/page-023/library/25d1aad102e4/pages/023/revisions/af6be22e-0a2c-4b77-8667-b73894f6f788/assets/deco-0.png",
+      "assets/page-023/library/25d1aad102e4/pages/023/revisions/af6be22e-0a2c-4b77-8667-b73894f6f788/assets/surface-1.webp",
+      "assets/page-023/library/25d1aad102e4/pages/023/revisions/af6be22e-0a2c-4b77-8667-b73894f6f788/assets/sec-1.png",
+      "assets/page-023/library/25d1aad102e4/audio/2-5.mp3",
+      "assets/page-023/library/25d1aad102e4/pages/023/revisions/af6be22e-0a2c-4b77-8667-b73894f6f788/assets/tip-11.png",
+      "assets/page-023/library/25d1aad102e4/cast/c358e2f9-1bc0-4668-81e5-44a954fc1f01.webp",
+      "assets/page-023/library/25d1aad102e4/cast/c4ce74ef-08d4-43fc-a514-b76ebfdd3bb9.webp",
+      "assets/page-023/library/25d1aad102e4/pages/023/clip.mp4"
+    ]
+  },
+  {
+    "sourcePage": 24,
+    "conversionId": "b4635964-5a85-40d8-a0b7-084f6b96958e",
+    "exportedAt": "2026-10-09T07:36:27.723Z",
+    "englishLayers": 16,
+    "resources": [
+      "assets/page-024/library/25d1aad102e4/pages/024/revisions/b4635964-5a85-40d8-a0b7-084f6b96958e/components.css",
+      "assets/page-024/library/25d1aad102e4/audio/2-6.mp3",
+      "assets/page-024/library/25d1aad102e4/pages/024/revisions/003725d9-12b8-4f7e-83eb-a233f3a42bfd/assets/surface-6.webp",
+      "assets/page-024/library/25d1aad102e4/pages/024/revisions/003725d9-12b8-4f7e-83eb-a233f3a42bfd/assets/sec-6.png"
+    ]
+  },
+  {
+    "sourcePage": 25,
+    "conversionId": "01a729a7-b18f-4ef4-9564-4c0c1c51d3a7",
+    "exportedAt": "2026-10-09T07:36:27.740Z",
+    "englishLayers": 10,
+    "resources": [
+      "assets/page-025/library/25d1aad102e4/pages/025/revisions/01a729a7-b18f-4ef4-9564-4c0c1c51d3a7/components.css",
+      "assets/page-025/library/25d1aad102e4/audio/3-1.mp3",
+      "assets/page-025/library/25d1aad102e4/cast/c358e2f9-1bc0-4668-81e5-44a954fc1f01.webp",
+      "assets/page-025/library/25d1aad102e4/cast/c4ce74ef-08d4-43fc-a514-b76ebfdd3bb9.webp",
+      "assets/page-025/library/25d1aad102e4/pages/025/clip.mp4"
+    ]
+  },
+  {
+    "sourcePage": 26,
+    "conversionId": "37513169-d556-4dd9-ab87-a7e8e528f5ac",
+    "exportedAt": "2026-10-09T07:36:27.754Z",
+    "englishLayers": 20,
+    "resources": [
+      "assets/page-026/library/25d1aad102e4/pages/026/revisions/37513169-d556-4dd9-ab87-a7e8e528f5ac/components.css",
+      "assets/page-026/library/25d1aad102e4/pages/026/revisions/c1068773-08ea-45df-8503-0fbe1252cd67/assets/deco-0.png",
+      "assets/page-026/library/25d1aad102e4/audio/3-2.mp3",
+      "assets/page-026/library/25d1aad102e4/pages/026/revisions/c1068773-08ea-45df-8503-0fbe1252cd67/assets/surface-4.webp",
+      "assets/page-026/library/25d1aad102e4/pages/026/revisions/c1068773-08ea-45df-8503-0fbe1252cd67/assets/sec-4.png"
+    ]
+  },
+  {
+    "sourcePage": 27,
+    "conversionId": "14298476-00ec-40a4-9b78-029889777c31",
+    "exportedAt": "2026-10-09T07:36:27.773Z",
+    "englishLayers": 13,
+    "resources": [
+      "assets/page-027/library/25d1aad102e4/pages/027/revisions/14298476-00ec-40a4-9b78-029889777c31/components.css",
+      "assets/page-027/library/25d1aad102e4/pages/027/revisions/e3f651c3-f606-492a-9adc-9e81cf2a66df/assets/deco-b13.png",
+      "assets/page-027/library/25d1aad102e4/audio/3-3.mp3",
+      "assets/page-027/library/25d1aad102e4/pages/027/revisions/e3f651c3-f606-492a-9adc-9e81cf2a66df/assets/tip-12.png",
+      "assets/page-027/library/25d1aad102e4/cast/6708a043-2fe1-47c0-836c-41790d95b4ca.webp",
+      "assets/page-027/library/25d1aad102e4/cast/3ca8117d-a771-438b-ba43-43a168cc635a.webp",
+      "assets/page-027/library/25d1aad102e4/pages/027/clip.mp4"
+    ]
+  },
+  {
+    "sourcePage": 29,
+    "conversionId": "004aa04a-5da0-4b88-aeca-ac3bb64da889",
+    "exportedAt": "2026-10-09T07:36:27.813Z",
+    "englishLayers": 32,
+    "resources": [
+      "assets/page-029/library/25d1aad102e4/pages/029/revisions/004aa04a-5da0-4b88-aeca-ac3bb64da889/components.css",
+      "assets/page-029/library/25d1aad102e4/pages/029/revisions/1b15ea7e-0551-47b0-8711-c61be724f50b/assets/deco-b2.png",
+      "assets/page-029/library/25d1aad102e4/pages/029/revisions/1b15ea7e-0551-47b0-8711-c61be724f50b/assets/deco-b3.png",
+      "assets/page-029/library/25d1aad102e4/pages/029/revisions/1b15ea7e-0551-47b0-8711-c61be724f50b/assets/deco-b4.png",
+      "assets/page-029/library/25d1aad102e4/pages/029/revisions/1b15ea7e-0551-47b0-8711-c61be724f50b/assets/deco-b5.png",
+      "assets/page-029/library/25d1aad102e4/pages/029/revisions/1b15ea7e-0551-47b0-8711-c61be724f50b/assets/deco-b6.png",
+      "assets/page-029/library/25d1aad102e4/pages/029/revisions/1b15ea7e-0551-47b0-8711-c61be724f50b/assets/deco-b7.png",
+      "assets/page-029/library/25d1aad102e4/pages/029/revisions/1b15ea7e-0551-47b0-8711-c61be724f50b/assets/deco-0.png",
+      "assets/page-029/library/25d1aad102e4/cast/f3889987-373a-439d-a347-78c00dbd82ca.webp",
+      "assets/page-029/library/25d1aad102e4/cast/8e3bb7d8-9717-40b9-806b-95b77e25cc6c.webp",
+      "assets/page-029/library/25d1aad102e4/audio/3-6.mp3",
+      "assets/page-029/library/25d1aad102e4/pages/029/revisions/1b15ea7e-0551-47b0-8711-c61be724f50b/assets/sec-11.png"
+    ]
+  },
+  {
+    "sourcePage": 30,
+    "conversionId": "d72b0f11-7652-4f84-984e-fd23f0fcde50",
+    "exportedAt": "2026-10-09T07:36:27.822Z",
+    "englishLayers": 15,
+    "resources": [
+      "assets/page-030/library/25d1aad102e4/pages/030/revisions/d72b0f11-7652-4f84-984e-fd23f0fcde50/components.css",
+      "assets/page-030/library/25d1aad102e4/pages/030/revisions/e604a2f9-bffc-4f9f-b8c2-c95eb025ac70/assets/img-13.webp",
+      "assets/page-030/library/25d1aad102e4/pages/030/revisions/e604a2f9-bffc-4f9f-b8c2-c95eb025ac70/assets/img-15.webp"
+    ]
+  },
+  {
+    "sourcePage": 32,
+    "conversionId": "e9583ca9-344c-4039-8447-f26c15a60ce2",
+    "exportedAt": "2026-10-09T07:36:27.837Z",
+    "englishLayers": 13,
+    "resources": [
+      "assets/page-032/library/25d1aad102e4/pages/032/revisions/e9583ca9-344c-4039-8447-f26c15a60ce2/components.css",
+      "assets/page-032/library/25d1aad102e4/pages/032/revisions/f5aa653a-adc6-4ac6-a45f-3a9af48347a9/assets/deco-b3.png",
+      "assets/page-032/library/25d1aad102e4/pages/032/revisions/f5aa653a-adc6-4ac6-a45f-3a9af48347a9/assets/deco-b4.png",
+      "assets/page-032/library/25d1aad102e4/pages/032/revisions/f5aa653a-adc6-4ac6-a45f-3a9af48347a9/assets/deco-0.png",
+      "assets/page-032/library/25d1aad102e4/pages/032/revisions/f5aa653a-adc6-4ac6-a45f-3a9af48347a9/assets/deco-1.png",
+      "assets/page-032/library/25d1aad102e4/pages/032/revisions/f5aa653a-adc6-4ac6-a45f-3a9af48347a9/assets/deco-2.png",
+      "assets/page-032/library/25d1aad102e4/pages/032/revisions/f5aa653a-adc6-4ac6-a45f-3a9af48347a9/assets/deco-3.png"
+    ]
+  },
+  {
+    "sourcePage": 33,
+    "conversionId": "6ef4ee2d-c1eb-41a6-b7fc-44a85a21e3f7",
+    "exportedAt": "2026-10-09T07:36:27.852Z",
+    "englishLayers": 8,
+    "resources": [
+      "assets/page-033/library/25d1aad102e4/pages/033/revisions/6ef4ee2d-c1eb-41a6-b7fc-44a85a21e3f7/components.css",
+      "assets/page-033/library/25d1aad102e4/pages/033/revisions/7dba894f-aae6-4ce5-be71-fa89bdbdc446/assets/img-4.webp",
+      "assets/page-033/library/25d1aad102e4/pages/033/revisions/7dba894f-aae6-4ce5-be71-fa89bdbdc446/assets/img-5.webp",
+      "assets/page-033/library/25d1aad102e4/pages/033/revisions/7dba894f-aae6-4ce5-be71-fa89bdbdc446/assets/img-6.webp",
+      "assets/page-033/library/25d1aad102e4/pages/033/revisions/7dba894f-aae6-4ce5-be71-fa89bdbdc446/assets/img-7.webp",
+      "assets/page-033/library/25d1aad102e4/pages/033/revisions/7dba894f-aae6-4ce5-be71-fa89bdbdc446/assets/img-8.webp",
+      "assets/page-033/library/25d1aad102e4/pages/033/revisions/7dba894f-aae6-4ce5-be71-fa89bdbdc446/assets/img-9.webp"
+    ]
+  },
+  {
+    "sourcePage": 39,
+    "conversionId": "4a37c9fe-ee67-4ef5-b868-9f83a093062a",
+    "exportedAt": "2026-10-09T07:36:27.884Z",
+    "englishLayers": 14,
+    "resources": [
+      "assets/page-039/library/25d1aad102e4/pages/039/revisions/4a37c9fe-ee67-4ef5-b868-9f83a093062a/components.css",
+      "assets/page-039/library/25d1aad102e4/pages/039/revisions/d6bcaf1b-1df6-4175-b601-ddace2d105eb/assets/deco-b9.png",
+      "assets/page-039/library/25d1aad102e4/pages/039/revisions/d6bcaf1b-1df6-4175-b601-ddace2d105eb/assets/deco-b11.png",
+      "assets/page-039/library/25d1aad102e4/audio/4-5.mp3",
+      "assets/page-039/library/25d1aad102e4/cast/e10673c8-501e-4b7f-9e7b-25bda91f4308.webp",
+      "assets/page-039/library/25d1aad102e4/cast/f3889987-373a-439d-a347-78c00dbd82ca.webp",
+      "assets/page-039/library/25d1aad102e4/pages/039/revisions/d6bcaf1b-1df6-4175-b601-ddace2d105eb/assets/img-7.webp",
+      "assets/page-039/library/25d1aad102e4/pages/039/revisions/d6bcaf1b-1df6-4175-b601-ddace2d105eb/assets/tip-8.png"
+    ]
+  },
+  {
+    "sourcePage": 42,
+    "conversionId": "8837bb94-a821-474f-99f6-692354431d65",
+    "exportedAt": "2026-10-09T07:36:27.918Z",
+    "englishLayers": 7,
+    "resources": [
+      "assets/page-042/library/25d1aad102e4/pages/042/revisions/8837bb94-a821-474f-99f6-692354431d65/components.css",
+      "assets/page-042/library/25d1aad102e4/pages/042/revisions/937b094c-ca1a-4ee1-a469-7e4af5ff10e8/assets/deco-b1.png",
+      "assets/page-042/library/25d1aad102e4/pages/042/revisions/937b094c-ca1a-4ee1-a469-7e4af5ff10e8/assets/img-5.webp",
+      "assets/page-042/library/25d1aad102e4/pages/042/revisions/937b094c-ca1a-4ee1-a469-7e4af5ff10e8/assets/img-6.webp",
+      "assets/page-042/library/25d1aad102e4/pages/042/revisions/937b094c-ca1a-4ee1-a469-7e4af5ff10e8/assets/img-7.webp",
+      "assets/page-042/library/25d1aad102e4/pages/042/revisions/937b094c-ca1a-4ee1-a469-7e4af5ff10e8/assets/img-8.webp",
+      "assets/page-042/library/25d1aad102e4/pages/042/revisions/937b094c-ca1a-4ee1-a469-7e4af5ff10e8/assets/img-9.webp",
+      "assets/page-042/library/25d1aad102e4/pages/042/revisions/937b094c-ca1a-4ee1-a469-7e4af5ff10e8/assets/img-10.webp"
     ]
   }
 ]

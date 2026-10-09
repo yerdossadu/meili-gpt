@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {localizeLayout,validatePage,layoutFromOcr} from './page-contract.mjs';
+import {localizeLayout,validatePage,validatePageRevision,layoutFromOcr} from './page-contract.mjs';
 import {render} from './core.mjs';
 const page={width:1000,height:1400};
 const block={type:'para',box:{x:.1,y:.2,w:.8,h:.1},cn:'你好',en:'Hello',ru:'Привет'};
@@ -33,4 +33,12 @@ test('single phonetic symbols are retained as visible text in an unresolved loca
 test('invalid geometry and rasterized educational text fail validation',()=>{
  const layout=localizeLayout({page,blocks:[{...block,box:{...block.box,w:-1},rasterizedText:true}]},null);
  assert.equal(validatePage(layout).errors.length,2);
+});
+test('a legacy partial Kazakh page allows geometry repair but cannot lose an existing translation',()=>{
+ const other={...block,cn:'再见',en:'Goodbye',ru:'До свидания',box:{...block.box,y:.4}};
+ const before=localizeLayout({page,blocks:[block,other],kz:{'Привет':'Сәлем'}},null);
+ const after=localizeLayout({...before,blocks:before.blocks.map(b=>({...b,box:{...b.box,x:.12}}))},before);
+ const valid=validatePageRevision(after,before);assert.equal(valid.state,'passed');assert.equal(valid.languageCoverage.kz.missing.length,1);
+ delete after.kz['Привет'];delete after.blocks[0].translations.ru.kk;
+ assert.equal(validatePageRevision(after,before).state,'failed');
 });

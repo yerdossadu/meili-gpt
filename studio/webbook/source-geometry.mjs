@@ -8,6 +8,15 @@ const union = boxes => {
 const red = p => p[0] > 115 && p[0] > p[1] * 1.3 && p[0] > p[2] * 1.25;
 const beige = p => p[0] > 218 && p[1] > 205 && p[2] > 180 && p[0] - p[2] > 9 && p[0] - p[1] < 20;
 const hasHan = s => /\p{Script=Han}/u.test(s);
+export function measureBilingualWordRow(b,lines){
+ const m=/^([\p{Script=Han}]{1,4})\s+([\p{Script=Latin}\s]+?)\s+([\p{Script=Han}].*)$/u.exec(b.cn||'');
+ if(b.type!=='text'||!m||!b.en||!b.ru)return;
+ const clean=s=>String(s).replace(/[\s\p{P}]/gu,'').toLowerCase(),q=b.box,near=lines.filter(l=>Math.abs(l.box.y-q.y)<.02);
+ const locate=text=>{const exact=near.find(l=>clean(l.text)===clean(text));if(exact)return exact;const needle=clean(text),line=near.find(l=>clean(l.text).includes(needle));if(!line)return;const whole=clean(line.text),i=whole.indexOf(needle),units=s=>[...s].reduce((n,c)=>n+(hasHan(c)?1:.5),0),u=units(whole);return{text,box:{...line.box,x:line.box.x+line.box.w*units(whole.slice(0,i))/u,w:line.box.w*units(needle)/u},estimatedFrom:'combined OCR line'};};
+ const hz=locate(m[1]),py=locate(m[2]),en=locate(b.en),definition=locate(m[3]);
+ if(!hz||!py||!en||!definition)return;
+ return{wordRow:{hz:m[1],py:m[2],definition:m[3],hzBox:hz.box,pyBox:py.box,definitionBox:definition.box,translationBox:{...en.box,w:Math.max(en.box.w,q.x+q.w-en.box.x)},font:Math.max(hz.box.h,definition.box.h)},box:union([q,hz.box,py.box,definition.box,en.box])};
+}
 
 export function hasPrintedCardFrame(box, grid) {
   const g=grid.hi||grid.raw||grid;let rows=0;
@@ -83,6 +92,16 @@ function texture(grid, box) {
 }
 
 export function measurePrintedGeometry(block, grid, lines, page) {
+  if(block.type==='section'&&!block.avatar){
+    const compact=s=>String(s||'').replace(/[\s\p{P}]/gu,'').toLowerCase();
+    const near=lines.filter(l=>Math.abs(l.box.y-block.box.y)<.045);
+    const cn=near.find(l=>hasHan(l.text)&&compact(l.text)===compact(block.cn));
+    const en=near.find(l=>block.en&&compact(l.text)===compact(block.en));
+    if(cn&&en){const g=grid.hi||grid.raw||grid,q=union([cn.box,en.box]);let coloured=0,total=0;
+      for(let y=Math.max(0,Math.floor((q.y-.004)*g.H));y<Math.min(g.H,(q.y+q.h+.004)*g.H);y+=2)for(let x=Math.max(0,Math.floor(q.x*g.W));x<Math.min(g.W,(q.x+q.w)*g.W);x+=2){total++;if(red(g.at(x,y)))coloured++;}
+      if(coloured/Math.max(1,total)<.01)return{box:q,printed:{kind:'plain-section',cnBox:cn.box,enBox:en.box,cnSize:cn.box.h*page.height/page.width*85,enSize:en.box.h*page.height/page.width*78}};
+    }
+  }
   if(block.type==='para'&&/^[(（]\d+[)）]$/.test(block.number||'')){
     const q=block.box,g=grid.raw||grid;let coloured=0,dark=0;
     for(let y=Math.floor(q.y*g.H);y<(q.y+q.h)*g.H&&y<g.H;y++)for(let x=Math.floor(q.x*g.W);x<(q.x+q.w)*g.W&&x<g.W;x++){const p=g.at(x,y);if(red(p))coloured++;else if(Math.max(...p)<150)dark++;}
@@ -105,13 +124,14 @@ export function measurePrintedGeometry(block, grid, lines, page) {
     if(graphic&&graphic.box.w<.09&&graphic.box.h<.065)return {box:graphic.box,printed:{kind:'folio',graphic:graphic.path,grid:[grid.W,grid.H]}};
   }
   if (block.type === 'runhead' && block.cn && block.en && block.box.y < .08) {
-    const near=lines.filter(l=>l.box.y<.08), cn=near.find(l=>hasHan(l.text)), en=near.find(l=>l.text.toLowerCase().includes(block.en.toLowerCase()));
+    const near=lines.filter(l=>l.box.y<.08), cn=near.find(l=>hasHan(l.text)), squash=s=>String(s||'').toLowerCase().replace(/\s|\d/g,''), en=near.find(l=>squash(l.text)===squash(block.en));
     if(!cn||!en)return null;
     const graphic=surface(grid.raw||grid,{x:0,y:0,w:en.box.x,h:.065},red,Math.round(grid.W*.04));
     if(!graphic||graphic.box.w<.1)return null;
     const ratio=page.width/page.height;
     const units=[...block.cn].reduce((n,c)=>n+(hasHan(c)?1:/\s/.test(c)?.3:.6),0);
-    return {box:union([graphic.box,cn.box,en.box]),printed:{kind:'runhead',graphic:graphic.path,grid:[grid.W,grid.H],cnBox:cn.box,enBox:en.box,pyLines:[],cnSize:Math.min(cn.box.h/ratio*100*.88,cn.box.w*100/units),enSize:en.box.h/ratio*100*.92,texture:texture(grid.raw||grid,graphic.box)}};
+    const corrected=/HSK/i.test(cn.text)&&squash(cn.text)===squash(block.cn)?{cn:cn.text,en:en.text}:{};
+    return {...corrected,box:union([graphic.box,cn.box,en.box]),printed:{kind:'runhead',graphic:graphic.path,grid:[grid.W,grid.H],cnBox:cn.box,enBox:en.box,pyLines:[],cnSize:Math.min(cn.box.h/ratio*100*.88,cn.box.w*100/units),enSize:en.box.h/ratio*100*.92,texture:texture(grid.raw||grid,graphic.box)}};
   }
   if (!['lesson', 'section'].includes(block.type) || (block.type === 'section' && !block.avatar)) return null;
   if (block.type === 'lesson' && block.label) return null;
@@ -182,7 +202,7 @@ export function measureTextTable(block,grid) {
   }
   const header={x:x0/W,y:top/H,w:(x1-x0)/W,h:(bottom-top)/H};
   const horizontalRules=[];
-  if(splits.length===1){const start=splits[0],span=x1/W-start;for(let y=Math.round((header.y+header.h+.015)*hi.H);y<(end-.01)*hi.H;y++){let hit=0,total=0;for(let x=Math.round((start+.004)*hi.W);x<(x1/W-.004)*hi.W;x++){total++;if(pink(hi.at(x,y)))hit++;}if(hit/Math.max(1,total)>.85&&(!horizontalRules.length||y/hi.H-horizontalRules.at(-1).y>.008))horizontalRules.push({x:start,y:y/hi.H,w:span});}}
+  if(splits.length){const start=splits.length===1?splits[0]:x0/W,span=x1/W-start;for(let y=Math.round((header.y+header.h+.015)*hi.H);y<(end-.01)*hi.H;y++){let hit=0,total=0;for(let x=Math.round((start+.004)*hi.W);x<(x1/W-.004)*hi.W;x++){total++;if(pink(hi.at(x,y)))hit++;}if(hit/Math.max(1,total)>.85&&(!horizontalRules.length||y/hi.H-horizontalRules.at(-1).y>.008))horizontalRules.push({x:start,y:y/hi.H,w:span});}}
   return {box:union([b,{x:header.x,y:header.y,w:header.w,h:end-header.y}]),textTable:{header,frame:{x:header.x,y:header.y,w:header.w,h:end-header.y},splits,horizontalRules,texture:texture(g,header)}};
 }
 

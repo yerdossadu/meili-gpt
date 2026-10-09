@@ -27,7 +27,12 @@ export function measureCharacterPage(layout,grid,lines){
    for(const g of groups)g.text=g.tokens.sort((a,b)=>a.box.x-b.box.x).map(t=>t.text).join(lang==='cn'?'':' ');
    return nativeLines(text,groups)||[];
   };
-  const en=groupsFor(b.en,'en');if(en.length)cnLimit=en[0].box.y;const cn=groupsFor(b.cn.replace(/\s/g,''),'cn');if(!cn.length||!en.length)continue;
+  const en=groupsFor(b.en,'en');if(en.length)cnLimit=en[0].box.y;
+  // Paragraph snapping can move its outer box below the indented first
+  // line. Reuse the already source-proven lines rather than appending that
+  // missing prefix to the next OCR row and making one giant text line.
+  const proven=b.printedCnLines,cn=proven?.length&&clean(proven.map(l=>l.text).join(''))===clean(b.cn)?proven:groupsFor(b.cn.replace(/\s/g,''),'cn');
+  if(!cn.length||!en.length)continue;
   const heading=b===title||b.size==='l',bounds=union([...cn,...en].map(l=>l.box)),translationBox=union(en.map(l=>l.box));
   if(heading&&b!==title)translationBox.w=Math.max(translationBox.w,.36);
   if(!heading)translationBox.w=Math.max(translationBox.w,.845-translationBox.x);

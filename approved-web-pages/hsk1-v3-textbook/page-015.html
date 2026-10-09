@@ -7,14 +7,14 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400;0,700;1,400&family=Noto+Sans+SC:wght@400;700&family=Noto+Serif+SC:wght@500;700&family=Tinos:ital,wght@0,400;0,700;1,400;1,700&display=swap">
-<link rel="stylesheet" href="assets/page-015/library/25d1aad102e4/pages/015/revisions/296fa3b0-f7c2-479f-b617-b47f34d07748/components.css">
+<link rel="stylesheet" href="assets/page-015/library/25d1aad102e4/pages/015/revisions/2efed471-a8f6-451f-a427-7cdde9c83297/components.css">
 </head>
 <body class="wb-body">
 <div class="wb-controls" role="group" aria-label="Язык страницы">
   <button type="button" data-lang="orig">Оригинал</button><button type="button" data-lang="ru" aria-pressed="true">Русский</button><button type="button" data-lang="en">English</button><button type="button" data-lang="kz">Қазақша</button><button type="button" data-pinyin aria-pressed="true">Пиньинь</button>
 </div>
 <main class="wb-sheet">
-<div class="hsk-page" data-conversion-id="296fa3b0-f7c2-479f-b617-b47f34d07748" data-lang="ru" data-pinyin="on" style="aspect-ratio:2342/3190;background:#ffffff;"></div>
+<div class="hsk-page" data-conversion-id="2efed471-a8f6-451f-a427-7cdde9c83297" data-lang="ru" data-pinyin="on" style="aspect-ratio:2342/3190;background:#ffffff;"></div>
 </main>
 
 <script>
@@ -39,7 +39,7 @@ function fit(page) {
   const all = [...page.querySelectorAll(':scope > .hsk-at:not(.hsk-background):not(.hsk-deco):not(.hsk-tip-avatar):not(.hsk-sec-avatar)')].filter(el => el.offsetParent !== null);
   // Measured Chinese-only parts keep their print size.
   // (The bonus panel is measured part by part, and its picture may stand out of it.)
-  const blocks = all.filter(el => !el.matches('img, .hsk-photo, .hsk-folio, .hsk-dialogue-exact, .hsk-runhead, .hsk-bonus, [data-hsk-manual]'));
+  const blocks = all.filter(el => !el.matches('img, .hsk-photo, .hsk-folio, .hsk-folio-measured, .hsk-foreword-folio, .hsk-dialogue-exact, .hsk-runhead, .hsk-bonus, [data-hsk-manual]'));
   blocks.forEach(el => { setZ(el, ''); el.removeAttribute('data-hsk-overflow'); });
   const pageRect = page.getBoundingClientRect();
   const rects = new Map(all.map(el => [el, el.getBoundingClientRect()]));

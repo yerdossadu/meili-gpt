@@ -8,14 +8,15 @@
 // scan. The model never produces HTML; pages are drawn from fixed components
 // (components.css) so every page of the book shares one design system.
 
-import { measurePrintedGeometry, hasPrintedCardFrame, printedCardBounds, measureCaptionFrame, measureTextTable, restorePhoneticTokens, printedParagraphLines } from './source-geometry.mjs';
+import { measurePrintedGeometry, hasPrintedCardFrame, printedCardBounds, measureCaptionFrame, measureTextTable, restorePhoneticTokens, printedParagraphLines,measureBilingualWordRow } from './source-geometry.mjs';
 import { measureTitlePage } from './title-page.mjs';
 import { measureImprintPage } from './imprint-page.mjs';
 import { measureCreditsPage } from './credits-page.mjs';
 import { measureForewordPage } from './foreword-page.mjs';
 import { measureCharacterPage } from './character-page.mjs';
 import { measureClassroomPage } from './classroom-page.mjs';
-import {blankEvidence,measurePhraseGrid,measureSandhiTable,alignMatchingStrip} from './phonetic-tasks.mjs';
+import {blankEvidence,measurePhraseGrid,measureNumberedPhonetics,measureSandhiTable,alignMatchingStrip} from './phonetic-tasks.mjs';
+import {dialoguePresentation} from './dialogue-presentation.mjs';
 export {blankEvidence} from './phonetic-tasks.mjs';
 import { measureContentsPage } from './contents-page.mjs';
 import {wordLabels,phoneticPhraseLabels} from './word-labels.mjs';
@@ -150,6 +151,10 @@ export function normalize(parsed, scale = { sx: 1, sy: 1 }) {
     if (type === 'objectives') Object.assign(b, { heading: tri(raw.heading), items: (raw.items || []).slice(0, 8).map(tri) });
     if(raw.toneAnswers)b.toneAnswers=true;if(raw.matchingInput)b.matchingInput=true;if(raw.dialogueOptions)b.dialogueOptions=raw.dialogueOptions;
     if (type === 'para') Object.assign(b, { icon: ['pin', 'square'].includes(raw.icon) ? raw.icon : 'none', track: str(raw.track), number: str(raw.number) });
+    // Some model responses duplicate complete English print rows in `cn`.
+    // Remove only a Latin-only line already present verbatim in `en`;
+    // names such as AI and genuinely mixed Chinese lines stay intact.
+    if(raw.cn?.includes('\n')&&b.en){const clean=s=>s.trim().replace(/\s+/g,' ');const en=clean(b.en);b.cn=zhPunct(raw.cn.split('\n').filter(line=>!(/[A-Za-z]/.test(line)&&!/[\p{Script=Han}]/u.test(line)&&en.includes(clean(line)))).join('\n'));}
     if (type === 'tip') Object.assign(b, { label: tri(raw.label), avatar: normBox(raw.avatar, scale) });
     if (type === 'section') Object.assign(b, { track: str(raw.track), avatar: normBox(raw.avatar, scale) });
     if (type === 'bonus') b.image = normBox(raw.image, scale);
@@ -1177,6 +1182,9 @@ function extendPicture(grid, box, fill, bg, panel) {
 // Re-measure every block against the scan. Returns a new layout with exact
 // boxes, per-block fill colours and font scales, and the page theme.
 export function snap(layout, grid, ocr) {
+  // Resolve semantic photo labels before edge detection can shrink a pale
+  // photograph away from the label printed under it.
+  layout=attachInteractiveCaptions(layout);
   const empty=blankEvidence(grid,ocr?.lines||[]);if(!layout.blocks.length&&empty.blank)return{...layout,blankPage:true,blankEvidence:empty,decorations:[],ocrLines:0,theme:{paper:'#ffffff'}};
   const lines = ocrLinesOf(ocr), hits = assignLines(layout.blocks, lines);
   const ratio = (layout.page?.width || 1) / (layout.page?.height || 1);
@@ -1664,6 +1672,7 @@ export function snap(layout, grid, ocr) {
     if(table){Object.assign(b,table);Object.assign(b,restorePhoneticTokens(b));}
     const paragraph=printedParagraphLines(b,lines);if(paragraph)b.printedCnLines=paragraph;
     const english=printedParagraphLines(b,lines,'en');if(english)b.printedEnLines=english;
+    const wordRow=measureBilingualWordRow(b,lines);if(wordRow)Object.assign(b,wordRow);
     const source=(layout.source?.blocks||[]).find(o=>o.type===b.type&&o.py===b.py);
     const lattice=measureAnswerLattice(b,source,lines);if(lattice)Object.assign(b,lattice);
     const drill=reconcileAnswerGrid(b,lines,grid);if(drill)Object.assign(b,drill);
@@ -1684,7 +1693,7 @@ export function snap(layout, grid, ocr) {
   measureContentsPage({...layout,blocks,theme},grid,lines);
   measureSandhiTable({...layout,blocks,theme},grid);
   alignMatchingStrip(blocks,layout.source);
-  for(const b of blocks){measurePhraseGrid(b,layout.source?.blocks.find(o=>o.py===b.py),lines);for(const c of b.phraseCells||[]){if(b.toneAnswers)continue;const label=phoneticPhraseLabels[c.text.replace(/\s+/g,'').toLowerCase()];if(label){Object.assign(c,label);layout.kz[label.ru]=label.kk;}}}
+  for(const b of blocks){const source=layout.source?.blocks.find(o=>o.type===b.type&&o.py?.replace(/[(（]\d+[)）]/g,'').replace(/\s/g,'')===b.py?.replace(/[(（]\d+[)）]/g,'').replace(/\s/g,''));measurePhraseGrid(b,source,lines);measureNumberedPhonetics(b,source,lines);for(const c of [...(b.phraseCells||[]),...(b.numberedPhonetics||[])]){if(b.toneAnswers)continue;const label=phoneticPhraseLabels[c.text.replace(/\s+/g,'').toLowerCase()];if(label){Object.assign(c,label);if(label.printedPy&&c.text!==label.printedPy){c.ocrText=c.text;c.text=label.printedPy;c.reviewRequired=true;}layout.kz[label.ru]=label.kk;}}}
   const accent = blocks.find(b => ['section', 'lesson', 'folio'].includes(b.type) && b.fill && b.fill !== '#ffffff')?.fill;
   if (accent) theme.accent = accent;
   const result = attachInteractiveCaptions({ ...layout, blocks, theme, snapVersion: SNAP_VERSION, ocrLines: lines.length });
@@ -1707,8 +1716,13 @@ export function snap(layout, grid, ocr) {
   for (const b of result.blocks) if (b.type === 'image' && b.caption) {
     const sourceImages=(layout.source?.blocks||[]).filter(o=>o.type==='image'),index=result.blocks.filter(o=>o.type==='image').indexOf(b);
     const sourceBox=sourceImages[index]?.box;
-    const label=sourceBox&&lines.filter(l=>cleanHanzi(l.text)===b.caption.hz&&l.box.y>sourceBox.y+sourceBox.h*.7&&l.box.y<sourceBox.y+sourceBox.h+.09&&Math.abs(l.box.x+l.box.w/2-sourceBox.x-sourceBox.w/2)<.06).sort((a,c)=>Math.abs(a.box.x+a.box.w/2-sourceBox.x-sourceBox.w/2)-Math.abs(c.box.x+c.box.w/2-sourceBox.x-sourceBox.w/2))[0];
-    const measuredFrame=sourceBox&&measureCaptionFrame(label?{...sourceBox,x:label.box.x+label.box.w/2-sourceBox.w/2}:sourceBox,grid);
+    const label=sourceBox&&lines.filter(l=>cleanHanzi(l.text)===b.caption.hz&&l.box.y>sourceBox.y+sourceBox.h*.7&&l.box.y<sourceBox.y+sourceBox.h+.09&&Math.abs(l.box.x+l.box.w/2-sourceBox.x-sourceBox.w/2)<.12).sort((a,c)=>Math.abs(a.box.x+a.box.w/2-sourceBox.x-sourceBox.w/2)-Math.abs(c.box.x+c.box.w/2-sourceBox.x-sourceBox.w/2))[0];
+    const pinyin=label&&lines.filter(l=>toneless(l.text.replace(/\s/g,''))===toneless(b.caption.py.replace(/\s/g,''))&&l.box.y<label.box.y&&label.box.y-l.box.y<.04&&Math.abs(l.box.x+l.box.w/2-label.box.x-label.box.w/2)<.04).sort((a,c)=>c.box.y-a.box.y)[0];
+    // Source image boxes may describe the photo alone OR its complete card.
+    // Begin the lower-border search at the printed caption, not after a box
+    // that already includes that caption.
+    const frameProbe=sourceBox&&label?{...sourceBox,x:label.box.x+label.box.w/2-sourceBox.w/2,h:Math.min(sourceBox.h,(pinyin?.box.y??label.box.y-.018)-sourceBox.y-.003)}:sourceBox;
+    const measuredFrame=frameProbe&&measureCaptionFrame(frameProbe,grid);
     if(measuredFrame){b.box=measuredFrame;b.captionFrame=true;delete b.frame;continue;}
     b.captionFrame = hasPrintedCardFrame(b.box,grid);
     const bounds=printedCardBounds(b.box,grid);if(bounds)b.box=bounds;
@@ -1765,6 +1779,8 @@ export function attachInteractiveCaptions(layout) {
       image.caption = { py: fromAlt[2].trim(), hz: fromAlt[3], ru: fromAlt[1].trim() };
       continue;
     }
+    const labelledAlt=String(image.alt||'').match(/^([\p{Script=Latin}\s]+)\s+([\p{Script=Han}]{1,4})\s*\(([^()]+)\)/u);
+    if(labelledAlt){image.caption={py:labelledAlt[1].trim(),hz:labelledAlt[2],ru:labelledAlt[3].trim()};continue;}
     if (shuffledMatchingExercise) continue;
     const described=String(image.alt||'').match(/пиньинем\s+([\p{Script=Latin}ü]+)\s+и\s+иероглиф(?:ом|ами)\s+([\p{Script=Han}]+)/iu);
     if(described){const hz=described[2],word=wordLabels[hz];image.caption={py:described[1],hz,ru:CAPTION_RU[hz]||hz,...(word?{en:word.en}:{})};continue;}
@@ -1791,15 +1807,16 @@ export function pageVocabulary(layout) {
   const enriched = attachInteractiveCaptions(layout), blocks = enriched.blocks || [], result = [], seen = new Set();
   const add = ({ hz, py, ru, en = '', pos = '' }) => {
     hz = cleanHanzi(hz); py = String(py || '').trim(); ru = String(ru || '').trim(); en = String(en || '').trim();
-    if (!hz || !py || seen.has(hz) || (!ru && !en)) return;
-    seen.add(hz); result.push({ word: hz, py, pos, trans: ru || en, ...(en ? { trans_en: en } : {}) });
+    const identity=hz+'/'+py.normalize('NFC').replace(/\s/g,'').toLowerCase();
+    if (!hz || !py || seen.has(identity) || (!ru && !en)) return;
+    seen.add(identity); result.push({ word: hz, py, pos, trans: ru || en, ...(en ? { trans_en: en } : {}) });
   };
   for (const image of blocks.filter(b => b.type === 'image' && b.caption?.hz)) {
     const c = image.caption; add({ hz: c.hz, py: c.py, ru: c.ru || CAPTION_RU[cleanHanzi(c.hz)], en:c.en });
   }
   for (const block of blocks.filter(b => ['text', 'para'].includes(b.type))) {
     if(block.bilingualPrint?.speakText&&block.py)add({hz:block.cn,py:block.py,ru:block.ru,en:block.en});
-    for(const c of block.phraseCells||[])if(c.hz)add({hz:c.hz,py:c.text,ru:c.ru,en:c.en});
+    for(const c of [...(block.phraseCells||[]),...(block.numberedPhonetics||[])])if(c.hz)add({hz:c.hz,py:c.text,ru:c.ru,en:c.en});
     const item = lexicalLabel(block);
     if (item) add({ ...item, ru: item.ru || CAPTION_RU[item.hz] });
     for(const t of block.optionTurns||[]){const label=t.translation||dialogueLabels[cleanHanzi(t.hz)];if(label)add({hz:t.hz,py:t.py,ru:label.ru,en:label.en});}
@@ -1809,7 +1826,7 @@ export function pageVocabulary(layout) {
     if ((table.rows || []).some(soundGroup)) continue;
     for (const row of table.rows || []) if (!row.group) add({ hz: row.hz, py: table.sandhiTable?row.py.split('→')[0].replace(/\s*\+\s*/g,' ').trim():row.py, ru: row.ru || CAPTION_RU[cleanHanzi(row.hz)], en: row.en, pos: row.pos_ru || row.pos_en });
   }
-  return result.slice(0, 30);
+  return result;
 }
 
 // Columns of a word table as printed: every row shares them. Dark neutral
@@ -1845,6 +1862,9 @@ const toneless = s => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
 const toneCount = s => (s.normalize('NFD').match(/[̀-ͯ]/g) || []).length;
 function printedPinyin(b, lines) {
   if (!b.box) return;
+  // Numbered phonetics compare tone variants deliberately. A page-wide
+  // "most accented" spelling would erase the neutral member of each pair.
+  if(/[(（]\s*\d+\s*[)）]/.test(b.py||''))return;
   const area = { x: b.box.x - 0.01, y: b.box.y - 0.01, w: b.box.w + 0.02, h: b.box.h + 0.02 };
   const printed = new Map();
   for (const l of lines) {
@@ -2130,8 +2150,9 @@ export function render(layout, { assets = {}, pinyin = true, lang = '', editable
   layout = attachInteractiveCaptions(layout);
   const ratio = (layout.page?.height || 1595) / (layout.page?.width || 1171);
   const pct = v => (v * 100).toFixed(3) + '%';
+  const localizedPositions=dialoguePresentation(layout);
   const vars = b => (b.k ? `--k:${b.k};` : '') + (b.fill ? `--fill:${b.fill};` : '') + (b.split ? `--split:${b.split};` : '') + (b.tabH ? `--tab-h:${b.tabH};` : '') + (b.cnSize ? `--cn:${b.cnSize}cqw;` : '');
-  const pos = (b, extra = '') => `left:${pct(b.box.x)};top:${pct(b.box.y)};width:${pct(b.box.w)};${vars(b)}${extra}`;
+  const pos = (b, extra = '') => `left:${pct(b.box.x)};top:${pct(b.box.y)};width:${pct(b.box.w)};${localizedPositions.has(b)?`--localized-top:${pct(localizedPositions.get(b).y)};--localized-height:${pct(localizedPositions.get(b).h)};`:''}${vars(b)}${extra}`;
   // Kazakh rides on the Russian layer: each Russian text carries its
   // translation (layout.kz, keyed by the Russian text) and setLang swaps it in.
   const kz = layout.kz || {};
@@ -2194,6 +2215,13 @@ export function render(layout, { assets = {}, pinyin = true, lang = '', editable
     // A paired picture caption is rendered once inside its interactive card.
     if (Number.isInteger(b.photoCaptionOwner) && layout.blocks[b.photoCaptionOwner]?.caption) return '';
     const at = tag(n, b), h = `height:${pct(b.box.h)};`, minH = `min-height:${pct(b.box.h)};`;
+    if(b.wordRow){const w=b.wordRow,font=w.font*layout.page.height/layout.page.width*82;
+      return `<section ${at} data-hsk-manual="1" class="hsk-at hsk-word-row" style="${pos(b,h)}font-size:${font}cqw"><span class="hsk-at" style="${rel(w.hzBox,b.box)}">${esc(w.hz)}</span><span class="hsk-at" style="${rel(w.pyBox,b.box)}">${esc(w.py)}</span><span class="hsk-at" style="${rel(w.definitionBox,b.box)}">${esc(w.definition)}</span><span class="hsk-at" style="${rel(w.translationBox,b.box)}">${ed(n,'en',b.en,'en')}${ed(n,'ru',b.ru,'ru')}</span></section>`;
+    }
+    if(b.numberedPhonetics?.length){
+      const play=`event.stopPropagation();var p=this.closest('.hsk-page'),a=p.querySelector('audio.hsk-table-player');if(!a){a=document.createElement('audio');a.className='hsk-table-player';a.hidden=true;p.appendChild(a)}a.pause();a.src=this.dataset.src;a.play()`;
+      return `<section ${at} data-hsk-manual="1" class="hsk-at hsk-numbered-phonetics" style="${pos(b,h)}">${b.numberedPhonetics.map(c=>{const src=assets['tone-'+recordingKey(c.text)];return `<span class="hsk-at" style="${rel(c.box,b.box)}">${c.number?`<span class="hsk-phonetic-number">(${c.number}) </span>`:''}<button type="button" class="hsk-table-speak" data-hsk-speak="${esc(c.text)}" data-src="${esc(src||'')}" ${src?`onclick="${esc(play)}"`:'disabled title="Запись произношения пока отсутствует"'}>${esc(c.text)}</button></span>`}).join('')}</section>`;
+    }
     if(b.contentsTitle)return '<header '+at+' data-hsk-manual="1" class="hsk-at hsk-contents-title" style="'+pos(b,h)+'"><span class="initial">C</span><span>ONTENTS</span><span class="cn">目录</span>'+ed(n,'ru',b.ru,'ru')+'</header>';
     if(b.type==='contents'){
       const cols=b.columns||[b.box.x,b.box.x+b.box.w*.1,b.box.x+b.box.w*.4,b.box.x+b.box.w*.47,b.box.x+b.box.w],edges=b.rowEdges;
@@ -2240,15 +2268,15 @@ export function render(layout, { assets = {}, pinyin = true, lang = '', editable
     }
     if(b.optionTurns?.length){
       const speak=`event.stopPropagation();var u=new SpeechSynthesisUtterance(this.dataset.hskSpeak);u.lang='zh-CN';speechSynthesis.cancel();speechSynthesis.speak(u)`;
-      return `<section ${at} data-hsk-manual="1" class="hsk-at hsk-option-dialogue" style="${pos(b,h)}">${b.number?`<span class="hsk-option-number">${esc(b.number)}</span>`:''}${b.optionTurns.map((t,k)=>{
-        const end=b.box.x+b.box.w,cw=Math.min(t.cnBox.w,(end-t.cnBox.x)*.65),cnBox={...t.cnBox,w:cw},font=Math.min(2.3,cw*100/Math.max(1,Array.from(t.hz).length+2)),translation={x:t.cnBox.x+cw+.008,y:t.cnBox.y,w:Math.max(.065,end-t.cnBox.x-cw-.008),h:.03};
-        return `${t.pyBox?`<span class="hsk-option-py" style="${rel(t.pyBox,b.box)}">${esc(t.py)}</span>`:''}<button type="button" class="hsk-option-cn" data-hsk-speak="${esc(t.hz)}" style="${rel(cnBox,b.box)}font-size:${font}cqw" onclick="${esc(speak)}">${esc(t.speaker)}：${esc(t.hz)}</button>${t.translation?`<span class="hsk-option-translation" style="${rel(translation,b.box)}">${ed(n,`optionTurns.${k}.translation.en`,t.translation.en,'en')}${ed(n,`optionTurns.${k}.translation.ru`,t.translation.ru,'ru')}</span>`:''}`;
-      }).join('')}</section>`;
+      const button=t=>`data-hsk-speak="${esc(t.hz)}" onclick="${esc(speak)}"`;
+      const original=b.optionTurns.map(t=>`${t.pyBox?`<span class="hsk-option-py" style="${rel(t.pyBox,b.box)}">${esc(t.py)}</span>`:''}<button type="button" class="hsk-option-cn" ${button(t)} style="${rel(t.cnBox,b.box)}font-size:${Math.min(2.7,t.cnBox.h*ratio*100*.95)}cqw">${esc(t.speaker)}：${esc(t.hz)}</button>`).join('');
+      const localized=b.optionTurns.map((t,k)=>`<div class="hsk-option-turn"><span class="hsk-option-pinyin">${esc(t.py)}</span><button type="button" class="hsk-option-sentence" ${button(t)}>${esc(t.speaker)}：${esc(t.hz)}</button>${t.translation?ed(n,`optionTurns.${k}.translation.ru`,t.translation.ru,'ru hsk-option-meaning'):''}</div>`).join('');
+      return `<section ${at} data-hsk-manual="1" class="hsk-at hsk-option-dialogue" style="${pos(b,h)}">${b.number?`<span class="hsk-option-number">${esc(b.number)}</span>`:''}<div class="hsk-option-original">${original}</div><div class="hsk-option-localized">${localized}</div></section>`;
     }
     if(b.sandhiTable&&b.sandhiRows){
       const play=`event.stopPropagation();speechSynthesis.cancel();var p=this.closest('.hsk-page'),a=p.querySelector('audio.hsk-tone-player');if(!a){a=document.createElement('audio');a.className='hsk-tone-player';a.hidden=true;p.appendChild(a)}a.src=this.dataset.src;a.play()`;
       const header=b.sandhiHeader/b.box.h,split=.353;
-      const head=(part,k)=>`<div class="hsk-at hsk-sandhi-head" style="left:${pct(k?split:0)};width:${pct(k?1-split:split)};top:0;height:${pct(header)}"><span class="cn">${esc(part.cn)}</span><span class="en">${esc(part.en)}</span><span class="ru" data-en="${esc(part.en)}" data-kz="${k?'Пиньинь':'Сөздер/тіркестер'}">${k?'Пиньинь':'Слова/Фразы'}</span>${k?'<span class="hsk-sandhi-rule">ˇ + ˇ → ´ + ˇ</span>':''}</div>`;
+      const head=(part,k)=>`<div class="hsk-at hsk-sandhi-head" style="left:${pct(k?split:0)};width:${pct(k?1-split:split)};top:0;height:${pct(header)}"><div class="hsk-sandhi-heading${k?' hsk-sandhi-heading-rule':''}"><span class="cn">${esc(part.cn)}</span><span class="en">${esc(part.en)}</span><span class="ru" data-en="${esc(part.en)}" data-kz="${k?'Пиньинь':'Сөздер/тіркестер'}">${k?'Пиньинь':'Слова/Фразы'}</span></div>${k?'<span class="hsk-sandhi-rule">ˇ + ˇ → ´ + ˇ</span>':''}</div>`;
       return `<section ${at} data-hsk-manual="1" class="hsk-at hsk-sandhi-table" style="${pos(b,h)}">${head({cn:'词语/短语',en:'Words/Phrases'},0)}${head({cn:'拼音',en:'Pinyin'},1)}${b.sandhiRows.map((r,i)=>{const k=b.rows.findIndex(o=>o.hz===r.hz),src=assets['tone-'+recordingKey(r.py.split('→')[0].replace(/\s*\+\s*/g,''))];return `<div class="hsk-at hsk-sandhi-row" style="left:0;width:100%;top:${pct((b.sandhiEdges[i]-b.box.y)/b.box.h)};height:${pct((b.sandhiEdges[i+1]-b.sandhiEdges[i])/b.box.h)}"><div style="width:${pct(split)}"><button class="hsk-table-speak" type="button" data-src="${esc(src||'')}" aria-label="${esc(r.hz)}" ${src?`onclick="${esc(play)}"`:'disabled'}>${esc(r.hz)}</button>${ed(n,`rows.${k}.ru`,r.ru,'ru hsk-sandhi-meaning')}</div><div style="width:${pct(1-split)}"><button class="hsk-table-speak" type="button" data-src="${esc(src||'')}" aria-label="Изменение тона: ${esc(r.hz)}" ${src?`onclick="${esc(play)}"`:'disabled'}>${esc(r.py).replace(/→\s*(\S+)/,'→ <em>$1</em>')}</button></div></div>`}).join('')}</section>`;
     }
     if(b.phraseCells){
@@ -2312,6 +2340,10 @@ export function render(layout, { assets = {}, pinyin = true, lang = '', editable
       case 'objectives':
         return `<section ${at} class="hsk-at hsk-objectives" style="${pos(b, minH)}"><h3>${TARGET_ICON}${trio(n, 'heading.', { ...b.heading, cn: String(b.heading?.cn || '').replace(/^[◎⊙◉⦾]\s*/u, '') })}</h3>${(b.items || []).map((it, k) => `<div class="hsk-objective"><span class="hsk-check"></span><span>${trio(n, `items.${k}.`, it)}</span></div>`).join('')}</section>`;
       case 'section': {
+        if(b.printed?.kind==='plain-section'){
+          const p=b.printed;
+          return `<header ${at} data-hsk-manual="1" class="hsk-at hsk-plain-section" style="${pos(b,h)}"><span class="hsk-at" style="${rel(p.cnBox,b.box)}font-size:${p.cnSize}cqw">${ed(n,'cn',b.cn)}</span><span class="hsk-at" style="${rel(p.enBox,b.box)}font-size:${p.enSize}cqw">${ed(n,'en',b.en,'en')}${ed(n,'ru',b.ru,'ru')}</span></header>`;
+        }
         if(b.printed?.kind==='section-tab'){
           const p=b.printed,[W,H]=p.grid;
           return `<header ${at} data-hsk-manual="1" class="hsk-at hsk-section-tab" style="${pos(b,h)}"><span class="hsk-section-pill" style="${rel(p.pill,b.box)}"></span><svg aria-hidden="true" preserveAspectRatio="none" viewBox="${b.box.x*W} ${b.box.y*H} ${b.box.w*W} ${b.box.h*H}"><path d="${p.graphic}" fill="${esc(b.fill||'#e59180')}"/></svg><span class="hsk-section-cn" style="${rel(p.cnBox,b.box)}font-size:${p.cnSize}cqw">${ed(n,'cn',b.cn)}</span><span class="hsk-section-translation" style="${rel(p.enBox,b.box)}">${ed(n,'en',b.en,'en')}${ed(n,'ru',b.ru,'ru')}</span>${p.trackBox?`<span class="hsk-section-track" style="${rel(p.trackBox,b.box)}">${track(b.track)}</span>`:''}</header>`;
@@ -2550,7 +2582,7 @@ export function fit(page) {
   const all = [...page.querySelectorAll(':scope > .hsk-at:not(.hsk-background):not(.hsk-deco):not(.hsk-tip-avatar):not(.hsk-sec-avatar)')].filter(el => el.offsetParent !== null);
   // Measured Chinese-only parts keep their print size.
   // (The bonus panel is measured part by part, and its picture may stand out of it.)
-  const blocks = all.filter(el => !el.matches('img, .hsk-photo, .hsk-folio, .hsk-dialogue-exact, .hsk-runhead, .hsk-bonus, [data-hsk-manual]'));
+  const blocks = all.filter(el => !el.matches('img, .hsk-photo, .hsk-folio, .hsk-folio-measured, .hsk-foreword-folio, .hsk-dialogue-exact, .hsk-runhead, .hsk-bonus, [data-hsk-manual]'));
   blocks.forEach(el => { setZ(el, ''); el.removeAttribute('data-hsk-overflow'); });
   const pageRect = page.getBoundingClientRect();
   const rects = new Map(all.map(el => [el, el.getBoundingClientRect()]));

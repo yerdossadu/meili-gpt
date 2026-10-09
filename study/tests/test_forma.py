@@ -52,6 +52,22 @@ class FormaPublishTest(unittest.TestCase):
         self.assertEqual(self.client.get("/forma/books/hsk1-v3/pages/016/assets/img-6.webp").status_code, 200)
         self.assertEqual(self.client.get("/forma/components.css").status_code, 200)
 
+    def test_source_page_keeps_more_than_twenty_vocabulary_entries(self):
+        data = meta(n=17)
+        data["page"]["vocab"] = [
+            {"word": "地方", "py": "dìfang" if i % 2 else "dìfāng", "pos": "", "trans": "место"}
+            for i in range(48)
+        ]
+        response = self.publish(data)
+        self.assertEqual(response.status_code, 200, response.text)
+        lessons = self.client.get("/api/lessons").json()
+        page = next(p for lesson in lessons for p in lesson["pages"]
+                    if p.get("forma", {}).get("sourcePage") == 17)
+        self.assertEqual(len(page["content"]["vocab"]), 48)
+        data["page"]["vocab"][30]["py"] = None
+        with self.assertRaises(ValueError):
+            forma.validate_forma_meta(data)
+
     def test_requires_token(self):
         self.assertEqual(self.publish(meta(), headers={}).status_code, 401)
         self.assertEqual(self.publish(meta(), headers={"authorization": "Bearer wrong"}).status_code, 401)

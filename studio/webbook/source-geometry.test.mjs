@@ -9,6 +9,13 @@ test('a pale table border below the last glyph is not confused with the header b
  const measured=measureTextTable(b,grid);assert.equal(measured.textTable.frame.y+measured.textTable.frame.h,.4);
  assert.deepEqual(measured.textTable.splits,[.4]);
 });
+test('an uncoloured section title keeps the measured plain print style',()=>{
+ const b={type:'section',cn:'第四部分',en:'Part IV',box:{x:.3,y:.2,w:.4,h:.03}};
+ const lines=[{text:'第四部分',box:{x:.35,y:.2,w:.1,h:.02}},{text:'Part IV',box:{x:.47,y:.2,w:.1,h:.02}}];
+ const grid={W:100,H:100,at(){return[255,255,255]}};
+ const measured=measurePrintedGeometry(b,grid,lines,{width:1000,height:1400});assert.equal(measured.printed.kind,'plain-section');
+ assert.match(render({page:{width:1000,height:1400},blocks:[{...b,...measured}]}),/hsk-plain-section/);
+});
 
 test('card border measurement separates adjacent rows despite an oversized model box',()=>{
   const g={W:1000,H:1000,at(x,y){return [100,300].some(top=>y>=top&&y<=top+180&&(x===100||x===300))?[220,150,140]:[255,255,255];}};

@@ -16,7 +16,8 @@ import { spawn } from 'node:child_process';
 import { createWriteStream, existsSync } from 'node:fs';
 import { join, extname } from 'node:path';
 import { createHash, randomUUID } from 'node:crypto';
-import { digest, localizeLayout, validatePage, layoutFromOcr } from './page-contract.mjs';
+import { digest, localizeLayout, validatePage, validatePageRevision, layoutFromOcr } from './page-contract.mjs';
+import {translationMemory,restoreTranslations} from './localization-memory.mjs';
 import { pathToFileURL, fileURLToPath } from 'node:url';
 import { tmpdir } from 'node:os';
 import * as core from './core.mjs';
@@ -28,7 +29,8 @@ const SCAN_DPI = 288;
 const CODE = fileURLToPath(new URL('.', import.meta.url));
 // A geometry or CSS fix changes the renderer just as a core change does.
 // Frozen revisions must never be published as if they used those new rules.
-const RENDERER_FILES=['core.mjs','components.css','source-geometry.mjs','word-labels.mjs','tone-audio.mjs','workbook-drills.mjs','title-page.mjs','imprint-page.mjs','credits-page.mjs','foreword-page.mjs','character-page.mjs','classroom-page.mjs','contents-page.mjs','phonetic-tasks.mjs','page-contract.mjs'];
+const RENDERER_FILES=['core.mjs','components.css','source-geometry.mjs','word-labels.mjs','tone-audio.mjs','workbook-drills.mjs','title-page.mjs','imprint-page.mjs','credits-page.mjs','foreword-page.mjs','character-page.mjs','classroom-page.mjs','contents-page.mjs','phonetic-tasks.mjs','dialogue-presentation.mjs','page-contract.mjs','reviewed-kazakh.mjs'];
+RENDERER_FILES.push('localization-memory.mjs');
 const RENDERER_HASH = digest(await Promise.all(RENDERER_FILES.map(async name=>[name,await readFile(join(CODE,name),'utf8')])));
 const rendererScript = () => `window.FormaPage=(function(){${core.fit.toString()}\n${core.autoFit.toString()}\n${core.setLang.toString()}\nreturn{fit,autoFit,setLang};})();`;
 const STEPS = [['render', 'Рендер страницы PDF'], ['ocr', 'Локальный OCR'], ['model', 'Разметка моделью'], ['layout', 'Привязка к скану'], ['assets', 'Картинки'], ['html', 'HTML-страница']];
@@ -65,6 +67,11 @@ export function createWebbook({ root, getApiKey, getAliKey = () => '', origin = 
   const jobs = new Map();          // "id:n" → job
   const queue = [];                // pending job keys, processed one by one
   let working = false;
+  let localizationMemory;
+  async function reusableTranslations(){
+    if(!localizationMemory)localizationMemory=(async()=>{const layouts=[];for(const id of await readdir(LIB))if(existsSync(join(bookDir(id),'pages')))for(const leaf of await readdir(join(bookDir(id),'pages'))){const layout=await readJson(join(bookDir(id),'pages',leaf,'layout.json'));if(layout)layouts.push(layout);}return translationMemory(layouts);})();
+    return localizationMemory;
+  }
 
   async function openDoc(id) {
     if (docs.has(id)) return docs.get(id);
@@ -575,8 +582,9 @@ export function createWebbook({ root, getApiKey, getAliKey = () => '', origin = 
     const dir = pageDir(id,n), before = await readJson(join(dir,'layout.json'));
     const revision = join(dir,'revisions',conversionId);
     await mkdir(revision,{recursive:true});
+    candidate=restoreTranslations(candidate,await reusableTranslations()).layout;
     let layout = localizeLayout(core.attachInteractiveCaptions(candidate),before);
-    const validation=validatePage(layout,{requireKz:Boolean(Object.keys(before?.kz||{}).length)});
+    const validation=validatePageRevision(layout,before);
     validation.warnings.push(...(quality?.issues||[]).map(i=>i.note||i.kind));
     if(validation.state==='passed'&&validation.warnings.length)validation.state='review';
     layout={...layout,conversionId,engine,rendererHash:RENDERER_HASH,validation,builtAt:new Date().toISOString()};
@@ -1339,6 +1347,15 @@ export function createWebbook({ root, getApiKey, getAliKey = () => '', origin = 
       if (what === 'convert' && req.method === 'POST') {
         const b = await bodyJson(req);
         return sendJson(res, 200, enqueue(id, n, { model: String(b.model || ''), forceModel: Boolean(b.forceModel), forceOcr: Boolean(b.forceOcr) })), true;
+      }
+      // Renderer-only updates retain reviewed source text and immutable image
+      // assets, create a rollback revision and use the same publication rules.
+      if (what === 'refresh' && req.method === 'POST') {
+        const layout=await readJson(join(dir,'layout.json'));
+        if(!layout)throw new Error('Страница ещё не сконвертирована.');
+        if(!layout.conversionId)throw new Error('Старую страницу сначала нужно пересобрать с привязкой к скану.');
+        const updated=await commitPage(id,n,layout);
+        return sendJson(res,200,{conversionId:updated.conversionId,validation:updated.validation}),true;
       }
       if (what === 'context' && req.method === 'GET') return sendJson(res, 200, await pageContext(id, n)), true;
       if (what === 'fidelity' && req.method === 'GET') return sendJson(res, 200, await readJson(join(dir, 'fidelity.json')) || {}), true;
