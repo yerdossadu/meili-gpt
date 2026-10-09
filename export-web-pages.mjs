@@ -13,7 +13,7 @@ for(const book of books){
  const destination=join(output,book.folder);await mkdir(destination,{recursive:true});
  const manifestPath=join(destination,'manifest.json');
  const manifest=JSON.parse(await readFile(manifestPath,'utf8').catch(()=>'[]'));
- for(let n=1;n<=11;n++){
+ for(let n=1;n<=13;n++){
   if(selectedPage&&n!==selectedPage)continue;
   const number=String(n).padStart(3,'0'),source=join(studio,'library',book.id,'pages',number);
   let html=await readFile(join(source,'index.html'),'utf8');
@@ -39,7 +39,7 @@ for(const book of books){
  manifest.sort((a,b)=>a.sourcePage-b.sourcePage);await writeFile(manifestPath,JSON.stringify(manifest,null,2)+'\n');
  const pages=(await readdir(destination)).filter(n=>/^page-\d{3}\.html$/.test(n)).sort();
  await writeFile(join(destination,'index.html'),shell(book.label,'<ol>'+pages.map(p=>`<li><a href="${p}">Страница ${Number(p.match(/\d+/)[0])}</a></li>`).join('')+'</ol><p>Нумерация соответствует страницам загруженного оригинала.</p>'));
- await writeFile(join(destination,'README.md'),`# ${book.label}\n\nВеб-копии из текущей локальной FS. Страницы 1–11 экспортируются из сохранённых HTML, без повторной конвертации. Исходная нумерация сохранена. CSS, изображения и используемые аудиофайлы скопированы с относительными путями. Переключатели и встроенный runtime сохранены. Внешние шрифты загружаются по сети; сервисные запросы к платформе требуют работающего сервера. Ранее скопированные последующие страницы не удаляются. Откройте index.html.\n`);
+ await writeFile(join(destination,'README.md'),`# ${book.label}\n\nВеб-копии из текущей локальной FS. Страницы 1–13 экспортируются из сохранённых HTML, без повторной конвертации. Исходная нумерация сохранена. CSS, изображения и используемые аудиофайлы скопированы с относительными путями. Переключатели и встроенный runtime сохранены. Внешние шрифты загружаются по сети; сервисные запросы к платформе требуют работающего сервера. Ранее скопированные последующие страницы не удаляются. Откройте index.html.\n`);
 }
-await writeFile(join(output,'index.html'),shell('Web версии страниц',books.map(b=>`<p><a href="${b.folder}/index.html">${b.label}</a> — страницы 1–11</p>`).join('')));
+await writeFile(join(output,'index.html'),shell('Web версии страниц',books.map(b=>`<p><a href="${b.folder}/index.html">${b.label}</a> — страницы 1–13</p>`).join('')));
 console.log(`Exported ${count} pages with verified local resources; source files unchanged.`);

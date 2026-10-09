@@ -1,0 +1,149 @@
+{
+  "source": "https://github.com/cmguo/PinYinSound",
+  "files": [
+    {
+      "key": "zha1",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/zha1.mp3",
+      "bytes": 15280,
+      "sha256": "ed9d0d5b9d22863121d86bce2d7a00d50269c6bc9b593c92bb2d3aa25c44ee19"
+    },
+    {
+      "key": "zha2",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/zha2.mp3",
+      "bytes": 15907,
+      "sha256": "7edb0f5c24c72dbfbfd7c583578d01b4e640bd8bb3c3ed14ccc7eefce0aca7b5"
+    },
+    {
+      "key": "zha3",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/zha3.mp3",
+      "bytes": 18415,
+      "sha256": "a23baf09ebbe7032a6c3889597cab4b899b2b69be1d366727e60b852d243be73"
+    },
+    {
+      "key": "zha4",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/zha4.mp3",
+      "bytes": 12145,
+      "sha256": "314c004bacac9d9e5b91f3b204d9e93c9928a2d7e3f0270958eef29eefbee1c2"
+    },
+    {
+      "key": "she1",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/she1.mp3",
+      "bytes": 20292,
+      "sha256": "209cdda211ae0308c7fc965dcff67386437a9587878d4727662e125965525853"
+    },
+    {
+      "key": "she2",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/she2.mp3",
+      "bytes": 19038,
+      "sha256": "502d7863f2000f273de453de08c1c393f235c32278a248b105462f54b47e7a23"
+    },
+    {
+      "key": "she3",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/she3.mp3",
+      "bytes": 24055,
+      "sha256": "80e69162f8ec9b33efcb548c167de1b237ef51c6effa7596d6b8d12975207fe7"
+    },
+    {
+      "key": "she4",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/she4.mp3",
+      "bytes": 18413,
+      "sha256": "96ea042b6cc83b3176c5d1df2ce73660745c2231a25ed895d2ef9e161c2305e2"
+    },
+    {
+      "key": "chuang1",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/chuang1.mp3",
+      "bytes": 20749,
+      "sha256": "83474faef57fb88b44939765d56a3fa5cae0ba7fe2a755b3a29e487a1f350e59"
+    },
+    {
+      "key": "chuang2",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/chuang2.mp3",
+      "bytes": 19495,
+      "sha256": "b788d05050a704d538844f911b06330c682ff5177beba96ac66199e31e18d6d6"
+    },
+    {
+      "key": "chuang3",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/chuang3.mp3",
+      "bytes": 21375,
+      "sha256": "75a999d681fe1b4cd09dde19f514b617bd6798aac2741b6c189cdd9e66b3eaa5"
+    },
+    {
+      "key": "chuang4",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/chuang4.mp3",
+      "bytes": 15106,
+      "sha256": "22a01eff3a212ce799a3286c490ec5af92ff13e7cb1edf4977a059fb3505c51f"
+    },
+    {
+      "key": "zuo1",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/zuo1.mp3",
+      "bytes": 25087,
+      "sha256": "2a6afc8a2023342e3e656f0585af0ce3cd0bc562a9bf512711552e7ed7ac0eb1"
+    },
+    {
+      "key": "zuo2",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/zuo2.mp3",
+      "bytes": 19042,
+      "sha256": "b0131cc9570903c1dead188e4ad1657642952a2264df902d6211cd0fbf84467c"
+    },
+    {
+      "key": "zuo3",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/zuo3.mp3",
+      "bytes": 20923,
+      "sha256": "a1ccd531f456eb9b111cfe1c1fc3bf018003c8706607208839a13ed0f959f0b9"
+    },
+    {
+      "key": "zuo4",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/zuo4.mp3",
+      "bytes": 18190,
+      "sha256": "67025f0312b7691032621c3efc6b50ee7dc6a60543ede6ceb1617313b0da2a50"
+    },
+    {
+      "key": "wa1",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/wa1.mp3",
+      "bytes": 18413,
+      "sha256": "dc0895dd0cd4697a26bda709b538752a3cfca98eb047a6728216e66a5ace48fd"
+    },
+    {
+      "key": "wa2",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/wa2.mp3",
+      "bytes": 16532,
+      "sha256": "6112134c65f9d1b3c3ff9a21c146395279f03d92a5b2f4157b04f46948418034"
+    },
+    {
+      "key": "wa3",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/wa3.mp3",
+      "bytes": 22174,
+      "sha256": "02a9c48c76adb96557e7dcffb670e730518fb2b921481024fa6bb3f114c952fd"
+    },
+    {
+      "key": "wa4",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/wa4.mp3",
+      "bytes": 17159,
+      "sha256": "af46a8576a28505508023121c0156d8e87335dd7e1b3ef3ea60250a5167843c2"
+    },
+    {
+      "key": "wei1",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/wei1.mp3",
+      "bytes": 17786,
+      "sha256": "088001307cce4d64067e128261fcba2efc435e92b28c0cb43043a7a67df46351"
+    },
+    {
+      "key": "wei2",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/wei2.mp3",
+      "bytes": 20294,
+      "sha256": "7d4e65c4896521f985c0c82ee7d08c478dec02db6e627d4ed8be825e26af6d80"
+    },
+    {
+      "key": "wei3",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/wei3.mp3",
+      "bytes": 23428,
+      "sha256": "1e4cabb6f8ec3ef8ef954abe41204cc33b58558b6c50480b5b8fca876f499df8"
+    },
+    {
+      "key": "wei4",
+      "url": "https://raw.githubusercontent.com/cmguo/PinYinSound/master/wei4.mp3",
+      "bytes": 15905,
+      "sha256": "abc5419437be376cf2c17218d6f06205d6fe91a48bd75a31f47db18ea8398aa7"
+    }
+  ]
+}

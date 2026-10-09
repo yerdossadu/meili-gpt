@@ -1,5 +1,8 @@
 // Reusable translations for recognised picture labels, independent of pages.
 export const wordLabels = {
+  '人':{en:'person',kk:'адам'},'坐':{en:'to sit',kk:'отыру'},'菜':{en:'vegetables',kk:'көкөністер'},'书':{en:'book',kk:'кітап'},
+  '手机':{en:'mobile phone',kk:'ұялы телефон'},'医生':{en:'doctor',kk:'дәрігер'},'桌子':{en:'table',kk:'үстел'},'出租车':{en:'taxi',kk:'такси'},
+  '春':{en:'spring',kk:'көктем'},'村':{en:'village',kk:'ауыл'},'睡':{en:'to sleep',kk:'ұйықтау'},'嘴':{en:'mouth',kk:'ауыз'},
   '鸡':{en:'chicken',kk:'тауық'},'七':{en:'seven',kk:'жеті'},'写':{en:'to write',kk:'жазу'},'请':{en:'please; to invite',kk:'өтінемін; шақыру'},
   '再见':{en:'goodbye',kk:'сау бол'},'谢谢':{en:'thank you',kk:'рақмет'},'星期':{en:'week',kk:'апта'},'高兴':{en:'happy',kk:'қуанышты'},
   '雨':{en:'rain',kk:'жаңбыр'},'五':{en:'five',kk:'бес'},'一':{en:'one',kk:'бір'},'椅子':{en:'chair',kk:'орындық'},

@@ -8,20 +8,21 @@
 // scan. The model never produces HTML; pages are drawn from fixed components
 // (components.css) so every page of the book shares one design system.
 
-import { measurePrintedGeometry, hasPrintedCardFrame, printedCardBounds, measureTextTable, restorePhoneticTokens, printedParagraphLines } from './source-geometry.mjs';
+import { measurePrintedGeometry, hasPrintedCardFrame, printedCardBounds, measureCaptionFrame, measureTextTable, restorePhoneticTokens, printedParagraphLines } from './source-geometry.mjs';
 import { measureTitlePage } from './title-page.mjs';
 import { measureImprintPage } from './imprint-page.mjs';
 import { measureCreditsPage } from './credits-page.mjs';
 import { measureForewordPage } from './foreword-page.mjs';
 import { measureCharacterPage } from './character-page.mjs';
 import { measureClassroomPage } from './classroom-page.mjs';
+import { measureContentsPage } from './contents-page.mjs';
 import {wordLabels} from './word-labels.mjs';
 import {toneKey,recordingKey,phoneticRecordingKey} from './tone-audio.mjs';
 import {reconcileAnswerGrid,measureDialogueOptions,clipImagesBeforeText,dialogueLabels,measureReadingGrid,measureAnswerLattice} from './workbook-drills.mjs';
 export {toneRecordings,phoneticRecordings} from './tone-audio.mjs';
 export const NORM_VERSION = 3;
 export const SNAP_VERSION = 3;
-export const TYPES = ['runhead', 'lesson', 'objectives', 'section', 'para', 'tip', 'dialogue', 'image', 'card', 'words', 'folio', 'text', 'decor', 'bonus'];
+export const TYPES = ['runhead', 'lesson', 'objectives', 'section', 'para', 'tip', 'dialogue', 'image', 'card', 'words', 'folio', 'text', 'decor', 'bonus', 'contents'];
 
 export const PROMPT = `Ты размечаешь скан страницы китайского учебника HSK для пересборки в HTML из готовых компонентов.
 Верни ТОЛЬКО JSON вида {"blocks":[...],"kz":{"русская строка":"казахский перевод"}} без пояснений. В kz включи каждую русскую строку блоков; имена и пиньинь сохраняй.
@@ -33,6 +34,7 @@ box — рамка блока в ДОЛЯХ страницы от 0 до 1: x,y 
 Во вводных страницах сохраняй каждый заголовок и абзац отдельным блоком; если оригинал только английский, cn оставляй пустым. В двуязычных представлениях персонажей держи китайский текст и его английский перевод в одном блоке, портрет — отдельным image. Не включай соседний текст и цветной фон страницы в рамку портрета.\nДля каждого текста дай: cn (китайский дословно, без пиньиня), en (английский дословно), ru (точный русский перевод английского, по возможности не длиннее английского), py (пиньинь, если он напечатан над иероглифами, дословно с тонами).
 Переносы строк, напечатанные в cn, py и en (стихи, скороговорки), передавай символом \\n; в ru — в тех же местах, что в en.
 Типы блоков:
+- contents: оглавление. columns — 5 координат x границ четырех колонок; header — 4 ячейки {cn,en,ru}; rows — строки из 4 ячеек (номер урока, название, печатная страница, темы). Темы передавать как items:[{cn,en,ru}] внутри четвертой ячейки. Сохраняй номера печатных страниц буквально; они не являются номером загруженного скана. Таблицу не превращай в image; каждую тему и перевод включи в kz.
 - runhead: колонтитул вверху. cn, en, ru; number — крупная цифра урока рядом с колонтитулом (напр. "2"), если есть; в en и ru её не повторяй.
 - lesson: крупная шапка урока. number, cn, en, ru, py (пиньинь над заголовком), label (напр. "Lesson").
 - objectives: блок целей. heading{cn,en,ru}, items[{cn,en,ru}].
@@ -132,6 +134,10 @@ export function normalize(parsed, scale = { sx: 1, sy: 1 }) {
     const type = str(raw?.type), box = normBox(raw?.box, scale);
     if (!TYPES.includes(type) || !box) continue;
     const b = { type, box, ...tri(raw) };
+    if(type==='contents')Object.assign(b,{columns:raw.columns,header:(raw.header||[]).map(tri),rows:(raw.rows||[]).map(row=>row.map(c=>({...tri(c),items:(c.items||[]).map(tri)})))});
+    // A numbered spelling subsection is not a new lesson. Misclassifying it
+    // also routes this page and its continuations into the wrong lesson.
+    if(type==='lesson'&&(/拼写规则/.test(b.cn)||/^spelling rules$/i.test(b.en)))Object.assign(b,{type:'para',icon:'none',number:str(raw.number),track:''});
     if (type === 'lesson') Object.assign(b, { number: str(raw.number), label: str(raw.label) || 'Lesson' });
     // «课文 2 / Text 2» is a text tab, not a lesson band: the model sometimes calls any band at the page edge "lesson" (p27, p39).
     if (type === 'lesson' && (/^(课文|语音|会话|听说|生词)/.test(b.cn) || /^(text|dialogue|phonetics|new words)\b/i.test(b.en)) && /^\d+$/.test(b.number || '')) {
@@ -218,7 +224,7 @@ function repairStructure(blocks) {
     if(!b.cn&&b.py?.includes('\n')&&!b.py.includes('___')){
       const rows=b.py.split('\n').map(r=>r.trim().split(/\s+/));
       const tone=s=>{const m=s.normalize('NFD').match(/[\u0304\u0301\u030c\u0306\u0300]/);return m?({'̄':1,'́':2,'̌':3,'̆':3,'̀':4}[m[0]]):0;};
-      if(rows.length>=3&&rows.length<=12&&rows.every(r=>r.length>=2&&r.length<=16&&r.every(t=>tone(t)))){
+      if(rows.length>=2&&rows.length<=12&&rows.every(r=>r.length>=2&&r.length<=16&&r.every(t=>tone(t)))){
         b.type='text';b.toneSourceBox={...b.box};const groups=Math.ceil(Math.max(...rows.map(r=>r.length))/4);b.toneAlign=groups>1?'left':'center';
         b.toneRows=rows.map(r=>{const cells=new Array(groups*4).fill('');for(const [i,s]of r.entries())cells[Math.floor(i/4)*4+tone(s)-1]=s.normalize('NFD').replace(/\u0306/g,'\u030c').normalize('NFC');return cells;});b.py=b.toneRows.map(r=>r.join('\t')).join('\n');
       }
@@ -1660,12 +1666,17 @@ export function snap(layout, grid, ocr) {
     const dialogue=measureDialogueOptions(b,lines);if(dialogue)Object.assign(b,dialogue);
   }
   clipImagesBeforeText(blocks,lines);
+  // Repeated read-aloud instructions share the page's text column. A short
+  // Chinese OCR line must not narrow its longer English/translated line.
+  const instructions=blocks.filter(b=>b.type==='para'&&b.enBreak&&/朗读/.test(b.cn)&&b.box.h<.075);
+  if(instructions.length>=2){const right=Math.min(.96,Math.max(...instructions.map(b=>b.box.x+b.box.w),...blocks.filter(b=>b.type==='image').map(b=>b.box.x+b.box.w)));for(const b of instructions)b.box.w=right-b.box.x;}
   measureTitlePage({...layout,blocks},grid,lines);
   measureImprintPage({...layout,blocks},lines);
   measureCreditsPage({...layout,blocks},grid,lines);
   measureForewordPage({...layout,blocks,theme},grid,lines);
   measureCharacterPage({...layout,blocks,theme},grid,lines);
   measureClassroomPage({...layout,blocks,theme},grid,lines);
+  measureContentsPage({...layout,blocks,theme},grid,lines);
   const accent = blocks.find(b => ['section', 'lesson', 'folio'].includes(b.type) && b.fill && b.fill !== '#ffffff')?.fill;
   if (accent) theme.accent = accent;
   const result = attachInteractiveCaptions({ ...layout, blocks, theme, snapVersion: SNAP_VERSION, ocrLines: lines.length });
@@ -1686,6 +1697,11 @@ export function snap(layout, grid, ocr) {
   for(const b of result.blocks)for(const l of b.diagramLabels||[])result.kz[l.ru]=l.kk;
   for(const b of result.blocks)for(const t of b.optionTurns||[])if(t.translation)result.kz[t.translation.ru]=t.translation.kk;
   for (const b of result.blocks) if (b.type === 'image' && b.caption) {
+    const sourceImages=(layout.source?.blocks||[]).filter(o=>o.type==='image'),index=result.blocks.filter(o=>o.type==='image').indexOf(b);
+    const sourceBox=sourceImages[index]?.box;
+    const label=sourceBox&&lines.filter(l=>cleanHanzi(l.text)===b.caption.hz&&l.box.y>sourceBox.y+sourceBox.h*.7&&l.box.y<sourceBox.y+sourceBox.h+.09&&Math.abs(l.box.x+l.box.w/2-sourceBox.x-sourceBox.w/2)<.06).sort((a,c)=>Math.abs(a.box.x+a.box.w/2-sourceBox.x-sourceBox.w/2)-Math.abs(c.box.x+c.box.w/2-sourceBox.x-sourceBox.w/2))[0];
+    const measuredFrame=sourceBox&&measureCaptionFrame(label?{...sourceBox,x:label.box.x+label.box.w/2-sourceBox.w/2}:sourceBox,grid);
+    if(measuredFrame){b.box=measuredFrame;b.captionFrame=true;delete b.frame;continue;}
     b.captionFrame = hasPrintedCardFrame(b.box,grid);
     const bounds=printedCardBounds(b.box,grid);if(bounds)b.box=bounds;
     if(b.captionFrame)delete b.frame;
@@ -1708,7 +1724,7 @@ export function snap(layout, grid, ocr) {
 // intentionally shuffled and cannot be inferred from the nearest position.
 const CAPTION_RU = {
   '茶':'чай','狗':'собака','猫':'кошка','菜':'овощи','人':'человек','坐':'сидеть','书':'книга',
-  '手机':'смартфон','医生':'врач','出租车':'такси','春':'весна','村':'деревня','睡':'спать','嘴':'рот',
+  '手机':'смартфон','医生':'врач','桌子':'стол','出租车':'такси','春':'весна','村':'деревня','睡':'спать','嘴':'рот',
   '你好':'привет','哪里':'где','小语':'Сяоюй','水果':'фрукты','妈妈':'мама','爸爸':'папа','椅子':'стул','饺子':'пельмени',
   '面条儿':'лапша','好玩儿':'интересный, весёлый','一点儿':'немного','饭馆儿':'ресторан','那儿':'там','这儿':'здесь','玩儿':'играть','歌儿':'песня',
   '九':'девять','牛奶':'молоко','休息':'отдыхать','朋友':'друг','五':'пять','哥哥':'старший брат','学生':'ученик, студент','六十岁':'шестьдесят лет','老师':'учитель'
@@ -2110,7 +2126,7 @@ export function render(layout, { assets = {}, pinyin = true, lang = '', editable
   // Kazakh rides on the Russian layer: each Russian text carries its
   // translation (layout.kz, keyed by the Russian text) and setLang swaps it in.
   const kz = layout.kz || {};
-  const ed = (n, path, value, cls = '') => { const b=layout.blocks[n],isRu=/(^|[._])ru$/.test(path),k=isRu && (b?.translations?.[path]?.kk || kz[String(value ?? '').trim()]),en=isRu&&(b?.characterRibbon||b?.bilingualPrint||b?.foreword||b?.credits||b?.imprint||b?.titlePageRole)&&path.replace(/ru$/,'en').split('.').reduce((o,p)=>o?.[p],b);return `<span class="${cls}"${k ? ` data-kz="${esc(k)}"` : ''}${en?` data-en="${esc(en)}"`:''}${editable ? ` contenteditable="true" data-hsk-block="${n}" data-hsk-path="${esc(path)}"` : ''}>${esc(value)}</span>`; };
+  const ed = (n, path, value, cls = '') => { const b=layout.blocks[n],isRu=/(^|[._])ru$/.test(path),k=isRu && (b?.translations?.[path]?.kk || kz[String(value ?? '').trim()]),en=isRu&&path.replace(/ru$/,'en').split('.').reduce((o,p)=>o?.[p],b);return `<span class="${cls}"${k ? ` data-kz="${esc(k)}"` : ''}${en?` data-en="${esc(en)}"`:''}${editable ? ` contenteditable="true" data-hsk-block="${n}" data-hsk-path="${esc(path)}"` : ''}>${esc(value)}</span>`; };
   const trio = (n, prefix, o) => (o?.cn ? ed(n, prefix + 'cn', o.cn, 'cn') : '') + (o?.en ? ed(n, prefix + 'en', o.en, 'en') : '') + (o?.ru ? ed(n, prefix + 'ru', o.ru, 'ru') : '');
   // A track mark («🔊 1-3») plays its recording when the book has it. One shared
   // player: a new track stops the previous one, the same mark again pauses.
@@ -2169,6 +2185,12 @@ export function render(layout, { assets = {}, pinyin = true, lang = '', editable
     // A paired picture caption is rendered once inside its interactive card.
     if (Number.isInteger(b.photoCaptionOwner) && layout.blocks[b.photoCaptionOwner]?.caption) return '';
     const at = tag(n, b), h = `height:${pct(b.box.h)};`, minH = `min-height:${pct(b.box.h)};`;
+    if(b.contentsTitle)return '<header '+at+' data-hsk-manual="1" class="hsk-at hsk-contents-title" style="'+pos(b,h)+'"><span class="initial">C</span><span>ONTENTS</span><span class="cn">目录</span>'+ed(n,'ru',b.ru,'ru')+'</header>';
+    if(b.type==='contents'){
+      const cols=b.columns||[b.box.x,b.box.x+b.box.w*.1,b.box.x+b.box.w*.4,b.box.x+b.box.w*.47,b.box.x+b.box.w],edges=b.rowEdges;
+      const cell=(c,path,inline=false)=>'<span class="cn">'+esc(c.cn)+'</span>'+(c.en?'<span class="en">'+esc(c.en)+'</span>':'')+(c.ru?ed(n,path+'.ru',c.ru,'ru'):'');
+      return '<section '+at+' data-hsk-manual="1" class="hsk-at hsk-contents" style="'+pos(b,h)+'">'+[b.header,...b.rows].map((row,r)=>'<div class="hsk-at hsk-contents-row'+(r===0?' hsk-contents-head':r%2===0?' hsk-contents-shaded':'')+'" style="left:0;width:100%;top:'+pct((edges[r]-b.box.y)/b.box.h)+';height:'+pct((edges[r+1]-edges[r])/b.box.h)+'">'+row.map((c,k)=>{const path=r===0?'header.'+k:'rows.'+(r-1)+'.'+k;return '<div class="hsk-at hsk-contents-cell'+(k===0?' hsk-contents-number':'')+'" style="left:'+pct((cols[k]-b.box.x)/b.box.w)+';width:'+pct((cols[k+1]-cols[k])/b.box.w)+';height:100%"><div>'+(c.items?.length?c.items.map((item,i)=>'<div class="hsk-contents-topic">'+cell(item,path+'.items.'+i,true)+'</div>').join(''):cell(c,path))+'</div></div>'}).join('')+'</div>').join('')+'</section>';
+    }
     if(b.forewordFolio)return `<span ${at} class="hsk-at hsk-foreword-folio${b.forewordFolioSide==='right'?' hsk-foreword-folio-right':''}" style="${pos(b,h)}">${esc(b.text)}</span>`;
     if(b.characterRibbon)return '<header '+at+' data-hsk-manual="1" class="hsk-at hsk-character-ribbon" style="'+pos(b,h)+'"><span class="cn">'+esc(b.cn)+'</span><span class="hsk-character-ribbon-translation"><span class="en">'+esc(b.en)+'</span>'+ed(n,'ru',b.ru,'ru')+'</span></header>';
     if(b.bilingualPrint){
@@ -2489,6 +2511,7 @@ export function setLang(page, lang) {
 
 export function fit(page) {
   if (!page) return;
+  for(const el of page.querySelectorAll('.hsk-contents-cell')){const content=el.firstElementChild;if(!content)continue;content.style.fontSize='';let size=parseFloat(getComputedStyle(content).fontSize);while((content.scrollHeight>el.clientHeight-4||content.scrollWidth>el.clientWidth+1)&&size>page.clientWidth*.012){size*=.97;content.style.fontSize=size+'px';}}
   for(const cap of page.querySelectorAll('.hsk-photo-caption')){if(cap.offsetParent===null)continue;const rows=[...cap.children].filter(e=>e.offsetParent!==null);for(const row of rows)row.style.zoom='';let z=1;while(rows.reduce((n,e)=>n+e.getBoundingClientRect().height,0)>cap.clientHeight-2&&z>.65){z*=.97;for(const row of rows)row.style.zoom=z;}}
   for(const el of page.querySelectorAll('.hsk-bilingual-translation')){if(el.offsetParent===null)continue;let size=parseFloat(getComputedStyle(el).fontSize);el.style.fontSize='';size=parseFloat(getComputedStyle(el).fontSize);while((el.scrollHeight>el.clientHeight+2||el.scrollWidth>el.clientWidth+2)&&size>page.clientWidth*.01){size*=.97;el.style.fontSize=size+'px';}}
   const prose=[...page.querySelectorAll('.hsk-foreword-prose .hsk-foreword-translation')].filter(e=>e.offsetParent!==null);
@@ -2647,7 +2670,7 @@ ${FONT_LINKS.map(href => `<link rel="stylesheet" href="${href}">`).join('\n')}
 </head>
 <body class="wb-body">
 <div class="wb-controls" role="group" aria-label="Язык страницы">
-  <button type="button" data-lang="orig">Оригинал</button><button type="button" data-lang="ru" aria-pressed="true">Русский</button>${layout.blocks.some(b=>b.en&&b.ru&&(b.characterRibbon||b.bilingualPrint||b.foreword||b.credits||b.imprint||b.titlePageRole))?'<button type="button" data-lang="en">English</button>':''}${Object.keys(layout.kz || {}).length ? '<button type="button" data-lang="kz">Қазақша</button>' : ''}<button type="button" data-pinyin aria-pressed="true">Пиньинь</button>
+  <button type="button" data-lang="orig">Оригинал</button><button type="button" data-lang="ru" aria-pressed="true">Русский</button>${layout.blocks.some(b=>b.type==='contents'||b.en&&b.ru&&(b.characterRibbon||b.bilingualPrint||b.foreword||b.credits||b.imprint||b.titlePageRole))?'<button type="button" data-lang="en">English</button>':''}${Object.keys(layout.kz || {}).length ? '<button type="button" data-lang="kz">Қазақша</button>' : ''}<button type="button" data-pinyin aria-pressed="true">Пиньинь</button>
 </div>
 <main class="wb-sheet">
 ${render(layout, { assets, lang: 'russian' })}

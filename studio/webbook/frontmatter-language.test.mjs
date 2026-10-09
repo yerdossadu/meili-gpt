@@ -17,9 +17,9 @@ test('English, Kazakh and original switches preserve Russian text across repeate
   }
 });
 
-test('native frontmatter exports English while ordinary bilingual lessons retain their existing layers', () => {
+test('native frontmatter and ordinary bilingual lessons expose English in the translation layer', () => {
   const block={type:'text',cn:'前言',ru:'Предисловие',en:'Preface',box:{x:.1,y:.1,w:.8,h:.1}};
   const layout={page:{width:1000,height:1360},blocks:[{...block,foreword:{font:2,lines:[],heading:true}}]};
   assert.match(render(layout),/data-en="Preface"/);
-  assert.doesNotMatch(render({...layout,blocks:[block]}),/data-en=/);
+  assert.match(render({...layout,blocks:[block]}),/data-en="Preface"/);
 });

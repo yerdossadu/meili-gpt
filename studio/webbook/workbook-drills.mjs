@@ -79,7 +79,10 @@ export function reconcileAnswerGrid(b,lines,grid){
 export function measureAnswerLattice(b,source,lines){
  if(b.type!=='text'||!b.py?.includes('\t')||!b.py.includes('___'))return null;
  const rows=b.py.split('\n').map(r=>r.split('\t')),R=rows.length,C=Math.max(...rows.map(r=>r.length)),q=source?.box||b.box;
- const near=lines.filter(l=>l.box.x>=q.x-.008&&l.box.x<q.x+q.w+.02&&l.box.y>=q.y-.006&&l.box.y+l.box.h/2<q.y+q.h+.008&&/^[a-züāáǎàēéěèīíǐìōóǒòūúǔùǖǘǚǜ]+$/i.test(l.text.trim()));
+ // Models can put the box at the first answer rule, to the right of its
+ // printed initial. Include that initial before inferring column count.
+ const trailing=rows.every(r=>r.every(s=>s.endsWith('___')));
+ const near=lines.filter(l=>l.box.x>=q.x-(trailing?.06:.008)&&l.box.x<q.x+q.w+.02&&l.box.y>=q.y-.012&&l.box.y+l.box.h/2<q.y+q.h+.008&&/^[a-züāáǎàēéěèīíǐìōóǒòūúǔùǖǘǚǜ]+$/i.test(l.text.trim()));
  const group=(values,gap)=>{const groups=[];for(const v of values.sort((a,b)=>a-b)){const g=groups.at(-1);if(g&&v-median(g)<gap)g.push(v);else groups.push([v]);}return groups.map(median)};
  let X=group(near.map(l=>l.box.x),.025),Y=group(near.map(l=>l.box.y+l.box.h/2),.012);
  if(Y.length!==R||X.length<Math.ceil(C/2)||X.length>C)return null;

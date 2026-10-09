@@ -23,6 +23,15 @@ export function hasPrintedCardFrame(box, grid) {
   return rows>=10;
 }
 
+export function measureCaptionFrame(source,grid){
+ const g=grid.hi||grid.raw||grid,q=source,red=p=>p[0]>155&&p[0]>p[1]*1.12&&p[0]>p[2]*1.12&&Math.abs(p[1]-p[2])<55;
+ const edge=x=>{const candidates=[];for(let xx=Math.floor((x-.025)*g.W);xx<(x+.025)*g.W;xx++){let n=0;for(let y=Math.floor((q.y+q.h+.006)*g.H);y<(q.y+q.h+.037)*g.H;y++)if(xx>=0&&xx<g.W&&y<g.H&&red(g.at(xx,y)))n++;if(n>g.H*.015)candidates.push({x:xx/g.W,n});}return candidates.sort((a,b)=>Math.abs(a.x-x)-Math.abs(b.x-x)||b.n-a.n)[0]?.x;};
+ const left=edge(q.x),right=edge(q.x+q.w);if(left==null||right==null||right-left<q.w*.75||right-left>q.w*1.2)return null;
+ const rows=[];for(let y=Math.floor((q.y+q.h+.009)*g.H);y<(q.y+q.h+.08)*g.H&&y<g.H;y++){let count=0;for(let x=Math.floor((left+.008)*g.W);x<(right-.008)*g.W;x++)if(red(g.at(x,y)))count++;if(count>(right-left)*g.W*.55)rows.push(y/g.H);}
+ if(!rows.length)return null;const bottom=rows[0],top=q.y;
+ return{x:left,y:top,w:right-left,h:bottom-top};
+}
+
 export function printedCardBounds(box,grid) {
   if(!hasPrintedCardFrame(box,grid))return null;
   const g=grid.hi||grid.raw||grid,points=[];
@@ -74,6 +83,11 @@ function texture(grid, box) {
 }
 
 export function measurePrintedGeometry(block, grid, lines, page) {
+  if(block.type==='para'&&/^[(（]\d+[)）]$/.test(block.number||'')){
+    const q=block.box,g=grid.raw||grid;let coloured=0,dark=0;
+    for(let y=Math.floor(q.y*g.H);y<(q.y+q.h)*g.H&&y<g.H;y++)for(let x=Math.floor(q.x*g.W);x<(q.x+q.w)*g.W&&x<g.W;x++){const p=g.at(x,y);if(red(p))coloured++;else if(Math.max(...p)<150)dark++;}
+    if(coloured>20&&coloured>dark)return{ink:'#d87765'};
+  }
   if(block.type==='section'&&!block.avatar&&/^[一二三四五六七八九十]+[、.]/.test(block.cn||'')){
     const near=lines.filter(l=>Math.abs(l.box.y-block.box.y)<.04),cn=near.find(l=>hasHan(l.text)&&l.text.includes(block.cn.replace(/\s/g,''))),en=near.find(l=>l.text.toLowerCase()===String(block.en||'').toLowerCase());
     if(cn&&en){
