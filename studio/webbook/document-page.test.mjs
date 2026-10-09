@@ -73,3 +73,19 @@ test('HSK5 pages 7–8 retain table numbers, contents routing and all language s
   if(f.bookId==='1a3750a2f488'&&f.sourcePage===7)assert.equal(l.blocks.find(b=>b.type==='toc').rows.find(r=>r.label.cn==='12').printedPage,'82');
  }
 });
+
+test('HSK5 pages 9–10 preserve language coverage and independent source answer groups',()=>{
+ const fixtures=JSON.parse(readFileSync(new URL('../../conversion-fixtures/hsk5-source-pages-009-010.json',import.meta.url),'utf8'));
+ for(const f of fixtures){const l=fromModel(f.source,f.ocr.width,f.ocr.height);l.theme={};measureDocumentPage(l,{W:100,H:150,at:()=>[255,255,255]},ocrLinesOf(f.ocr));
+  assert.deepEqual(validatePage(localizeLayout(l),{requireKz:true}).errors,[]);
+  const html=pageDocument(l);for(const lang of ['ru','en','kz','orig'])assert.match(html,new RegExp('data-lang="'+lang+'"'));
+  const choices=l.blocks.filter(b=>b.documentText?.choice);
+  if(f.bookId==='1a3750a2f488'){
+   assert.equal(choices.length,f.sourcePage===9?24:32);
+   for(const q of new Set(choices.map(b=>b.documentText.choice.question)))assert.deepEqual(choices.filter(b=>b.documentText.choice.question===q).map(b=>b.documentText.choice.letter).sort(),['A','B','C','D']);
+   assert.equal(new Set(choices.map(b=>b.documentText.font)).size,1);
+   assert.match(html,/data-hsk-speak=/);assert.match(html,/\.lang=&#39;zh-CN&#39;/);
+   for(const b of choices)for(const v of b.documentText.choice.vocabulary){assert.ok(b.documentText.choice.hz.includes(v.hz));assert.ok(v.ru&&v.en&&v.kk);}
+  }else assert.equal(choices.length,0);
+ }
+});

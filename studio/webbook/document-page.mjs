@@ -15,7 +15,7 @@ export function ruleEdges(grid,box,axis,light=false){
 export function measureDocumentPage(layout,grid,lines){
  const source=layout.source?.blocks||[];if(!source.some(b=>b.documentText||b.type==='table'))return false;
  for(let i=0;i<layout.blocks.length;i++){
-  const b=layout.blocks[i],raw=b.documentText?source.find(s=>s.documentText&&(b.documentText.sourceBox?JSON.stringify(s.documentText.sourceBox)===JSON.stringify(b.documentText.sourceBox):clean(s.cn||s.en)===clean(b.cn||b.en))):b.type==='table'?source.find(s=>s.type==='table'):null;if(!raw)continue;
+  const b=layout.blocks[i],raw=b.documentText?source.find(s=>s.documentText&&(b.documentText.sourceBox?s.documentText.sourceBox&&['x','y','w','h'].every(k=>Math.abs(s.documentText.sourceBox[k]-b.documentText.sourceBox[k])<1e-6):clean(s.cn||s.en)===clean(b.cn||b.en))):b.type==='table'?source.find(s=>s.type==='table'):null;if(!raw)continue;
   if(b.type==='table'){
    b.box={...raw.box};let xs=ruleEdges(grid,b.box,'x'),ys=ruleEdges(grid,b.box,'y');const lx=ruleEdges(grid,b.box,'x',true),ly=ruleEdges(grid,b.box,'y',true),light=lx.length===b.columns+1&&ly.length===b.rowCount+1;
    if(light){xs=lx;ys=ly;}
@@ -34,11 +34,14 @@ export function measureDocumentPage(layout,grid,lines){
   const ordered=rows.flatMap(r=>r.tokens.sort((a,b)=>a.box.x-b.box.x));
   const native=nativeLines(raw.cn||raw.en,ordered.map(l=>({text:l.text,box:l.box})));if(!native?.length){b.unresolvedStructure=true;continue;}
   b.box={...raw.box};delete b.foreword;delete b.imprint;delete b.credits;delete b.exactTokens;
-  const font=median(found.map(l=>l.box.h))*layout.page.height/layout.page.width*100*.86;
+  const font=raw.documentText.vertical?median(found.map(l=>l.box.w))*100*.86:median(found.map(l=>l.box.h))*layout.page.height/layout.page.width*100*.86;
   const colors=[];for(let y=Math.floor(q.y*grid.H);y<Math.ceil((q.y+q.h)*grid.H);y++)for(let x=Math.floor(q.x*grid.W);x<Math.ceil((q.x+q.w)*grid.W);x++){const p=(grid.raw||grid).at(x,y);if(Math.max(...p)<180)colors.push(p);}
   const color=colors.length?'#'+[0,1,2].map(i=>median(colors.map(p=>p[i])).toString(16).padStart(2,'0')).join(''):'#333333';
-  b.documentText={sourceBox:q,lines:native,font,color:raw.documentText.color||color,heading:q.h>.03&&clean(raw.cn||raw.en).length<15,bold:raw.documentText.bold||false,sans:raw.documentText.sans||false};delete b.unresolvedStructure;
+  b.documentText={sourceBox:q,lines:native,font,color:raw.documentText.color||color,heading:q.h>.03&&clean(raw.cn||raw.en).length<15,bold:raw.documentText.bold||false,sans:raw.documentText.sans||false,...(raw.documentText.choice?{choice:raw.documentText.choice}:{}),...(raw.documentText.vertical?{vertical:true}:{})};delete b.unresolvedStructure;
  }
+ // Fragmented A–D labels must not produce different print sizes in one exercise.
+ const choices=layout.blocks.filter(b=>b.documentText?.choice&&b.documentText.font);
+ if(choices.length){const font=median(choices.map(b=>b.documentText.font));for(const b of choices)b.documentText.font=font;}
  // A tinted paper panel is measured independently of its printed characters.
  const colored=[],rowHits=new Map(),colHits=new Map();for(let y=0;y<grid.H;y+=2)for(let x=0;x<grid.W;x+=2){const p=grid.hi?grid.hi.at(Math.round(x/grid.W*grid.hi.W),Math.round(y/grid.H*grid.hi.H)):grid.at(x,y);if(Math.min(...p.slice(0,3))>185&&Math.max(...p.slice(0,3))-Math.min(...p.slice(0,3))>12){colored.push({x,y,p});rowHits.set(y,(rowHits.get(y)||0)+1);colHits.set(x,(colHits.get(x)||0)+1);}}
  const dense=colored.filter(p=>rowHits.get(p.y)>grid.W*.1&&colHits.get(p.x)>grid.H*.1);
