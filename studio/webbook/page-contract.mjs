@@ -5,7 +5,7 @@ export const digest = value => createHash('sha256').update(typeof value === 'str
 const sourceOf = o => {
   if (Array.isArray(o)) return o.map(sourceOf);
   if (!o || typeof o !== 'object') return o;
-  return Object.fromEntries(Object.entries(o).filter(([k]) => /^(cn|en|hz|py|text|number|type|rows|turns|heading|header|items|caption|group|lines)$/.test(k)).map(([k,v])=>[k,sourceOf(v)]));
+  return Object.fromEntries(Object.entries(o).filter(([k]) => /^(cn|en|hz|py|text|number|type|rows|turns|heading|header|items|caption|group|lines|cells|columns|rowCount|row|col|rowspan|colspan|printedPage|label)$/.test(k)).map(([k,v])=>[k,sourceOf(v)]));
 };
 export function russianFields(block) {
   const fields = [];
@@ -60,6 +60,11 @@ export function validatePage(layout,{requireKz=false}={}) {
     if(!r||![r.x,r.y,r.w,r.h].every(Number.isFinite)||r.w<=0||r.h<=0||r.x<0||r.y<0||r.x+r.w>1.011||r.y+r.h>1.011)errors.push(`Некорректная рамка ${b.id||b.type}.`);
     if(b.id&&ids.has(b.id))errors.push(`Повторяется ID ${b.id}.`);ids.add(b.id);
     if(b.rasterizedText)errors.push(`Учебный текст превращён в изображение: ${b.id}.`);
+    if(b.type==='table'){
+      const seen=new Set();
+      for(const c of b.cells||[]){if(![c.row,c.col,c.rowspan,c.colspan].every(Number.isInteger)||c.row<0||c.col<0||c.rowspan<1||c.colspan<1||c.row+c.rowspan>b.rowCount||c.col+c.colspan>b.columns){errors.push(`Некорректная ячейка таблицы ${b.id}.`);continue;}for(let row=c.row;row<c.row+c.rowspan;row++)for(let col=c.col;col<c.col+c.colspan;col++){const key=row+':'+col;if(seen.has(key))errors.push(`Пересекающиеся ячейки таблицы ${b.id}.`);seen.add(key);}}
+      if(seen.size!==b.columns*b.rowCount)errors.push(`Пропущены ячейки таблицы ${b.id}.`);
+    }
     for(const f of russianFields(b))if(requireKz&&!b.translations?.[f.path]?.kk&&!layout.kz?.[f.value])errors.push(`Нет казахского перевода: ${f.value}`);
     if(b.unresolvedStructure)warnings.push(`Требует уточнения структура ${b.id}.`);
   }

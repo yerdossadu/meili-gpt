@@ -13,6 +13,7 @@ import {sourceLexicon,sourceHeadingLexicon} from './source-lexicon.mjs';
 import {alignExamPictures,alignExamOptions} from './exam-layout.mjs';
 import { measureTitlePage } from './title-page.mjs';
 import {measureCoverPage} from './cover-page.mjs';
+import {measureDocumentPage} from './document-page.mjs';
 import { measureImprintPage } from './imprint-page.mjs';
 import { measureCreditsPage } from './credits-page.mjs';
 import { measureForewordPage } from './foreword-page.mjs';
@@ -28,7 +29,7 @@ import {reconcileAnswerGrid,measureDialogueOptions,clipImagesBeforeText,dialogue
 export {toneRecordings,phoneticRecordings} from './tone-audio.mjs';
 export const NORM_VERSION = 3;
 export const SNAP_VERSION = 3;
-export const TYPES = ['runhead', 'lesson', 'objectives', 'section', 'para', 'tip', 'dialogue', 'image', 'card', 'words', 'folio', 'text', 'decor', 'bonus', 'contents'];
+export const TYPES = ['runhead', 'lesson', 'objectives', 'section', 'para', 'tip', 'dialogue', 'image', 'card', 'words', 'folio', 'text', 'decor', 'bonus', 'contents', 'table', 'toc'];
 
 export const PROMPT = `Ты размечаешь скан страницы китайского учебника HSK для пересборки в HTML из готовых компонентов.
 Верни ТОЛЬКО JSON вида {"blocks":[...],"kz":{"русская строка":"казахский перевод"}} без пояснений. В kz включи каждую русскую строку блоков; имена и пиньинь сохраняй.
@@ -40,6 +41,9 @@ box — рамка блока в ДОЛЯХ страницы от 0 до 1: x,y 
 Во вводных страницах сохраняй каждый заголовок и абзац отдельным блоком; если оригинал только английский, cn оставляй пустым. В двуязычных представлениях персонажей держи китайский текст и его английский перевод в одном блоке, портрет — отдельным image. Не включай соседний текст и цветной фон страницы в рамку портрета.\nДля каждого текста дай: cn (китайский дословно, без пиньиня), en (английский дословно), ru (точный русский перевод английского, по возможности не длиннее английского), py (пиньинь, если он напечатан над иероглифами, дословно с тонами).
 Переносы строк, напечатанные в cn, py и en (стихи, скороговорки), передавай символом \\n; в ru — в тех же местах, что в en.
 Типы блоков:
+- text с documentText:{sans:true|false,bold:true|false}: строки выходных данных, предисловий и инструкций; каждый логический абзац или строка отдельным блоком. Их китайский оригинал и переводы показываются раздельно. Логотипы и подписи — отдельные image с documentGraphic:true; обычные фото это поле не получают.
+- table: любая печатная таблица, включая объединённые ячейки. columns и rowCount — число колонок и строк; cells:[{row,col,rowspan,colspan,cn,en,ru}] с индексами от нуля. Каждая позиция сетки должна принадлежать ровно одной ячейке. Сохраняй числа и объединения, таблицу не превращай в image.
+- toc: простое оглавление со строками и точечными лидерами. rows:[{box,label:{cn,en,ru},cn,en,ru,printedPage,labelWidth,font}]. printedPage — печатный номер из оглавления; это не номер скана. label — номер урока либо название раздела. labelWidth — доля ширины страницы (пример .06 для номера, .125 для раздела). Все переводы включай в kz.
 - contents: оглавление. columns — 5 координат x границ четырех колонок; header — 4 ячейки {cn,en,ru}; rows — строки из 4 ячеек (номер урока, название, печатная страница, темы). Темы передавать как items:[{cn,en,ru}] внутри четвертой ячейки. Сохраняй номера печатных страниц буквально; они не являются номером загруженного скана. Таблицу не превращай в image; каждую тему и перевод включи в kz.
 - runhead: колонтитул вверху. cn, en, ru; number — крупная цифра урока рядом с колонтитулом (напр. "2"), если есть; в en и ru её не повторяй.
 - lesson: крупная шапка урока. number, cn, en, ru, py (пиньинь над заголовком), label (напр. "Lesson").
@@ -140,6 +144,10 @@ export function normalize(parsed, scale = { sx: 1, sy: 1 }) {
     const type = str(raw?.type), box = normBox(raw?.box, scale);
     if (!TYPES.includes(type) || !box) continue;
     const b = { type, box, ...tri(raw) };
+    if(raw.documentText)b.documentText=raw.documentText;
+    if(raw.documentGraphic)b.documentGraphic=true;
+    if(type==='toc')b.rows=(raw.rows||[]).map(r=>({...tri(r),label:tri(r.label),printedPage:str(r.printedPage),box:normBox(r.box,scale),labelWidth:Number(r.labelWidth)||.06,font:Number(r.font)||2})).filter(r=>r.box);
+    if(type==='table')Object.assign(b,{columns:Math.max(1,Math.min(20,Number(raw.columns)||1)),rowCount:Math.max(1,Math.min(50,Number(raw.rowCount)||1)),cells:(raw.cells||[]).map(c=>({...tri(c),row:Number(c.row)||0,col:Number(c.col)||0,rowspan:Math.max(1,Number(c.rowspan)||1),colspan:Math.max(1,Number(c.colspan)||1)}))});
     if(type==='contents')Object.assign(b,{columns:raw.columns,header:(raw.header||[]).map(tri),rows:(raw.rows||[]).map(row=>row.map(c=>({...tri(c),span:Number(c.span)||1,items:(c.items||[]).map(tri)})))});
     // A numbered spelling subsection is not a new lesson. Misclassifying it
     // also routes this page and its continuations into the wrong lesson.
@@ -1195,6 +1203,7 @@ export function snap(layout, grid, ocr) {
   const theme = extractTheme(grid.raw || grid);
   const blocks = layout.blocks.map((b, n) => {
     const own = hits[n], next = { ...b };
+    if(b.documentText||b.documentGraphic||b.type==='table'||b.type==='toc')return next;
     // A caption's translation the print does not carry («鸡 jī» under a photo, no «chicken»): any scan
     // line around the caption may hold it, assigned to this block or not.
     if (b.type === 'text' && b.cn && b.en && !gridRows(b)) { const area = grow(b.box, 0.03, 0.02); if (!lines.some(l => l.box.x + l.box.w / 2 >= area.x && l.box.x + l.box.w / 2 <= area.x + area.w && l.box.y + l.box.h / 2 >= area.y && l.box.y + l.box.h / 2 <= area.y + area.h && matchScore(plain(l.text), plain(b.en)) >= 0.5)) next.trOff = true; }
@@ -1533,7 +1542,7 @@ export function snap(layout, grid, ocr) {
         }
       }
     }
-    if (b.type !== 'text' || gridRows(b) || String(b.cn || b.py || '').length > 12) continue;
+    if (b.documentText || b.type !== 'text' || gridRows(b) || String(b.cn || b.py || '').length > 12) continue;
     const cx = b.box.x + b.box.w / 2, pic = blocks.find(o => o.type === 'image' && cx > o.box.x && cx < o.box.x + o.box.w && b.box.y >= o.box.y + o.box.h * 0.5 && b.box.y - (o.box.y + o.box.h) < 0.06);
     if (pic) { b.box = { ...b.box, x: pic.box.x, w: pic.box.w }; b.align = 'center'; b.cardOf = pic; }
   }
@@ -1695,6 +1704,7 @@ export function snap(layout, grid, ocr) {
   measureCharacterPage({...layout,blocks,theme},grid,lines);
   measureClassroomPage({...layout,blocks,theme},grid,lines);
   measureContentsPage({...layout,blocks,theme},grid,lines);
+  measureDocumentPage({...layout,blocks,theme},grid,lines);
   measureSandhiTable({...layout,blocks,theme},grid);
   alignMatchingStrip(blocks,layout.source);
   for(const b of blocks){const source=layout.source?.blocks.find(o=>o.type===b.type&&o.py?.replace(/[(（]\d+[)）]/g,'').replace(/\s/g,'')===b.py?.replace(/[(（]\d+[)）]/g,'').replace(/\s/g,''));measurePhraseGrid(b,source,lines);measureNumberedPhonetics(b,source,lines);for(const c of [...(b.phraseCells||[]),...(b.numberedPhonetics||[])]){if(b.toneAnswers)continue;const label=phoneticPhraseLabels[c.text.replace(/\s+/g,'').toLowerCase()];if(label){Object.assign(c,label);if(label.printedPy&&c.text!==label.printedPy){c.ocrText=c.text;c.text=label.printedPy;c.reviewRequired=true;}layout.kz[label.ru]=label.kk;}}}
@@ -1773,7 +1783,7 @@ const lexicalLabel = b => {
 export function attachInteractiveCaptions(layout) {
   const blocks = (layout?.blocks || []).map(b => ({ ...b }));
   const images = blocks.filter(b => b.type === 'image');
-  const labels = blocks.filter(b => ['text', 'para'].includes(b.type) && lexicalLabel(b));
+  const labels = blocks.filter(b => !b.documentText && ['text', 'para'].includes(b.type) && lexicalLabel(b));
   const pageText = blocks.filter(b => ['text', 'para', 'section'].includes(b.type)).map(b => b.cn || '').join(' ');
   const shuffledMatchingExercise = /选择.{0,8}对应|对应.{0,8}图片|подбер.{0,30}картин|соответствующ.{0,20}картин/i.test(pageText);
   const labelOwner = new Map();
@@ -2237,6 +2247,9 @@ export function render(layout, { assets = {}, pinyin = true, lang = '', editable
       const play=`event.stopPropagation();var p=this.closest('.hsk-page'),a=p.querySelector('audio.hsk-table-player');if(!a){a=document.createElement('audio');a.className='hsk-table-player';a.hidden=true;p.appendChild(a)}a.pause();a.src=this.dataset.src;a.play()`;
       return `<section ${at} data-hsk-manual="1" class="hsk-at hsk-numbered-phonetics" style="${pos(b,h)}">${b.numberedPhonetics.map(c=>{const src=assets['tone-'+recordingKey(c.text)];return `<span class="hsk-at" style="${rel(c.box,b.box)}">${c.number?`<span class="hsk-phonetic-number">(${c.number}) </span>`:''}<button type="button" class="hsk-table-speak" data-hsk-speak="${esc(c.text)}" data-src="${esc(src||'')}" ${src?`onclick="${esc(play)}"`:'disabled title="Запись произношения пока отсутствует"'}>${esc(c.text)}</button></span>`}).join('')}</section>`;
     }
+    if(b.documentText?.lines){const d=b.documentText,original=d.lines.map(l=>`<span class="hsk-at hsk-document-original" style="${rel(l.box,b.box)}white-space:pre;font-size:${d.font}cqw">${esc(l.text)}</span>`).join('');return `<section ${at} data-hsk-manual="1" class="hsk-at hsk-document-text"${d.heading?' data-document-heading="1"':''} style="${pos(b,`height:${pct(b.box.h)};`)}font-family:${d.sans?'var(--sans)':'var(--serif)'};font-weight:${d.bold?'bold':'normal'};color:${d.color||'#333'};font-size:${d.font}cqw">${original}${b.ru?ed(n,'ru',b.ru,'ru hsk-document-translation'):''}</section>`;}
+    if(b.type==='table'){const xs=b.columnEdges,ys=b.rowEdges;return `<section ${at} data-hsk-manual="1" class="hsk-at hsk-document-table" role="table" style="${pos(b,`height:${pct(b.box.h)};`)}">${b.cells.map((c,k)=>{const q={x:xs[c.col],y:ys[c.row],w:xs[c.col+c.colspan]-xs[c.col],h:ys[c.row+c.rowspan]-ys[c.row]};return `<div class="hsk-at hsk-document-cell" role="cell" aria-rowindex="${c.row+1}" aria-colindex="${c.col+1}" aria-rowspan="${c.rowspan}" aria-colspan="${c.colspan}" style="${rel(q,b.box)}"><span class="cn">${esc(c.cn||c.en)}</span>${c.ru?ed(n,`cells.${k}.ru`,c.ru,'ru'):''}</div>`}).join('')}</section>`;}
+    if(b.type==='toc')return `<section ${at} data-hsk-manual="1" class="hsk-at hsk-document-toc" style="${pos(b,`height:${pct(b.box.h)};`)}">${b.rows.map((r,k)=>`<div class="hsk-at hsk-toc-row" style="${rel(r.box,b.box)}font-size:${r.font}cqw"><span class="hsk-toc-label" style="width:${r.labelWidth*100}cqw">${trio(n,`rows.${k}.label.`,r.label)}</span><span class="hsk-toc-title">${trio(n,`rows.${k}.`,r)}</span><span class="hsk-toc-leader" aria-hidden="true"></span><span class="hsk-toc-page">${esc(r.printedPage)}</span></div>`).join('')}</section>`;
     if(b.contentsTitle)return '<header '+at+' data-hsk-manual="1" class="hsk-at hsk-contents-title" style="'+pos(b,h)+'"><span class="initial">C</span><span>ONTENTS</span><span class="cn">目录</span>'+ed(n,'ru',b.ru,'ru')+'</header>';
     if(b.type==='contents'){
       const cols=b.columns||[b.box.x,b.box.x+b.box.w*.1,b.box.x+b.box.w*.4,b.box.x+b.box.w*.47,b.box.x+b.box.w],edges=b.rowEdges;
@@ -2568,7 +2581,8 @@ export function render(layout, { assets = {}, pinyin = true, lang = '', editable
     const handler = `var p=this.closest('.hsk-page');p.querySelectorAll('.hsk-phonetic-cell').forEach(function(b){b.setAttribute('aria-pressed','false')});this.setAttribute('aria-pressed','true');var s=p.querySelector('.hsk-phonetic-status');s.textContent='${kind}: '+this.textContent;var say=function(){var u=new SpeechSynthesisUtterance(this.dataset.hskSpeak||this.textContent);u.lang='zh-CN';speechSynthesis.cancel();speechSynthesis.speak(u)}.bind(this);var a=p.querySelector('audio.hsk-phonetics-player');if(!a){a=document.createElement('audio');a.className='hsk-phonetics-player';a.hidden=true;p.appendChild(a)}if(this.dataset.src){a.pause();a.src=this.dataset.src;a.play().catch(say)}else say()`;
     return `<button type="button" class="hsk-phonetic-cell" aria-label="${kind} ${esc(c.text)} — выбрать и прослушать" aria-pressed="false" data-hsk-speak="${esc(c.speak || c.text)}" data-src="${esc(src || '')}" style="left:${pct(c.box.x)};top:${pct(c.box.y)};width:${pct(c.box.w)};height:${pct(c.box.h)}" onclick="${esc(handler)}">${esc(c.text)}</button>`;
   }).join('');
-  return `<div class="hsk-page${source ? ' hsk-has-source' : ''}${translatedSource ? ' hsk-source-translated' : ''}"${layout.conversionId ? ` data-conversion-id="${esc(layout.conversionId)}"` : ''}${lang ? ` data-lang="${lang === 'original' ? 'orig' : 'ru'}"` : ''} data-pinyin="${pinyin ? 'on' : 'off'}" style="${style}">${bg}${deco}${html}${source}${phonetics}${phonetics ? '<output class="hsk-phonetic-status" aria-live="polite">Нажмите на инициаль, финаль или слог, чтобы прослушать произношение.</output>' : ''}</div>`;
+  const documentRules=(theme.documentRules||[]).map(r=>`<i class="hsk-at hsk-document-rule" aria-hidden="true" style="left:${pct(r.box.x)};top:${pct(r.box.y)};width:${pct(r.box.w)};border-top:.08cqw ${r.dashed?'dashed':'solid'} #999"></i>`).join('');
+  return `<div class="hsk-page${source ? ' hsk-has-source' : ''}${translatedSource ? ' hsk-source-translated' : ''}"${layout.conversionId ? ` data-conversion-id="${esc(layout.conversionId)}"` : ''}${lang ? ` data-lang="${lang === 'original' ? 'orig' : 'ru'}"` : ''} data-pinyin="${pinyin ? 'on' : 'off'}" style="${style}">${bg}${documentRules}${deco}${html}${source}${phonetics}${phonetics ? '<output class="hsk-phonetic-status" aria-live="polite">Нажмите на инициаль, финаль или слог, чтобы прослушать произношение.</output>' : ''}</div>`;
 }
 
 // ---- Fit (browser only) ------------------------------------------------
@@ -2603,7 +2617,12 @@ export function fit(page) {
   // column positions by it, so text grows while the columns stay put.
   const setZ = (el, z) => { el.style.zoom = z || ''; if (z) el.style.setProperty('--z', z); else el.style.removeProperty('--z'); };
   // One measuring pass in the language shown now: returns the blocks and the zoom each got.
+  const fitDocument = () => {
+  for(const el of page.querySelectorAll('.hsk-document-translation,.hsk-document-cell > span')){if(el.offsetParent===null)continue;const parent=el.parentElement;let size=parent.classList.contains('hsk-document-cell')?page.clientWidth*.018:Number.parseFloat(getComputedStyle(parent).fontSize);el.style.fontSize=size+'px';while((el.scrollHeight>parent.clientHeight+1||el.scrollWidth>parent.clientWidth+1)&&size>page.clientWidth*.009){size*=.96;el.style.fontSize=size+'px';}}
+  for(const el of page.querySelectorAll('.hsk-toc-title,.hsk-toc-label')){let size=Number.parseFloat(getComputedStyle(el.parentElement).fontSize);el.style.fontSize=size+'px';while((el.scrollWidth>el.clientWidth+1||el.scrollHeight>el.parentElement.clientHeight+1)&&size>page.clientWidth*.009){size*=.96;el.style.fontSize=size+'px';}}
+  };
   const pass = () => {
+  fitDocument();
   const MIN_ZOOM = 0.7, MAX_ZOOM = 1.25, GROW = page.dataset.grow !== 'off', room = new Map();
   const GROWABLE = '.hsk-para, .hsk-text, .hsk-tip, .hsk-card, .hsk-words, .hsk-objectives';
   // Graphics drawn over blocks (arrows, characters) are not neighbours.
@@ -2687,6 +2706,7 @@ export function fit(page) {
     cache = page.__hskZooms = { key, blocks: runs[0].blocks, zooms: runs[0].zooms.map((_, i) => Math.min(...runs.map(r => r.zooms[i]))) };
   }
   setLang(page, shown);
+  fitDocument();
   cache.blocks.forEach((el, i) => setZ(el, cache.zooms[i] === 1 ? '' : cache.zooms[i].toFixed(2)));
 }
 

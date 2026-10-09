@@ -17,7 +17,7 @@ import { createWriteStream, existsSync } from 'node:fs';
 import { join, extname } from 'node:path';
 import { createHash, randomUUID } from 'node:crypto';
 import {inferBookPlatform} from './book-platform.mjs';
-import {supplementDisplayOcr} from './display-ocr.mjs';
+import {supplementDisplayOcr,needsDisplayOcr} from './display-ocr.mjs';
 import {restoreCoverVolume} from './cover-volume.mjs';
 import { digest, localizeLayout, validatePage, validatePageRevision, layoutFromOcr } from './page-contract.mjs';
 import {translationMemory,restoreTranslations} from './localization-memory.mjs';
@@ -32,7 +32,7 @@ const SCAN_DPI = 288;
 const CODE = fileURLToPath(new URL('.', import.meta.url));
 // A geometry or CSS fix changes the renderer just as a core change does.
 // Frozen revisions must never be published as if they used those new rules.
-const RENDERER_FILES=['core.mjs','components.css','source-geometry.mjs','word-labels.mjs','tone-audio.mjs','workbook-drills.mjs','title-page.mjs','cover-page.mjs','cover-volume.mjs','display-ocr.mjs','book-platform.mjs','imprint-page.mjs','credits-page.mjs','foreword-page.mjs','character-page.mjs','classroom-page.mjs','contents-page.mjs','phonetic-tasks.mjs','dialogue-presentation.mjs','exam-layout.mjs','source-lexicon.mjs','page-contract.mjs','reviewed-kazakh.mjs'];
+const RENDERER_FILES=['core.mjs','components.css','source-geometry.mjs','word-labels.mjs','tone-audio.mjs','workbook-drills.mjs','title-page.mjs','cover-page.mjs','cover-volume.mjs','display-ocr.mjs','document-page.mjs','book-platform.mjs','imprint-page.mjs','credits-page.mjs','foreword-page.mjs','character-page.mjs','classroom-page.mjs','contents-page.mjs','phonetic-tasks.mjs','dialogue-presentation.mjs','exam-layout.mjs','source-lexicon.mjs','page-contract.mjs','reviewed-kazakh.mjs'];
 RENDERER_FILES.push('localization-memory.mjs');
 const RENDERER_HASH = digest(await Promise.all(RENDERER_FILES.map(async name=>[name,await readFile(join(CODE,name),'utf8')])));
 const rendererScript = () => `window.FormaPage=(function(){${core.fit.toString()}\n${core.autoFit.toString()}\n${core.setLang.toString()}\nreturn{fit,autoFit,setLang};})();`;
@@ -113,7 +113,7 @@ export function createWebbook({ root, getApiKey, getAliKey = () => '', origin = 
   async function stepOcr(dir, n, force) {
     const sourceHash=digest(await readFile(join(dir,'scan.png')));
     const cached = !force && await readJson(join(dir, 'ocr.json'));
-    if ((cached?.lines?.length||cached?.blank) && (!cached.sourceHash || cached.sourceHash===sourceHash) && (!cached.lines?.some(l=>l.text.includes('标准教程'))||cached.displayOcr)) {
+    if ((cached?.lines?.length||cached?.blank) && (!cached.sourceHash || cached.sourceHash===sourceHash) && (!needsDisplayOcr(cached)||cached.displayOcr)) {
       if(!cached.sourceHash){cached.sourceHash=sourceHash;await writeJson(join(dir,'ocr.json'),cached);}
       return { ocr: cached, note: `из кэша, ${cached.lines.length} строк` };
     }
