@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {ruleEdges,measureDocumentPage} from './document-page.mjs';
-import {fromModel,render,ocrLinesOf} from './core.mjs';
+import {fromModel,render,ocrLinesOf,pageDocument,findDecorations} from './core.mjs';
 import {readFileSync} from 'node:fs';
 import {needsDisplayOcr,supplementDisplayOcr} from './display-ocr.mjs';
 import {validatePage,localizeLayout} from './page-contract.mjs';
@@ -47,5 +47,29 @@ test('reviewed HSK5 source pages retain OCR text positions and language coverage
   for(const b of documents)assert.ok(b.documentText.lines?.length>0,`${f.bookId}/${f.sourcePage}: lost source text ${b.cn}`);
   assert.deepEqual(validatePage(localizeLayout(l),{requireKz:true}).errors,[],`${f.bookId}/${f.sourcePage}: publication contract`);
   const html=render(l);assert.match(html,/data-en=/);assert.match(html,/data-kz=/);
+ }
+});
+
+test('light printed rules restore colored cells without becoming a page-sized background',()=>{
+ const box={x:.1,y:.1,w:.8,h:.6};
+ const grid={W:100,H:100,at:(x,y)=>x<10||x>90||y<10||y>70||[10,50,90].includes(x)||[10,40,70].includes(y)?[255,255,255]:y<40?[65,60,150]:[222,209,246]};
+ const l=fromModel({blocks:[{type:'table',box,columns:2,rowCount:2,cells:[{row:0,col:0,cn:'表'},{row:0,col:1,cn:'课'},{row:1,col:0,cn:'150'},{row:1,col:1,cn:'30–45'}]}]},100,100);l.theme={};
+ measureDocumentPage(l,grid,[]);assert.equal(l.blocks[0].tableGeometry.verified,true);assert.equal(l.blocks[0].borderColor,'#fff');assert.equal(l.blocks[0].cells[0].fill,'#413c96');assert.equal(l.blocks[0].cells[2].fill,'#ded1f6');assert.equal(l.theme.background,undefined);assert.match(render(l),/border-color:#fff/);
+});
+
+test('CSS unit panels cannot be recovered as scan decorations covering native translations',()=>{
+ const box={x:.1,y:.3,w:.8,h:.2};const layout={theme:{documentPanels:[{box,color:'#85878b'}]},blocks:[]};
+ const grid={W:100,H:100,at:(x,y)=>x>=10&&x<=90&&y>=30&&y<=50?[133,135,139]:[255,255,255]};
+ assert.deepEqual(findDecorations(layout,grid),[]);
+});
+
+test('HSK5 pages 7–8 retain table numbers, contents routing and all language switches',()=>{
+ const fixtures=JSON.parse(readFileSync(new URL('../../conversion-fixtures/hsk5-source-pages-007-008.json',import.meta.url),'utf8'));
+ for(const f of fixtures){const l=fromModel(f.source,f.ocr.width,f.ocr.height);l.theme={};measureDocumentPage(l,{W:100,H:150,at:()=>[255,255,255]},ocrLinesOf(f.ocr));
+  const localized=localizeLayout(l);assert.deepEqual(validatePage(localized,{requireKz:true}).errors,[]);
+  const html=pageDocument(localized);for(const lang of ['ru','en','kz','orig'])assert.match(html,new RegExp('data-lang="'+lang+'"'));
+  for(const b of l.blocks.filter(b=>b.documentText))assert.ok(b.documentText.lines?.length,`${f.bookId}/${f.sourcePage}: source text lost`);
+  if(f.bookId==='9b495a8351c6'&&f.sourcePage===7){const t=l.blocks.find(b=>b.type==='table');assert.equal(t.cells.length,32);assert.equal(t.cells.find(c=>c.row===6&&c.col===3).cn,'240–320');assert.equal(t.cells.find(c=>c.row===7&&c.col===3).cn,'600–850');}
+  if(f.bookId==='1a3750a2f488'&&f.sourcePage===7)assert.equal(l.blocks.find(b=>b.type==='toc').rows.find(r=>r.label.cn==='12').printedPage,'82');
  }
 });
