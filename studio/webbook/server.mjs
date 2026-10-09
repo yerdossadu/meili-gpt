@@ -28,7 +28,7 @@ const SCAN_DPI = 288;
 const CODE = fileURLToPath(new URL('.', import.meta.url));
 // A geometry or CSS fix changes the renderer just as a core change does.
 // Frozen revisions must never be published as if they used those new rules.
-const RENDERER_FILES=['core.mjs','components.css','source-geometry.mjs','word-labels.mjs','tone-audio.mjs','workbook-drills.mjs','title-page.mjs','imprint-page.mjs','credits-page.mjs','foreword-page.mjs','character-page.mjs','classroom-page.mjs','contents-page.mjs','page-contract.mjs'];
+const RENDERER_FILES=['core.mjs','components.css','source-geometry.mjs','word-labels.mjs','tone-audio.mjs','workbook-drills.mjs','title-page.mjs','imprint-page.mjs','credits-page.mjs','foreword-page.mjs','character-page.mjs','classroom-page.mjs','contents-page.mjs','phonetic-tasks.mjs','page-contract.mjs'];
 const RENDERER_HASH = digest(await Promise.all(RENDERER_FILES.map(async name=>[name,await readFile(join(CODE,name),'utf8')])));
 const rendererScript = () => `window.FormaPage=(function(){${core.fit.toString()}\n${core.autoFit.toString()}\n${core.setLang.toString()}\nreturn{fit,autoFit,setLang};})();`;
 const STEPS = [['render', 'Рендер страницы PDF'], ['ocr', 'Локальный OCR'], ['model', 'Разметка моделью'], ['layout', 'Привязка к скану'], ['assets', 'Картинки'], ['html', 'HTML-страница']];
@@ -103,7 +103,7 @@ export function createWebbook({ root, getApiKey, getAliKey = () => '', origin = 
   async function stepOcr(dir, n, force) {
     const sourceHash=digest(await readFile(join(dir,'scan.png')));
     const cached = !force && await readJson(join(dir, 'ocr.json'));
-    if (cached?.lines?.length && (!cached.sourceHash || cached.sourceHash===sourceHash)) {
+    if ((cached?.lines?.length||cached?.blank) && (!cached.sourceHash || cached.sourceHash===sourceHash)) {
       if(!cached.sourceHash){cached.sourceHash=sourceHash;await writeJson(join(dir,'ocr.json'),cached);}
       return { ocr: cached, note: `из кэша, ${cached.lines.length} строк` };
     }
@@ -113,7 +113,7 @@ export function createWebbook({ root, getApiKey, getAliKey = () => '', origin = 
     catch { throw new Error('Локальный OCR (порт 4176) не отвечает. Запустите студию через start-forma-studio.bat.'); }
     const ocr = await response.json().catch(() => ({}));
     if (!response.ok) throw new Error(ocr.error || `OCR вернул HTTP ${response.status}.`);
-    if (!ocr.lines?.length) throw new Error('OCR не нашёл текста на странице.');
+    if (!ocr.lines?.length){const {loadImage}=await canvasLib(),proof=core.blankEvidence(await pixelGrid(await loadImage(png)));if(!proof.blank)throw new Error('OCR не нашёл текста на странице с печатным содержимым.');ocr.lines=[];ocr.blank=true;ocr.blankEvidence=proof;}
     ocr.sourceHash=sourceHash;
     await writeJson(join(dir, 'ocr.json'), ocr);
     return { ocr, note: `${ocr.lines.length} строк` };
@@ -999,7 +999,7 @@ export function createWebbook({ root, getApiKey, getAliKey = () => '', origin = 
       ...(item.trans_en ? { trans_en: item.trans_en } : {}),
       ...(k(item.trans) ? { trans_kz: k(item.trans) } : {})
     }));
-    const square = blocks.find(b => b.type === 'para' && b.icon === 'square');
+    const square = blocks.find(b => b.type === 'para' && b.icon === 'square') || blocks.find(b => b.type === 'para' && b.number && /听录音|看图片|朗读/.test(b.cn));
     const pin = blocks.find(b => b.type === 'para' && b.icon === 'pin');
     const turns = blocks.filter(b => b.type === 'dialogue').flatMap(b => b.turns || []);
     const first = turns.find(t => t.py && t.hz) || null;

@@ -1,0 +1,69 @@
+{
+  "source": "Microsoft Edge TTS via https://github.com/rany2/edge-tts",
+  "records": [
+    {
+      "key": "shui2-guo3",
+      "text": "水果",
+      "voice": "zh-CN-XiaoxiaoNeural",
+      "rate": "-15%",
+      "sha256": "47c43ecd44187ed79940e04e12c3978fdd8d42be59f17854906d70ce6fba7611"
+    },
+    {
+      "key": "ni2-hao3",
+      "text": "你好",
+      "voice": "zh-CN-XiaoxiaoNeural",
+      "rate": "-15%",
+      "sha256": "7ab0a7583b65011ffc01878c1cf4a39aa5c47ff2762291647d020444414c2ebd"
+    },
+    {
+      "key": "ke2-yi3",
+      "text": "可以",
+      "voice": "zh-CN-XiaoxiaoNeural",
+      "rate": "-15%",
+      "sha256": "03a7aac1a8bab8e1f036ae12386fc5f3effbf80d628a720051a289db0257e94a"
+    },
+    {
+      "key": "na2-li3",
+      "text": "哪里",
+      "voice": "zh-CN-XiaoxiaoNeural",
+      "rate": "-15%",
+      "sha256": "11af6cbe2b6028f23eb411f198f67203399ea1ba8e967b0790c45d49140d3e2d"
+    },
+    {
+      "key": "hen2-hao3",
+      "text": "很好",
+      "voice": "zh-CN-XiaoxiaoNeural",
+      "rate": "-15%",
+      "sha256": "ad14a4201714f753d6c385907b46dfe5d23b3f4548cd6a6bc728c0bea72fd2cd"
+    },
+    {
+      "key": "suo2-yi3",
+      "text": "所以",
+      "voice": "zh-CN-XiaoxiaoNeural",
+      "rate": "-15%",
+      "sha256": "53efe25304180443f54c761eaf58ee0c44f44d8e74e41aaad35cb73e5a025e1e"
+    },
+    {
+      "key": "qing2-ni3",
+      "text": "请你",
+      "voice": "zh-CN-XiaoxiaoNeural",
+      "rate": "-15%",
+      "sha256": "47c0e505913629c75506c97226152a769a4883508bef8e95065f1bc0b9868bc4"
+    },
+    {
+      "key": "shou2-biao3",
+      "text": "手表",
+      "voice": "zh-CN-XiaoxiaoNeural",
+      "rate": "-15%",
+      "sha256": "7d37a215ea7fa3836cce181297eb5705c3d4cf1dbc70b2675ebb9bb2059a6cee"
+    },
+    {
+      "key": "xiao2-yu3",
+      "text": "小语",
+      "voice": "zh-CN-XiaoxiaoNeural",
+      "rate": "-15%",
+      "sha256": "4367d4cd425ee178ec01c44fcffd430a88a92c8a6dc1307d085ee3f7ddf671e2"
+    }
+  ],
+  "note": "Complete Chinese words/phrases, not romanized pinyin; third-tone sandhi is pronounced in context."
+}

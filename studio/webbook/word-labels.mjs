@@ -11,3 +11,9 @@ export const wordLabels = {
   '你好':{en:'hello',kk:'сәлем'},'朋友':{en:'friend',kk:'дос'},'面包':{en:'bread',kk:'нан'},'妹妹':{en:'younger sister',kk:'сіңлі / қарындас'},
   '房间':{en:'room',kk:'бөлме'},'白天':{en:'daytime',kk:'күндіз'},'饭店':{en:'restaurant',kk:'мейрамхана'},'电脑':{en:'computer',kk:'компьютер'}
 };
+export const phoneticPhraseLabels={
+ 'shuǐguǒ':{hz:'水果',ru:'фрукты',en:'fruit',kk:'жемістер'},'nǐhǎo':{hz:'你好',ru:'здравствуйте',en:'hello',kk:'сәлем'},
+ 'kěyǐ':{hz:'可以',ru:'можно',en:'can; may',kk:'болады'},'nǎlǐ':{hz:'哪里',ru:'где',en:'where',kk:'қайда'},
+ 'hěnhǎo':{hz:'很好',ru:'очень хорошо',en:'very good',kk:'өте жақсы'},'suǒyǐ':{hz:'所以',ru:'поэтому',en:'therefore',kk:'сондықтан'},
+ 'qǐngnǐ':{hz:'请你',ru:'прошу вас',en:'please',kk:'сізден өтінемін'},'shǒubiǎo':{hz:'手表',ru:'наручные часы',en:'wristwatch',kk:'қол сағаты'}
+};

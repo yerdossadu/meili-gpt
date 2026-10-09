@@ -112,7 +112,7 @@ export function measureDialogueOptions(b,lines){
     const cn=near.find(l=>!used.has(l)&&new RegExp('^'+t.speaker+'[：:]').test(l.text)&&han(l.text)===han(t.hz));
     if(!cn)return null;used.add(cn);
     const py=near.filter(l=>l.box.y<cn.box.y&&!/[A-Z][：:]|\p{Script=Han}/u.test(l.text)&&/[a-zāáǎà]/i.test(l.text)).sort((a,c)=>c.box.y-a.box.y)[0];
-    return {...t,cnBox:cn.box,pyBox:py?.box,translation:dialogueLabels[han(t.hz)]};
+    return {...t,cnBox:cn.box,pyBox:py?.box,translation:t.ru?{ru:t.ru,en:t.en,kk:t.kk}:dialogueLabels[han(t.hz)]};
   });
   return turns.every(Boolean)?{optionTurns:turns}:null;
 }
@@ -128,7 +128,7 @@ export function clipImagesBeforeText(blocks,lines){
   // speaker columns, rather than stretching the subject's bounding box.
   const options=blocks.filter(b=>b.optionTurns?.length).sort((a,b)=>a.optionTurns[0].cnBox.x-b.optionTurns[0].cnBox.x);
   const photos=blocks.filter(b=>b.type==='image'&&!b.caption).sort((a,b)=>a.box.x-b.box.x);
-  if(options.length>=3&&photos.length===options.length){
+  if(options.length>=3&&photos.length===options.length&&options.every((b,i)=>i===0||b.optionTurns[0].cnBox.x-options[i-1].optionTurns[0].cnBox.x>.1)){
     const first=photos[0],base=options[0].optionTurns[0].cnBox;
     if(first.box.w>.18&&first.box.w<.35&&first.box.h>.05&&first.box.h<.15&&photos.every(p=>Math.abs(p.box.y-first.box.y)<.05)){
       const offset=first.box.x-base.x,top=first.box.y,bottom=Math.min(...options.map(b=>b.optionTurns[0].pyBox?.y??b.optionTurns[0].cnBox.y))-.006;

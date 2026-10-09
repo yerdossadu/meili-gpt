@@ -4,7 +4,7 @@ export const digest = value => createHash('sha256').update(typeof value === 'str
 const sourceOf = o => {
   if (Array.isArray(o)) return o.map(sourceOf);
   if (!o || typeof o !== 'object') return o;
-  return Object.fromEntries(Object.entries(o).filter(([k]) => /^(cn|en|hz|py|text|number|type|rows|turns|heading|items|caption|group|lines)$/.test(k)).map(([k,v])=>[k,sourceOf(v)]));
+  return Object.fromEntries(Object.entries(o).filter(([k]) => /^(cn|en|hz|py|text|number|type|rows|turns|heading|header|items|caption|group|lines)$/.test(k)).map(([k,v])=>[k,sourceOf(v)]));
 };
 export function russianFields(block) {
   const fields = [];
@@ -50,7 +50,7 @@ export function localizeLayout(layout, before) {
 }
 export function validatePage(layout,{requireKz=false}={}) {
   const errors=[],warnings=[];
-  if(!layout.page?.width||!layout.page?.height||!layout.blocks?.length)errors.push('Нет размеров или содержимого страницы.');
+  if(!layout.page?.width||!layout.page?.height||(!layout.blocks?.length&&!(layout.blankPage&&layout.blankEvidence?.blank&&layout.blankEvidence.ocrLines===0&&layout.blankEvidence.inkFraction<.0002)))errors.push('Нет размеров или содержимого страницы.');
   const ids=new Set();
   for(const b of layout.blocks||[]){
     const r=b.box;

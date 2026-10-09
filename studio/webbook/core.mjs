@@ -15,8 +15,10 @@ import { measureCreditsPage } from './credits-page.mjs';
 import { measureForewordPage } from './foreword-page.mjs';
 import { measureCharacterPage } from './character-page.mjs';
 import { measureClassroomPage } from './classroom-page.mjs';
+import {blankEvidence,measurePhraseGrid,measureSandhiTable,alignMatchingStrip} from './phonetic-tasks.mjs';
+export {blankEvidence} from './phonetic-tasks.mjs';
 import { measureContentsPage } from './contents-page.mjs';
-import {wordLabels} from './word-labels.mjs';
+import {wordLabels,phoneticPhraseLabels} from './word-labels.mjs';
 import {toneKey,recordingKey,phoneticRecordingKey} from './tone-audio.mjs';
 import {reconcileAnswerGrid,measureDialogueOptions,clipImagesBeforeText,dialogueLabels,measureReadingGrid,measureAnswerLattice} from './workbook-drills.mjs';
 export {toneRecordings,phoneticRecordings} from './tone-audio.mjs';
@@ -134,7 +136,7 @@ export function normalize(parsed, scale = { sx: 1, sy: 1 }) {
     const type = str(raw?.type), box = normBox(raw?.box, scale);
     if (!TYPES.includes(type) || !box) continue;
     const b = { type, box, ...tri(raw) };
-    if(type==='contents')Object.assign(b,{columns:raw.columns,header:(raw.header||[]).map(tri),rows:(raw.rows||[]).map(row=>row.map(c=>({...tri(c),items:(c.items||[]).map(tri)})))});
+    if(type==='contents')Object.assign(b,{columns:raw.columns,header:(raw.header||[]).map(tri),rows:(raw.rows||[]).map(row=>row.map(c=>({...tri(c),span:Number(c.span)||1,items:(c.items||[]).map(tri)})))});
     // A numbered spelling subsection is not a new lesson. Misclassifying it
     // also routes this page and its continuations into the wrong lesson.
     if(type==='lesson'&&(/拼写规则/.test(b.cn)||/^spelling rules$/i.test(b.en)))Object.assign(b,{type:'para',icon:'none',number:str(raw.number),track:''});
@@ -146,6 +148,7 @@ export function normalize(parsed, scale = { sx: 1, sy: 1 }) {
       delete b.number; delete b.label;
     }
     if (type === 'objectives') Object.assign(b, { heading: tri(raw.heading), items: (raw.items || []).slice(0, 8).map(tri) });
+    if(raw.toneAnswers)b.toneAnswers=true;if(raw.matchingInput)b.matchingInput=true;if(raw.dialogueOptions)b.dialogueOptions=raw.dialogueOptions;
     if (type === 'para') Object.assign(b, { icon: ['pin', 'square'].includes(raw.icon) ? raw.icon : 'none', track: str(raw.track), number: str(raw.number) });
     if (type === 'tip') Object.assign(b, { label: tri(raw.label), avatar: normBox(raw.avatar, scale) });
     if (type === 'section') Object.assign(b, { track: str(raw.track), avatar: normBox(raw.avatar, scale) });
@@ -167,6 +170,7 @@ export function normalize(parsed, scale = { sx: 1, sy: 1 }) {
       const groups = rows.filter(r => r.group).map(r => [r.group.cn, r.group.en, r.group.ru].join(' ')).join(' ');
       const phoneticChart = /声母|initials/i.test(groups) && /韵母|finals/i.test(groups) && /声调|tones/i.test(groups)
         && rows.some(r => r.hz && r.py && r.pos_en && r.pos_ru);
+      if(rows.filter(r=>r.hz).length>=2&&rows.filter(r=>r.hz).every(r=>r.py.includes('→')))b.sandhiTable=true;
       Object.assign(b, { heading: tri(raw.heading), track: str(raw.track), rows, ...(phoneticChart ? { phoneticChart: true } : {}) });
     }
     if (type === 'folio') b.text = str(raw.text);
@@ -224,7 +228,7 @@ function repairStructure(blocks) {
     if(!b.cn&&b.py?.includes('\n')&&!b.py.includes('___')){
       const rows=b.py.split('\n').map(r=>r.trim().split(/\s+/));
       const tone=s=>{const m=s.normalize('NFD').match(/[\u0304\u0301\u030c\u0306\u0300]/);return m?({'̄':1,'́':2,'̌':3,'̆':3,'̀':4}[m[0]]):0;};
-      if(rows.length>=2&&rows.length<=12&&rows.every(r=>r.length>=2&&r.length<=16&&r.every(t=>tone(t)))){
+      if(rows.length>=2&&rows.length<=12&&rows.every(r=>r.length>=2&&r.length<=16&&r.every(t=>tone(t))&&r.every((t,i)=>toneless(t)===toneless(r[Math.floor(i/4)*4])))){
         b.type='text';b.toneSourceBox={...b.box};const groups=Math.ceil(Math.max(...rows.map(r=>r.length))/4);b.toneAlign=groups>1?'left':'center';
         b.toneRows=rows.map(r=>{const cells=new Array(groups*4).fill('');for(const [i,s]of r.entries())cells[Math.floor(i/4)*4+tone(s)-1]=s.normalize('NFD').replace(/\u0306/g,'\u030c').normalize('NFC');return cells;});b.py=b.toneRows.map(r=>r.join('\t')).join('\n');
       }
@@ -1173,6 +1177,7 @@ function extendPicture(grid, box, fill, bg, panel) {
 // Re-measure every block against the scan. Returns a new layout with exact
 // boxes, per-block fill colours and font scales, and the page theme.
 export function snap(layout, grid, ocr) {
+  const empty=blankEvidence(grid,ocr?.lines||[]);if(!layout.blocks.length&&empty.blank)return{...layout,blankPage:true,blankEvidence:empty,decorations:[],ocrLines:0,theme:{paper:'#ffffff'}};
   const lines = ocrLinesOf(ocr), hits = assignLines(layout.blocks, lines);
   const ratio = (layout.page?.width || 1) / (layout.page?.height || 1);
   const theme = extractTheme(grid.raw || grid);
@@ -1677,6 +1682,9 @@ export function snap(layout, grid, ocr) {
   measureCharacterPage({...layout,blocks,theme},grid,lines);
   measureClassroomPage({...layout,blocks,theme},grid,lines);
   measureContentsPage({...layout,blocks,theme},grid,lines);
+  measureSandhiTable({...layout,blocks,theme},grid);
+  alignMatchingStrip(blocks,layout.source);
+  for(const b of blocks){measurePhraseGrid(b,layout.source?.blocks.find(o=>o.py===b.py),lines);for(const c of b.phraseCells||[]){if(b.toneAnswers)continue;const label=phoneticPhraseLabels[c.text.replace(/\s+/g,'').toLowerCase()];if(label){Object.assign(c,label);layout.kz[label.ru]=label.kk;}}}
   const accent = blocks.find(b => ['section', 'lesson', 'folio'].includes(b.type) && b.fill && b.fill !== '#ffffff')?.fill;
   if (accent) theme.accent = accent;
   const result = attachInteractiveCaptions({ ...layout, blocks, theme, snapVersion: SNAP_VERSION, ocrLines: lines.length });
@@ -1791,14 +1799,15 @@ export function pageVocabulary(layout) {
   }
   for (const block of blocks.filter(b => ['text', 'para'].includes(b.type))) {
     if(block.bilingualPrint?.speakText&&block.py)add({hz:block.cn,py:block.py,ru:block.ru,en:block.en});
+    for(const c of block.phraseCells||[])if(c.hz)add({hz:c.hz,py:c.text,ru:c.ru,en:c.en});
     const item = lexicalLabel(block);
     if (item) add({ ...item, ru: item.ru || CAPTION_RU[item.hz] });
-    for(const t of block.optionTurns||[]){const label=dialogueLabels[cleanHanzi(t.hz)];if(label)add({hz:t.hz,py:t.py,ru:label.ru,en:label.en});}
+    for(const t of block.optionTurns||[]){const label=t.translation||dialogueLabels[cleanHanzi(t.hz)];if(label)add({hz:t.hz,py:t.py,ru:label.ru,en:label.en});}
   }
   const soundGroup = row => row?.group && /声母|韵母|声调|initials|finals|tones/i.test([row.group.cn, row.group.en, row.group.ru].join(' '));
   for (const table of blocks.filter(b => b.type === 'words')) {
     if ((table.rows || []).some(soundGroup)) continue;
-    for (const row of table.rows || []) if (!row.group) add({ hz: row.hz, py: row.py, ru: row.ru || CAPTION_RU[cleanHanzi(row.hz)], en: row.en, pos: row.pos_ru || row.pos_en });
+    for (const row of table.rows || []) if (!row.group) add({ hz: row.hz, py: table.sandhiTable?row.py.split('→')[0].replace(/\s*\+\s*/g,' ').trim():row.py, ru: row.ru || CAPTION_RU[cleanHanzi(row.hz)], en: row.en, pos: row.pos_ru || row.pos_en });
   }
   return result.slice(0, 30);
 }
@@ -2189,7 +2198,7 @@ export function render(layout, { assets = {}, pinyin = true, lang = '', editable
     if(b.type==='contents'){
       const cols=b.columns||[b.box.x,b.box.x+b.box.w*.1,b.box.x+b.box.w*.4,b.box.x+b.box.w*.47,b.box.x+b.box.w],edges=b.rowEdges;
       const cell=(c,path,inline=false)=>'<span class="cn">'+esc(c.cn)+'</span>'+(c.en?'<span class="en">'+esc(c.en)+'</span>':'')+(c.ru?ed(n,path+'.ru',c.ru,'ru'):'');
-      return '<section '+at+' data-hsk-manual="1" class="hsk-at hsk-contents" style="'+pos(b,h)+'">'+[b.header,...b.rows].map((row,r)=>'<div class="hsk-at hsk-contents-row'+(r===0?' hsk-contents-head':r%2===0?' hsk-contents-shaded':'')+'" style="left:0;width:100%;top:'+pct((edges[r]-b.box.y)/b.box.h)+';height:'+pct((edges[r+1]-edges[r])/b.box.h)+'">'+row.map((c,k)=>{const path=r===0?'header.'+k:'rows.'+(r-1)+'.'+k;return '<div class="hsk-at hsk-contents-cell'+(k===0?' hsk-contents-number':'')+'" style="left:'+pct((cols[k]-b.box.x)/b.box.w)+';width:'+pct((cols[k+1]-cols[k])/b.box.w)+';height:100%"><div>'+(c.items?.length?c.items.map((item,i)=>'<div class="hsk-contents-topic">'+cell(item,path+'.items.'+i,true)+'</div>').join(''):cell(c,path))+'</div></div>'}).join('')+'</div>').join('')+'</section>';
+      return '<section '+at+' data-hsk-manual="1" class="hsk-at hsk-contents" style="'+pos(b,h)+'">'+[b.header,...b.rows].map((row,r)=>'<div class="hsk-at hsk-contents-row'+(r===0?' hsk-contents-head':r%2===0?' hsk-contents-shaded':'')+'" style="left:0;width:100%;top:'+pct((edges[r]-b.box.y)/b.box.h)+';height:'+pct((edges[r+1]-edges[r])/b.box.h)+'">'+row.map((c,k)=>{const col=row.slice(0,k).reduce((a,c)=>a+(c.span||1),0),span=c.span||1;const path=r===0?'header.'+k:'rows.'+(r-1)+'.'+k;return '<div class="hsk-at hsk-contents-cell'+(col===0&&span===1?' hsk-contents-number':'')+'" style="left:'+pct((cols[col]-b.box.x)/b.box.w)+';width:'+pct((cols[col+span]-cols[col])/b.box.w)+';height:100%"><div>'+(c.items?.length?c.items.map((item,i)=>'<div class="hsk-contents-topic">'+cell(item,path+'.items.'+i,true)+'</div>').join(''):cell(c,path))+'</div></div>'}).join('')+'</div>').join('')+'</section>';
     }
     if(b.forewordFolio)return `<span ${at} class="hsk-at hsk-foreword-folio${b.forewordFolioSide==='right'?' hsk-foreword-folio-right':''}" style="${pos(b,h)}">${esc(b.text)}</span>`;
     if(b.characterRibbon)return '<header '+at+' data-hsk-manual="1" class="hsk-at hsk-character-ribbon" style="'+pos(b,h)+'"><span class="cn">'+esc(b.cn)+'</span><span class="hsk-character-ribbon-translation"><span class="en">'+esc(b.en)+'</span>'+ed(n,'ru',b.ru,'ru')+'</span></header>';
@@ -2232,10 +2241,21 @@ export function render(layout, { assets = {}, pinyin = true, lang = '', editable
     if(b.optionTurns?.length){
       const speak=`event.stopPropagation();var u=new SpeechSynthesisUtterance(this.dataset.hskSpeak);u.lang='zh-CN';speechSynthesis.cancel();speechSynthesis.speak(u)`;
       return `<section ${at} data-hsk-manual="1" class="hsk-at hsk-option-dialogue" style="${pos(b,h)}">${b.number?`<span class="hsk-option-number">${esc(b.number)}</span>`:''}${b.optionTurns.map((t,k)=>{
-        const end=b.box.x+b.box.w,translation={x:t.cnBox.x+t.cnBox.w+.01,y:t.cnBox.y,w:Math.max(.065,end-t.cnBox.x-t.cnBox.w-.01),h:.03};
-        return `${t.pyBox?`<span class="hsk-option-py" style="${rel(t.pyBox,b.box)}">${esc(t.py)}</span>`:''}<button type="button" class="hsk-option-cn" data-hsk-speak="${esc(t.hz)}" style="${rel(t.cnBox,b.box)}" onclick="${esc(speak)}">${esc(t.speaker)}：${esc(t.hz)}</button>${t.translation?`<span class="hsk-option-translation" style="${rel(translation,b.box)}">${ed(n,`optionTurns.${k}.translation.en`,t.translation.en,'en')}${ed(n,`optionTurns.${k}.translation.ru`,t.translation.ru,'ru')}</span>`:''}`;
+        const end=b.box.x+b.box.w,cw=Math.min(t.cnBox.w,(end-t.cnBox.x)*.65),cnBox={...t.cnBox,w:cw},font=Math.min(2.3,cw*100/Math.max(1,Array.from(t.hz).length+2)),translation={x:t.cnBox.x+cw+.008,y:t.cnBox.y,w:Math.max(.065,end-t.cnBox.x-cw-.008),h:.03};
+        return `${t.pyBox?`<span class="hsk-option-py" style="${rel(t.pyBox,b.box)}">${esc(t.py)}</span>`:''}<button type="button" class="hsk-option-cn" data-hsk-speak="${esc(t.hz)}" style="${rel(cnBox,b.box)}font-size:${font}cqw" onclick="${esc(speak)}">${esc(t.speaker)}：${esc(t.hz)}</button>${t.translation?`<span class="hsk-option-translation" style="${rel(translation,b.box)}">${ed(n,`optionTurns.${k}.translation.en`,t.translation.en,'en')}${ed(n,`optionTurns.${k}.translation.ru`,t.translation.ru,'ru')}</span>`:''}`;
       }).join('')}</section>`;
     }
+    if(b.sandhiTable&&b.sandhiRows){
+      const play=`event.stopPropagation();speechSynthesis.cancel();var p=this.closest('.hsk-page'),a=p.querySelector('audio.hsk-tone-player');if(!a){a=document.createElement('audio');a.className='hsk-tone-player';a.hidden=true;p.appendChild(a)}a.src=this.dataset.src;a.play()`;
+      const header=b.sandhiHeader/b.box.h,split=.353;
+      const head=(part,k)=>`<div class="hsk-at hsk-sandhi-head" style="left:${pct(k?split:0)};width:${pct(k?1-split:split)};top:0;height:${pct(header)}"><span class="cn">${esc(part.cn)}</span><span class="en">${esc(part.en)}</span><span class="ru" data-en="${esc(part.en)}" data-kz="${k?'Пиньинь':'Сөздер/тіркестер'}">${k?'Пиньинь':'Слова/Фразы'}</span>${k?'<span class="hsk-sandhi-rule">ˇ + ˇ → ´ + ˇ</span>':''}</div>`;
+      return `<section ${at} data-hsk-manual="1" class="hsk-at hsk-sandhi-table" style="${pos(b,h)}">${head({cn:'词语/短语',en:'Words/Phrases'},0)}${head({cn:'拼音',en:'Pinyin'},1)}${b.sandhiRows.map((r,i)=>{const k=b.rows.findIndex(o=>o.hz===r.hz),src=assets['tone-'+recordingKey(r.py.split('→')[0].replace(/\s*\+\s*/g,''))];return `<div class="hsk-at hsk-sandhi-row" style="left:0;width:100%;top:${pct((b.sandhiEdges[i]-b.box.y)/b.box.h)};height:${pct((b.sandhiEdges[i+1]-b.sandhiEdges[i])/b.box.h)}"><div style="width:${pct(split)}"><button class="hsk-table-speak" type="button" data-src="${esc(src||'')}" aria-label="${esc(r.hz)}" ${src?`onclick="${esc(play)}"`:'disabled'}>${esc(r.hz)}</button>${ed(n,`rows.${k}.ru`,r.ru,'ru hsk-sandhi-meaning')}</div><div style="width:${pct(1-split)}"><button class="hsk-table-speak" type="button" data-src="${esc(src||'')}" aria-label="Изменение тона: ${esc(r.hz)}" ${src?`onclick="${esc(play)}"`:'disabled'}>${esc(r.py).replace(/→\s*(\S+)/,'→ <em>$1</em>')}</button></div></div>`}).join('')}</section>`;
+    }
+    if(b.phraseCells){
+      const play=`event.stopPropagation();speechSynthesis.cancel();var p=this.closest('.hsk-page'),a=p.querySelector('audio.hsk-tone-player');if(!a){a=document.createElement('audio');a.className='hsk-tone-player';a.hidden=true;p.appendChild(a)}a.src=this.dataset.src;a.play()`;
+      return `<section ${at} data-hsk-manual="1" class="hsk-at hsk-phrase-grid${b.toneAnswers?' hsk-tone-answers':''}" style="${pos(b,h)}">${b.phraseCells.map(t=>{const src=assets['tone-'+recordingKey(t.text)];return `<span class="hsk-at" style="${rel(t.box,b.box)}">${b.toneAnswers?`<input class="hsk-tone-answer" value="${esc(t.text)}" aria-label="Отметьте тон: ${esc(t.text)}" autocomplete="off" spellcheck="false">`:`<button class="hsk-table-speak" type="button" data-src="${esc(src||'')}" aria-label="${esc(t.text)}" ${src?`onclick="${esc(play)}"`:'disabled'}>${esc(t.text)}</button>`}</span>`}).join('')}</section>`;
+    }
+
     if(b.toneRows&&b.gridX&&b.gridY){
       const speak=`event.stopPropagation();speechSynthesis.cancel();document.querySelectorAll('audio').forEach(function(a){a.pause()});var p=this.closest('.hsk-page');var a=p.querySelector('audio.hsk-tone-player');if(!a){a=document.createElement('audio');a.className='hsk-tone-player';a.hidden=true;p.appendChild(a)}var b=this;a.src=this.dataset.src;a.play().catch(function(){b.title='Не удалось воспроизвести запись';b.setAttribute('aria-invalid','true')})`;
       const cells=b.toneRows.map((row,r)=>row.map((s,c)=>{
@@ -2670,7 +2690,7 @@ ${FONT_LINKS.map(href => `<link rel="stylesheet" href="${href}">`).join('\n')}
 </head>
 <body class="wb-body">
 <div class="wb-controls" role="group" aria-label="Язык страницы">
-  <button type="button" data-lang="orig">Оригинал</button><button type="button" data-lang="ru" aria-pressed="true">Русский</button>${layout.blocks.some(b=>b.type==='contents'||b.en&&b.ru&&(b.characterRibbon||b.bilingualPrint||b.foreword||b.credits||b.imprint||b.titlePageRole))?'<button type="button" data-lang="en">English</button>':''}${Object.keys(layout.kz || {}).length ? '<button type="button" data-lang="kz">Қазақша</button>' : ''}<button type="button" data-pinyin aria-pressed="true">Пиньинь</button>
+  <button type="button" data-lang="orig">Оригинал</button><button type="button" data-lang="ru" aria-pressed="true">Русский</button>${(layout.blankPage||layout.blocks.some(b=>b.type==='contents'||b.en&&b.ru||b.optionTurns?.some(t=>t.en)||b.sandhiRows?.some(r=>r.en)))?'<button type="button" data-lang="en">English</button>':''}${(layout.blankPage||Object.keys(layout.kz || {}).length) ? '<button type="button" data-lang="kz">Қазақша</button>' : ''}<button type="button" data-pinyin aria-pressed="true">Пиньинь</button>
 </div>
 <main class="wb-sheet">
 ${render(layout, { assets, lang: 'russian' })}
