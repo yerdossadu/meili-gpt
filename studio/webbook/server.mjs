@@ -29,7 +29,7 @@ const SCAN_DPI = 288;
 const CODE = fileURLToPath(new URL('.', import.meta.url));
 // A geometry or CSS fix changes the renderer just as a core change does.
 // Frozen revisions must never be published as if they used those new rules.
-const RENDERER_FILES=['core.mjs','components.css','source-geometry.mjs','word-labels.mjs','tone-audio.mjs','workbook-drills.mjs','title-page.mjs','imprint-page.mjs','credits-page.mjs','foreword-page.mjs','character-page.mjs','classroom-page.mjs','contents-page.mjs','phonetic-tasks.mjs','dialogue-presentation.mjs','page-contract.mjs','reviewed-kazakh.mjs'];
+const RENDERER_FILES=['core.mjs','components.css','source-geometry.mjs','word-labels.mjs','tone-audio.mjs','workbook-drills.mjs','title-page.mjs','imprint-page.mjs','credits-page.mjs','foreword-page.mjs','character-page.mjs','classroom-page.mjs','contents-page.mjs','phonetic-tasks.mjs','dialogue-presentation.mjs','exam-layout.mjs','source-lexicon.mjs','page-contract.mjs','reviewed-kazakh.mjs'];
 RENDERER_FILES.push('localization-memory.mjs');
 const RENDERER_HASH = digest(await Promise.all(RENDERER_FILES.map(async name=>[name,await readFile(join(CODE,name),'utf8')])));
 const rendererScript = () => `window.FormaPage=(function(){${core.fit.toString()}\n${core.autoFit.toString()}\n${core.setLang.toString()}\nreturn{fit,autoFit,setLang};})();`;

@@ -1,0 +1,68 @@
+{
+  "source": "Microsoft Edge TTS",
+  "records": [
+    {
+      "key": "listening-option-1",
+      "py": "fēichángrè",
+      "text": "非常热",
+      "voice": "zh-CN-XiaoxiaoNeural",
+      "sha256": "71fcd986a95c0a7fa6de39645185f413af4ace0dcf0af0e1f57b2f2d8b141f4b"
+    },
+    {
+      "key": "listening-option-2",
+      "py": "hěnhǎotīng",
+      "text": "很好听",
+      "voice": "zh-CN-XiaoxiaoNeural",
+      "sha256": "df1e67a1afed53f8efc431fee5ad32058e68a9a68edd43018856da2f0246f516"
+    },
+    {
+      "key": "listening-option-3",
+      "py": "zàihēshuǐ",
+      "text": "在喝水",
+      "voice": "zh-CN-XiaoxiaoNeural",
+      "sha256": "a7aaa37bf673052dbfeaaa9beafb8336f799be4602b0492483ba817aa1416a2e"
+    },
+    {
+      "key": "listening-option-4",
+      "py": "shírén",
+      "text": "十人",
+      "voice": "zh-CN-XiaoxiaoNeural",
+      "sha256": "350d3310122c8aef2b93d1c6e3b1e5346e98cf4b246e4d573871eae0182b2ead"
+    },
+    {
+      "key": "listening-option-5",
+      "py": "èrshígè",
+      "text": "二十个",
+      "voice": "zh-CN-XiaoxiaoNeural",
+      "sha256": "48bfc1eb454e684584228ba58e33f7e6ff85d202b3ab2c74eb095d0ee50cc9dd"
+    },
+    {
+      "key": "listening-option-6",
+      "py": "sānkǒurén",
+      "text": "三口人",
+      "voice": "zh-CN-XiaoxiaoNeural",
+      "sha256": "9062ca437e4f5aa6984235a7978b167b2bb441a57407027cdbc157601439a514"
+    },
+    {
+      "key": "listening-option-7",
+      "py": "dà",
+      "text": "大",
+      "voice": "zh-CN-XiaoxiaoNeural",
+      "sha256": "a8ca9b3df1be5ead0eb33253a360836db6f903589a13b12b0f5a3e6a956463cf"
+    },
+    {
+      "key": "listening-option-8",
+      "py": "shí’èrsuì",
+      "text": "十二岁",
+      "voice": "zh-CN-XiaoxiaoNeural",
+      "sha256": "f8679c1090aababba6d374febc7fa3f7b466455b701915ace20293976f5abf07"
+    },
+    {
+      "key": "listening-option-9",
+      "py": "liǎngqiān",
+      "text": "两千",
+      "voice": "zh-CN-XiaoxiaoNeural",
+      "sha256": "d1064d2aad065e8c957d6d63a278e937923404c632fb5cee78ab05545025a63c"
+    }
+  ]
+}

@@ -9,7 +9,7 @@ export function toneKey(value) {
   return syllable.replace(/ü/g,'v')+tone;
 }
 export function toneRecordings(layout) {
-  return [...new Set((layout.blocks||[]).flatMap(b=>[...(b.toneRows||[]).flat(),...(b.readingTokens||[]).map(t=>t.text),...(b.numberedPhonetics||[]).map(t=>t.text),...(!b.toneAnswers?(b.phraseCells||[]).map(t=>t.text):[]),...(b.sandhiRows||[]).map(r=>r.py.split('→')[0].replace(/\s*\+\s*/g,'').trim())]).map(recordingKey).filter(Boolean))];
+  return [...new Set((layout.blocks||[]).flatMap(b=>[...(b.toneRows||[]).flat(),...(b.examOption?[b.py]:[]),...(b.readingTokens||[]).map(t=>t.text),...(b.numberedPhonetics||[]).map(t=>t.text),...(!b.toneAnswers?(b.phraseCells||[]).map(t=>t.text):[]),...(b.sandhiRows||[]).map(r=>r.py.split('→')[0].replace(/\s*\+\s*/g,'').trim())]).map(recordingKey).filter(Boolean))];
 }
 export const wordRecordingKeys={"pěngchǎng":"word-pengchang-33","hǎojiǔ":"word-haojiu-33","wǎndiǎn":"word-wandian-33","liǎojiě":"word-liaojie-33","xǐzǎo":"word-xizao-33","zhǐyǒu":"word-zhiyou-33","bāozi":"word-baozi-1","xièxie":"word-xiexie-4","piányi":"word-pianyi-2","dìdi":"word-didi-4","piàoliang":"word-piaoliang-4","méiguānxi":"word-meiguanxi-21","duìbuqǐ":"word-duibuqi-43","duibuqǐ":"word-duibuqi-43","rènshi":"word-renshi-4","sūnzǐ":"word-sunzi-13","sūnzi":"word-sunzi-1","dōngxī":"word-dongxi-11","dōngxi":"word-dongxi-1","yùnqì":"word-yunqi-44","yùnqi":"word-yunqi-4","lǎozǐ":"word-laozi-33","lǎozi":"word-laozi-3","dìfāng":"word-difang-41","difāng":"word-difang-41","dìfang":"word-difang-4","mǎmǎhūhū":"word-mamahuhu-3311","mǎhu":"word-mahu-3",'yóuyǒng':'you2-yong3','lǚyóu':'lv3-you2','péngyou':'pengyou','shuǐguǒ':'shui2-guo3','nǐhǎo':'ni2-hao3','kěyǐ':'ke2-yi3','nǎlǐ':'na2-li3','hěnhǎo':'hen2-hao3','suǒyǐ':'suo2-yi3','qǐngnǐ':'qing2-ni3','shǒubiǎo':'shou2-biao3','xiǎoyǔ':'xiao2-yu3'};
 export const recordingKey=value=>wordRecordingKeys[String(value).replace(/\s+/g,'').toLowerCase()]||wordRecordingKeys[value]||toneKey(value)||null;
@@ -17,3 +17,5 @@ export const phoneticRecordingKey=value=>/^i\[[ɿʅ/]+\]$/.test(value)?'apical-i
 export function phoneticRecordings(layout) {
   return [...new Set((layout.blocks||[]).filter(b=>b.phoneticTextTable).flatMap(b=>(b.exactTokens||[]).filter(t=>t.tableRow).map(t=>phoneticRecordingKey(t.text))))];
 }
+
+Object.assign(wordRecordingKeys,{"fēichángrè":"listening-option-1","hěnhǎotīng":"listening-option-2","zàihēshuǐ":"listening-option-3","shírén":"listening-option-4","èrshígè":"listening-option-5","sānkǒurén":"listening-option-6","dà":"listening-option-7","shí’èrsuì":"listening-option-8","liǎngqiān":"listening-option-9"});

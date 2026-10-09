@@ -9,6 +9,8 @@
 // (components.css) so every page of the book shares one design system.
 
 import { measurePrintedGeometry, hasPrintedCardFrame, printedCardBounds, measureCaptionFrame, measureTextTable, restorePhoneticTokens, printedParagraphLines,measureBilingualWordRow } from './source-geometry.mjs';
+import {sourceLexicon,sourceHeadingLexicon} from './source-lexicon.mjs';
+import {alignExamPictures,alignExamOptions} from './exam-layout.mjs';
 import { measureTitlePage } from './title-page.mjs';
 import { measureImprintPage } from './imprint-page.mjs';
 import { measureCreditsPage } from './credits-page.mjs';
@@ -150,6 +152,7 @@ export function normalize(parsed, scale = { sx: 1, sy: 1 }) {
     }
     if (type === 'objectives') Object.assign(b, { heading: tri(raw.heading), items: (raw.items || []).slice(0, 8).map(tri) });
     if(raw.toneAnswers)b.toneAnswers=true;if(raw.matchingInput)b.matchingInput=true;if(raw.dialogueOptions)b.dialogueOptions=raw.dialogueOptions;
+    if(type==='text'&&raw.track)b.track=str(raw.track);
     if (type === 'para') Object.assign(b, { icon: ['pin', 'square'].includes(raw.icon) ? raw.icon : 'none', track: str(raw.track), number: str(raw.number) });
     // Some model responses duplicate complete English print rows in `cn`.
     // Remove only a Latin-only line already present verbatim in `en`;
@@ -1713,6 +1716,11 @@ export function snap(layout, grid, ocr) {
   for(const b of result.blocks)if(b.caption?.ru&&wordLabels[b.caption.hz])result.kz[b.caption.ru]=wordLabels[b.caption.hz].kk;
   for(const b of result.blocks)for(const l of b.diagramLabels||[])result.kz[l.ru]=l.kk;
   for(const b of result.blocks)for(const t of b.optionTurns||[])if(t.translation)result.kz[t.translation.ru]=t.translation.kk;
+  for(const b of result.blocks)if(b.type==='runhead'&&b.en==='Lesson'&&b.ru==='Урок'){const label=sourceHeadingLexicon[b.cn];if(label){b.ru=label.ru;result.kz[b.ru]=label.kk;}}
+  alignExamPictures(result,lines,grid);alignExamOptions(result,lines);
+  for(const b of result.blocks)if(b.printed?.kind==='section-tab'){const g=grid.hi||grid.raw||grid,c=b.printed.cnBox;let best=null;for(let y=Math.round((c.y+c.h+.002)*g.H);y<Math.min(g.H,(c.y+c.h+.023)*g.H);y++){let count=0,left=g.W,right=0;for(let x=0;x<g.W;x+=4){const [r,v,z]=g.at(x,y);if(r>150&&r>v*1.25&&r>z*1.25){count++;left=Math.min(left,x);right=x;}}if(count>g.W/4*.55&&(!best||count>best.count))best={count,box:{x:left/g.W,y:y/g.H,w:(right-left)/g.W,h:1/g.H}};}if(best)b.headerRule=best.box;}
+  for(const b of result.blocks)if(b.type==='section'&&b.printed?.trackBox&&b.printed.enBox){const p=b.printed;if(Math.abs(p.trackBox.x-p.enBox.x)<.001){const end=p.enBox.x+p.enBox.w,w=Math.min(.055,p.enBox.w*.18);p.trackBox={...p.trackBox,x:end-w,w};p.enBox={...p.enBox,w:p.enBox.w-w-.008};}}
+  for(const b of result.blocks){if(b.type==='decor'&&/карандаш|линейк/.test(b.alt||'')){const original=layout.source?.blocks.find(o=>o.type==='decor'&&o.alt===b.alt);if(original)b.box={...original.box};}if(b.type==='text'&&/^(?:[一二三四五六七八九十]+[、.]|第[一二三四五六七八九十]+部分)/.test(b.cn)){const original=layout.source?.blocks.find(o=>o.type==='text'&&o.cn===b.cn);if(original){b.sourceLabelBox=original.box;b.box={...original.box};b.noNumberDecoration=true;const mark=lines.find(l=>/^\W*\d+-\d+\W*$/.test(l.text)&&Math.abs(l.box.y-original.box.y)<.03);if(mark){b.track=mark.text.match(/\d+-\d+/)[0];b.sourceTrackBox=mark.box;}}}}
   for (const b of result.blocks) if (b.type === 'image' && b.caption) {
     const sourceImages=(layout.source?.blocks||[]).filter(o=>o.type==='image'),index=result.blocks.filter(o=>o.type==='image').indexOf(b);
     const sourceBox=sourceImages[index]?.box;
@@ -1805,11 +1813,11 @@ export function attachInteractiveCaptions(layout) {
 
 export function pageVocabulary(layout) {
   const enriched = attachInteractiveCaptions(layout), blocks = enriched.blocks || [], result = [], seen = new Set();
-  const add = ({ hz, py, ru, en = '', pos = '' }) => {
-    hz = cleanHanzi(hz); py = String(py || '').trim(); ru = String(ru || '').trim(); en = String(en || '').trim();
+  const add = ({ hz, py, ru, en = '', pos = '', kk = '' }) => {
+    hz = String(hz||'').replace(/[^\p{Script=Han}0-9]/gu,''); py = String(py || '').trim(); ru = String(ru || '').trim(); en = String(en || '').trim();
     const identity=hz+'/'+py.normalize('NFC').replace(/\s/g,'').toLowerCase();
     if (!hz || !py || seen.has(identity) || (!ru && !en)) return;
-    seen.add(identity); result.push({ word: hz, py, pos, trans: ru || en, ...(en ? { trans_en: en } : {}) });
+    seen.add(identity); result.push({ word: hz, py, pos, trans: ru || en, ...(en ? { trans_en: en } : {}),...(kk?{trans_kz:kk}:{}) });
   };
   for (const image of blocks.filter(b => b.type === 'image' && b.caption?.hz)) {
     const c = image.caption; add({ hz: c.hz, py: c.py, ru: c.ru || CAPTION_RU[cleanHanzi(c.hz)], en:c.en });
@@ -1817,7 +1825,10 @@ export function pageVocabulary(layout) {
   for (const block of blocks.filter(b => ['text', 'para'].includes(b.type))) {
     if(block.bilingualPrint?.speakText&&block.py)add({hz:block.cn,py:block.py,ru:block.ru,en:block.en});
     for(const c of [...(block.phraseCells||[]),...(block.numberedPhonetics||[])])if(c.hz)add({hz:c.hz,py:c.text,ru:c.ru,en:c.en});
-    const item = lexicalLabel(block);
+    if(/^例如[：:]/.test(block.cn||'')&&block.py)add({hz:block.cn.replace(/^例如[：:]\s*/,''),py:block.py,ru:block.ru.replace(/^например[：:]\s*/i,''),en:block.en,kk:enriched.kz?.[block.ru]?.replace(/^мысалы[：:]\s*/,'')});
+    const ruby=block.cn&&block.py&&rubyHtml(block.cn,block.py);if(ruby)for(const token of ruby.matchAll(/<ruby>([^<]+)<rt>([^<]+)<\/rt><\/ruby>/g)){const hz=token[1].replace(/[^\p{Script=Han}0-9]/gu,''),py=token[2].replace(/[\p{P}]/gu,''),label=sourceLexicon[hz+'|'+py.toLowerCase()];if(label)add({hz,py,...label});}
+    if(block.examOption)add({hz:block.examOption.hz,py:block.py,ru:block.ru,en:block.en});
+    const item = block.examOption?null:lexicalLabel(block);
     if (item) add({ ...item, ru: item.ru || CAPTION_RU[item.hz] });
     for(const t of block.optionTurns||[]){const label=t.translation||dialogueLabels[cleanHanzi(t.hz)];if(label)add({hz:t.hz,py:t.py,ru:label.ru,en:label.en});}
   }
@@ -1906,13 +1917,14 @@ export function findDecorations(layout, grid) {
   // Generous margins: components draw their own pills, tabs, pins and corner
   // triangles just outside their boxes, and those must not be cut twice.
   for (const b of layout.blocks) {
-    cover(b.box, 0.02); if (b.avatar) cover(b.avatar, 0.02);
+    cover(b.box, 0.02);if(b.sourceTrackBox)cover(b.sourceTrackBox,.005);if(b.headerRule)cover(b.headerRule,.006); if (b.avatar) cover(b.avatar, 0.02);
     if(b.titleArtwork)cover(b.titleArtwork.box,.003);
     for(const l of b.imprintLabels||[])cover(l.box,.004);
     for (const t of b.turns || []) cover(t.speaker?.avatarBox, 0.02);
     // The pin sits a little above its line's box (p.25): its zone reaches up so it is not cut twice.
     if ((b.type === 'para' && b.icon !== 'none') || b.type === 'runhead') cover({ x: b.box.x - 0.05, y: b.box.y - (b.icon === 'pin' ? 0.03 : 0), w: 0.05, h: b.box.h + (b.icon === 'pin' ? 0.03 : 0) }, 0.01);
   }
+  if(layout.examGrid){const g=layout.examGrid;cover({x:g.vertical[0],y:g.horizontal[0],w:g.vertical.at(-1)-g.vertical[0],h:g.horizontal.at(-1)-g.horizontal[0]},.004);}
   // Scan borders and page edges are not content.
   const edge = Math.round(W * 0.012), edgeY = Math.round(H * 0.01);
   const ink = new Uint8Array(W * H);
@@ -2205,8 +2217,8 @@ export function render(layout, { assets = {}, pinyin = true, lang = '', editable
     const tile = p.texture, tex = assets[`surface-${n}`];
     const pattern = tex && tile ? `<defs><pattern id="${id}" patternUnits="userSpaceOnUse" width="${tile.w*W}" height="${tile.h*H}"><image href="${esc(tex)}" preserveAspectRatio="none" width="${tile.w*W}" height="${tile.h*H}"/></pattern></defs>` : '';
     const placed = (box, text, cls, size) => `<span class="hsk-printed-text ${cls}" style="${rel(box,B)}font-size:${size}cqw">${text}</span>`;
-    const translation = {...p.enBox,w:Math.max(p.enBox.w,B.x+B.w-p.enBox.x-.01)};
-    const markup = `<header ${at} data-hsk-manual="1" class="hsk-at hsk-printed hsk-printed-${b.type}" style="${pos(b,`height:${pct(B.h)};`)}"><svg aria-hidden="true" preserveAspectRatio="none" viewBox="${B.x*W} ${B.y*H} ${B.w*W} ${B.h*H}">${pattern}<path d="${p.graphic}" fill="${b.fill || '#dc321e'}"/>${pattern ? `<path d="${p.graphic}" fill="url(#${id})" opacity=".25"/>` : ''}${p.tag ? `<path d="${p.tag}" fill="#f5efe6"/>` : ''}</svg>${p.number ? placed(p.number,esc(b.number),'hsk-printed-number',p.number.h/(layout.page.width/layout.page.height)*100*1.08) : ''}${placed(p.cnBox,ed(n,'cn',b.cn,'cn'),'hsk-printed-cn',p.cnSize)}${p.pyLines.map(l=>placed(l.box,esc(l.text),'hsk-printed-py',l.box.h/(layout.page.width/layout.page.height)*100*.78)).join('')}${placed(translation,(b.en ? ed(n,'en',b.en,'en') : '')+(b.ru ? ed(n,'ru',b.ru,'ru') : ''),'hsk-printed-translation',p.enSize)}</header>`;
+    const translation = {...p.enBox,w:p.trackBox?Math.max(.03,p.trackBox.x-p.enBox.x-.006):Math.max(p.enBox.w,B.x+B.w-p.enBox.x-.01)};
+    const markup = `<header ${at} data-hsk-manual="1" class="hsk-at hsk-printed hsk-printed-${b.type}" style="${pos(b,`height:${pct(B.h)};`)}"><svg aria-hidden="true" preserveAspectRatio="none" viewBox="${B.x*W} ${B.y*H} ${B.w*W} ${B.h*H}">${pattern}<path d="${p.graphic}" fill="${b.fill || '#dc321e'}"/>${pattern ? `<path d="${p.graphic}" fill="url(#${id})" opacity=".25"/>` : ''}${p.tag ? `<path d="${p.tag}" fill="#f5efe6"/>` : ''}${b.type==='section'&&p.tag?`<rect x="${(p.cnBox.x-.002)*W}" y="${p.cnBox.y*H}" width="${(p.cnBox.w+.004)*W}" height="${p.cnBox.h*H}" fill="${b.fill||'#dc321e'}"/><rect x="${(p.enBox.x-.003)*W}" y="${(p.enBox.y-.004)*H}" width="${(p.enBox.w+.006)*W}" height="${(p.enBox.h+.008)*H}" fill="#fff"/>`:''}</svg>${p.number ? placed(p.number,esc(b.number),'hsk-printed-number',p.number.h/(layout.page.width/layout.page.height)*100*1.08) : ''}${placed(p.cnBox,ed(n,'cn',b.cn,'cn'),'hsk-printed-cn',p.cnSize)}${p.pyLines.map(l=>placed(l.box,esc(l.text),'hsk-printed-py',l.box.h/(layout.page.width/layout.page.height)*100*.78)).join('')}${placed(translation,(b.en ? ed(n,'en',b.en,'en') : '')+(b.ru ? ed(n,'ru',b.ru,'ru') : ''),'hsk-printed-translation',p.enSize)}</header>`;
     const trackBox = p.trackBox || (b.track ? {...p.enBox,x:p.enBox.x+p.enBox.w+.012,w:.08} : null);
     return trackBox ? markup.replace("</header>",placed(trackBox,track(b.track),"hsk-printed-track",p.enSize)+"</header>") : markup;
   };
@@ -2266,6 +2278,8 @@ export function render(layout, { assets = {}, pinyin = true, lang = '', editable
       const original=(b.titleOriginalLines||[]).map(l=>`<span class="hsk-title-original-line" style="left:${pct((l.box.x-b.box.x)/b.box.w)};top:${pct((l.box.y-b.box.y)/b.box.h)};width:${pct(l.box.w/b.box.w)};font-size:${l.box.h*ratio*100*.92}cqw">${esc(l.text)}</span>`).join('');
       return graphic+`<section ${at} data-hsk-manual="1" class="hsk-at hsk-title-text hsk-title-${b.titlePageRole}" style="${pos(b,h)}font-size:${b.titleFont}cqw;color:${b.color};text-align:${b.align}">${original}${trio(n,'',{...b,cn:b.titleCn||b.cn})}</section>`;
     }
+    if(b.examOption){const o=b.examOption,src=assets['tone-'+recordingKey(b.py)],play="var a=window.hskAudio||(window.hskAudio=new Audio());a.src=this.getAttribute('data-src');a.play()";return `<div ${at} class="hsk-at hsk-exam-option" style="${pos(b,h)}">${b.py?`<span class="py">${esc(o.printedPy||b.py)}</span>`:''}<button type="button" data-hsk-speak="${esc(o.hz)}" data-src="${esc(src||'')}" ${src?`onclick="${esc(play)}"`:''}>${esc(o.letter)} ${esc(o.hz)}</button>${ed(n,'en',b.en,'en')}${ed(n,'ru',b.ru,'ru')}</div>`;}
+    if(b.sourceLabelBox){return `<div ${at} class="hsk-at hsk-source-label${/^例如/.test(b.cn)?' hsk-example-label':''}" style="${pos({box:b.sourceLabelBox})}font-size:${Math.min(3,b.sourceLabelBox.h*ratio*100*.8)}cqw">${trio(n,'',b)}${b.track?` <span class="hsk-source-track">${track(b.track)}</span>`:''}</div>`;}
     if(b.optionTurns?.length){
       const speak=`event.stopPropagation();var u=new SpeechSynthesisUtterance(this.dataset.hskSpeak);u.lang='zh-CN';speechSynthesis.cancel();speechSynthesis.speak(u)`;
       const button=t=>`data-hsk-speak="${esc(t.hz)}" onclick="${esc(speak)}"`;
@@ -2346,7 +2360,7 @@ export function render(layout, { assets = {}, pinyin = true, lang = '', editable
         }
         if(b.printed?.kind==='section-tab'){
           const p=b.printed,[W,H]=p.grid;
-          return `<header ${at} data-hsk-manual="1" class="hsk-at hsk-section-tab" style="${pos(b,h)}"><span class="hsk-section-pill" style="${rel(p.pill,b.box)}"></span><svg aria-hidden="true" preserveAspectRatio="none" viewBox="${b.box.x*W} ${b.box.y*H} ${b.box.w*W} ${b.box.h*H}"><path d="${p.graphic}" fill="${esc(b.fill||'#e59180')}"/></svg><span class="hsk-section-cn" style="${rel(p.cnBox,b.box)}font-size:${p.cnSize}cqw">${ed(n,'cn',b.cn)}</span><span class="hsk-section-translation" style="${rel(p.enBox,b.box)}">${ed(n,'en',b.en,'en')}${ed(n,'ru',b.ru,'ru')}</span>${p.trackBox?`<span class="hsk-section-track" style="${rel(p.trackBox,b.box)}">${track(b.track)}</span>`:''}</header>`;
+          return `<header ${at} data-hsk-manual="1" class="hsk-at hsk-section-tab" style="${pos(b,h)}"><span class="hsk-section-pill" style="${rel(p.pill,b.box)}"></span><svg aria-hidden="true" preserveAspectRatio="none" viewBox="${b.box.x*W} ${b.box.y*H} ${b.box.w*W} ${b.box.h*H}"><path d="${p.graphic}" fill="${esc(b.fill||'#e59180')}"/></svg><span class="hsk-section-cn" style="${rel(p.cnBox,b.box)}font-size:${p.cnSize}cqw">${ed(n,'cn',b.cn)}</span><span class="hsk-section-translation" style="${rel(p.enBox,b.box)}">${ed(n,'en',b.en,'en')}${ed(n,'ru',b.ru,'ru')}</span>${p.trackBox?`<span class="hsk-section-track" style="${rel(p.trackBox,b.box)}">${track(b.track)}</span>`:''}</header>`+(b.headerRule?`<i class="hsk-at" aria-hidden="true" style="${pos({box:b.headerRule},'height:'+pct(b.headerRule.h)+';')}background:${esc(b.fill||'#e59180')}"></i>`:'');
         }
         // Features ("小语的彩蛋") carry the character over the tab's left end.
         const fb = b.avatar && secAvatarBox(b);
@@ -2432,11 +2446,11 @@ export function render(layout, { assets = {}, pinyin = true, lang = '', editable
           : assets[`img-${n}`] ? `<img src="${esc(assets[`img-${n}`])}" alt="${esc(b.alt)}">` : '';
         const frame = b.frame ? `<div class="hsk-at hsk-deco hsk-frame" aria-hidden="true" style="left:${pct(b.frame.x)};top:${pct(b.frame.y)};width:${pct(b.frame.w)};height:${pct(b.frame.h)};--frame:${esc(b.frame.color || '#e69e96')}"></div>` : '';
         const caption = b.caption ? `<figcaption class="hsk-photo-caption"><span class="py">${ed(n, 'caption.py', b.caption.py || '', 'py')}</span><span class="cn">${ed(n, 'caption.hz', b.caption.hz || '', 'cn')}</span>${b.caption.ru ? `<span class="ru">${ed(n, 'caption.ru', b.caption.ru, 'ru')}</span>` : ''}</figcaption>` : '';
-        const speech = b.caption?.hz ? `data-hsk-speak="${esc(b.caption.hz)}" role="button" tabindex="0" aria-label="${esc(`${b.caption.hz}, ${b.caption.ru || ''}. Нажмите, чтобы прослушать.`)}"` : '';
+        const speech = b.examChoice ? `role="button" data-exam-group="${esc(b.examChoice.group)}" tabindex="0" aria-label="Вариант ${b.examChoice.letter}: ${esc(b.alt)}" aria-pressed="false" onclick="var group=this.getAttribute('data-exam-group'),on=this.getAttribute('aria-pressed')!=='true';if(group.indexOf('picture-')===0){this.closest('.hsk-page').querySelectorAll('[data-exam-group]').forEach(function(e){if(e.getAttribute('data-exam-group')===group)e.setAttribute('aria-pressed','false')})}this.setAttribute('aria-pressed',on?'true':'false')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}"` : b.caption?.hz ? `data-hsk-speak="${esc(b.caption.hz)}" role="button" tabindex="0" aria-label="${esc(`${b.caption.hz}, ${b.caption.ru || ''}. Нажмите, чтобы прослушать.`)}"` : '';
         const labels=(b.diagramLabels||[]).map((l,k)=>`<span class="hsk-graph-label" style="${rel(l.box,b.box)}"><span class="cn">${esc(l.cn)}</span>${ed(n,`diagramLabels.${k}.ru`,l.ru,'ru')}</span>`).join('');
         const optionCount=layout.blocks.filter(o=>o.dialogueOptions||o.optionTurns).length||3;
         const answer=b.matchingInput?'<input class="hsk-picture-answer" '+(optionCount===4?'style="left:0;top:0;width:21%;height:18%" ':'')+'inputmode="numeric" maxlength="1" pattern="[1-'+Math.min(9,optionCount)+']" aria-label="Номер подходящего диалога" autocomplete="off">':'';
-        return `${frame}<figure ${at} ${speech} class="hsk-at hsk-photo${b.caption?.hz ? ' hsk-photo-speaking' : ''}${b.captionFrame ? ' hsk-caption-frame' : ''}${clip ? ' hsk-clip' : ''}" style="${pos(b, h)}">${media}${caption}${labels}${answer}${n === firstImage && !clip ? videoButton : ''}</figure>`;
+        return `${frame}<figure ${at} ${speech} class="hsk-at hsk-photo${b.caption?.hz ? ' hsk-photo-speaking' : ''}${b.captionFrame ? ' hsk-caption-frame' : ''}${clip ? ' hsk-clip' : ''}" style="${pos(b, h)}">${media}${caption}${labels}${answer}${n === firstImage && !clip ? videoButton : ''}</figure>`+(b.examChoice?.box?`<span class="hsk-at hsk-exam-letter" style="${pos({box:b.examChoice.box},'height:'+pct(b.examChoice.box.h)+';')}">${b.examChoice.letter}${b.examChoice.checked?'✓':''}</span>`:'');
       }
       case 'card':
         return `<section ${at} class="hsk-at hsk-card" style="${pos(b, h)}"><div class="en">${(b.lines || []).map((l, k) => `<p>${ed(n, `lines.${k}.en`, l.en)}</p>`).join('')}</div><div class="ru">${(b.lines || []).map((l, k) => `<p>${ed(n, `lines.${k}.ru`, l.ru)}</p>`).join('')}</div></section>`;
@@ -2517,7 +2531,8 @@ export function render(layout, { assets = {}, pinyin = true, lang = '', editable
   const bg = theme.background ? `<div class="hsk-at hsk-background" style="left:${pct(theme.background.box.x)};top:${pct(theme.background.box.y)};width:${pct(theme.background.box.w)};height:${pct(theme.background.box.h)};background:${theme.background.color}"></div>` : '';
   // Graphics layer; components.css lifts it above the blocks.
   const cut = (key, box, n) => assets[key] ? `<img class="hsk-at hsk-deco"${n != null ? ` data-block="${n}"` : ''} alt="" aria-hidden="true" src="${esc(assets[key])}" style="left:${pct(box.x)};top:${pct(box.y)};width:${pct(box.w)};height:${pct(box.h)}">` : '';
-  const deco = layout.blocks.map((b, n) => b.type === 'decor' ? cut(`deco-b${n}`, b.box, n) : '').join('')
+  const examGrid=layout.examGrid?`<svg class="hsk-at hsk-exam-grid" style="left:0;top:0;width:100%;height:100%;pointer-events:none" viewBox="0 0 1000 1000" preserveAspectRatio="none" aria-hidden="true">${layout.examGrid.vertical.map(x=>`<path d="M${x*1000} ${layout.examGrid.horizontal[0]*1000}V${layout.examGrid.horizontal.at(-1)*1000}"/>`).join('')}${layout.examGrid.horizontal.map(y=>`<path d="M${layout.examGrid.vertical[0]*1000} ${y*1000}H${layout.examGrid.vertical.at(-1)*1000}"/>`).join('')}</svg>`:'';
+  const deco = examGrid+layout.blocks.map((b, n) => b.type === 'decor' ? cut(`deco-b${n}`, b.box, n) : '').join('')
     // A printed number mark («❶», a numbered square) cut out of the scan just
     // left of a numbered paragraph: the paragraph draws its own number there,
     // so the cut-out (often clipped) would show it twice.

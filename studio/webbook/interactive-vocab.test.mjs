@@ -59,3 +59,10 @@ test('excludes initials, finals and tone charts from the page vocabulary', () =>
   ] };
   assert.deepEqual(core.pageVocabulary(layout).map(item => item.word), ['猫']);
 });
+test('source-aligned poem tokens populate a multilingual dictionary including punctuation-adjacent words',()=>{
+ const layout={blocks:[{type:'para',cn:'妈种麻，我放马。\n马吃麻，妈骂马。',py:'Mā zhòng má, wǒ fàng mǎ.\nMǎ chī má, mā mà mǎ.',en:'Mom plants flax.',ru:'Мама сажает лён.'}]};
+ const words=core.pageVocabulary(layout);assert.equal(words.length,8);assert.ok(words.every(w=>w.trans_kz&&w.trans_en));assert.ok(words.some(w=>w.word==='麻'&&w.py==='má'));
+});
+test('listening options retain Arabic numbers in the dictionary',()=>{
+ const words=core.pageVocabulary({blocks:[{type:'para',cn:'B 20 个',py:'èrshí gè',ru:'двадцать штук',en:'twenty items',examOption:{hz:'20个'}}]});assert.equal(words[0].word,'20个');assert.equal(words.length,1);
+});

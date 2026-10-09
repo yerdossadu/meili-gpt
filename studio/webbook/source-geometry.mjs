@@ -100,6 +100,9 @@ export function measurePrintedGeometry(block, grid, lines, page) {
     if(cn&&en){const g=grid.hi||grid.raw||grid,q=union([cn.box,en.box]);let coloured=0,total=0;
       for(let y=Math.max(0,Math.floor((q.y-.004)*g.H));y<Math.min(g.H,(q.y+q.h+.004)*g.H);y+=2)for(let x=Math.max(0,Math.floor(q.x*g.W));x<Math.min(g.W,(q.x+q.w)*g.W);x+=2){total++;if(red(g.at(x,y)))coloured++;}
       if(coloured/Math.max(1,total)<.01)return{box:q,printed:{kind:'plain-section',cnBox:cn.box,enBox:en.box,cnSize:cn.box.h*page.height/page.width*85,enSize:en.box.h*page.height/page.width*78}};
+      const raw=grid.raw||grid,win={x:Math.max(0,cn.box.x-.10),y:cn.box.y-.008,w:cn.box.w+.12,h:cn.box.h+.014};
+      const graphic=surface(raw,win,red,Math.round(grid.W*.045));
+      if(graphic){const pill={x:graphic.box.x+graphic.box.w-.002,y:en.box.y-.006,w:en.box.x+en.box.w+.018-(graphic.box.x+graphic.box.w-.002),h:en.box.h+.014};return{box:union([graphic.box,pill]),printed:{kind:'section-tab',graphic:graphic.path,grid:[grid.W,grid.H],cnBox:cn.box,enBox:en.box,pill,cnSize:Math.min(cn.box.h/(page.width/page.height)*82,cn.box.w*100/[...block.cn].length),texture:texture(raw,graphic.box)}};}
     }
   }
   if(block.type==='para'&&/^[(（]\d+[)）]$/.test(block.number||'')){
