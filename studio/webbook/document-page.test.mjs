@@ -107,3 +107,19 @@ test('open tables use interior rules and header boundaries instead of equal colu
  const g={W:100,H:100,at:(x,y)=>y>=10&&y<15?[30,20,100]:[40,75].includes(x)||[35,60,85].includes(y)?[90,90,90]:[255,255,255]};
  const l=fromModel({blocks:[{type:'table',box:{x:.1,y:.1,w:.8,h:.75},columns:3,rowCount:4,cells:[]}]},100,100);l.theme={};measureDocumentPage(l,g,[]);assert.deepEqual(l.blocks[0].columnEdges,[.1,.4,.75,.9]);assert.ok(l.blocks[0].rowEdges.every((v,i)=>Math.abs(v-[.1,.15,.35,.6,.85][i])<1e-8));assert.equal(l.blocks[0].tableGeometry.verified,true);
 });
+
+test('HSK5 pages 13–14 preserve contents continuation and source reading questions 23–28',()=>{
+ const fixtures=JSON.parse(readFileSync(new URL('../../conversion-fixtures/hsk5-source-pages-013-014.json',import.meta.url),'utf8'));
+ for(const f of fixtures){const l=fromModel(f.source,f.ocr.width,f.ocr.height);l.theme={};measureDocumentPage(l,{W:100,H:150,at:()=>[255,255,255]},ocrLinesOf(f.ocr));
+  assert.deepEqual(validatePage(localizeLayout(l),{requireKz:true}).errors,[]);const html=pageDocument(l);for(const lang of ['ru','en','kz','orig'])assert.match(html,new RegExp('data-lang="'+lang+'"'));
+  assert.equal(l.blocks.find(b=>b.type==='folio').plain,true);assert.doesNotMatch(html,/class="hsk-at hsk-folio(?:-right)?"/);
+  if(f.bookId==='9b495a8351c6'){const t=l.blocks.find(b=>b.type==='table');assert.equal(t.rowCount,7);
+   if(f.sourcePage===13){assert.equal(t.columns,4);assert.equal(t.cells.filter(c=>c.rowspan===3).length,2);assert.deepEqual(t.cells.filter(c=>c.col===1&&c.row>0).map(c=>c.cn),['13','14','15','16','17','18']);assert.deepEqual(t.cells.filter(c=>c.col===3&&c.row>0).map(c=>c.cn),['106','114','123','134','142','150']);assert.equal(l.blocks.find(b=>b.cn?.includes('词语总表')).documentText.translationColor,'#ffffff');}
+   else {assert.equal(t.columns,3);const v=pageVocabulary(l);assert.equal(v.length,30);assert.ok(v.every(w=>w.trans&&w.trans_en&&w.trans_kz));assert.ok(v.some(w=>w.word==='起'&&w.py==='qǐ'));assert.ok(!v.some(w=>w.word==='为所'));}
+  }else{const choices=l.blocks.filter(b=>b.documentText?.choice),qs=f.sourcePage===13?[23,24,25]:[26,27,28];assert.equal(choices.length,12);for(const q of qs)assert.deepEqual(choices.filter(b=>b.documentText.choice.question===q).map(b=>b.documentText.choice.letter).sort(),['A','B','C','D']);
+   const vocabulary=pageVocabulary(l);assert.ok(vocabulary.some(v=>v.word===(f.sourcePage===13?'保护':'责任感')));assert.ok(vocabulary.every(v=>v.trans_en&&v.trans_kz));
+   for(const b of l.blocks.filter(b=>b.documentText?.vocabulary)){for(const v of b.documentText.vocabulary)assert.ok(b.cn.includes(v.hz));const raw=f.source.blocks.find(s=>s.documentText?.sourceBox&&['x','y','w','h'].every(k=>s.documentText.sourceBox[k]===b.documentText.sourceBox[k]));assert.ok(raw);assert.deepEqual(b.documentText.vocabulary,raw.documentText.vocabulary);}
+   const inset=l.blocks.find(b=>b.cn.includes(f.sourcePage===13?'别人和他':'持续上升'));assert.ok(f.sourcePage===13?inset.box.x>.30:inset.box.w<.55);assert.match(html,/data-hsk-speak=/);
+  }
+ }
+});

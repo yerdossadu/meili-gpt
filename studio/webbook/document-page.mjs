@@ -43,7 +43,7 @@ export function measureDocumentPage(layout,grid,lines){
   const font=raw.documentText.vertical?median(found.map(l=>l.box.w))*100*.86:median(found.map(l=>l.box.h))*layout.page.height/layout.page.width*100*.86;
   const colors=[];for(let y=Math.floor(q.y*grid.H);y<Math.ceil((q.y+q.h)*grid.H);y++)for(let x=Math.floor(q.x*grid.W);x<Math.ceil((q.x+q.w)*grid.W);x++){const p=(grid.raw||grid).at(x,y);if(Math.max(...p)<180)colors.push(p);}
   const color=colors.length?'#'+[0,1,2].map(i=>median(colors.map(p=>p[i])).toString(16).padStart(2,'0')).join(''):'#333333';
-  b.documentText={sourceBox:q,lines:native,font,color:raw.documentText.color||color,heading:q.h>.03&&clean(raw.cn||raw.en).length<15,bold:raw.documentText.bold||false,sans:raw.documentText.sans||false,...(raw.documentText.choice?{choice:raw.documentText.choice}:{}),...(raw.documentText.vertical?{vertical:true}:{}),...(raw.documentText.cloze?{cloze:raw.documentText.cloze}:{})};delete b.unresolvedStructure;
+  b.documentText={sourceBox:q,lines:native,font,color:raw.documentText.color||color,translationColor:raw.documentText.color||'#333',heading:q.h>.03&&clean(raw.cn||raw.en).length<15,bold:raw.documentText.bold||false,sans:raw.documentText.sans||false,...(raw.documentText.choice?{choice:raw.documentText.choice}:{}),...(raw.documentText.vertical?{vertical:true}:{}),...(raw.documentText.cloze?{cloze:raw.documentText.cloze}:{}),...(raw.documentText.vocabulary?{vocabulary:raw.documentText.vocabulary}:{})};delete b.unresolvedStructure;
  }
  // Fragmented A–D labels must not produce different print sizes in one exercise.
  const choices=layout.blocks.filter(b=>b.documentText?.choice&&b.documentText.font);

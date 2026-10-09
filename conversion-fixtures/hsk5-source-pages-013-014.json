@@ -1,0 +1,4759 @@
+[
+  {
+    "bookId": "9b495a8351c6",
+    "sourcePage": 13,
+    "source": {
+      "blocks": [
+        {
+          "type": "table",
+          "box": {
+            "x": 0.087,
+            "y": 0.096,
+            "w": 0.913,
+            "h": 0.406
+          },
+          "columns": 4,
+          "rowCount": 7,
+          "cells": [
+            {
+              "row": 0,
+              "col": 0,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "单元",
+              "en": "Unit",
+              "ru": "Раздел",
+              "vocabulary": [],
+              "align": "center"
+            },
+            {
+              "row": 0,
+              "col": 1,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "课号",
+              "en": "Lesson",
+              "ru": "Урок",
+              "vocabulary": [],
+              "align": "center"
+            },
+            {
+              "row": 0,
+              "col": 2,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "课文",
+              "en": "Text",
+              "ru": "Текст",
+              "vocabulary": [],
+              "align": "center"
+            },
+            {
+              "row": 0,
+              "col": 3,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "页码",
+              "en": "Page",
+              "ru": "Страница",
+              "vocabulary": [],
+              "align": "center"
+            },
+            {
+              "row": 1,
+              "col": 0,
+              "rowspan": 3,
+              "colspan": 1,
+              "cn": "第五单元　放眼世界\n\nUnit 5 Seeing the World",
+              "en": "Unit 5 Seeing the World",
+              "ru": "Раздел 5. Познаём мир",
+              "vocabulary": [],
+              "align": "left"
+            },
+            {
+              "row": 4,
+              "col": 0,
+              "rowspan": 3,
+              "colspan": 1,
+              "cn": "第六单元　修养身心\n\nUnit 6 Cultivating Physical and Mental Health",
+              "en": "Unit 6 Cultivating Physical and Mental Health",
+              "ru": "Раздел 6. Забота о теле и духе",
+              "vocabulary": [],
+              "align": "left"
+            },
+            {
+              "row": 1,
+              "col": 1,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "13",
+              "en": "",
+              "ru": "",
+              "vocabulary": [],
+              "align": "center"
+            },
+            {
+              "row": 1,
+              "col": 2,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "锯掉生活的“筐底”\nCutting Off the “Bottom of the Basket” in Life",
+              "en": "Cutting Off the “Bottom of the Basket” in Life",
+              "ru": "Спилить «дно корзины» в своей жизни",
+              "vocabulary": [],
+              "align": "left"
+            },
+            {
+              "row": 1,
+              "col": 3,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "106",
+              "en": "",
+              "ru": "",
+              "vocabulary": [],
+              "align": "left"
+            },
+            {
+              "row": 2,
+              "col": 1,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "14",
+              "en": "",
+              "ru": "",
+              "vocabulary": [],
+              "align": "center"
+            },
+            {
+              "row": 2,
+              "col": 2,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "北京的四合院\nQuadrangle Courtyards in Beijing",
+              "en": "Quadrangle Courtyards in Beijing",
+              "ru": "Пекинские дома с внутренним двором",
+              "vocabulary": [],
+              "align": "left"
+            },
+            {
+              "row": 2,
+              "col": 3,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "114",
+              "en": "",
+              "ru": "",
+              "vocabulary": [],
+              "align": "left"
+            },
+            {
+              "row": 3,
+              "col": 1,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "15",
+              "en": "",
+              "ru": "",
+              "vocabulary": [],
+              "align": "center"
+            },
+            {
+              "row": 3,
+              "col": 2,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "纸上谈兵\nBeing an Armchair Strategist",
+              "en": "Being an Armchair Strategist",
+              "ru": "Рассуждать о войне на бумаге",
+              "vocabulary": [],
+              "align": "left"
+            },
+            {
+              "row": 3,
+              "col": 3,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "123",
+              "en": "",
+              "ru": "",
+              "vocabulary": [],
+              "align": "left"
+            },
+            {
+              "row": 4,
+              "col": 1,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "16",
+              "en": "",
+              "ru": "",
+              "vocabulary": [],
+              "align": "center"
+            },
+            {
+              "row": 4,
+              "col": 2,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "体重与节食\nWeight and Diet",
+              "en": "Weight and Diet",
+              "ru": "Вес и диета",
+              "vocabulary": [],
+              "align": "left"
+            },
+            {
+              "row": 4,
+              "col": 3,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "134",
+              "en": "",
+              "ru": "",
+              "vocabulary": [],
+              "align": "left"
+            },
+            {
+              "row": 5,
+              "col": 1,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "17",
+              "en": "",
+              "ru": "",
+              "vocabulary": [],
+              "align": "center"
+            },
+            {
+              "row": 5,
+              "col": 2,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "在最美好的时刻离开\nEnding at the Best Moment",
+              "en": "Ending at the Best Moment",
+              "ru": "Уйти в самый прекрасный момент",
+              "vocabulary": [],
+              "align": "left"
+            },
+            {
+              "row": 5,
+              "col": 3,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "142",
+              "en": "",
+              "ru": "",
+              "vocabulary": [],
+              "align": "left"
+            },
+            {
+              "row": 6,
+              "col": 1,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "18",
+              "en": "",
+              "ru": "",
+              "vocabulary": [],
+              "align": "center"
+            },
+            {
+              "row": 6,
+              "col": 2,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "抽象艺术美不美\nAbstract Art: Beautiful or Not?",
+              "en": "Abstract Art: Beautiful or Not?",
+              "ru": "Красиво ли абстрактное искусство?",
+              "vocabulary": [],
+              "align": "left"
+            },
+            {
+              "row": 6,
+              "col": 3,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "150",
+              "en": "",
+              "ru": "",
+              "vocabulary": [],
+              "align": "left"
+            }
+          ],
+          "openEdges": true
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.104158,
+            "y": 0.507126,
+            "w": 0.55,
+            "h": 0.022001999999999963
+          },
+          "cn": "词语总表 Vocabulary 158",
+          "en": "Vocabulary 158",
+          "ru": "Общий словарь 158",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.104158,
+              "y": 0.507126,
+              "w": 0.234355,
+              "h": 0.019001999999999963
+            },
+            "vocabulary": [],
+            "sans": true,
+            "color": "#ffffff"
+          },
+          "documentPanel": {
+            "box": {
+              "x": 0.087,
+              "y": 0.504,
+              "w": 0.913,
+              "h": 0.025
+            }
+          }
+        },
+        {
+          "type": "folio",
+          "plain": true,
+          "box": {
+            "x": 0.034439,
+            "y": 0.932304,
+            "w": 0.0189,
+            "h": 0.014549
+          },
+          "text": "x"
+        }
+      ],
+      "kz": {
+        "Раздел": "Бөлім",
+        "Урок": "Сабақ",
+        "Текст": "Мәтін",
+        "Страница": "Бет",
+        "Раздел 5. Познаём мир": "5-бөлім. Әлемге көзқарас",
+        "Раздел 6. Забота о теле и духе": "6-бөлім. Тән мен жанды дамыту",
+        "Спилить «дно корзины» в своей жизни": "Өмірдегі «себеттің түбін» кесіп тастау",
+        "Пекинские дома с внутренним двором": "Бейжіңдегі ауласы бар үйлер",
+        "Рассуждать о войне на бумаге": "Қағаз жүзінде соғыс туралы пайымдау",
+        "Вес и диета": "Дене салмағы және диета",
+        "Уйти в самый прекрасный момент": "Ең тамаша сәтте кету",
+        "Красиво ли абстрактное искусство?": "Абстрактілі өнер әдемі ме?",
+        "Общий словарь 158": "Жалпы сөздік 158"
+      }
+    },
+    "ocr": {
+      "version": 11,
+      "engine": "PaddleOCR",
+      "model": "PP-OCRv5_mobile",
+      "pageNumber": 13,
+      "dpi": 288,
+      "width": 2381,
+      "height": 3368,
+      "coordinateSpace": "normalized-0-1",
+      "lines": [
+        {
+          "id": 0,
+          "text": "单元",
+          "confidence": 0.9992,
+          "position": {
+            "x": 0.202436,
+            "y": 0.10095,
+            "width": 0.045779,
+            "height": 0.019596
+          }
+        },
+        {
+          "id": 1,
+          "text": "课号",
+          "confidence": 0.9995,
+          "position": {
+            "x": 0.386392,
+            "y": 0.101247,
+            "width": 0.045359,
+            "height": 0.018705
+          }
+        },
+        {
+          "id": 2,
+          "text": "课文",
+          "confidence": 0.9998,
+          "position": {
+            "x": 0.606888,
+            "y": 0.100059,
+            "width": 0.047459,
+            "height": 0.020487
+          }
+        },
+        {
+          "id": 3,
+          "text": "页码",
+          "confidence": 0.9994,
+          "position": {
+            "x": 0.847963,
+            "y": 0.101247,
+            "width": 0.045359,
+            "height": 0.018705
+          }
+        },
+        {
+          "id": 4,
+          "text": "锯掉生活的“筐底”",
+          "confidence": 0.9847,
+          "position": {
+            "x": 0.469971,
+            "y": 0.127672,
+            "width": 0.186476,
+            "height": 0.021675
+          }
+        },
+        {
+          "id": 5,
+          "text": "13",
+          "confidence": 0.9988,
+          "position": {
+            "x": 0.391852,
+            "y": 0.14519,
+            "width": 0.037799,
+            "height": 0.021675
+          }
+        },
+        {
+          "id": 6,
+          "text": "Cuting Off the \"Bottom of the Basket\"",
+          "confidence": 0.8732,
+          "position": {
+            "x": 0.470391,
+            "y": 0.145784,
+            "width": 0.322134,
+            "height": 0.019893
+          }
+        },
+        {
+          "id": 7,
+          "text": "106",
+          "confidence": 0.9963,
+          "position": {
+            "x": 0.852163,
+            "y": 0.145784,
+            "width": 0.040319,
+            "height": 0.018705
+          }
+        },
+        {
+          "id": 8,
+          "text": "in Life",
+          "confidence": 0.97,
+          "position": {
+            "x": 0.469971,
+            "y": 0.164192,
+            "width": 0.064679,
+            "height": 0.017815
+          }
+        },
+        {
+          "id": 9,
+          "text": "第五单元 放眼世界",
+          "confidence": 0.9578,
+          "position": {
+            "x": 0.102058,
+            "y": 0.184382,
+            "width": 0.196556,
+            "height": 0.021081
+          }
+        },
+        {
+          "id": 10,
+          "text": "北京的四合院",
+          "confidence": 0.9996,
+          "position": {
+            "x": 0.471651,
+            "y": 0.201603,
+            "width": 0.127257,
+            "height": 0.017518
+          }
+        },
+        {
+          "id": 11,
+          "text": "14",
+          "confidence": 0.9985,
+          "position": {
+            "x": 0.391012,
+            "y": 0.207838,
+            "width": 0.039899,
+            "height": 0.022565
+          }
+        },
+        {
+          "id": 12,
+          "text": "114",
+          "confidence": 0.9984,
+          "position": {
+            "x": 0.853423,
+            "y": 0.209323,
+            "width": 0.038639,
+            "height": 0.017815
+          }
+        },
+        {
+          "id": 13,
+          "text": "Unit 5 Seeing the World",
+          "confidence": 0.9578,
+          "position": {
+            "x": 0.102478,
+            "y": 0.215261,
+            "width": 0.229315,
+            "height": 0.019596
+          }
+        },
+        {
+          "id": 14,
+          "text": "Quadrangle Courtyards in Beijing",
+          "confidence": 0.9899,
+          "position": {
+            "x": 0.470391,
+            "y": 0.217637,
+            "width": 0.295674,
+            "height": 0.021378
+          }
+        },
+        {
+          "id": 15,
+          "text": "纸上谈兵",
+          "confidence": 0.9991,
+          "position": {
+            "x": 0.470811,
+            "y": 0.263361,
+            "width": 0.091138,
+            "height": 0.019002
+          }
+        },
+        {
+          "id": 16,
+          "text": "15",
+          "confidence": 0.9964,
+          "position": {
+            "x": 0.392272,
+            "y": 0.271081,
+            "width": 0.037379,
+            "height": 0.021675
+          }
+        },
+        {
+          "id": 17,
+          "text": "123",
+          "confidence": 0.9985,
+          "position": {
+            "x": 0.851323,
+            "y": 0.270784,
+            "width": 0.040319,
+            "height": 0.02019
+          }
+        },
+        {
+          "id": 18,
+          "text": "Being an Armchair Strategist",
+          "confidence": 0.9696,
+          "position": {
+            "x": 0.469971,
+            "y": 0.281473,
+            "width": 0.255355,
+            "height": 0.019002
+          }
+        },
+        {
+          "id": 19,
+          "text": "体重与节食",
+          "confidence": 0.9974,
+          "position": {
+            "x": 0.471231,
+            "y": 0.3269,
+            "width": 0.108358,
+            "height": 0.018705
+          }
+        },
+        {
+          "id": 20,
+          "text": "16",
+          "confidence": 0.9988,
+          "position": {
+            "x": 0.393112,
+            "y": 0.334026,
+            "width": 0.037799,
+            "height": 0.021971
+          }
+        },
+        {
+          "id": 21,
+          "text": "134",
+          "confidence": 0.9986,
+          "position": {
+            "x": 0.851323,
+            "y": 0.333729,
+            "width": 0.041999,
+            "height": 0.02019
+          }
+        },
+        {
+          "id": 22,
+          "text": "Weight and Diet",
+          "confidence": 0.9555,
+          "position": {
+            "x": 0.472071,
+            "y": 0.345012,
+            "width": 0.143637,
+            "height": 0.017518
+          }
+        },
+        {
+          "id": 23,
+          "text": "第六单元 修养身心",
+          "confidence": 0.9406,
+          "position": {
+            "x": 0.103318,
+            "y": 0.373515,
+            "width": 0.195716,
+            "height": 0.02019
+          }
+        },
+        {
+          "id": 24,
+          "text": "在最美好的时刻离开",
+          "confidence": 0.9995,
+          "position": {
+            "x": 0.471651,
+            "y": 0.389252,
+            "width": 0.196136,
+            "height": 0.019002
+          }
+        },
+        {
+          "id": 25,
+          "text": "17",
+          "confidence": 0.9956,
+          "position": {
+            "x": 0.391432,
+            "y": 0.395784,
+            "width": 0.039059,
+            "height": 0.023159
+          }
+        },
+        {
+          "id": 26,
+          "text": "142",
+          "confidence": 0.9977,
+          "position": {
+            "x": 0.853003,
+            "y": 0.397565,
+            "width": 0.039059,
+            "height": 0.019002
+          }
+        },
+        {
+          "id": 27,
+          "text": "Unit 6 Cultivating Physical",
+          "confidence": 0.9722,
+          "position": {
+            "x": 0.103738,
+            "y": 0.402613,
+            "width": 0.249475,
+            "height": 0.019002
+          }
+        },
+        {
+          "id": 28,
+          "text": "Ending at the Best Moment",
+          "confidence": 0.96,
+          "position": {
+            "x": 0.471231,
+            "y": 0.40766,
+            "width": 0.240235,
+            "height": 0.017221
+          }
+        },
+        {
+          "id": 29,
+          "text": "and Mental Health",
+          "confidence": 0.9741,
+          "position": {
+            "x": 0.164637,
+            "y": 0.4231,
+            "width": 0.176396,
+            "height": 0.016924
+          }
+        },
+        {
+          "id": 30,
+          "text": "抽象艺术美不美",
+          "confidence": 0.999,
+          "position": {
+            "x": 0.472071,
+            "y": 0.452791,
+            "width": 0.152877,
+            "height": 0.017815
+          }
+        },
+        {
+          "id": 31,
+          "text": "18",
+          "confidence": 0.9987,
+          "position": {
+            "x": 0.393532,
+            "y": 0.460808,
+            "width": 0.037379,
+            "height": 0.019893
+          }
+        },
+        {
+          "id": 32,
+          "text": "150",
+          "confidence": 0.9975,
+          "position": {
+            "x": 0.853423,
+            "y": 0.459917,
+            "width": 0.039059,
+            "height": 0.019002
+          }
+        },
+        {
+          "id": 33,
+          "text": "Abstract Art:Beautiful orNot?",
+          "confidence": 0.9708,
+          "position": {
+            "x": 0.473331,
+            "y": 0.471496,
+            "width": 0.267115,
+            "height": 0.015143
+          }
+        },
+        {
+          "id": 34,
+          "text": "词语总表Vocabulary158",
+          "confidence": 0.9986,
+          "position": {
+            "x": 0.104158,
+            "y": 0.507126,
+            "width": 0.234355,
+            "height": 0.019002
+          }
+        },
+        {
+          "id": 35,
+          "text": "-",
+          "confidence": 0.3294,
+          "position": {
+            "x": 0.676186,
+            "y": 0.714074,
+            "width": 0.00756,
+            "height": 0.006235
+          }
+        },
+        {
+          "id": 36,
+          "text": "×",
+          "confidence": 0.6139,
+          "position": {
+            "x": 0.034439,
+            "y": 0.932304,
+            "width": 0.0189,
+            "height": 0.014549
+          }
+        }
+      ],
+      "sourceHash": "6ff4d9e28468702c4b9f6bb370edda22c96949e86643be812501cccc08154c6e"
+    }
+  },
+  {
+    "bookId": "9b495a8351c6",
+    "sourcePage": 14,
+    "source": {
+      "blocks": [
+        {
+          "type": "table",
+          "box": {
+            "x": 0,
+            "y": 0.104,
+            "w": 0.909,
+            "h": 0.406
+          },
+          "columns": 3,
+          "rowCount": 7,
+          "cells": [
+            {
+              "row": 0,
+              "col": 0,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "词语例释",
+              "en": "Words and usage",
+              "ru": "Слова и их употребление",
+              "vocabulary": [],
+              "align": "center"
+            },
+            {
+              "row": 0,
+              "col": 1,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "词语辨析",
+              "en": "Word comparisons",
+              "ru": "Сравнение слов",
+              "vocabulary": [],
+              "align": "center"
+            },
+            {
+              "row": 0,
+              "col": 2,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "扩展",
+              "en": "Expansion",
+              "ru": "Расширение словаря",
+              "vocabulary": [],
+              "align": "center"
+            },
+            {
+              "row": 1,
+              "col": 0,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "何况；何必；多亏",
+              "en": "let alone; why bother; thanks to",
+              "ru": "тем более; зачем; благодаря",
+              "vocabulary": [
+                {
+                  "hz": "何况",
+                  "py": "hékuàng",
+                  "en": "let alone",
+                  "ru": "тем более",
+                  "kk": "оның үстіне"
+                },
+                {
+                  "hz": "何必",
+                  "py": "hébì",
+                  "en": "why bother",
+                  "ru": "зачем",
+                  "kk": "неге"
+                },
+                {
+                  "hz": "多亏",
+                  "py": "duōkuī",
+                  "en": "thanks to",
+                  "ru": "благодаря",
+                  "kk": "арқасында"
+                }
+              ],
+              "align": "left"
+            },
+            {
+              "row": 1,
+              "col": 1,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "激烈—强烈",
+              "en": "intense — strong",
+              "ru": "бурный — сильный",
+              "vocabulary": [
+                {
+                  "hz": "激烈",
+                  "py": "jīliè",
+                  "en": "intense",
+                  "ru": "бурный",
+                  "kk": "қызу"
+                },
+                {
+                  "hz": "强烈",
+                  "py": "qiángliè",
+                  "en": "strong",
+                  "ru": "сильный",
+                  "kk": "күшті"
+                }
+              ],
+              "align": "center"
+            },
+            {
+              "row": 1,
+              "col": 2,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "体育",
+              "en": "Sports",
+              "ru": "Спорт",
+              "vocabulary": [],
+              "align": "left"
+            },
+            {
+              "row": 2,
+              "col": 0,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "所谓；则；为……所……；起",
+              "en": "so-called; then; passive construction; rise/start",
+              "ru": "так называемый; тогда; пассивная конструкция; подниматься",
+              "vocabulary": [
+                {
+                  "hz": "所谓",
+                  "py": "suǒwèi",
+                  "en": "so-called",
+                  "ru": "так называемый",
+                  "kk": "деп аталатын"
+                },
+                {
+                  "hz": "则",
+                  "py": "zé",
+                  "en": "then",
+                  "ru": "тогда",
+                  "kk": "онда"
+                },
+                {
+                  "hz": "起",
+                  "py": "qǐ",
+                  "en": "rise/start",
+                  "ru": "подниматься",
+                  "kk": "көтерілу"
+                }
+              ],
+              "align": "left"
+            },
+            {
+              "row": 2,
+              "col": 1,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "通常—常常",
+              "en": "usual — often",
+              "ru": "обычный — часто",
+              "vocabulary": [
+                {
+                  "hz": "通常",
+                  "py": "tōngcháng",
+                  "en": "usual",
+                  "ru": "обычный",
+                  "kk": "әдеттегі"
+                },
+                {
+                  "hz": "常常",
+                  "py": "chángcháng",
+                  "en": "often",
+                  "ru": "часто",
+                  "kk": "жиі"
+                }
+              ],
+              "align": "center"
+            },
+            {
+              "row": 2,
+              "col": 2,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "建筑",
+              "en": "Architecture",
+              "ru": "Архитектура",
+              "vocabulary": [],
+              "align": "left"
+            },
+            {
+              "row": 3,
+              "col": 0,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "过；迟早；再三",
+              "en": "pass; sooner or later; repeatedly",
+              "ru": "проходить; рано или поздно; неоднократно",
+              "vocabulary": [
+                {
+                  "hz": "过",
+                  "py": "guò",
+                  "en": "pass",
+                  "ru": "проходить",
+                  "kk": "өту"
+                },
+                {
+                  "hz": "迟早",
+                  "py": "chízǎo",
+                  "en": "sooner or later",
+                  "ru": "рано или поздно",
+                  "kk": "ерте ме, кеш пе"
+                },
+                {
+                  "hz": "再三",
+                  "py": "zàisān",
+                  "en": "repeatedly",
+                  "ru": "неоднократно",
+                  "kk": "қайта-қайта"
+                }
+              ],
+              "align": "left"
+            },
+            {
+              "row": 3,
+              "col": 1,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "胜利—成功",
+              "en": "victory — success",
+              "ru": "победа — успех",
+              "vocabulary": [
+                {
+                  "hz": "胜利",
+                  "py": "shènglì",
+                  "en": "victory",
+                  "ru": "победа",
+                  "kk": "жеңіс"
+                },
+                {
+                  "hz": "成功",
+                  "py": "chénggōng",
+                  "en": "success",
+                  "ru": "успех",
+                  "kk": "табыс"
+                }
+              ],
+              "align": "center"
+            },
+            {
+              "row": 3,
+              "col": 2,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "军事",
+              "en": "Military affairs",
+              "ru": "Военное дело",
+              "vocabulary": [],
+              "align": "left"
+            },
+            {
+              "row": 4,
+              "col": 0,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "即；个别；非",
+              "en": "namely; individual; not/non-",
+              "ru": "то есть; отдельный; не-/не являться",
+              "vocabulary": [
+                {
+                  "hz": "即",
+                  "py": "jí",
+                  "en": "namely",
+                  "ru": "то есть",
+                  "kk": "яғни"
+                },
+                {
+                  "hz": "个别",
+                  "py": "gèbié",
+                  "en": "individual",
+                  "ru": "отдельный",
+                  "kk": "жекелеген"
+                },
+                {
+                  "hz": "非",
+                  "py": "fēi",
+                  "en": "not/non-",
+                  "ru": "не-/не являться",
+                  "kk": "емес"
+                }
+              ],
+              "align": "left"
+            },
+            {
+              "row": 4,
+              "col": 1,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "临时—暂时",
+              "en": "ad hoc — temporary",
+              "ru": "внеплановый — временный",
+              "vocabulary": [
+                {
+                  "hz": "临时",
+                  "py": "línshí",
+                  "en": "ad hoc",
+                  "ru": "внеплановый",
+                  "kk": "арнайы жағдайға арналған"
+                },
+                {
+                  "hz": "暂时",
+                  "py": "zànshí",
+                  "en": "temporary",
+                  "ru": "временный",
+                  "kk": "уақытша"
+                }
+              ],
+              "align": "center"
+            },
+            {
+              "row": 4,
+              "col": 2,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "医务1",
+              "en": "Medical work 1",
+              "ru": "Медицина 1",
+              "vocabulary": [],
+              "align": "left"
+            },
+            {
+              "row": 5,
+              "col": 0,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "以；平常；宁可",
+              "en": "with/by; usual; would rather",
+              "ru": "с помощью; обычный; предпочесть",
+              "vocabulary": [
+                {
+                  "hz": "以",
+                  "py": "yǐ",
+                  "en": "with/by",
+                  "ru": "с помощью",
+                  "kk": "арқылы"
+                },
+                {
+                  "hz": "平常",
+                  "py": "píngcháng",
+                  "en": "usual",
+                  "ru": "обычный",
+                  "kk": "әдеттегі"
+                },
+                {
+                  "hz": "宁可",
+                  "py": "nìngkě",
+                  "en": "would rather",
+                  "ru": "предпочесть",
+                  "kk": "артық көру"
+                }
+              ],
+              "align": "left"
+            },
+            {
+              "row": 5,
+              "col": 1,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "忽视—轻视",
+              "en": "ignore — belittle",
+              "ru": "игнорировать — пренебрегать",
+              "vocabulary": [
+                {
+                  "hz": "忽视",
+                  "py": "hūshì",
+                  "en": "ignore",
+                  "ru": "игнорировать",
+                  "kk": "елемеу"
+                },
+                {
+                  "hz": "轻视",
+                  "py": "qīngshì",
+                  "en": "belittle",
+                  "ru": "пренебрегать",
+                  "kk": "менсінбеу"
+                }
+              ],
+              "align": "center"
+            },
+            {
+              "row": 5,
+              "col": 2,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "医务2",
+              "en": "Medical work 2",
+              "ru": "Медицина 2",
+              "vocabulary": [],
+              "align": "left"
+            },
+            {
+              "row": 6,
+              "col": 0,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "极其；其余；可见",
+              "en": "extremely; the rest; it is evident",
+              "ru": "чрезвычайно; остальные; очевидно",
+              "vocabulary": [
+                {
+                  "hz": "极其",
+                  "py": "jíqí",
+                  "en": "extremely",
+                  "ru": "чрезвычайно",
+                  "kk": "аса"
+                },
+                {
+                  "hz": "其余",
+                  "py": "qíyú",
+                  "en": "the rest",
+                  "ru": "остальные",
+                  "kk": "қалғаны"
+                },
+                {
+                  "hz": "可见",
+                  "py": "kějiàn",
+                  "en": "it is evident",
+                  "ru": "очевидно",
+                  "kk": "көрініп тұр"
+                }
+              ],
+              "align": "left"
+            },
+            {
+              "row": 6,
+              "col": 1,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "目前—现在",
+              "en": "at present — now",
+              "ru": "в настоящее время — сейчас",
+              "vocabulary": [
+                {
+                  "hz": "目前",
+                  "py": "mùqián",
+                  "en": "at present",
+                  "ru": "в настоящее время",
+                  "kk": "қазіргі кезде"
+                },
+                {
+                  "hz": "现在",
+                  "py": "xiànzài",
+                  "en": "now",
+                  "ru": "сейчас",
+                  "kk": "қазір"
+                }
+              ],
+              "align": "center"
+            },
+            {
+              "row": 6,
+              "col": 2,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "影视艺术",
+              "en": "Film and television arts",
+              "ru": "Искусство кино и телевидения",
+              "vocabulary": [],
+              "align": "left"
+            }
+          ],
+          "openEdges": true,
+          "documentPanel": {
+            "box": {
+              "x": 0,
+              "y": 0.512,
+              "w": 0.909,
+              "h": 0.024
+            }
+          }
+        },
+        {
+          "type": "folio",
+          "plain": true,
+          "box": {
+            "x": 0.955481,
+            "y": 0.938242,
+            "w": 0.02352,
+            "h": 0.017221
+          },
+          "text": "xi"
+        }
+      ],
+      "kz": {
+        "Слова и их употребление": "Сөздер және олардың қолданылуы",
+        "Сравнение слов": "Сөздерді салыстыру",
+        "Расширение словаря": "Сөздік қорды кеңейту",
+        "тем более; зачем; благодаря": "оның үстіне; неге; арқасында",
+        "тем более": "оның үстіне",
+        "зачем": "неге",
+        "благодаря": "арқасында",
+        "бурный — сильный": "қызу — күшті",
+        "бурный": "қызу",
+        "сильный": "күшті",
+        "Спорт": "Спорт",
+        "так называемый; тогда; пассивная конструкция; подниматься": "деп аталатын; онда; ырықсыз етіс құрылымы; көтерілу",
+        "так называемый": "деп аталатын",
+        "тогда": "онда",
+        "подниматься": "көтерілу",
+        "обычный — часто": "әдеттегі — жиі",
+        "обычный": "әдеттегі",
+        "часто": "жиі",
+        "Архитектура": "Сәулет",
+        "проходить; рано или поздно; неоднократно": "өту; ерте ме, кеш пе; қайта-қайта",
+        "проходить": "өту",
+        "рано или поздно": "ерте ме, кеш пе",
+        "неоднократно": "қайта-қайта",
+        "победа — успех": "жеңіс — табыс",
+        "победа": "жеңіс",
+        "успех": "табыс",
+        "Военное дело": "Әскери іс",
+        "то есть; отдельный; не-/не являться": "яғни; жекелеген; емес",
+        "то есть": "яғни",
+        "отдельный": "жекелеген",
+        "не-/не являться": "емес",
+        "внеплановый — временный": "арнайы жағдайға арналған — уақытша",
+        "внеплановый": "арнайы жағдайға арналған",
+        "временный": "уақытша",
+        "Медицина 1": "Медицина 1",
+        "с помощью; обычный; предпочесть": "арқылы; әдеттегі; артық көру",
+        "с помощью": "арқылы",
+        "предпочесть": "артық көру",
+        "игнорировать — пренебрегать": "елемеу — менсінбеу",
+        "игнорировать": "елемеу",
+        "пренебрегать": "менсінбеу",
+        "Медицина 2": "Медицина 2",
+        "чрезвычайно; остальные; очевидно": "аса; қалғаны; көрініп тұр",
+        "чрезвычайно": "аса",
+        "остальные": "қалғаны",
+        "очевидно": "көрініп тұр",
+        "в настоящее время — сейчас": "қазіргі кезде — қазір",
+        "в настоящее время": "қазіргі кезде",
+        "сейчас": "қазір",
+        "Искусство кино и телевидения": "Кино және теледидар өнері"
+      }
+    },
+    "ocr": {
+      "version": 11,
+      "engine": "PaddleOCR",
+      "model": "PP-OCRv5_mobile",
+      "pageNumber": 14,
+      "dpi": 288,
+      "width": 2381,
+      "height": 3368,
+      "coordinateSpace": "normalized-0-1",
+      "lines": [
+        {
+          "id": 0,
+          "text": "词语例释",
+          "confidence": 0.9996,
+          "position": {
+            "x": 0.213776,
+            "y": 0.10867,
+            "width": 0.082318,
+            "height": 0.016924
+          }
+        },
+        {
+          "id": 1,
+          "text": "词语辨析",
+          "confidence": 0.9989,
+          "position": {
+            "x": 0.51239,
+            "y": 0.108373,
+            "width": 0.083158,
+            "height": 0.017815
+          }
+        },
+        {
+          "id": 2,
+          "text": "扩展",
+          "confidence": 0.999,
+          "position": {
+            "x": 0.764805,
+            "y": 0.107779,
+            "width": 0.047459,
+            "height": 0.019299
+          }
+        },
+        {
+          "id": 3,
+          "text": "何况；何必；多亏",
+          "confidence": 0.9863,
+          "position": {
+            "x": 0.072239,
+            "y": 0.152019,
+            "width": 0.176396,
+            "height": 0.021081
+          }
+        },
+        {
+          "id": 4,
+          "text": "激烈—强烈",
+          "confidence": 0.9462,
+          "position": {
+            "x": 0.455271,
+            "y": 0.152316,
+            "width": 0.112558,
+            "height": 0.020487
+          }
+        },
+        {
+          "id": 5,
+          "text": "体育",
+          "confidence": 0.9989,
+          "position": {
+            "x": 0.668207,
+            "y": 0.150831,
+            "width": 0.052919,
+            "height": 0.023159
+          }
+        },
+        {
+          "id": 6,
+          "text": "所谓；则；为……所……；起",
+          "confidence": 0.8771,
+          "position": {
+            "x": 0.073919,
+            "y": 0.215558,
+            "width": 0.280554,
+            "height": 0.019893
+          }
+        },
+        {
+          "id": 7,
+          "text": "通常—常常",
+          "confidence": 0.9688,
+          "position": {
+            "x": 0.455271,
+            "y": 0.215855,
+            "width": 0.112558,
+            "height": 0.019893
+          }
+        },
+        {
+          "id": 8,
+          "text": "建筑",
+          "confidence": 0.9998,
+          "position": {
+            "x": 0.670727,
+            "y": 0.215855,
+            "width": 0.049979,
+            "height": 0.019596
+          }
+        },
+        {
+          "id": 9,
+          "text": "过；迟早；再三",
+          "confidence": 0.9869,
+          "position": {
+            "x": 0.074339,
+            "y": 0.2788,
+            "width": 0.152037,
+            "height": 0.019002
+          }
+        },
+        {
+          "id": 10,
+          "text": "胜利—成功",
+          "confidence": 0.9219,
+          "position": {
+            "x": 0.456111,
+            "y": 0.279097,
+            "width": 0.110458,
+            "height": 0.018705
+          }
+        },
+        {
+          "id": 11,
+          "text": "军事",
+          "confidence": 1,
+          "position": {
+            "x": 0.671147,
+            "y": 0.27791,
+            "width": 0.049559,
+            "height": 0.020784
+          }
+        },
+        {
+          "id": 12,
+          "text": "即；个别；非",
+          "confidence": 0.9854,
+          "position": {
+            "x": 0.075178,
+            "y": 0.342637,
+            "width": 0.129777,
+            "height": 0.018705
+          }
+        },
+        {
+          "id": 13,
+          "text": "临时—暂时",
+          "confidence": 0.9673,
+          "position": {
+            "x": 0.455691,
+            "y": 0.340558,
+            "width": 0.112138,
+            "height": 0.022565
+          }
+        },
+        {
+          "id": 14,
+          "text": "医务1",
+          "confidence": 0.9969,
+          "position": {
+            "x": 0.673247,
+            "y": 0.342043,
+            "width": 0.059219,
+            "height": 0.019299
+          }
+        },
+        {
+          "id": 15,
+          "text": "以；平常；宁可",
+          "confidence": 0.9887,
+          "position": {
+            "x": 0.076018,
+            "y": 0.405582,
+            "width": 0.149097,
+            "height": 0.018409
+          }
+        },
+        {
+          "id": 16,
+          "text": "忽视—轻视",
+          "confidence": 0.9517,
+          "position": {
+            "x": 0.456531,
+            "y": 0.404988,
+            "width": 0.111718,
+            "height": 0.019893
+          }
+        },
+        {
+          "id": 17,
+          "text": "医务2",
+          "confidence": 0.9978,
+          "position": {
+            "x": 0.673667,
+            "y": 0.404988,
+            "width": 0.058379,
+            "height": 0.019002
+          }
+        },
+        {
+          "id": 18,
+          "text": "极其；其余；可见",
+          "confidence": 0.9899,
+          "position": {
+            "x": 0.073499,
+            "y": 0.467933,
+            "width": 0.175136,
+            "height": 0.02019
+          }
+        },
+        {
+          "id": 19,
+          "text": "目前—现在",
+          "confidence": 0.9007,
+          "position": {
+            "x": 0.457791,
+            "y": 0.46734,
+            "width": 0.108778,
+            "height": 0.02019
+          }
+        },
+        {
+          "id": 20,
+          "text": "影视艺术",
+          "confidence": 0.9991,
+          "position": {
+            "x": 0.671567,
+            "y": 0.46823,
+            "width": 0.091558,
+            "height": 0.019002
+          }
+        },
+        {
+          "id": 21,
+          "text": "xi",
+          "confidence": 0.948,
+          "position": {
+            "x": 0.955481,
+            "y": 0.938242,
+            "width": 0.02352,
+            "height": 0.017221
+          }
+        }
+      ],
+      "sourceHash": "c220b3f862573c0f281b2279200ef1daf79062dbd37d4a0885b491e8921160cb"
+    }
+  },
+  {
+    "bookId": "1a3750a2f488",
+    "sourcePage": 13,
+    "source": {
+      "blocks": [
+        {
+          "type": "text",
+          "box": {
+            "x": 0.073609,
+            "y": 0.029938,
+            "w": 0.07695499999999998,
+            "h": 0.044358
+          },
+          "cn": "HSK",
+          "en": "HSK",
+          "ru": "HSK",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.073609,
+              "y": 0.029938,
+              "w": 0.07695499999999998,
+              "h": 0.041358
+            },
+            "vocabulary": [],
+            "sans": true,
+            "color": "#ffffff"
+          },
+          "documentPanel": {
+            "box": {
+              "x": 0,
+              "y": 0,
+              "w": 0.153,
+              "h": 0.073
+            }
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.159348,
+            "y": 0.049074,
+            "w": 0.7506520000000001,
+            "h": 0.063975
+          },
+          "cn": "标准教程5（上）练习册",
+          "en": "HSK Standard Course 5 (Upper), Workbook",
+          "ru": "Стандартный курс HSK 5 (первая часть). Рабочая тетрадь",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.159348,
+              "y": 0.049074,
+              "w": 0.23672100000000001,
+              "h": 0.018827000000000003
+            },
+            "vocabulary": [],
+            "sans": true
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.34,
+            "y": 0.116049,
+            "w": 0.34,
+            "h": 0.04360499999999999
+          },
+          "cn": "第三部分",
+          "en": "Part Three",
+          "ru": "Третья часть",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.460895,
+              "y": 0.116049,
+              "w": 0.10497700000000004,
+              "h": 0.020370000000000013
+            },
+            "vocabulary": []
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.120452,
+            "y": 0.162654,
+            "w": 0.789548,
+            "h": 0.043605000000000005
+          },
+          "cn": "第23-28题：请选出正确答案。",
+          "en": "Questions 23–28: choose the correct answer.",
+          "ru": "Задания 23–28: выберите правильный ответ.",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.120452,
+              "y": 0.162654,
+              "w": 0.31744,
+              "h": 0.020061999999999997
+            },
+            "vocabulary": []
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.121288,
+            "y": 0.209259,
+            "w": 0.060226,
+            "h": 0.024468999999999994
+          },
+          "cn": "23–25.",
+          "en": "23–25.",
+          "ru": "23–25.",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.121288,
+              "y": 0.209259,
+              "w": 0.060226,
+              "h": 0.013272000000000006
+            },
+            "vocabulary": []
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.12087,
+            "y": 0.236728,
+            "w": 0.784609,
+            "h": 0.03942000000000001
+          },
+          "cn": "他和妻子是同行，一个是外科主任，一个是护士长，年轻时一直在一起工作。五年前，两人同时退休，过起了幸福的退休生活。",
+          "en": "Both he and his wife worked in medicine: he was head of surgery and she was head nurse. They worked together when young. Five years ago they retired at the same time and began a happy retirement.",
+          "ru": "Они с женой работали в одной сфере: он был заведующим хирургическим отделением, она — старшей медсестрой. В молодости они всегда работали вместе. Пять лет назад оба одновременно вышли на пенсию и зажили счастливой жизнью пенсионеров.",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.12087,
+              "y": 0.236728,
+              "w": 0.784609,
+              "h": 0.03642000000000001
+            },
+            "vocabulary": [
+              {
+                "hz": "外科",
+                "py": "wàikē",
+                "ru": "хирургия",
+                "en": "surgery",
+                "kk": "хирургия"
+              },
+              {
+                "hz": "主任",
+                "py": "zhǔrèn",
+                "ru": "руководитель",
+                "en": "head; director",
+                "kk": "басшы"
+              },
+              {
+                "hz": "护士长",
+                "py": "hùshizhǎng",
+                "ru": "старшая медсестра",
+                "en": "head nurse",
+                "kk": "аға мейіргер"
+              },
+              {
+                "hz": "退休",
+                "py": "tuìxiū",
+                "ru": "выходить на пенсию",
+                "en": "retire",
+                "kk": "зейнетке шығу"
+              },
+              {
+                "hz": "工作",
+                "py": "gōngzuò",
+                "ru": "работа; работать",
+                "en": "work",
+                "kk": "жұмыс"
+              },
+              {
+                "hz": "妻子",
+                "py": "qīzi",
+                "ru": "жена",
+                "en": "wife",
+                "kk": "әйел"
+              },
+              {
+                "hz": "幸福",
+                "py": "xìngfú",
+                "ru": "счастье; счастливый",
+                "en": "happiness; happy",
+                "kk": "бақыт; бақытты"
+              },
+              {
+                "hz": "生活",
+                "py": "shēnghuó",
+                "ru": "жизнь",
+                "en": "life",
+                "kk": "өмір"
+              }
+            ]
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.121288,
+            "y": 0.275617,
+            "w": 0.7795909999999999,
+            "h": 0.040037000000000045
+          },
+          "cn": "可是，不到两年，他开始变得健忘，直到完全痴呆：以前的同事朋友他都不认识了，连儿子、女儿也不记得了，他只认得一个人，就是妻子。",
+          "en": "But in less than two years he became forgetful, eventually developing severe dementia. He no longer recognized former colleagues and friends, or even remembered his son and daughter. He recognized only one person: his wife.",
+          "ru": "Но не прошло и двух лет, как он стал забывчивым, а затем у него развилась тяжёлая деменция. Он уже не узнавал прежних коллег и друзей, не помнил даже сына и дочь. Узнавал он только одного человека — жену.",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.121288,
+              "y": 0.275617,
+              "w": 0.7795909999999999,
+              "h": 0.03703700000000004
+            },
+            "vocabulary": [
+              {
+                "hz": "健忘",
+                "py": "jiànwàng",
+                "ru": "забывчивый",
+                "en": "forgetful",
+                "kk": "ұмытшақ"
+              },
+              {
+                "hz": "痴呆",
+                "py": "chīdāi",
+                "ru": "деменция",
+                "en": "dementia",
+                "kk": "деменция"
+              },
+              {
+                "hz": "认得",
+                "py": "rènde",
+                "ru": "узнавать",
+                "en": "recognize",
+                "kk": "тану"
+              },
+              {
+                "hz": "妻子",
+                "py": "qīzi",
+                "ru": "жена",
+                "en": "wife",
+                "kk": "әйел"
+              },
+              {
+                "hz": "儿子",
+                "py": "érzi",
+                "ru": "сын",
+                "en": "son",
+                "kk": "ұл"
+              },
+              {
+                "hz": "忘",
+                "py": "wàng",
+                "ru": "забывать",
+                "en": "forget",
+                "kk": "ұмыту"
+              }
+            ]
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.305312,
+            "y": 0.315432,
+            "w": 0.6001669999999999,
+            "h": 0.09929700000000002
+          },
+          "cn": "别人和他打招呼时，他傻傻地对着别人笑，拉拉妻子的手说：“跟着我！跟着我！”看到前面远远有汽车过来，他紧紧地拉住妻子的手说：“当心哦！当心哦！”妻子说：“我还用你教呀？你现在这个样子，比三岁的小孩子还小孩子，还叫我当心呢。”他笑笑，一笑，口水就流了出来。他流着口水傻傻地对妻子说：“跟着我！跟着我！”",
+          "en": "When people greeted him, he smiled blankly, tugged his wife’s hand and said, “Follow me! Follow me!” Seeing a car approaching in the distance, he held her hand tightly: “Be careful! Be careful!” She said, “Do I need you to teach me? You are more childlike than a three-year-old now, yet you tell me to be careful.” He smiled, and saliva dribbled from his mouth. Still smiling blankly, he told her, “Follow me! Follow me!”",
+          "ru": "Когда с ним здоровались, он бессмысленно улыбался, тянул жену за руку и говорил: «Иди за мной! Иди за мной!» Увидев вдалеке приближающуюся машину, крепко хватал её руку: «Осторожно! Осторожно!» Жена отвечала: «Мне нужны твои наставления? Ты сейчас беспомощнее трёхлетнего ребёнка, а ещё велишь мне быть осторожной». Он улыбался, и изо рта текла слюна. С той же бессмысленной улыбкой он говорил жене: «Иди за мной! Иди за мной!»",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.305312,
+              "y": 0.315432,
+              "w": 0.6001669999999999,
+              "h": 0.09629700000000002
+            },
+            "vocabulary": [
+              {
+                "hz": "当心",
+                "py": "dāngxīn",
+                "ru": "быть осторожным",
+                "en": "take care",
+                "kk": "абай болу"
+              },
+              {
+                "hz": "妻子",
+                "py": "qīzi",
+                "ru": "жена",
+                "en": "wife",
+                "kk": "әйел"
+              },
+              {
+                "hz": "跟着",
+                "py": "gēnzhe",
+                "ru": "следовать за",
+                "en": "follow",
+                "kk": "соңынан еру"
+              }
+            ]
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.30573,
+            "y": 0.414506,
+            "w": 0.5997490000000001,
+            "h": 0.05917300000000003
+          },
+          "cn": "那天，妻子牵着他的手去儿子家。小区门口车来车往，他把妻子的手攥得紧紧的。妻子说：“别攥得我那么紧，手都疼了。”他不听，还是用力攥着",
+          "en": "That day she led him by the hand to their son’s home. Cars were passing at the entrance to the residential compound, and he gripped her hand tightly. “Do not hold me so tightly; it hurts,” she said. He did not listen and kept gripping hard.",
+          "ru": "В тот день жена повела его за руку к сыну. У входа в жилой комплекс машины ехали туда и обратно, и он крепко сжал её руку. «Не сжимай так сильно, мне больно», — сказала жена. Он не послушал и продолжал крепко держать её.",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.30573,
+              "y": 0.414506,
+              "w": 0.5997490000000001,
+              "h": 0.05617300000000003
+            },
+            "vocabulary": [
+              {
+                "hz": "牵",
+                "py": "qiān",
+                "ru": "вести за руку",
+                "en": "lead by the hand",
+                "kk": "қолынан жетектеу"
+              },
+              {
+                "hz": "攥",
+                "py": "zuàn",
+                "ru": "сжимать",
+                "en": "grip",
+                "kk": "қысып ұстау"
+              },
+              {
+                "hz": "妻子",
+                "py": "qīzi",
+                "ru": "жена",
+                "en": "wife",
+                "kk": "әйел"
+              },
+              {
+                "hz": "儿子",
+                "py": "érzi",
+                "ru": "сын",
+                "en": "son",
+                "kk": "ұл"
+              }
+            ]
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.30573,
+            "y": 0.473765,
+            "w": 0.5993309999999998,
+            "h": 0.058864999999999945
+          },
+          "cn": "走到拐角处，两个滑旱冰的孩子向他们冲来。他一个大步冲上前，张开两只大手去拦他们。少年来不及避让，三个人重重地摔在了一起。他摔得最重，昏了过去。",
+          "en": "At the corner, two children on roller skates rushed toward them. He took a large step forward and spread his arms to stop them. The youngsters could not get out of the way, and all three fell heavily. He suffered the worst fall and lost consciousness.",
+          "ru": "У поворота на них налетели двое детей на роликах. Он большим шагом вышел вперёд и раскинул руки, чтобы остановить их. Подростки не успели уклониться, и все трое тяжело упали. Он упал сильнее всех и потерял сознание.",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.30573,
+              "y": 0.473765,
+              "w": 0.5993309999999998,
+              "h": 0.05586499999999994
+            },
+            "vocabulary": [
+              {
+                "hz": "拐角",
+                "py": "guǎijiǎo",
+                "ru": "поворот; угол",
+                "en": "corner",
+                "kk": "бұрылыс"
+              },
+              {
+                "hz": "滑旱冰",
+                "py": "huá hànbīng",
+                "ru": "кататься на роликах",
+                "en": "roller-skate",
+                "kk": "ролик тебу"
+              },
+              {
+                "hz": "冲",
+                "py": "chōng",
+                "ru": "бросаться; устремляться",
+                "en": "rush",
+                "kk": "ұмтылу"
+              },
+              {
+                "hz": "拦",
+                "py": "lán",
+                "ru": "преграждать путь",
+                "en": "block the way",
+                "kk": "бөгеу"
+              },
+              {
+                "hz": "避让",
+                "py": "bìràng",
+                "ru": "уступать дорогу; уклоняться",
+                "en": "give way; avoid",
+                "kk": "жол беру"
+              },
+              {
+                "hz": "摔",
+                "py": "shuāi",
+                "ru": "падать",
+                "en": "fall",
+                "kk": "құлау"
+              },
+              {
+                "hz": "昏",
+                "py": "hūn",
+                "ru": "терять сознание",
+                "en": "lose consciousness",
+                "kk": "есінен тану"
+              }
+            ]
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.12087,
+            "y": 0.532407,
+            "w": 0.773735,
+            "h": 0.039727999999999986
+          },
+          "cn": "第二天，他醒来。妻子坐在他身边，正对着他流泪。他拉拉妻子的手说：“跟着我！跟着我！”妻子含着泪笑了。",
+          "en": "The next day he woke up. His wife sat beside him, crying. He tugged her hand and said, “Follow me! Follow me!” She smiled through her tears.",
+          "ru": "На следующий день он очнулся. Жена сидела рядом и плакала. Он потянул её за руку и сказал: «Иди за мной! Иди за мной!» Жена улыбнулась сквозь слёзы.",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.12087,
+              "y": 0.532407,
+              "w": 0.773735,
+              "h": 0.03672799999999998
+            },
+            "vocabulary": [
+              {
+                "hz": "醒",
+                "py": "xǐng",
+                "ru": "просыпаться",
+                "en": "wake up",
+                "kk": "ояну"
+              },
+              {
+                "hz": "妻子",
+                "py": "qīzi",
+                "ru": "жена",
+                "en": "wife",
+                "kk": "әйел"
+              },
+              {
+                "hz": "跟着",
+                "py": "gēnzhe",
+                "ru": "следовать за",
+                "en": "follow",
+                "kk": "соңынан еру"
+              }
+            ]
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.121288,
+            "y": 0.573148,
+            "w": 0.783773,
+            "h": 0.038802
+          },
+          "cn": "这就是爱的神奇：我痴呆了，全世界的人我都不认识，但是我还认识你，还知道要牢牢地跟随你；我痴呆了，我什么也不懂，但还懂得要好好儿保护你。",
+          "en": "This is the magic of love: I have dementia and recognize no one in the world, but I still recognize you and know I must follow you closely. I understand nothing, but still know I must protect you well.",
+          "ru": "В этом чудо любви: у меня деменция, я не узнаю никого в мире, но всё ещё узнаю тебя и знаю, что должен неотступно следовать за тобой. Я ничего не понимаю, но всё ещё знаю, что должен беречь тебя.",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.121288,
+              "y": 0.573148,
+              "w": 0.783773,
+              "h": 0.035802
+            },
+            "vocabulary": [
+              {
+                "hz": "痴呆",
+                "py": "chīdāi",
+                "ru": "деменция",
+                "en": "dementia",
+                "kk": "деменция"
+              },
+              {
+                "hz": "神奇",
+                "py": "shénqí",
+                "ru": "удивительный; волшебный",
+                "en": "magical",
+                "kk": "ғажайып"
+              },
+              {
+                "hz": "跟随",
+                "py": "gēnsuí",
+                "ru": "следовать",
+                "en": "follow",
+                "kk": "еру"
+              },
+              {
+                "hz": "保护",
+                "py": "bǎohù",
+                "ru": "защищать",
+                "en": "protect",
+                "kk": "қорғау"
+              },
+              {
+                "hz": "世界",
+                "py": "shìjiè",
+                "ru": "мир",
+                "en": "world",
+                "kk": "әлем"
+              }
+            ]
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.162275,
+            "y": 0.612346,
+            "w": 0.23002899999999998,
+            "h": 0.030950000000000037
+          },
+          "cn": "只因你是我最爱的那个人。",
+          "en": "Only because you are the person I love most.",
+          "ru": "Всё потому, что ты — самый любимый мной человек.",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.162275,
+              "y": 0.612346,
+              "w": 0.23002899999999998,
+              "h": 0.016357999999999984
+            },
+            "vocabulary": []
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.161857,
+            "y": 0.646296,
+            "w": 0.748143,
+            "h": 0.018741000000000004
+          },
+          "cn": "23.夫妻俩年轻时的工作单位是：",
+          "en": "23. Where did the couple work when they were young?",
+          "ru": "23. Где супруги работали в молодости?",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.161857,
+              "y": 0.646296,
+              "w": 0.286073,
+              "h": 0.015741000000000005
+            },
+            "vocabulary": [
+              {
+                "hz": "工作",
+                "py": "gōngzuò",
+                "ru": "работа; работать",
+                "en": "work",
+                "kk": "жұмыс"
+              }
+            ]
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.195734,
+            "y": 0.665432,
+            "w": 0.33026600000000006,
+            "h": 0.0195
+          },
+          "cn": "A 医院",
+          "en": "A hospital",
+          "ru": "A больница",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.195734,
+              "y": 0.665432,
+              "w": 0.06859099999999999,
+              "h": 0.016666999999999987
+            },
+            "vocabulary": [
+              {
+                "hz": "医院",
+                "py": "yīyuàn",
+                "ru": "больница",
+                "en": "hospital",
+                "kk": "аурухана"
+              }
+            ],
+            "choice": {
+              "question": 23,
+              "letter": "A",
+              "hz": "医院",
+              "vocabulary": [
+                {
+                  "hz": "医院",
+                  "py": "yīyuàn",
+                  "ru": "больница",
+                  "en": "hospital",
+                  "kk": "аурухана"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.541196,
+            "y": 0.664198,
+            "w": 0.364804,
+            "h": 0.0195
+          },
+          "cn": "B 商店",
+          "en": "B shop",
+          "ru": "B магазин",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.541196,
+              "y": 0.664198,
+              "w": 0.06900899999999999,
+              "h": 0.018827000000000038
+            },
+            "vocabulary": [
+              {
+                "hz": "商店",
+                "py": "shāngdiàn",
+                "ru": "магазин",
+                "en": "shop",
+                "kk": "дүкен"
+              }
+            ],
+            "choice": {
+              "question": 23,
+              "letter": "B",
+              "hz": "商店",
+              "vocabulary": [
+                {
+                  "hz": "商店",
+                  "py": "shāngdiàn",
+                  "ru": "магазин",
+                  "en": "shop",
+                  "kk": "дүкен"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.195316,
+            "y": 0.683951,
+            "w": 0.33068400000000003,
+            "h": 0.0195
+          },
+          "cn": "C 银行",
+          "en": "C bank",
+          "ru": "C банк",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.195316,
+              "y": 0.683951,
+              "w": 0.06984499999999999,
+              "h": 0.019136000000000042
+            },
+            "vocabulary": [
+              {
+                "hz": "银行",
+                "py": "yínháng",
+                "ru": "банк",
+                "en": "bank",
+                "kk": "банк"
+              }
+            ],
+            "choice": {
+              "question": 23,
+              "letter": "C",
+              "hz": "银行",
+              "vocabulary": [
+                {
+                  "hz": "银行",
+                  "py": "yínháng",
+                  "ru": "банк",
+                  "en": "bank",
+                  "kk": "банк"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.544542,
+            "y": 0.685185,
+            "w": 0.36145800000000006,
+            "h": 0.0195
+          },
+          "cn": "D 航空公司",
+          "en": "D airline",
+          "ru": "D авиакомпания",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.544542,
+              "y": 0.685185,
+              "w": 0.10455899999999996,
+              "h": 0.016666999999999987
+            },
+            "vocabulary": [
+              {
+                "hz": "航空公司",
+                "py": "hángkōng gōngsī",
+                "ru": "авиакомпания",
+                "en": "airline",
+                "kk": "әуе компаниясы"
+              }
+            ],
+            "choice": {
+              "question": 23,
+              "letter": "D",
+              "hz": "航空公司",
+              "vocabulary": [
+                {
+                  "hz": "航空公司",
+                  "py": "hángkōng gōngsī",
+                  "ru": "авиакомпания",
+                  "en": "airline",
+                  "kk": "әуе компаниясы"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.161857,
+            "y": 0.719444,
+            "w": 0.748143,
+            "h": 0.018741000000000004
+          },
+          "cn": "24.夫妻俩遇到了什么问题?",
+          "en": "24. What problem did the couple encounter?",
+          "ru": "24. С какой проблемой столкнулись супруги?",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.161857,
+              "y": 0.719444,
+              "w": 0.24675899999999998,
+              "h": 0.015741000000000005
+            },
+            "vocabulary": []
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.196152,
+            "y": 0.738889,
+            "w": 0.32984800000000003,
+            "h": 0.0195
+          },
+          "cn": "A 失去工作了",
+          "en": "A They lost their jobs",
+          "ru": "A Они потеряли работу",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.196152,
+              "y": 0.738889,
+              "w": 0.125052,
+              "h": 0.01604899999999998
+            },
+            "vocabulary": [
+              {
+                "hz": "失去",
+                "py": "shīqù",
+                "ru": "терять",
+                "en": "lose",
+                "kk": "жоғалту"
+              },
+              {
+                "hz": "工作",
+                "py": "gōngzuò",
+                "ru": "работа; работать",
+                "en": "work",
+                "kk": "жұмыс"
+              }
+            ],
+            "choice": {
+              "question": 24,
+              "letter": "A",
+              "hz": "失去工作了",
+              "vocabulary": [
+                {
+                  "hz": "失去",
+                  "py": "shīqù",
+                  "ru": "терять",
+                  "en": "lose",
+                  "kk": "жоғалту"
+                },
+                {
+                  "hz": "工作",
+                  "py": "gōngzuò",
+                  "ru": "работа; работать",
+                  "en": "work",
+                  "kk": "жұмыс"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.541614,
+            "y": 0.738272,
+            "w": 0.364386,
+            "h": 0.0195
+          },
+          "cn": "B 妻子生病了",
+          "en": "B The wife fell ill",
+          "ru": "B Жена заболела",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.541614,
+              "y": 0.738272,
+              "w": 0.12672499999999998,
+              "h": 0.01759299999999997
+            },
+            "vocabulary": [
+              {
+                "hz": "生病",
+                "py": "shēngbìng",
+                "ru": "заболеть",
+                "en": "fall ill",
+                "kk": "ауыру"
+              },
+              {
+                "hz": "妻子",
+                "py": "qīzi",
+                "ru": "жена",
+                "en": "wife",
+                "kk": "әйел"
+              }
+            ],
+            "choice": {
+              "question": 24,
+              "letter": "B",
+              "hz": "妻子生病了",
+              "vocabulary": [
+                {
+                  "hz": "生病",
+                  "py": "shēngbìng",
+                  "ru": "заболеть",
+                  "en": "fall ill",
+                  "kk": "ауыру"
+                },
+                {
+                  "hz": "妻子",
+                  "py": "qīzi",
+                  "ru": "жена",
+                  "en": "wife",
+                  "kk": "әйел"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.196989,
+            "y": 0.758642,
+            "w": 0.32901100000000005,
+            "h": 0.0195
+          },
+          "cn": "C 丈夫痴呆了",
+          "en": "C The husband developed dementia",
+          "ru": "C У мужа развилась деменция",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.196989,
+              "y": 0.758642,
+              "w": 0.12421599999999997,
+              "h": 0.01604899999999998
+            },
+            "vocabulary": [
+              {
+                "hz": "痴呆",
+                "py": "chīdāi",
+                "ru": "деменция",
+                "en": "dementia",
+                "kk": "деменция"
+              },
+              {
+                "hz": "丈夫",
+                "py": "zhàngfu",
+                "ru": "муж",
+                "en": "husband",
+                "kk": "күйеу"
+              }
+            ],
+            "choice": {
+              "question": 24,
+              "letter": "C",
+              "hz": "丈夫痴呆了",
+              "vocabulary": [
+                {
+                  "hz": "痴呆",
+                  "py": "chīdāi",
+                  "ru": "деменция",
+                  "en": "dementia",
+                  "kk": "деменция"
+                },
+                {
+                  "hz": "丈夫",
+                  "py": "zhàngfu",
+                  "ru": "муж",
+                  "en": "husband",
+                  "kk": "күйеу"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.541614,
+            "y": 0.758333,
+            "w": 0.364386,
+            "h": 0.0195
+          },
+          "cn": "D 儿子摔伤了",
+          "en": "D Their son was injured in a fall",
+          "ru": "D Сын травмировался при падении",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.541614,
+              "y": 0.758333,
+              "w": 0.125471,
+              "h": 0.01604899999999998
+            },
+            "vocabulary": [
+              {
+                "hz": "摔",
+                "py": "shuāi",
+                "ru": "падать",
+                "en": "fall",
+                "kk": "құлау"
+              },
+              {
+                "hz": "儿子",
+                "py": "érzi",
+                "ru": "сын",
+                "en": "son",
+                "kk": "ұл"
+              },
+              {
+                "hz": "摔伤",
+                "py": "shuāishāng",
+                "ru": "травмироваться при падении",
+                "en": "be injured in a fall",
+                "kk": "құлап жарақаттану"
+              }
+            ],
+            "choice": {
+              "question": 24,
+              "letter": "D",
+              "hz": "儿子摔伤了",
+              "vocabulary": [
+                {
+                  "hz": "摔",
+                  "py": "shuāi",
+                  "ru": "падать",
+                  "en": "fall",
+                  "kk": "құлау"
+                },
+                {
+                  "hz": "儿子",
+                  "py": "érzi",
+                  "ru": "сын",
+                  "en": "son",
+                  "kk": "ұл"
+                },
+                {
+                  "hz": "摔伤",
+                  "py": "shuāishāng",
+                  "ru": "травмироваться при падении",
+                  "en": "be injured in a fall",
+                  "kk": "құлап жарақаттану"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.161439,
+            "y": 0.792284,
+            "w": 0.748561,
+            "h": 0.018741000000000004
+          },
+          "cn": "25.最适合做上文标题的是：",
+          "en": "25. Which title best fits the passage?",
+          "ru": "25. Какое название лучше всего подходит тексту?",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.161439,
+              "y": 0.792284,
+              "w": 0.24592199999999997,
+              "h": 0.015741000000000005
+            },
+            "vocabulary": []
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.19657,
+            "y": 0.812346,
+            "w": 0.32943,
+            "h": 0.0195
+          },
+          "cn": "A 幸福的退休生活",
+          "en": "A A happy retirement",
+          "ru": "A Счастливая жизнь на пенсии",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.19657,
+              "y": 0.812346,
+              "w": 0.166876,
+              "h": 0.01604899999999998
+            },
+            "vocabulary": [
+              {
+                "hz": "退休",
+                "py": "tuìxiū",
+                "ru": "выходить на пенсию",
+                "en": "retire",
+                "kk": "зейнетке шығу"
+              },
+              {
+                "hz": "幸福",
+                "py": "xìngfú",
+                "ru": "счастье; счастливый",
+                "en": "happiness; happy",
+                "kk": "бақыт; бақытты"
+              },
+              {
+                "hz": "生活",
+                "py": "shēnghuó",
+                "ru": "жизнь",
+                "en": "life",
+                "kk": "өмір"
+              }
+            ],
+            "choice": {
+              "question": 25,
+              "letter": "A",
+              "hz": "幸福的退休生活",
+              "vocabulary": [
+                {
+                  "hz": "退休",
+                  "py": "tuìxiū",
+                  "ru": "выходить на пенсию",
+                  "en": "retire",
+                  "kk": "зейнетке шығу"
+                },
+                {
+                  "hz": "幸福",
+                  "py": "xìngfú",
+                  "ru": "счастье; счастливый",
+                  "en": "happiness; happy",
+                  "kk": "бақыт; бақытты"
+                },
+                {
+                  "hz": "生活",
+                  "py": "shēnghuó",
+                  "ru": "жизнь",
+                  "en": "life",
+                  "kk": "өмір"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.542033,
+            "y": 0.812037,
+            "w": 0.36396700000000004,
+            "h": 0.0195
+          },
+          "cn": "B 跟着我",
+          "en": "B Follow me",
+          "ru": "B Иди за мной",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.542033,
+              "y": 0.812037,
+              "w": 0.08699299999999999,
+              "h": 0.016666999999999987
+            },
+            "vocabulary": [
+              {
+                "hz": "跟着",
+                "py": "gēnzhe",
+                "ru": "следовать за",
+                "en": "follow",
+                "kk": "соңынан еру"
+              }
+            ],
+            "choice": {
+              "question": 25,
+              "letter": "B",
+              "hz": "跟着我",
+              "vocabulary": [
+                {
+                  "hz": "跟着",
+                  "py": "gēnzhe",
+                  "ru": "следовать за",
+                  "en": "follow",
+                  "kk": "соңынан еру"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.197407,
+            "y": 0.832099,
+            "w": 0.328593,
+            "h": 0.0195
+          },
+          "cn": "C 我忘了全世界",
+          "en": "C I forgot the whole world",
+          "ru": "C Я забыл весь мир",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.197407,
+              "y": 0.832099,
+              "w": 0.14680099999999996,
+              "h": 0.01604899999999998
+            },
+            "vocabulary": [
+              {
+                "hz": "忘",
+                "py": "wàng",
+                "ru": "забывать",
+                "en": "forget",
+                "kk": "ұмыту"
+              },
+              {
+                "hz": "世界",
+                "py": "shìjiè",
+                "ru": "мир",
+                "en": "world",
+                "kk": "әлем"
+              }
+            ],
+            "choice": {
+              "question": 25,
+              "letter": "C",
+              "hz": "我忘了全世界",
+              "vocabulary": [
+                {
+                  "hz": "忘",
+                  "py": "wàng",
+                  "ru": "забывать",
+                  "en": "forget",
+                  "kk": "ұмыту"
+                },
+                {
+                  "hz": "世界",
+                  "py": "shìjiè",
+                  "ru": "мир",
+                  "en": "world",
+                  "kk": "әлем"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.542033,
+            "y": 0.831481,
+            "w": 0.36396700000000004,
+            "h": 0.0195
+          },
+          "cn": "D 我和妻子",
+          "en": "D My wife and I",
+          "ru": "D Мы с женой",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.542033,
+              "y": 0.831481,
+              "w": 0.10790500000000003,
+              "h": 0.016974999999999962
+            },
+            "vocabulary": [
+              {
+                "hz": "妻子",
+                "py": "qīzi",
+                "ru": "жена",
+                "en": "wife",
+                "kk": "әйел"
+              }
+            ],
+            "choice": {
+              "question": 25,
+              "letter": "D",
+              "hz": "我和妻子",
+              "vocabulary": [
+                {
+                  "hz": "妻子",
+                  "py": "qīzi",
+                  "ru": "жена",
+                  "en": "wife",
+                  "kk": "әйел"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "folio",
+          "plain": true,
+          "box": {
+            "x": 0.064826,
+            "y": 0.94784,
+            "w": 0.010456,
+            "h": 0.011111
+          },
+          "text": "6"
+        }
+      ],
+      "kz": {
+        "HSK": "HSK",
+        "Стандартный курс HSK 5 (первая часть). Рабочая тетрадь": "HSK 5 стандартты курсы (бірінші бөлім). Жұмыс дәптері",
+        "Третья часть": "Үшінші бөлім",
+        "Задания 23–28: выберите правильный ответ.": "23–28 тапсырмалар: дұрыс жауапты таңдаңыз.",
+        "23–25.": "23–25.",
+        "Они с женой работали в одной сфере: он был заведующим хирургическим отделением, она — старшей медсестрой. В молодости они всегда работали вместе. Пять лет назад оба одновременно вышли на пенсию и зажили счастливой жизнью пенсионеров.": "Ол әйелімен бір салада жұмыс істеді: өзі хирургия бөлімінің меңгерушісі, әйелі аға мейіргер еді. Жас кезінде үнемі бірге жұмыс істеген. Бес жыл бұрын екеуі бір мезгілде зейнетке шығып, бақытты зейнеткерлік өмір бастады.",
+        "хирургия": "хирургия",
+        "руководитель": "басшы",
+        "старшая медсестра": "аға мейіргер",
+        "выходить на пенсию": "зейнетке шығу",
+        "работа; работать": "жұмыс",
+        "жена": "әйел",
+        "счастье; счастливый": "бақыт; бақытты",
+        "жизнь": "өмір",
+        "Но не прошло и двух лет, как он стал забывчивым, а затем у него развилась тяжёлая деменция. Он уже не узнавал прежних коллег и друзей, не помнил даже сына и дочь. Узнавал он только одного человека — жену.": "Бірақ екі жылға жетпей ол ұмытшақ болып, кейін ауыр деменцияға шалдықты. Бұрынғы әріптестері мен достарын танымайтын, тіпті ұлы мен қызын да есіне түсіре алмайтын. Ол тек бір адамды — әйелін таныды.",
+        "забывчивый": "ұмытшақ",
+        "деменция": "деменция",
+        "узнавать": "тану",
+        "сын": "ұл",
+        "забывать": "ұмыту",
+        "Когда с ним здоровались, он бессмысленно улыбался, тянул жену за руку и говорил: «Иди за мной! Иди за мной!» Увидев вдалеке приближающуюся машину, крепко хватал её руку: «Осторожно! Осторожно!» Жена отвечала: «Мне нужны твои наставления? Ты сейчас беспомощнее трёхлетнего ребёнка, а ещё велишь мне быть осторожной». Он улыбался, и изо рта текла слюна. С той же бессмысленной улыбкой он говорил жене: «Иди за мной! Иди за мной!»": "Біреу амандасқанда ол аңғал жымиып, әйелінің қолынан тартып: «Менің соңымнан ер! Менің соңымнан ер!» — дейтін. Алыстан келе жатқан көлікті көрсе, оның қолын қатты ұстап: «Абайла! Абайла!» — дейтін. Әйелі: «Маған сенің үйретуің керек пе? Қазір өзің үш жасар баладан да дәрменсізсің, бірақ маған абайла дейсің», — деді. Ол жымиды, аузынан сілекей ақты. Сілекейі ағып, аңғал жымиған күйі: «Менің соңымнан ер! Менің соңымнан ер!» — деді.",
+        "быть осторожным": "абай болу",
+        "следовать за": "соңынан еру",
+        "В тот день жена повела его за руку к сыну. У входа в жилой комплекс машины ехали туда и обратно, и он крепко сжал её руку. «Не сжимай так сильно, мне больно», — сказала жена. Он не послушал и продолжал крепко держать её.": "Сол күні әйелі оны қолынан жетектеп ұлының үйіне апарды. Тұрғын үй кешенінің кіреберісінде көліктер жүріп жатты, ол әйелінің қолын қатты қысты. «Қолымды қатты қыспа, ауырып тұр», — деді әйелі. Ол тыңдамай, қатты ұстауын жалғастырды.",
+        "вести за руку": "қолынан жетектеу",
+        "сжимать": "қысып ұстау",
+        "У поворота на них налетели двое детей на роликах. Он большим шагом вышел вперёд и раскинул руки, чтобы остановить их. Подростки не успели уклониться, и все трое тяжело упали. Он упал сильнее всех и потерял сознание.": "Бұрылысқа жеткенде ролик тепкен екі бала оларға қарай ұмтылды. Ол үлкен қадам жасап алға шықты да, тоқтату үшін екі қолын жайды. Балалар жалтарып үлгермей, үшеуі қатты құлады. Ол бәрінен ауыр құлап, есінен танды.",
+        "поворот; угол": "бұрылыс",
+        "кататься на роликах": "ролик тебу",
+        "бросаться; устремляться": "ұмтылу",
+        "преграждать путь": "бөгеу",
+        "уступать дорогу; уклоняться": "жол беру",
+        "падать": "құлау",
+        "терять сознание": "есінен тану",
+        "На следующий день он очнулся. Жена сидела рядом и плакала. Он потянул её за руку и сказал: «Иди за мной! Иди за мной!» Жена улыбнулась сквозь слёзы.": "Ертеңіне ол есін жиды. Әйелі қасында жылап отырды. Ол оның қолынан тартып: «Менің соңымнан ер! Менің соңымнан ер!» — деді. Әйелі көз жасына қарамастан жымиды.",
+        "просыпаться": "ояну",
+        "В этом чудо любви: у меня деменция, я не узнаю никого в мире, но всё ещё узнаю тебя и знаю, что должен неотступно следовать за тобой. Я ничего не понимаю, но всё ещё знаю, что должен беречь тебя.": "Махаббаттың ғажабы осы: деменцияға шалдықсам да, әлемде ешкімді танымасам да, сені әлі танимын әрі сенің соңыңнан қалмай еру керегін білемін. Ештеңені түсінбесем де, сені қорғау керегін әлі білемін.",
+        "удивительный; волшебный": "ғажайып",
+        "следовать": "еру",
+        "защищать": "қорғау",
+        "мир": "әлем",
+        "Всё потому, что ты — самый любимый мной человек.": "Тек сен менің ең сүйікті адамым болғандықтан.",
+        "23. Где супруги работали в молодости?": "23. Ерлі-зайыптылар жас кезінде қайда жұмыс істеген?",
+        "A больница": "A аурухана",
+        "больница": "аурухана",
+        "B магазин": "B дүкен",
+        "магазин": "дүкен",
+        "C банк": "C банк",
+        "банк": "банк",
+        "D авиакомпания": "D әуе компаниясы",
+        "авиакомпания": "әуе компаниясы",
+        "24. С какой проблемой столкнулись супруги?": "24. Ерлі-зайыптылар қандай қиындыққа тап болды?",
+        "A Они потеряли работу": "A Жұмысынан айырылды",
+        "терять": "жоғалту",
+        "B Жена заболела": "B Әйелі ауырды",
+        "заболеть": "ауыру",
+        "C У мужа развилась деменция": "C Күйеуі деменцияға шалдықты",
+        "муж": "күйеу",
+        "D Сын травмировался при падении": "D Ұлы құлап жарақаттанды",
+        "травмироваться при падении": "құлап жарақаттану",
+        "25. Какое название лучше всего подходит тексту?": "25. Мәтінге қай тақырып ең қолайлы?",
+        "A Счастливая жизнь на пенсии": "A Бақытты зейнеткерлік өмір",
+        "B Иди за мной": "B Менің соңымнан ер",
+        "C Я забыл весь мир": "C Мен бүкіл әлемді ұмыттым",
+        "D Мы с женой": "D Әйелім екеуміз"
+      }
+    },
+    "ocr": {
+      "version": 11,
+      "engine": "PaddleOCR",
+      "model": "PP-OCRv5_mobile",
+      "pageNumber": 13,
+      "dpi": 288,
+      "width": 2391,
+      "height": 3240,
+      "coordinateSpace": "normalized-0-1",
+      "lines": [
+        {
+          "id": 0,
+          "text": "HSK",
+          "confidence": 0.9997,
+          "position": {
+            "x": 0.073609,
+            "y": 0.029938,
+            "width": 0.076955,
+            "height": 0.041358
+          }
+        },
+        {
+          "id": 1,
+          "text": "标准教程5（上）练习册",
+          "confidence": 0.9947,
+          "position": {
+            "x": 0.159348,
+            "y": 0.049074,
+            "width": 0.236721,
+            "height": 0.018827
+          }
+        },
+        {
+          "id": 2,
+          "text": "第三部分",
+          "confidence": 0.9999,
+          "position": {
+            "x": 0.460895,
+            "y": 0.116049,
+            "width": 0.104977,
+            "height": 0.02037
+          }
+        },
+        {
+          "id": 3,
+          "text": "第23-28题：请选出正确答案。",
+          "confidence": 0.9956,
+          "position": {
+            "x": 0.120452,
+            "y": 0.162654,
+            "width": 0.31744,
+            "height": 0.020062
+          }
+        },
+        {
+          "id": 4,
+          "text": "23–25.",
+          "confidence": 0.9965,
+          "position": {
+            "x": 0.121288,
+            "y": 0.209259,
+            "width": 0.060226,
+            "height": 0.013272
+          }
+        },
+        {
+          "id": 5,
+          "text": "他和妻子是同行，一个是外科主任，一个是护士长，年轻时一直在一起工作。五年",
+          "confidence": 0.9991,
+          "position": {
+            "x": 0.161857,
+            "y": 0.236728,
+            "width": 0.743622,
+            "height": 0.016358
+          }
+        },
+        {
+          "id": 6,
+          "text": "前，两人同时退休，过起了幸福的退休生活。",
+          "confidence": 0.9996,
+          "position": {
+            "x": 0.12087,
+            "y": 0.256173,
+            "width": 0.392304,
+            "height": 0.016975
+          }
+        },
+        {
+          "id": 7,
+          "text": "可是，不到两年，他开始变得健忘，直到完全痴呆：以前的同事朋友他都不认识了，",
+          "confidence": 0.997,
+          "position": {
+            "x": 0.161439,
+            "y": 0.275617,
+            "width": 0.73944,
+            "height": 0.017284
+          }
+        },
+        {
+          "id": 8,
+          "text": "连儿子、女儿也不记得了，他只认得一个人，就是妻子。",
+          "confidence": 0.9996,
+          "position": {
+            "x": 0.121288,
+            "y": 0.29537,
+            "width": 0.491008,
+            "height": 0.017284
+          }
+        },
+        {
+          "id": 9,
+          "text": "别人和他打招呼时，他傻傻地对着别人笑，拉拉妻子的手说：",
+          "confidence": 0.9967,
+          "position": {
+            "x": 0.345044,
+            "y": 0.315432,
+            "width": 0.554161,
+            "height": 0.016975
+          }
+        },
+        {
+          "id": 10,
+          "text": "“跟着我！跟着我！”看到前面远远有汽车过来，他紧紧地拉住妻子",
+          "confidence": 0.9972,
+          "position": {
+            "x": 0.311167,
+            "y": 0.335494,
+            "width": 0.594312,
+            "height": 0.016358
+          }
+        },
+        {
+          "id": 11,
+          "text": "的手说：“当心哦！当心哦！”妻子说：“我还用你教呀？你现在这个",
+          "confidence": 0.9983,
+          "position": {
+            "x": 0.306148,
+            "y": 0.35463,
+            "width": 0.598913,
+            "height": 0.016975
+          }
+        },
+        {
+          "id": 12,
+          "text": "样子，比三岁的小孩子还小孩子，还叫我当心呢。”他笑笑，一笑，",
+          "confidence": 0.9963,
+          "position": {
+            "x": 0.305312,
+            "y": 0.374383,
+            "width": 0.596821,
+            "height": 0.017593
+          }
+        },
+        {
+          "id": 13,
+          "text": "口水就流了出来。他流着口水傻傻地对妻子说：“跟着我！跟着我！”",
+          "confidence": 0.9983,
+          "position": {
+            "x": 0.306985,
+            "y": 0.393519,
+            "width": 0.595148,
+            "height": 0.01821
+          }
+        },
+        {
+          "id": 14,
+          "text": "那天，妻子牵着他的手去儿子家。小区门口车来车往，他把妻",
+          "confidence": 0.9996,
+          "position": {
+            "x": 0.34588,
+            "y": 0.414506,
+            "width": 0.559598,
+            "height": 0.016358
+          }
+        },
+        {
+          "id": 15,
+          "text": "子的手攥得紧紧的。妻子说：“别攥得我那么紧，手都疼了。”他不",
+          "confidence": 0.9972,
+          "position": {
+            "x": 0.307821,
+            "y": 0.433951,
+            "width": 0.597658,
+            "height": 0.016667
+          }
+        },
+        {
+          "id": 16,
+          "text": "听，还是用力攥着",
+          "confidence": 0.9975,
+          "position": {
+            "x": 0.30573,
+            "y": 0.453395,
+            "width": 0.164366,
+            "height": 0.017284
+          }
+        },
+        {
+          "id": 17,
+          "text": "走到拐角处，两个滑旱冰的孩子向他们冲来。他一个大步冲上",
+          "confidence": 0.9996,
+          "position": {
+            "x": 0.345462,
+            "y": 0.473765,
+            "width": 0.55918,
+            "height": 0.016667
+          }
+        },
+        {
+          "id": 18,
+          "text": "前，张开两只大手去拦他们。少年来不及避让，三个人重重地摔在",
+          "confidence": 0.9994,
+          "position": {
+            "x": 0.30573,
+            "y": 0.493827,
+            "width": 0.599331,
+            "height": 0.016667
+          }
+        },
+        {
+          "id": 19,
+          "text": "了一起。他摔得最重，昏了过去。",
+          "confidence": 0.9952,
+          "position": {
+            "x": 0.306985,
+            "y": 0.512963,
+            "width": 0.285236,
+            "height": 0.016667
+          }
+        },
+        {
+          "id": 20,
+          "text": "第二天，他醒来。妻子坐在他身边，正对着他流泪。他拉拉妻子的手说：“跟着我！",
+          "confidence": 0.9977,
+          "position": {
+            "x": 0.161439,
+            "y": 0.532407,
+            "width": 0.733166,
+            "height": 0.017284
+          }
+        },
+        {
+          "id": 21,
+          "text": "跟着我！”妻子含着泪笑了。",
+          "confidence": 0.982,
+          "position": {
+            "x": 0.12087,
+            "y": 0.553086,
+            "width": 0.251777,
+            "height": 0.016049
+          }
+        },
+        {
+          "id": 22,
+          "text": "这就是爱的神奇：我痴呆了，全世界的人我都不认识，但是我还认识你，还知道要",
+          "confidence": 0.9994,
+          "position": {
+            "x": 0.161857,
+            "y": 0.573148,
+            "width": 0.743204,
+            "height": 0.015432
+          }
+        },
+        {
+          "id": 23,
+          "text": "牢牢地跟随你；我痴呆了，我什么也不懂，但还懂得要好好儿保护你。",
+          "confidence": 0.9928,
+          "position": {
+            "x": 0.121288,
+            "y": 0.591975,
+            "width": 0.612714,
+            "height": 0.016975
+          }
+        },
+        {
+          "id": 24,
+          "text": "只因你是我最爱的那个人。",
+          "confidence": 0.9987,
+          "position": {
+            "x": 0.162275,
+            "y": 0.612346,
+            "width": 0.230029,
+            "height": 0.016358
+          }
+        },
+        {
+          "id": 25,
+          "text": "23.夫妻俩年轻时的工作单位是：",
+          "confidence": 0.9683,
+          "position": {
+            "x": 0.161857,
+            "y": 0.646296,
+            "width": 0.286073,
+            "height": 0.015741
+          }
+        },
+        {
+          "id": 26,
+          "text": "A医院",
+          "confidence": 0.9464,
+          "position": {
+            "x": 0.195734,
+            "y": 0.665432,
+            "width": 0.068591,
+            "height": 0.016667
+          }
+        },
+        {
+          "id": 27,
+          "text": "B商店",
+          "confidence": 0.9962,
+          "position": {
+            "x": 0.541196,
+            "y": 0.664198,
+            "width": 0.069009,
+            "height": 0.018827
+          }
+        },
+        {
+          "id": 28,
+          "text": "C银行",
+          "confidence": 0.9837,
+          "position": {
+            "x": 0.195316,
+            "y": 0.683951,
+            "width": 0.069845,
+            "height": 0.019136
+          }
+        },
+        {
+          "id": 29,
+          "text": "D",
+          "confidence": 0.9967,
+          "position": {
+            "x": 0.544542,
+            "y": 0.687963,
+            "width": 0.015893,
+            "height": 0.011111
+          }
+        },
+        {
+          "id": 30,
+          "text": "航空公司",
+          "confidence": 1,
+          "position": {
+            "x": 0.565036,
+            "y": 0.685185,
+            "width": 0.084065,
+            "height": 0.016667
+          }
+        },
+        {
+          "id": 31,
+          "text": "24.夫妻俩遇到了什么问题?",
+          "confidence": 0.9736,
+          "position": {
+            "x": 0.161857,
+            "y": 0.719444,
+            "width": 0.246759,
+            "height": 0.015741
+          }
+        },
+        {
+          "id": 32,
+          "text": "A失去工作了",
+          "confidence": 0.9942,
+          "position": {
+            "x": 0.196152,
+            "y": 0.738889,
+            "width": 0.125052,
+            "height": 0.016049
+          }
+        },
+        {
+          "id": 33,
+          "text": "B妻子生病了",
+          "confidence": 0.9932,
+          "position": {
+            "x": 0.541614,
+            "y": 0.738272,
+            "width": 0.126725,
+            "height": 0.017593
+          }
+        },
+        {
+          "id": 34,
+          "text": "C丈夫痴呆了",
+          "confidence": 0.9849,
+          "position": {
+            "x": 0.196989,
+            "y": 0.758642,
+            "width": 0.124216,
+            "height": 0.016049
+          }
+        },
+        {
+          "id": 35,
+          "text": "D儿子摔伤了",
+          "confidence": 0.9952,
+          "position": {
+            "x": 0.541614,
+            "y": 0.758333,
+            "width": 0.125471,
+            "height": 0.016049
+          }
+        },
+        {
+          "id": 36,
+          "text": "25.最适合做上文标题的是：",
+          "confidence": 0.9609,
+          "position": {
+            "x": 0.161439,
+            "y": 0.792284,
+            "width": 0.245922,
+            "height": 0.015741
+          }
+        },
+        {
+          "id": 37,
+          "text": "A幸福的退休生活",
+          "confidence": 0.9864,
+          "position": {
+            "x": 0.19657,
+            "y": 0.812346,
+            "width": 0.166876,
+            "height": 0.016049
+          }
+        },
+        {
+          "id": 38,
+          "text": "B跟着我",
+          "confidence": 0.9774,
+          "position": {
+            "x": 0.542033,
+            "y": 0.812037,
+            "width": 0.086993,
+            "height": 0.016667
+          }
+        },
+        {
+          "id": 39,
+          "text": "C 我忘了全世界",
+          "confidence": 0.9469,
+          "position": {
+            "x": 0.197407,
+            "y": 0.832099,
+            "width": 0.146801,
+            "height": 0.016049
+          }
+        },
+        {
+          "id": 40,
+          "text": "D我和妻子",
+          "confidence": 0.9934,
+          "position": {
+            "x": 0.542033,
+            "y": 0.831481,
+            "width": 0.107905,
+            "height": 0.016975
+          }
+        },
+        {
+          "id": 41,
+          "text": "6",
+          "confidence": 0.9989,
+          "position": {
+            "x": 0.064826,
+            "y": 0.94784,
+            "width": 0.010456,
+            "height": 0.011111
+          }
+        }
+      ],
+      "sourceHash": "b5a7268d0f7f1cd6a80880d2f08c4076788b1fb0405505a55bd94a1106e6ce23"
+    }
+  },
+  {
+    "bookId": "1a3750a2f488",
+    "sourcePage": 14,
+    "source": {
+      "blocks": [
+        {
+          "type": "runhead",
+          "box": {
+            "x": 0.922208,
+            "y": 0.073457,
+            "w": 0.023002999999999996,
+            "h": 0.091889
+          },
+          "cn": "爱的细节",
+          "en": "Details of Love",
+          "ru": "Любовь в деталях",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.922208,
+              "y": 0.073457,
+              "w": 0.023002999999999996,
+              "h": 0.063889
+            },
+            "vocabulary": [],
+            "sans": true,
+            "vertical": true
+          },
+          "number": "1"
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.097449,
+            "y": 0.090123,
+            "w": 0.060226000000000016,
+            "h": 0.02447000000000001
+          },
+          "cn": "26–28.",
+          "en": "26–28.",
+          "ru": "26–28.",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.097449,
+              "y": 0.090123,
+              "w": 0.060226000000000016,
+              "h": 0.014198000000000002
+            },
+            "vocabulary": []
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.097867,
+            "y": 0.117593,
+            "w": 0.784191,
+            "h": 0.08016000000000001
+          },
+          "cn": "据民政部发布的 2013 年社会服务发展统计公报显示，2013 年全国依法办理离婚手续的共有 350万对，比上年增长12.8%。这是自2004 年以来，我国离婚率连续10 年递增从过去的谈离婚色变，到70后纠结于离或不离，再到如今80后的“离婚没什么大不了”中国人的婚姻观正在发生改变。",
+          "en": "According to the Ministry of Civil Affairs’ 2013 Statistical Bulletin on Social Services Development, 3.5 million couples legally completed divorce procedures nationwide in 2013, up 12.8% on the previous year. China’s divorce rate had risen for ten consecutive years since 2004. From once fearing even the mention of divorce, through the post-1970 generation’s dilemma over whether to divorce, to the post-1980 generation’s view that “divorce is no big deal,” Chinese views of marriage are changing.",
+          "ru": "Согласно статистическому бюллетеню Министерства гражданской администрации о развитии социальных услуг за 2013 год, в Китае за этот год официально развелись 3,5 миллиона пар — на 12,8% больше, чем годом ранее. Начиная с 2004 года уровень разводов рос десять лет подряд. Раньше люди боялись даже упоминать развод; поколение 1970-х мучилось выбором, разводиться или нет; теперь поколение 1980-х считает: «В разводе нет ничего страшного». Взгляды китайцев на брак меняются.",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.097867,
+              "y": 0.117593,
+              "w": 0.784191,
+              "h": 0.07716
+            },
+            "vocabulary": [
+              {
+                "hz": "统计",
+                "py": "tǒngjì",
+                "ru": "статистика",
+                "en": "statistics",
+                "kk": "статистика"
+              },
+              {
+                "hz": "公报",
+                "py": "gōngbào",
+                "ru": "официальный бюллетень",
+                "en": "official bulletin",
+                "kk": "ресми бюллетень"
+              },
+              {
+                "hz": "显示",
+                "py": "xiǎnshì",
+                "ru": "показывать",
+                "en": "show",
+                "kk": "көрсету"
+              },
+              {
+                "hz": "办理",
+                "py": "bànlǐ",
+                "ru": "оформлять",
+                "en": "handle; process",
+                "kk": "рәсімдеу"
+              },
+              {
+                "hz": "手续",
+                "py": "shǒuxù",
+                "ru": "формальности",
+                "en": "formalities",
+                "kk": "рәсімдер"
+              },
+              {
+                "hz": "增长",
+                "py": "zēngzhǎng",
+                "ru": "рост; расти",
+                "en": "growth; grow",
+                "kk": "өсу"
+              },
+              {
+                "hz": "离婚率",
+                "py": "líhūnlǜ",
+                "ru": "уровень разводов",
+                "en": "divorce rate",
+                "kk": "ажырасу деңгейі"
+              },
+              {
+                "hz": "连续",
+                "py": "liánxù",
+                "ru": "подряд; непрерывный",
+                "en": "consecutive; continuous",
+                "kk": "үздіксіз"
+              },
+              {
+                "hz": "递增",
+                "py": "dìzēng",
+                "ru": "постепенно возрастать",
+                "en": "increase progressively",
+                "kk": "біртіндеп өсу"
+              },
+              {
+                "hz": "纠结",
+                "py": "jiūjié",
+                "ru": "колебаться; мучиться выбором",
+                "en": "be conflicted",
+                "kk": "екіұдай болу"
+              },
+              {
+                "hz": "如今",
+                "py": "rújīn",
+                "ru": "ныне; сейчас",
+                "en": "nowadays",
+                "kk": "қазір"
+              },
+              {
+                "hz": "婚姻观",
+                "py": "hūnyīnguān",
+                "ru": "взгляд на брак",
+                "en": "view of marriage",
+                "kk": "некеге көзқарас"
+              },
+              {
+                "hz": "离婚",
+                "py": "líhūn",
+                "ru": "разводиться",
+                "en": "divorce",
+                "kk": "ажырасу"
+              }
+            ]
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.098285,
+            "y": 0.196296,
+            "w": 0.533668,
+            "h": 0.07923499999999997
+          },
+          "cn": "中国的离婚率持续上升，虽然一方面说明现代人的思想观念发生了变化，更加重视爱情，重视婚姻的质量，但我们也不能不看到问题的另一个方面，那就是有的人不把婚姻当回事，对婚姻和家庭缺少责任感。",
+          "en": "The continuing rise in China’s divorce rate shows, on the one hand, a change in modern thinking: people attach greater importance to love and the quality of marriage. Yet we cannot overlook the other side: some do not take marriage seriously and lack a sense of responsibility toward marriage and family.",
+          "ru": "Рост числа разводов в Китае, с одной стороны, говорит об изменении взглядов современных людей: они больше ценят любовь и качество брака. Но нельзя не видеть и другую сторону: некоторые не относятся к браку серьёзно, им не хватает ответственности за брак и семью.",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.098285,
+              "y": 0.196296,
+              "w": 0.533668,
+              "h": 0.07623499999999997
+            },
+            "vocabulary": [
+              {
+                "hz": "离婚率",
+                "py": "líhūnlǜ",
+                "ru": "уровень разводов",
+                "en": "divorce rate",
+                "kk": "ажырасу деңгейі"
+              },
+              {
+                "hz": "持续",
+                "py": "chíxù",
+                "ru": "продолжаться",
+                "en": "persist; continue",
+                "kk": "жалғасу"
+              },
+              {
+                "hz": "观念",
+                "py": "guānniàn",
+                "ru": "представление; взгляд",
+                "en": "idea; outlook",
+                "kk": "көзқарас"
+              },
+              {
+                "hz": "重视",
+                "py": "zhòngshì",
+                "ru": "придавать значение",
+                "en": "value; attach importance",
+                "kk": "мән беру"
+              },
+              {
+                "hz": "质量",
+                "py": "zhìliàng",
+                "ru": "качество",
+                "en": "quality",
+                "kk": "сапа"
+              },
+              {
+                "hz": "责任感",
+                "py": "zérèngǎn",
+                "ru": "чувство ответственности",
+                "en": "sense of responsibility",
+                "kk": "жауапкершілік сезімі"
+              },
+              {
+                "hz": "离婚",
+                "py": "líhūn",
+                "ru": "разводиться",
+                "en": "divorce",
+                "kk": "ажырасу"
+              }
+            ]
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.097449,
+            "y": 0.275926,
+            "w": 0.784191,
+            "h": 0.07107399999999997
+          },
+          "cn": "有人离婚是因为有了钱、有了权、有了名望；有人婚前情真意切，婚后便不再注意感情的培养和维护；有人离婚不是因为不爱，只是气量太小，对方有了过失就不分情况，大吵一架·…凡此种种，婚姻大事成了小事，成了可以随便进行的游戏。",
+          "en": "Some divorce after gaining money, power or prestige. Some are deeply sincere before marriage but afterward neglect to cultivate and maintain affection. Others divorce not because love has gone, but because they are intolerant: at any fault by their partner they start a major quarrel without considering the circumstances. In all these cases, the serious matter of marriage becomes a trivial thing, a game played casually.",
+          "ru": "Кто-то разводится, приобретя деньги, власть или известность. Кто-то искренне любит до свадьбы, а после перестаёт развивать и поддерживать чувства. Другие разводятся не из-за отсутствия любви, а из-за нетерпимости: при любой ошибке партнёра устраивают большую ссору, не разбираясь в обстоятельствах. Во всех подобных случаях важное дело — брак — становится мелочью, игрой, в которую можно играть бездумно.",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.097449,
+              "y": 0.275926,
+              "w": 0.784191,
+              "h": 0.056481
+            },
+            "vocabulary": [
+              {
+                "hz": "名望",
+                "py": "míngwàng",
+                "ru": "авторитет; известность",
+                "en": "prestige",
+                "kk": "бедел"
+              },
+              {
+                "hz": "培养",
+                "py": "péiyǎng",
+                "ru": "развивать; воспитывать",
+                "en": "cultivate",
+                "kk": "дамыту"
+              },
+              {
+                "hz": "维护",
+                "py": "wéihù",
+                "ru": "поддерживать; сохранять",
+                "en": "maintain",
+                "kk": "сақтау"
+              },
+              {
+                "hz": "气量",
+                "py": "qìliàng",
+                "ru": "великодушие; терпимость",
+                "en": "tolerance; generosity",
+                "kk": "кеңпейілділік"
+              },
+              {
+                "hz": "过失",
+                "py": "guòshī",
+                "ru": "проступок; ошибка",
+                "en": "fault; mistake",
+                "kk": "қателік"
+              },
+              {
+                "hz": "随便",
+                "py": "suíbiàn",
+                "ru": "небрежно; как попало",
+                "en": "casually",
+                "kk": "бейберекет"
+              },
+              {
+                "hz": "游戏",
+                "py": "yóuxì",
+                "ru": "игра",
+                "en": "game",
+                "kk": "ойын"
+              },
+              {
+                "hz": "离婚",
+                "py": "líhūn",
+                "ru": "разводиться",
+                "en": "divorce",
+                "kk": "ажырасу"
+              }
+            ]
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.137599,
+            "y": 0.35,
+            "w": 0.772401,
+            "h": 0.018741000000000004
+          },
+          "cn": "26.根据上文，下列哪项不正确?",
+          "en": "26. According to the passage, which statement is incorrect?",
+          "ru": "26. Какое утверждение не соответствует тексту?",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.137599,
+              "y": 0.35,
+              "w": 0.288164,
+              "h": 0.015741000000000005
+            },
+            "vocabulary": []
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.173149,
+            "y": 0.369444,
+            "w": 0.332851,
+            "h": 0.0195
+          },
+          "cn": "A 2013年的离婚率是2004年的十倍",
+          "en": "A The 2013 divorce rate was ten times the 2004 rate",
+          "ru": "A В 2013 году уровень разводов был в десять раз выше, чем в 2004",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.173149,
+              "y": 0.369444,
+              "w": 0.323714,
+              "h": 0.015741000000000005
+            },
+            "vocabulary": [
+              {
+                "hz": "离婚率",
+                "py": "líhūnlǜ",
+                "ru": "уровень разводов",
+                "en": "divorce rate",
+                "kk": "ажырасу деңгейі"
+              },
+              {
+                "hz": "离婚",
+                "py": "líhūn",
+                "ru": "разводиться",
+                "en": "divorce",
+                "kk": "ажырасу"
+              }
+            ],
+            "choice": {
+              "question": 26,
+              "letter": "A",
+              "hz": "2013年的离婚率是2004年的十倍",
+              "vocabulary": [
+                {
+                  "hz": "离婚率",
+                  "py": "líhūnlǜ",
+                  "ru": "уровень разводов",
+                  "en": "divorce rate",
+                  "kk": "ажырасу деңгейі"
+                },
+                {
+                  "hz": "离婚",
+                  "py": "líhūn",
+                  "ru": "разводиться",
+                  "en": "divorce",
+                  "kk": "ажырасу"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.520284,
+            "y": 0.369444,
+            "w": 0.36571600000000004,
+            "h": 0.0195
+          },
+          "cn": "B 十年来，离婚率一直在增长",
+          "en": "B The divorce rate rose throughout the ten years",
+          "ru": "B Все десять лет уровень разводов рос",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.520284,
+              "y": 0.369444,
+              "w": 0.26432500000000003,
+              "h": 0.015741000000000005
+            },
+            "vocabulary": [
+              {
+                "hz": "增长",
+                "py": "zēngzhǎng",
+                "ru": "рост; расти",
+                "en": "growth; grow",
+                "kk": "өсу"
+              },
+              {
+                "hz": "离婚率",
+                "py": "líhūnlǜ",
+                "ru": "уровень разводов",
+                "en": "divorce rate",
+                "kk": "ажырасу деңгейі"
+              },
+              {
+                "hz": "离婚",
+                "py": "líhūn",
+                "ru": "разводиться",
+                "en": "divorce",
+                "kk": "ажырасу"
+              }
+            ],
+            "choice": {
+              "question": 26,
+              "letter": "B",
+              "hz": "十年来，离婚率一直在增长",
+              "vocabulary": [
+                {
+                  "hz": "增长",
+                  "py": "zēngzhǎng",
+                  "ru": "рост; расти",
+                  "en": "growth; grow",
+                  "kk": "өсу"
+                },
+                {
+                  "hz": "离婚率",
+                  "py": "líhūnlǜ",
+                  "ru": "уровень разводов",
+                  "en": "divorce rate",
+                  "kk": "ажырасу деңгейі"
+                },
+                {
+                  "hz": "离婚",
+                  "py": "líhūn",
+                  "ru": "разводиться",
+                  "en": "divorce",
+                  "kk": "ажырасу"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.173568,
+            "y": 0.389198,
+            "w": 0.332432,
+            "h": 0.0195
+          },
+          "cn": "C 过去的人多数不愿意离婚",
+          "en": "C Most people in the past did not want to divorce",
+          "ru": "C Раньше большинство людей не хотели разводиться",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.173568,
+              "y": 0.389198,
+              "w": 0.24717700000000004,
+              "h": 0.015741000000000005
+            },
+            "vocabulary": [
+              {
+                "hz": "离婚",
+                "py": "líhūn",
+                "ru": "разводиться",
+                "en": "divorce",
+                "kk": "ажырасу"
+              }
+            ],
+            "choice": {
+              "question": 26,
+              "letter": "C",
+              "hz": "过去的人多数不愿意离婚",
+              "vocabulary": [
+                {
+                  "hz": "离婚",
+                  "py": "líhūn",
+                  "ru": "разводиться",
+                  "en": "divorce",
+                  "kk": "ажырасу"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.51903,
+            "y": 0.389815,
+            "w": 0.36697,
+            "h": 0.0195
+          },
+          "cn": "D 80后不太在乎是否离婚",
+          "en": "D The post-1980 generation cares less about whether to divorce",
+          "ru": "D Поколение 1980-х меньше беспокоится о разводе",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.51903,
+              "y": 0.389815,
+              "w": 0.23212,
+              "h": 0.014815000000000023
+            },
+            "vocabulary": [
+              {
+                "hz": "离婚",
+                "py": "líhūn",
+                "ru": "разводиться",
+                "en": "divorce",
+                "kk": "ажырасу"
+              }
+            ],
+            "choice": {
+              "question": 26,
+              "letter": "D",
+              "hz": "80后不太在乎是否离婚",
+              "vocabulary": [
+                {
+                  "hz": "离婚",
+                  "py": "líhūn",
+                  "ru": "разводиться",
+                  "en": "divorce",
+                  "kk": "ажырасу"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.137599,
+            "y": 0.42284,
+            "w": 0.772401,
+            "h": 0.01904899999999998
+          },
+          "cn": "27.作者认为离婚率上升：",
+          "en": "27. The author thinks the rising divorce rate:",
+          "ru": "27. По мнению автора, рост уровня разводов:",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.137599,
+              "y": 0.42284,
+              "w": 0.22626499999999997,
+              "h": 0.01604899999999998
+            },
+            "vocabulary": [
+              {
+                "hz": "离婚率",
+                "py": "líhūnlǜ",
+                "ru": "уровень разводов",
+                "en": "divorce rate",
+                "kk": "ажырасу деңгейі"
+              },
+              {
+                "hz": "离婚",
+                "py": "líhūn",
+                "ru": "разводиться",
+                "en": "divorce",
+                "kk": "ажырасу"
+              }
+            ]
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.173149,
+            "y": 0.442901,
+            "w": 0.332851,
+            "h": 0.0195
+          },
+          "cn": "A 是因为金钱",
+          "en": "A is caused by money",
+          "ru": "A связан с деньгами",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.173149,
+              "y": 0.442901,
+              "w": 0.127562,
+              "h": 0.015741000000000005
+            },
+            "vocabulary": [
+              {
+                "hz": "金钱",
+                "py": "jīnqián",
+                "ru": "деньги",
+                "en": "money",
+                "kk": "ақша"
+              }
+            ],
+            "choice": {
+              "question": 27,
+              "letter": "A",
+              "hz": "是因为金钱",
+              "vocabulary": [
+                {
+                  "hz": "金钱",
+                  "py": "jīnqián",
+                  "ru": "деньги",
+                  "en": "money",
+                  "kk": "ақша"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.519866,
+            "y": 0.441975,
+            "w": 0.36613399999999996,
+            "h": 0.0195
+          },
+          "cn": "B 是因为吵架误会",
+          "en": "B is caused by quarrels and misunderstandings",
+          "ru": "B связан со ссорами и недоразумениями",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.519866,
+              "y": 0.441975,
+              "w": 0.165203,
+              "h": 0.016975000000000018
+            },
+            "vocabulary": [
+              {
+                "hz": "误会",
+                "py": "wùhuì",
+                "ru": "недоразумение",
+                "en": "misunderstanding",
+                "kk": "түсінбеушілік"
+              }
+            ],
+            "choice": {
+              "question": 27,
+              "letter": "B",
+              "hz": "是因为吵架误会",
+              "vocabulary": [
+                {
+                  "hz": "误会",
+                  "py": "wùhuì",
+                  "ru": "недоразумение",
+                  "en": "misunderstanding",
+                  "kk": "түсінбеушілік"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.173149,
+            "y": 0.46142,
+            "w": 0.332851,
+            "h": 0.0195
+          },
+          "cn": "C 说明人们越来越不愿结婚",
+          "en": "C shows that people increasingly do not want to marry",
+          "ru": "C показывает, что люди всё меньше хотят вступать в брак",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.173149,
+              "y": 0.46142,
+              "w": 0.24801300000000004,
+              "h": 0.017593000000000025
+            },
+            "vocabulary": [
+              {
+                "hz": "结婚",
+                "py": "jiéhūn",
+                "ru": "вступать в брак",
+                "en": "marry",
+                "kk": "үйлену"
+              }
+            ],
+            "choice": {
+              "question": 27,
+              "letter": "C",
+              "hz": "说明人们越来越不愿结婚",
+              "vocabulary": [
+                {
+                  "hz": "结婚",
+                  "py": "jiéhūn",
+                  "ru": "вступать в брак",
+                  "en": "marry",
+                  "kk": "үйлену"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.518193,
+            "y": 0.462346,
+            "w": 0.367807,
+            "h": 0.0195
+          },
+          "cn": "D 可以从正反两个方面看待",
+          "en": "D can be viewed from both positive and negative sides",
+          "ru": "D можно рассматривать с положительной и отрицательной сторон",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.518193,
+              "y": 0.462346,
+              "w": 0.247595,
+              "h": 0.015741000000000005
+            },
+            "vocabulary": [
+              {
+                "hz": "看待",
+                "py": "kàndài",
+                "ru": "рассматривать; относиться",
+                "en": "view; regard",
+                "kk": "қарау"
+              }
+            ],
+            "choice": {
+              "question": 27,
+              "letter": "D",
+              "hz": "可以从正反两个方面看待",
+              "vocabulary": [
+                {
+                  "hz": "看待",
+                  "py": "kàndài",
+                  "ru": "рассматривать; относиться",
+                  "en": "view; regard",
+                  "kk": "қарау"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.137599,
+            "y": 0.496296,
+            "w": 0.772401,
+            "h": 0.01874099999999995
+          },
+          "cn": "28.作者对婚姻大事成为游戏的态度是：",
+          "en": "28. How does the author feel about treating marriage as a game?",
+          "ru": "28. Как автор относится к превращению брака в игру?",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.137599,
+              "y": 0.496296,
+              "w": 0.346299,
+              "h": 0.01574099999999995
+            },
+            "vocabulary": [
+              {
+                "hz": "游戏",
+                "py": "yóuxì",
+                "ru": "игра",
+                "en": "game",
+                "kk": "ойын"
+              }
+            ]
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.171476,
+            "y": 0.514815,
+            "w": 0.33452400000000004,
+            "h": 0.0195
+          },
+          "cn": "A 高兴的",
+          "en": "A happy",
+          "ru": "A радостно",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.171476,
+              "y": 0.514815,
+              "w": 0.08908400000000002,
+              "h": 0.01820999999999995
+            },
+            "vocabulary": [
+              {
+                "hz": "高兴",
+                "py": "gāoxìng",
+                "ru": "радостный",
+                "en": "happy",
+                "kk": "қуанышты"
+              }
+            ],
+            "choice": {
+              "question": 28,
+              "letter": "A",
+              "hz": "高兴的",
+              "vocabulary": [
+                {
+                  "hz": "高兴",
+                  "py": "gāoxìng",
+                  "ru": "радостный",
+                  "en": "happy",
+                  "kk": "қуанышты"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.519448,
+            "y": 0.515432,
+            "w": 0.366552,
+            "h": 0.0195
+          },
+          "cn": "B 赞同的",
+          "en": "B approving",
+          "ru": "B одобрительно",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.519448,
+              "y": 0.515432,
+              "w": 0.08531999999999995,
+              "h": 0.016666999999999987
+            },
+            "vocabulary": [
+              {
+                "hz": "赞同",
+                "py": "zàntóng",
+                "ru": "одобрять; соглашаться",
+                "en": "approve; agree",
+                "kk": "қолдау"
+              }
+            ],
+            "choice": {
+              "question": 28,
+              "letter": "B",
+              "hz": "赞同的",
+              "vocabulary": [
+                {
+                  "hz": "赞同",
+                  "py": "zàntóng",
+                  "ru": "одобрять; соглашаться",
+                  "en": "approve; agree",
+                  "kk": "қолдау"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.172731,
+            "y": 0.534877,
+            "w": 0.33326900000000004,
+            "h": 0.0195
+          },
+          "cn": "C 批评的",
+          "en": "C critical",
+          "ru": "C критически",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.172731,
+              "y": 0.534877,
+              "w": 0.08741099999999999,
+              "h": 0.017283999999999966
+            },
+            "vocabulary": [
+              {
+                "hz": "批评",
+                "py": "pīpíng",
+                "ru": "критиковать",
+                "en": "criticize",
+                "kk": "сынау"
+              }
+            ],
+            "choice": {
+              "question": 28,
+              "letter": "C",
+              "hz": "批评的",
+              "vocabulary": [
+                {
+                  "hz": "批评",
+                  "py": "pīpíng",
+                  "ru": "критиковать",
+                  "en": "criticize",
+                  "kk": "сынау"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.517775,
+            "y": 0.534877,
+            "w": 0.368225,
+            "h": 0.0195
+          },
+          "cn": "D 后悔的",
+          "en": "D regretful",
+          "ru": "D с сожалением",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.517775,
+              "y": 0.534877,
+              "w": 0.08908400000000005,
+              "h": 0.01759299999999997
+            },
+            "vocabulary": [
+              {
+                "hz": "后悔",
+                "py": "hòuhuǐ",
+                "ru": "сожалеть",
+                "en": "regret",
+                "kk": "өкіну"
+              }
+            ],
+            "choice": {
+              "question": 28,
+              "letter": "D",
+              "hz": "后悔的",
+              "vocabulary": [
+                {
+                  "hz": "后悔",
+                  "py": "hòuhuǐ",
+                  "ru": "сожалеть",
+                  "en": "regret",
+                  "kk": "өкіну"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "folio",
+          "plain": true,
+          "box": {
+            "x": 0.9289,
+            "y": 0.947531,
+            "w": 0.010456,
+            "h": 0.01142
+          },
+          "text": "7"
+        }
+      ],
+      "kz": {
+        "Любовь в деталях": "Махаббаттың ұсақ-түйегі",
+        "26–28.": "26–28.",
+        "Согласно статистическому бюллетеню Министерства гражданской администрации о развитии социальных услуг за 2013 год, в Китае за этот год официально развелись 3,5 миллиона пар — на 12,8% больше, чем годом ранее. Начиная с 2004 года уровень разводов рос десять лет подряд. Раньше люди боялись даже упоминать развод; поколение 1970-х мучилось выбором, разводиться или нет; теперь поколение 1980-х считает: «В разводе нет ничего страшного». Взгляды китайцев на брак меняются.": "Азаматтық істер министрлігінің әлеуметтік қызметтердің дамуы туралы 2013 жылғы статистикалық бюллетеніне сәйкес, сол жылы елде 3,5 миллион жұп заңды түрде ажырасқан. Бұл алдыңғы жылдан 12,8% көп. 2004 жылдан бері ажырасу деңгейі он жыл қатарынан өскен. Бұрын ажырасу туралы айтуға қорқатын; 1970-жылдары туғандар ажырасу не ажыраспау арасында қиналды; ал 1980-жылдары туғандар «ажырасуда тұрған ештеңе жоқ» дейді. Қытайлықтардың некеге көзқарасы өзгеріп келеді.",
+        "статистика": "статистика",
+        "официальный бюллетень": "ресми бюллетень",
+        "показывать": "көрсету",
+        "оформлять": "рәсімдеу",
+        "формальности": "рәсімдер",
+        "рост; расти": "өсу",
+        "уровень разводов": "ажырасу деңгейі",
+        "подряд; непрерывный": "үздіксіз",
+        "постепенно возрастать": "біртіндеп өсу",
+        "колебаться; мучиться выбором": "екіұдай болу",
+        "ныне; сейчас": "қазір",
+        "взгляд на брак": "некеге көзқарас",
+        "разводиться": "ажырасу",
+        "Рост числа разводов в Китае, с одной стороны, говорит об изменении взглядов современных людей: они больше ценят любовь и качество брака. Но нельзя не видеть и другую сторону: некоторые не относятся к браку серьёзно, им не хватает ответственности за брак и семью.": "Қытайда ажырасу деңгейінің үздіксіз өсуі, бір жағынан, қазіргі адамдардың көзқарасы өзгеріп, махаббат пен неке сапасына көбірек мән беретінін көрсетеді. Алайда екінші жағын да ескеру керек: кейбіреулер некені маңызды санамайды, неке мен отбасы алдындағы жауапкершілігі жетіспейді.",
+        "продолжаться": "жалғасу",
+        "представление; взгляд": "көзқарас",
+        "придавать значение": "мән беру",
+        "качество": "сапа",
+        "чувство ответственности": "жауапкершілік сезімі",
+        "Кто-то разводится, приобретя деньги, власть или известность. Кто-то искренне любит до свадьбы, а после перестаёт развивать и поддерживать чувства. Другие разводятся не из-за отсутствия любви, а из-за нетерпимости: при любой ошибке партнёра устраивают большую ссору, не разбираясь в обстоятельствах. Во всех подобных случаях важное дело — брак — становится мелочью, игрой, в которую можно играть бездумно.": "Біреулер ақша, билік не беделге ие болған соң ажырасады. Кейбірі үйленгенге дейін шын сүйеді, ал кейін сезімді дамыту мен сақтауды ұмытады. Басқалары махаббат жоқтығынан емес, кеңпейілділігі жетпегендіктен ажырасады: жұбайы қателессе, жағдайды ескермей қатты ұрысады. Осындайда маңызды неке мәселесі ұсақ нәрсеге, бейберекет ойнайтын ойынға айналады.",
+        "авторитет; известность": "бедел",
+        "развивать; воспитывать": "дамыту",
+        "поддерживать; сохранять": "сақтау",
+        "великодушие; терпимость": "кеңпейілділік",
+        "проступок; ошибка": "қателік",
+        "небрежно; как попало": "бейберекет",
+        "игра": "ойын",
+        "26. Какое утверждение не соответствует тексту?": "26. Мәтін бойынша қай тұжырым дұрыс емес?",
+        "A В 2013 году уровень разводов был в десять раз выше, чем в 2004": "A 2013 жылғы ажырасу деңгейі 2004 жылдан он есе жоғары болды",
+        "B Все десять лет уровень разводов рос": "B Он жыл бойы ажырасу деңгейі өсті",
+        "C Раньше большинство людей не хотели разводиться": "C Бұрын адамдардың көбі ажырасқысы келмеген",
+        "D Поколение 1980-х меньше беспокоится о разводе": "D 1980-жылдары туғандар ажырасуға аса алаңдамайды",
+        "27. По мнению автора, рост уровня разводов:": "27. Автордың ойынша, ажырасу деңгейінің өсуі:",
+        "A связан с деньгами": "A ақшаға байланысты",
+        "деньги": "ақша",
+        "B связан со ссорами и недоразумениями": "B ұрыс пен түсінбеушілікке байланысты",
+        "недоразумение": "түсінбеушілік",
+        "C показывает, что люди всё меньше хотят вступать в брак": "C адамдардың үйленуге ықыласы азайғанын көрсетеді",
+        "вступать в брак": "үйлену",
+        "D можно рассматривать с положительной и отрицательной сторон": "D оң және теріс жағынан қарастыруға болады",
+        "рассматривать; относиться": "қарау",
+        "28. Как автор относится к превращению брака в игру?": "28. Автор некені ойынға айналдыруға қалай қарайды?",
+        "A радостно": "A қуана",
+        "радостный": "қуанышты",
+        "B одобрительно": "B қолдайды",
+        "одобрять; соглашаться": "қолдау",
+        "C критически": "C сыни",
+        "критиковать": "сынау",
+        "D с сожалением": "D өкінішпен",
+        "сожалеть": "өкіну"
+      }
+    },
+    "ocr": {
+      "version": 11,
+      "engine": "PaddleOCR",
+      "model": "PP-OCRv5_mobile",
+      "pageNumber": 14,
+      "dpi": 288,
+      "width": 2391,
+      "height": 3240,
+      "coordinateSpace": "normalized-0-1",
+      "lines": [
+        {
+          "id": 0,
+          "text": "爱的细节",
+          "confidence": 0.9999,
+          "position": {
+            "x": 0.922208,
+            "y": 0.073457,
+            "width": 0.023003,
+            "height": 0.063889
+          }
+        },
+        {
+          "id": 1,
+          "text": "26–28.",
+          "confidence": 0.9946,
+          "position": {
+            "x": 0.097449,
+            "y": 0.090123,
+            "width": 0.060226,
+            "height": 0.014198
+          }
+        },
+        {
+          "id": 2,
+          "text": "据民政部发布的 2013 年社会服务发展统计公报显示，2013 年全国依法办理离婚手续",
+          "confidence": 0.9752,
+          "position": {
+            "x": 0.138018,
+            "y": 0.117593,
+            "width": 0.74404,
+            "height": 0.016975
+          }
+        },
+        {
+          "id": 3,
+          "text": "的共有 350万对，比上年增长12.8%。这是自2004 年以来，我国离婚率连续10 年递增",
+          "confidence": 0.9734,
+          "position": {
+            "x": 0.098285,
+            "y": 0.137654,
+            "width": 0.775826,
+            "height": 0.016358
+          }
+        },
+        {
+          "id": 4,
+          "text": "从过去的谈离婚色变，到70后纠结于离或不离，再到如今80后的“离婚没什么大不了”",
+          "confidence": 0.9989,
+          "position": {
+            "x": 0.097867,
+            "y": 0.15679,
+            "width": 0.779172,
+            "height": 0.016975
+          }
+        },
+        {
+          "id": 5,
+          "text": "中国人的婚姻观正在发生改变。",
+          "confidence": 0.9996,
+          "position": {
+            "x": 0.098285,
+            "y": 0.175926,
+            "width": 0.271016,
+            "height": 0.018827
+          }
+        },
+        {
+          "id": 6,
+          "text": "中国的离婚率持续上升，虽然一方面说明现代人的思想",
+          "confidence": 0.9997,
+          "position": {
+            "x": 0.138436,
+            "y": 0.196296,
+            "width": 0.493517,
+            "height": 0.018519
+          }
+        },
+        {
+          "id": 7,
+          "text": "观念发生了变化，更加重视爱情，重视婚姻的质量，但我们",
+          "confidence": 0.9999,
+          "position": {
+            "x": 0.098285,
+            "y": 0.217284,
+            "width": 0.532413,
+            "height": 0.015741
+          }
+        },
+        {
+          "id": 8,
+          "text": "也不能不看到问题的另一个方面，那就是有的人不把婚姻当",
+          "confidence": 0.999,
+          "position": {
+            "x": 0.098285,
+            "y": 0.23642,
+            "width": 0.532831,
+            "height": 0.016667
+          }
+        },
+        {
+          "id": 9,
+          "text": "回事，对婚姻和家庭缺少责任感。",
+          "confidence": 0.9993,
+          "position": {
+            "x": 0.099122,
+            "y": 0.256173,
+            "width": 0.290255,
+            "height": 0.016358
+          }
+        },
+        {
+          "id": 10,
+          "text": "有人离婚是因为有了钱、有了权、有了名望；有人婚前情真意切，婚后便不再注意",
+          "confidence": 0.9994,
+          "position": {
+            "x": 0.138436,
+            "y": 0.275926,
+            "width": 0.743204,
+            "height": 0.016358
+          }
+        },
+        {
+          "id": 11,
+          "text": "感情的培养和维护；有人离婚不是因为不爱，只是气量太小，对方有了过失就不分情况，",
+          "confidence": 0.9993,
+          "position": {
+            "x": 0.097449,
+            "y": 0.295679,
+            "width": 0.781681,
+            "height": 0.016358
+          }
+        },
+        {
+          "id": 12,
+          "text": "大吵一架·…凡此种种，婚姻大事成了小事，成了可以随便进行的游戏。",
+          "confidence": 0.9782,
+          "position": {
+            "x": 0.097867,
+            "y": 0.315432,
+            "width": 0.631953,
+            "height": 0.016975
+          }
+        },
+        {
+          "id": 13,
+          "text": "26.根据上文，下列哪项不正确?",
+          "confidence": 0.9531,
+          "position": {
+            "x": 0.137599,
+            "y": 0.35,
+            "width": 0.288164,
+            "height": 0.015741
+          }
+        },
+        {
+          "id": 14,
+          "text": "A2013年的离婚率是 2004年的十倍",
+          "confidence": 0.967,
+          "position": {
+            "x": 0.173149,
+            "y": 0.369444,
+            "width": 0.323714,
+            "height": 0.015741
+          }
+        },
+        {
+          "id": 15,
+          "text": "B",
+          "confidence": 0.9868,
+          "position": {
+            "x": 0.520284,
+            "y": 0.371296,
+            "width": 0.030113,
+            "height": 0.011728
+          }
+        },
+        {
+          "id": 16,
+          "text": "十年来，离婚率一直在增长",
+          "confidence": 0.9996,
+          "position": {
+            "x": 0.540778,
+            "y": 0.369444,
+            "width": 0.243831,
+            "height": 0.015741
+          }
+        },
+        {
+          "id": 17,
+          "text": "C过去的人多数不愿意离婚",
+          "confidence": 0.9883,
+          "position": {
+            "x": 0.173568,
+            "y": 0.389198,
+            "width": 0.247177,
+            "height": 0.015741
+          }
+        },
+        {
+          "id": 18,
+          "text": "D80后不太在乎是否离婚",
+          "confidence": 0.9967,
+          "position": {
+            "x": 0.51903,
+            "y": 0.389815,
+            "width": 0.23212,
+            "height": 0.014815
+          }
+        },
+        {
+          "id": 19,
+          "text": "27.作者认为离婚率上升：",
+          "confidence": 0.94,
+          "position": {
+            "x": 0.137599,
+            "y": 0.42284,
+            "width": 0.226265,
+            "height": 0.016049
+          }
+        },
+        {
+          "id": 20,
+          "text": "A是因为金钱",
+          "confidence": 0.9576,
+          "position": {
+            "x": 0.173149,
+            "y": 0.442901,
+            "width": 0.127562,
+            "height": 0.015741
+          }
+        },
+        {
+          "id": 21,
+          "text": "B",
+          "confidence": 0.9866,
+          "position": {
+            "x": 0.519866,
+            "y": 0.444444,
+            "width": 0.027185,
+            "height": 0.012346
+          }
+        },
+        {
+          "id": 22,
+          "text": "是因为吵架误会",
+          "confidence": 0.9994,
+          "position": {
+            "x": 0.541614,
+            "y": 0.441975,
+            "width": 0.143455,
+            "height": 0.016975
+          }
+        },
+        {
+          "id": 23,
+          "text": "C说明人们越来越不愿结婚",
+          "confidence": 0.9928,
+          "position": {
+            "x": 0.173149,
+            "y": 0.46142,
+            "width": 0.248013,
+            "height": 0.017593
+          }
+        },
+        {
+          "id": 24,
+          "text": "D可以从正反两个方面看待",
+          "confidence": 0.9972,
+          "position": {
+            "x": 0.518193,
+            "y": 0.462346,
+            "width": 0.247595,
+            "height": 0.015741
+          }
+        },
+        {
+          "id": 25,
+          "text": "28.作者对婚姻大事成为游戏的态度是：",
+          "confidence": 0.9663,
+          "position": {
+            "x": 0.137599,
+            "y": 0.496296,
+            "width": 0.346299,
+            "height": 0.015741
+          }
+        },
+        {
+          "id": 26,
+          "text": "A高兴的",
+          "confidence": 0.9528,
+          "position": {
+            "x": 0.171476,
+            "y": 0.514815,
+            "width": 0.089084,
+            "height": 0.01821
+          }
+        },
+        {
+          "id": 27,
+          "text": "B",
+          "confidence": 0.9887,
+          "position": {
+            "x": 0.519448,
+            "y": 0.517284,
+            "width": 0.028022,
+            "height": 0.013272
+          }
+        },
+        {
+          "id": 28,
+          "text": "赞同的",
+          "confidence": 0.9977,
+          "position": {
+            "x": 0.54036,
+            "y": 0.515432,
+            "width": 0.064408,
+            "height": 0.016667
+          }
+        },
+        {
+          "id": 29,
+          "text": "C批评的",
+          "confidence": 0.9628,
+          "position": {
+            "x": 0.172731,
+            "y": 0.534877,
+            "width": 0.087411,
+            "height": 0.017284
+          }
+        },
+        {
+          "id": 30,
+          "text": "D后悔的",
+          "confidence": 0.9786,
+          "position": {
+            "x": 0.517775,
+            "y": 0.534877,
+            "width": 0.089084,
+            "height": 0.017593
+          }
+        },
+        {
+          "id": 31,
+          "text": "7",
+          "confidence": 0.9995,
+          "position": {
+            "x": 0.9289,
+            "y": 0.947531,
+            "width": 0.010456,
+            "height": 0.01142
+          }
+        }
+      ],
+      "sourceHash": "d42b5dde1efc1861676119348c958bd77b30e690bd5b405be7098d5aa3f6504d"
+    }
+  }
+]
