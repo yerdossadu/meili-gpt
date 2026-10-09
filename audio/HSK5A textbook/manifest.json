@@ -1,0 +1,399 @@
+{
+  "source": "https://soundcloud.com/user-682871665/sets/hsk-5a-textbook-audio",
+  "title": "HSK 5A Textbook Audio",
+  "count": 39,
+  "total_bytes": 81508257,
+  "total_duration_seconds": 5091.948,
+  "tracks": [
+    {
+      "id": "474667890",
+      "title": "00 HSK 标准教程5 上",
+      "file": "00 HSK 标准教程5 上 [474667890].mp3",
+      "source": "https://soundcloud.com/user-682871665/00-hsk-5",
+      "bytes": 659538,
+      "duration_seconds": 41.158,
+      "bitrate": 128000,
+      "sha256": "44604006fa2fdc4d0e42f10b1f350f23e7bc365d7d5acf6b321eae5f244575b6"
+    },
+    {
+      "id": "474667881",
+      "title": "02 - 1",
+      "file": "02 - 1 [474667881].mp3",
+      "source": "https://soundcloud.com/user-682871665/02-1-5",
+      "bytes": 2781517,
+      "duration_seconds": 173.775,
+      "bitrate": 128000,
+      "sha256": "0cb7cde2772182bac8232149bd57702271a6fc35fbe3bd7a3bcfaf920d9e7f94"
+    },
+    {
+      "id": "474667884",
+      "title": "01 - 2",
+      "file": "01 - 2 [474667884].mp3",
+      "source": "https://soundcloud.com/user-682871665/01-2-6",
+      "bytes": 1235068,
+      "duration_seconds": 77.13,
+      "bitrate": 128000,
+      "sha256": "05a2fa7ae9820fd53c2c69901310305c1cd5d9833e53336f00a87f12ce5fc4c5"
+    },
+    {
+      "id": "474667860",
+      "title": "03 - 1",
+      "file": "03 - 1 [474667860].mp3",
+      "source": "https://soundcloud.com/user-682871665/03-1-5",
+      "bytes": 3256737,
+      "duration_seconds": 203.494,
+      "bitrate": 128000,
+      "sha256": "fbc3564b26c3b6f2998f248f95e5f3cc5ccc5fd2238b2a4e2ad6f685d10c73df"
+    },
+    {
+      "id": "474667863",
+      "title": "02 - 2",
+      "file": "02 - 2 [474667863].mp3",
+      "source": "https://soundcloud.com/user-682871665/02-2-4",
+      "bytes": 1247607,
+      "duration_seconds": 77.898,
+      "bitrate": 128000,
+      "sha256": "34b99427c9c6535ab0fd67e119b19d252aae3ceb9ea69008ff9005c6d36b7303"
+    },
+    {
+      "id": "474667851",
+      "title": "04 - 1",
+      "file": "04 - 1 [474667851].mp3",
+      "source": "https://soundcloud.com/user-682871665/04-1-5",
+      "bytes": 3334059,
+      "duration_seconds": 208.324,
+      "bitrate": 128000,
+      "sha256": "3f13bf4f6069cae98a5ea67b71ab7498bfabc98373fec3cf2973129e56a07539"
+    },
+    {
+      "id": "474667857",
+      "title": "03 - 2",
+      "file": "03 - 2 [474667857].mp3",
+      "source": "https://soundcloud.com/user-682871665/03-2-5",
+      "bytes": 1462438,
+      "duration_seconds": 91.35,
+      "bitrate": 128000,
+      "sha256": "ad21d747a4579d1ea323b9ab655240a69e0f518e66be046980531529fcbc6379"
+    },
+    {
+      "id": "474667839",
+      "title": "06 - 1",
+      "file": "06 - 1 [474667839].mp3",
+      "source": "https://soundcloud.com/user-682871665/06-1-5",
+      "bytes": 3131767,
+      "duration_seconds": 195.674,
+      "bitrate": 128000,
+      "sha256": "ba0a6711d4e47d3ca06abc468f8c4b5bfae37525e205adb30161b98ab15d0031"
+    },
+    {
+      "id": "474667848",
+      "title": "04 - 2",
+      "file": "04 - 2 [474667848].mp3",
+      "source": "https://soundcloud.com/user-682871665/04-2-5",
+      "bytes": 1479992,
+      "duration_seconds": 92.433,
+      "bitrate": 128000,
+      "sha256": "b11b9244d407dd61a7cbee0379ef798185fa45c9b960799493e0b2af0624ce68"
+    },
+    {
+      "id": "474667845",
+      "title": "05 - 2",
+      "file": "05 - 2 [474667845].mp3",
+      "source": "https://soundcloud.com/user-682871665/05-2-5",
+      "bytes": 1732857,
+      "duration_seconds": 108.245,
+      "bitrate": 128000,
+      "sha256": "0ff335cf25655c64e6305bc05ff42607d6414c6623fea4aa4de1098e4e4b7c0a"
+    },
+    {
+      "id": "474667824",
+      "title": "07 - 1",
+      "file": "07 - 1 [474667824].mp3",
+      "source": "https://soundcloud.com/user-682871665/07-1-5",
+      "bytes": 1401834,
+      "duration_seconds": 87.562,
+      "bitrate": 128000,
+      "sha256": "4fbc8cc946f7efcb56f70bbce321b3fd30fcb4a7e8c033703e3f66d2ece74e0f"
+    },
+    {
+      "id": "474667833",
+      "title": "06 - 2",
+      "file": "06 - 2 [474667833].mp3",
+      "source": "https://soundcloud.com/user-682871665/06-2-5",
+      "bytes": 1554807,
+      "duration_seconds": 97.111,
+      "bitrate": 128000,
+      "sha256": "94b10bab544ee89afe54e2250ac5626169d20886f4c7d1e91832436c5a26846b"
+    },
+    {
+      "id": "474667815",
+      "title": "07 - 2",
+      "file": "07 - 2 [474667815].mp3",
+      "source": "https://soundcloud.com/user-682871665/07-2-5",
+      "bytes": 698408,
+      "duration_seconds": 43.598,
+      "bitrate": 128000,
+      "sha256": "df032e1e0ca2bcc904d5af3f5c3de5e57996adc086f31d7a62a2e236541a4a1e"
+    },
+    {
+      "id": "474667812",
+      "title": "07 - 3",
+      "file": "07 - 3 [474667812].mp3",
+      "source": "https://soundcloud.com/user-682871665/07-3-3",
+      "bytes": 2230229,
+      "duration_seconds": 139.337,
+      "bitrate": 128000,
+      "sha256": "203a96dba4aaeb93d3947129db2c6d56876affad5c74c325c37978f62688b8f5"
+    },
+    {
+      "id": "474667806",
+      "title": "07 - 4",
+      "file": "07 - 4 [474667806].mp3",
+      "source": "https://soundcloud.com/user-682871665/07-4-2",
+      "bytes": 1071228,
+      "duration_seconds": 66.886,
+      "bitrate": 128000,
+      "sha256": "6649d6f43bc04c36493185d0dc866fe593972900207eb3edd5da104a55bd1d27"
+    },
+    {
+      "id": "474667800",
+      "title": "08 - 2",
+      "file": "08 - 2 [474667800].mp3",
+      "source": "https://soundcloud.com/user-682871665/08-2-5",
+      "bytes": 1448645,
+      "duration_seconds": 90.478,
+      "bitrate": 128000,
+      "sha256": "0b5a89a8fea75ee5de759b768b8bdd20370326de5ea91c640ceefc776b88c61a"
+    },
+    {
+      "id": "474667803",
+      "title": "08 - 1",
+      "file": "08 - 1 [474667803].mp3",
+      "source": "https://soundcloud.com/user-682871665/08-1-5",
+      "bytes": 3337821,
+      "duration_seconds": 208.562,
+      "bitrate": 128000,
+      "sha256": "e77c0b8337aa4015cd06757b2c1942c9ab091a4986fcddd93aa9f6b1c1d66955"
+    },
+    {
+      "id": "474667788",
+      "title": "09 - 2",
+      "file": "09 - 2 [474667788].mp3",
+      "source": "https://soundcloud.com/user-682871665/09-2-5",
+      "bytes": 1574451,
+      "duration_seconds": 98.351,
+      "bitrate": 128000,
+      "sha256": "c9581b4a060ad4d25b2a2a61ed19ae950936b45851b4c8fdc05101858d570f6d"
+    },
+    {
+      "id": "474667794",
+      "title": "09 - 1",
+      "file": "09 - 1 [474667794].mp3",
+      "source": "https://soundcloud.com/user-682871665/09-1-5",
+      "bytes": 3109197,
+      "duration_seconds": 194.262,
+      "bitrate": 128000,
+      "sha256": "ba447242ca8929c28a5fdcba40a4a67e37f8430f848a5456d6d4abd2d9f17dab"
+    },
+    {
+      "id": "474667779",
+      "title": "10 - 2",
+      "file": "10 - 2 [474667779].mp3",
+      "source": "https://soundcloud.com/user-682871665/10-2-5",
+      "bytes": 1520534,
+      "duration_seconds": 94.974,
+      "bitrate": 128000,
+      "sha256": "89ff394d25056cb8103d7ef6888b40610d01c2414b4fa41ceca9dd36fadbbec5"
+    },
+    {
+      "id": "474667773",
+      "title": "11 - 2",
+      "file": "11 - 2 [474667773].mp3",
+      "source": "https://soundcloud.com/user-682871665/11-2-6",
+      "bytes": 1611231,
+      "duration_seconds": 100.642,
+      "bitrate": 128000,
+      "sha256": "d06f37e7496b7d6001b18e7bc037f998971ab56f332d65a4b0c8d0e283cf002b"
+    },
+    {
+      "id": "474667770",
+      "title": "12 - 1",
+      "file": "12 - 1 [474667770].mp3",
+      "source": "https://soundcloud.com/user-682871665/12-1-6",
+      "bytes": 2512769,
+      "duration_seconds": 156.994,
+      "bitrate": 128000,
+      "sha256": "8acdf309dd8c48724376ac03461aa32b99c0701a438b844d90d1e5d588e70167"
+    },
+    {
+      "id": "474667761",
+      "title": "13 - 2",
+      "file": "13 - 2 [474667761].mp3",
+      "source": "https://soundcloud.com/user-682871665/13-2-6",
+      "bytes": 1444048,
+      "duration_seconds": 90.186,
+      "bitrate": 128000,
+      "sha256": "1e380b6d5c361e7425edf6bec96f20da031abd9bb05371df6141d678864a1da9"
+    },
+    {
+      "id": "474667764",
+      "title": "13 - 1",
+      "file": "13 - 1 [474667764].mp3",
+      "source": "https://soundcloud.com/user-682871665/13-1-6",
+      "bytes": 2871378,
+      "duration_seconds": 179.409,
+      "bitrate": 128000,
+      "sha256": "48f5c497d3884a6a3b47da29cf05e3e888c724b49519c2c7cfba19cf1cd0857e"
+    },
+    {
+      "id": "474667755",
+      "title": "14 - 2",
+      "file": "14 - 2 [474667755].mp3",
+      "source": "https://soundcloud.com/user-682871665/14-2-6",
+      "bytes": 1411865,
+      "duration_seconds": 88.165,
+      "bitrate": 128000,
+      "sha256": "2ea7a94a3ddc3c7e4ae73b53fcd4a66b5fd632f925763925eee606b08c63b5de"
+    },
+    {
+      "id": "474667758",
+      "title": "14 - 1",
+      "file": "14 - 1 [474667758].mp3",
+      "source": "https://soundcloud.com/user-682871665/14-1-6",
+      "bytes": 2784443,
+      "duration_seconds": 173.976,
+      "bitrate": 128000,
+      "sha256": "e4b4b6633f121ed565ec95e41b9c2fb791dea0b56106ab8a7013197524c103d3"
+    },
+    {
+      "id": "474667752",
+      "title": "15 - 1",
+      "file": "15 - 1 [474667752].mp3",
+      "source": "https://soundcloud.com/user-682871665/15-1-6",
+      "bytes": 2968763,
+      "duration_seconds": 185.496,
+      "bitrate": 128000,
+      "sha256": "b50fed29692d14a858bfaa464a3c71bfb509155454715ebd17796c8b9472a3ea"
+    },
+    {
+      "id": "474667749",
+      "title": "16 - 1",
+      "file": "16 - 1 [474667749].mp3",
+      "source": "https://soundcloud.com/user-682871665/16-1-3",
+      "bytes": 2686222,
+      "duration_seconds": 167.837,
+      "bitrate": 128000,
+      "sha256": "0e902910578c32c5720d11df45e67f0daf70a7fc2efa50627da2ba056a0e2d7c"
+    },
+    {
+      "id": "474667740",
+      "title": "16 - 2",
+      "file": "16 - 2 [474667740].mp3",
+      "source": "https://soundcloud.com/user-682871665/16-2-2",
+      "bytes": 1367143,
+      "duration_seconds": 85.394,
+      "bitrate": 128000,
+      "sha256": "61e73be5b71e4cb09c71fbcacca8b72cdeaeee78371d331f1cfbbce045fb44f7"
+    },
+    {
+      "id": "474667734",
+      "title": "17 - 1",
+      "file": "17 - 1 [474667734].mp3",
+      "source": "https://soundcloud.com/user-682871665/17-1-3",
+      "bytes": 2837941,
+      "duration_seconds": 177.319,
+      "bitrate": 128000,
+      "sha256": "f6be80d9d2483d8d09c68dec1716bff71a8d159fd55b97f2dd2237563588a902"
+    },
+    {
+      "id": "474667728",
+      "title": "17 - 2",
+      "file": "17 - 2 [474667728].mp3",
+      "source": "https://soundcloud.com/user-682871665/17-2-2",
+      "bytes": 1301941,
+      "duration_seconds": 81.295,
+      "bitrate": 128000,
+      "sha256": "90176eea9030133f8b12d1629067feeb2aa224cdc5d108d65ab098dc60f25a18"
+    },
+    {
+      "id": "474667725",
+      "title": "18 - 1",
+      "file": "18 - 1 [474667725].mp3",
+      "source": "https://soundcloud.com/user-682871665/18-1-4",
+      "bytes": 2759783,
+      "duration_seconds": 172.434,
+      "bitrate": 128000,
+      "sha256": "994dc8ff62f9a8471cdfef1f422f2cd9b8ae40fea2021e4f5afc18a6d127b972"
+    },
+    {
+      "id": "474667722",
+      "title": "18 - 2",
+      "file": "18 - 2 [474667722].mp3",
+      "source": "https://soundcloud.com/user-682871665/18-2-3",
+      "bytes": 1288985,
+      "duration_seconds": 80.509,
+      "bitrate": 128000,
+      "sha256": "ca59a47ce21cb1cd02ab16751e68b0e3edb4ee462187f6bed3292183f1855380"
+    },
+    {
+      "id": "474667716",
+      "title": "01 - 1",
+      "file": "01 - 1 [474667716].mp3",
+      "source": "https://soundcloud.com/user-682871665/01-1a-1",
+      "bytes": 3272619,
+      "duration_seconds": 204.48,
+      "bitrate": 128000,
+      "sha256": "f4da2a57bff3e9f653a956fa8c900e68203dbeaae8ed60fe3d15c771b02e1a01"
+    },
+    {
+      "id": "474667704",
+      "title": "11 - 1",
+      "file": "11 - 1 [474667704].mp3",
+      "source": "https://soundcloud.com/user-682871665/11-1a-1",
+      "bytes": 3181922,
+      "duration_seconds": 198.815,
+      "bitrate": 128000,
+      "sha256": "fe974fc77544797d0e83836f5c3abdfc28823ae74aa3ea1fb24d57da07091c0c"
+    },
+    {
+      "id": "474667698",
+      "title": "12 - 2",
+      "file": "12 - 2 [474667698].mp3",
+      "source": "https://soundcloud.com/user-682871665/12-2a-1",
+      "bytes": 1675179,
+      "duration_seconds": 104.634,
+      "bitrate": 128000,
+      "sha256": "965e3a41d33122c6b294bb421e297d28af6401ddbda75064899437b845245760"
+    },
+    {
+      "id": "474667692",
+      "title": "15 - 2",
+      "file": "15 - 2 [474667692].mp3",
+      "source": "https://soundcloud.com/user-682871665/15-2a-2",
+      "bytes": 1607052,
+      "duration_seconds": 100.378,
+      "bitrate": 128000,
+      "sha256": "40c14da3154ceba821d272174fae2a15f6c302e02b6bb846a5e263e28f4c1824"
+    },
+    {
+      "id": "474667695",
+      "title": "05 - 1",
+      "file": "05 - 1 [474667695].mp3",
+      "source": "https://soundcloud.com/user-682871665/05-1a-1",
+      "bytes": 3092479,
+      "duration_seconds": 193.207,
+      "bitrate": 128000,
+      "sha256": "51b501ae34d9e0cd61b8cbe28b3ca23cd2f6f14ef1ffae76419d8289f7220c89"
+    },
+    {
+      "id": "474678231",
+      "title": "10 - 1",
+      "file": "10 - 1 [474678231].mp3",
+      "source": "https://soundcloud.com/user-682871665/10-1a-1",
+      "bytes": 2563760,
+      "duration_seconds": 160.176,
+      "bitrate": 128000,
+      "sha256": "5e132b98d8f86d5adabdc32eca70053f4be73a14830845b771d2332f8fa237b9"
+    }
+  ]
+}

@@ -52,5 +52,10 @@ secrets*.yml
 *.sqlite3-*
 *.sql
 *.dump
+# Downloaded source recordings and extractor metadata stay local.
+/audio/**/*.mp3
+/audio/**/*.m4a
+/audio/**/*.opus
+/audio/**/*.info.json
 *.rdb
 appendonly.aof*
