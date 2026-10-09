@@ -16,6 +16,9 @@ import { spawn } from 'node:child_process';
 import { createWriteStream, existsSync } from 'node:fs';
 import { join, extname } from 'node:path';
 import { createHash, randomUUID } from 'node:crypto';
+import {inferBookPlatform} from './book-platform.mjs';
+import {supplementDisplayOcr} from './display-ocr.mjs';
+import {restoreCoverVolume} from './cover-volume.mjs';
 import { digest, localizeLayout, validatePage, validatePageRevision, layoutFromOcr } from './page-contract.mjs';
 import {translationMemory,restoreTranslations} from './localization-memory.mjs';
 import { pathToFileURL, fileURLToPath } from 'node:url';
@@ -29,7 +32,7 @@ const SCAN_DPI = 288;
 const CODE = fileURLToPath(new URL('.', import.meta.url));
 // A geometry or CSS fix changes the renderer just as a core change does.
 // Frozen revisions must never be published as if they used those new rules.
-const RENDERER_FILES=['core.mjs','components.css','source-geometry.mjs','word-labels.mjs','tone-audio.mjs','workbook-drills.mjs','title-page.mjs','imprint-page.mjs','credits-page.mjs','foreword-page.mjs','character-page.mjs','classroom-page.mjs','contents-page.mjs','phonetic-tasks.mjs','dialogue-presentation.mjs','exam-layout.mjs','source-lexicon.mjs','page-contract.mjs','reviewed-kazakh.mjs'];
+const RENDERER_FILES=['core.mjs','components.css','source-geometry.mjs','word-labels.mjs','tone-audio.mjs','workbook-drills.mjs','title-page.mjs','cover-page.mjs','cover-volume.mjs','display-ocr.mjs','book-platform.mjs','imprint-page.mjs','credits-page.mjs','foreword-page.mjs','character-page.mjs','classroom-page.mjs','contents-page.mjs','phonetic-tasks.mjs','dialogue-presentation.mjs','exam-layout.mjs','source-lexicon.mjs','page-contract.mjs','reviewed-kazakh.mjs'];
 RENDERER_FILES.push('localization-memory.mjs');
 const RENDERER_HASH = digest(await Promise.all(RENDERER_FILES.map(async name=>[name,await readFile(join(CODE,name),'utf8')])));
 const rendererScript = () => `window.FormaPage=(function(){${core.fit.toString()}\n${core.autoFit.toString()}\n${core.setLang.toString()}\nreturn{fit,autoFit,setLang};})();`;
@@ -110,7 +113,7 @@ export function createWebbook({ root, getApiKey, getAliKey = () => '', origin = 
   async function stepOcr(dir, n, force) {
     const sourceHash=digest(await readFile(join(dir,'scan.png')));
     const cached = !force && await readJson(join(dir, 'ocr.json'));
-    if ((cached?.lines?.length||cached?.blank) && (!cached.sourceHash || cached.sourceHash===sourceHash)) {
+    if ((cached?.lines?.length||cached?.blank) && (!cached.sourceHash || cached.sourceHash===sourceHash) && (!cached.lines?.some(l=>l.text.includes('标准教程'))||cached.displayOcr)) {
       if(!cached.sourceHash){cached.sourceHash=sourceHash;await writeJson(join(dir,'ocr.json'),cached);}
       return { ocr: cached, note: `из кэша, ${cached.lines.length} строк` };
     }
@@ -118,10 +121,12 @@ export function createWebbook({ root, getApiKey, getAliKey = () => '', origin = 
     let response;
     try { response = await fetch(`${OCR_URL}?page=${n}&dpi=${SCAN_DPI}`, { method: 'POST', headers: { 'content-type': 'image/png' }, body: png, signal: AbortSignal.timeout(240000) }); }
     catch { throw new Error('Локальный OCR (порт 4176) не отвечает. Запустите студию через start-forma-studio.bat.'); }
-    const ocr = await response.json().catch(() => ({}));
+    let ocr = await response.json().catch(() => ({}));
     if (!response.ok) throw new Error(ocr.error || `OCR вернул HTTP ${response.status}.`);
     if (!ocr.lines?.length){const {loadImage}=await canvasLib(),proof=core.blankEvidence(await pixelGrid(await loadImage(png)));if(!proof.blank)throw new Error('OCR не нашёл текста на странице с печатным содержимым.');ocr.lines=[];ocr.blank=true;ocr.blankEvidence=proof;}
+    ocr=await supplementDisplayOcr(png,ocr,{canvas:await canvasLib(),recognize:async small=>{const r=await fetch(OCR_URL,{method:'POST',headers:{'content-type':'image/png'},body:small,signal:AbortSignal.timeout(240000)});if(!r.ok)throw new Error('Display OCR HTTP '+r.status);return r.json();}});
     ocr.sourceHash=sourceHash;
+    if(n===2&&ocr.displayOcr){const prior=await readJson(join(dir,'..','001','ocr.json'));if(prior){const {loadImage}=await canvasLib();restoreCoverVolume(ocr,prior,await pixelGrid(await loadImage(png)));}}
     await writeJson(join(dir, 'ocr.json'), ocr);
     return { ocr, note: `${ocr.lines.length} строк` };
   }
@@ -761,9 +766,10 @@ export function createWebbook({ root, getApiKey, getAliKey = () => '', origin = 
         snapped.decorations = core.absorbIntoImages(snapped, core.findDecorations(snapped, grid));
         snapped.model = answer.model; snapped.cost = answer.cost; snapped.builtAt = new Date().toISOString();
         if(answer.needsReview)snapped.quality={issues:[{note:answer.needsReview}]};
+        if(ocr.lines.some(l=>l.sourceEvidence?.requiresVisualReview&&!l.sourceEvidence.reviewedAt))snapped.quality={issues:[...(snapped.quality?.issues||[]),{note:'Знак тома восстановлен по другой обложке того же PDF; требуется сверка со сканом.'}]};
         return { value: snapped, note: `${snapped.blocks.length} блоков, OCR-строк ${snapped.ocrLines}, декор ${snapped.decorations.length}` };
       });
-      const committed = await step('assets', async () => ({value:await commitPage(id,n,layout.value,{image}),note:'Версия и ресурсы сохранены'}));
+      const committed = await step('assets', async () => ({value:await commitPage(id,n,layout.value,{image,quality:layout.value.quality}),note:'Версия и ресурсы сохранены'}));
       job.conversionId=committed.value.conversionId;job.validation=committed.value.validation;
       await step('html', async () => ({note:committed.value.html}));
       job.state = 'done';
@@ -923,8 +929,8 @@ export function createWebbook({ root, getApiKey, getAliKey = () => '', origin = 
   async function bookPlatform(id) {
     const book = await readJson(join(bookDir(id), 'book.json'));
     if (!book) throw new Error('Книга не найдена.');
-    const p = book.platform || {};
-    return { book, section: p.section || 'HSK 1 v3.0', level: p.level || 'HSK 1', slug: p.slug || 'hsk1-v3' };
+    const p = inferBookPlatform(book);
+    return { book, ...p };
   }
 
   async function platformCall(path, init = {}) {

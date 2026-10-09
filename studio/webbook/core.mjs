@@ -12,6 +12,7 @@ import { measurePrintedGeometry, hasPrintedCardFrame, printedCardBounds, measure
 import {sourceLexicon,sourceHeadingLexicon} from './source-lexicon.mjs';
 import {alignExamPictures,alignExamOptions} from './exam-layout.mjs';
 import { measureTitlePage } from './title-page.mjs';
+import {measureCoverPage} from './cover-page.mjs';
 import { measureImprintPage } from './imprint-page.mjs';
 import { measureCreditsPage } from './credits-page.mjs';
 import { measureForewordPage } from './foreword-page.mjs';
@@ -1700,6 +1701,7 @@ export function snap(layout, grid, ocr) {
   const accent = blocks.find(b => ['section', 'lesson', 'folio'].includes(b.type) && b.fill && b.fill !== '#ffffff')?.fill;
   if (accent) theme.accent = accent;
   const result = attachInteractiveCaptions({ ...layout, blocks, theme, snapVersion: SNAP_VERSION, ocrLines: lines.length });
+  measureCoverPage(result,grid,lines);
   for(const b of result.blocks.filter(b=>b.type==='runhead'&&b.box.x>.5&&b.number)){
     const tokens=(ocr?.lines||[]).map(t=>({text:t.text,box:t.box||(t.position?{x:t.position.x,y:t.position.y,w:t.position.width,h:t.position.height}:null)})).filter(t=>t.box&&t.box.y<.07);
     const label=tokens.find(t=>/^lesson$/i.test(t.text.trim())),number=label&&tokens.find(t=>t.text.trim()===b.number&&t.box.x>label.box.x);
@@ -1906,6 +1908,7 @@ export function backgroundAt(theme, fx, fy) {
 // published as transparent cut-outs of the scan, so the page loses nothing a
 // component cannot draw.
 export function findDecorations(layout, grid) {
+  if(layout.coverPage)return [];
   const { W, H } = grid, theme = layout.theme || {};
   const covered = new Uint8Array(W * H);
   const cover = (box, g = 0.006) => {
@@ -2272,6 +2275,15 @@ export function render(layout, { assets = {}, pinyin = true, lang = '', editable
       const translation=p.kind==='rows'?b.ru.split('\n').map((ru,i)=>{const kk=(b.translations?.ru?.kk||kz[b.ru]||'').split('\n')[i],en=b.en?.split('\n')[i],size=Math.min(p.font,b.box.w*100/(Math.max(ru.length,kk?.length||0,en?.length||0)*.58));return `<span class="hsk-imprint-row-translation" style="top:${pct(i*p.pitch/b.box.h)};font-size:${size}cqw"><span class="ru"${en?` data-en="${esc(en)}"`:''}${kk?` data-kz="${esc(kk)}"`:''}>${esc(ru)}</span></span>`;}).join(''):ed(n,'ru',b.ru,'ru hsk-imprint-translation');
       return `<section ${at} data-hsk-manual="1" class="hsk-at hsk-imprint${translated?' hsk-imprint-translated':''}" style="${pos(b,h)}font-size:${p.font}cqw">${originals}${translated?translation:''}</section>`;
     }
+    if(b.coverLines){
+      const q=b.box,r=ratio;
+      const glyph=(l,cls='',data='')=>{const c=l.box,x=(c.x-q.x)*1000,y=(c.y-q.y+c.h*.98)*1000*r,w=c.w*1000,h=c.h*1000*r;return `<text class="${cls}" ${data} data-fit-width="${w}" data-font-max="${h*1.25}" x="${x}" y="${y}" ${cls.includes('localized')?'':`textLength="${w}" lengthAdjust="spacingAndGlyphs"`} font-size="${Math.min(cls.includes('localized')?w/(l.text.length*.52):Infinity,h*(/\p{Script=Han}/u.test(l.text)?1.05:1.38))}" font-family="Arial,Noto Sans SC,sans-serif" font-weight="${l.bold?'700':'400'}" fill="${l.color}">${esc(l.text)}</text>`;};
+      const latin=b.coverLines.filter(l=>/[a-z]/i.test(l.text)&&!/^(HSK|STANDARD|COURSE)$/i.test(l.text.trim()));
+      const translated=b.ru&&latin.length?latin:b.ru?b.coverLines.filter(l=>/STANDARD|COURSE/.test(l.text)):[];
+      const original=b.coverLines.map(l=>glyph(l,translated.includes(l)?'hsk-cover-original':'')).join('');
+      let local='';if(translated.length){const first=translated[0],last=translated.at(-1);const lines=String(b.ru).split('\n');local=lines.map((t,i)=>glyph({...first,text:t,bold:first.bold,box:{x:first.box.x,y:first.box.y+(last.box.y+last.box.h-first.box.y)/lines.length*i,w:Math.max(...translated.map(l=>l.box.w)),h:(last.box.y+last.box.h-first.box.y)/lines.length}},'ru hsk-cover-localized',`data-en="${esc(String(b.en||b.ru).split('\n')[i]||b.en||b.ru)}"${layout.kz?.[b.ru]?` data-kz="${esc(String(layout.kz[b.ru]).split('\n')[i]||layout.kz[b.ru])}"`:''}`)).join('');}
+      return `<svg ${at} data-hsk-manual="1" class="hsk-at hsk-cover-text" style="${pos(b,`height:${pct(q.h)};`)}" viewBox="0 0 ${q.w*1000} ${q.h*1000*r}" overflow="visible">${original}${local}</svg>`;
+    }
     if(b.titlePageRole){
       const a=b.titleArtwork;
       const graphic=a?`<svg class="hsk-at hsk-title-art" role="img" aria-label="${esc(a.label)}" style="left:${pct(a.box.x)};top:${pct(a.box.y)};width:${pct(a.box.w)};height:${pct(a.box.h)}" viewBox="${a.viewBox}" preserveAspectRatio="none"><title>${esc(a.label)}</title><path d="${a.path}" fill="${a.color}"/></svg>`:'';
@@ -2528,7 +2540,7 @@ export function render(layout, { assets = {}, pinyin = true, lang = '', editable
 
   const theme = layout.theme || {};
   const style = `aspect-ratio:${layout.page?.width || 1171}/${layout.page?.height || 1595};background:${theme.paper || '#fff'};${theme.accent ? `--red:${theme.accent};` : ''}`;
-  const bg = theme.background ? `<div class="hsk-at hsk-background" style="left:${pct(theme.background.box.x)};top:${pct(theme.background.box.y)};width:${pct(theme.background.box.w)};height:${pct(theme.background.box.h)};background:${theme.background.color}"></div>` : '';
+  const bg = layout.coverPage?layout.coverPage.fields.map(f=>`<div class="hsk-at hsk-background" style="left:${pct(f.box.x)};top:${pct(f.box.y)};width:${pct(f.box.w)};height:${pct(f.box.h)};background:${f.color}"></div>`).join(''):(theme.background ? `<div class="hsk-at hsk-background" style="left:${pct(theme.background.box.x)};top:${pct(theme.background.box.y)};width:${pct(theme.background.box.w)};height:${pct(theme.background.box.h)};background:${theme.background.color}"></div>` : '');
   // Graphics layer; components.css lifts it above the blocks.
   const cut = (key, box, n) => assets[key] ? `<img class="hsk-at hsk-deco"${n != null ? ` data-block="${n}"` : ''} alt="" aria-hidden="true" src="${esc(assets[key])}" style="left:${pct(box.x)};top:${pct(box.y)};width:${pct(box.w)};height:${pct(box.h)}">` : '';
   const examGrid=layout.examGrid?`<svg class="hsk-at hsk-exam-grid" style="left:0;top:0;width:100%;height:100%;pointer-events:none" viewBox="0 0 1000 1000" preserveAspectRatio="none" aria-hidden="true">${layout.examGrid.vertical.map(x=>`<path d="M${x*1000} ${layout.examGrid.horizontal[0]*1000}V${layout.examGrid.horizontal.at(-1)*1000}"/>`).join('')}${layout.examGrid.horizontal.map(y=>`<path d="M${layout.examGrid.vertical[0]*1000} ${y*1000}H${layout.examGrid.vertical.at(-1)*1000}"/>`).join('')}</svg>`:'';
@@ -2574,6 +2586,7 @@ export function setLang(page, lang) {
   page.dataset.lang = lang === 'orig' ? 'orig' : 'ru';
   page.dataset.kz = kz ? 'on' : 'off';
   page.dataset.en = en ? 'on' : 'off';
+  for(const el of page.querySelectorAll('.hsk-cover-localized')){const max=Number(el.dataset.fontMax),width=Number(el.dataset.fitWidth);if(!max||!width)continue;el.setAttribute('font-size',String(max));const length=el.getComputedTextLength();if(length>width)el.setAttribute('font-size',String(max*width/length));}
 }
 
 export function fit(page) {

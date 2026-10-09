@@ -4,7 +4,9 @@ import assert from 'node:assert/strict';
 
 const root=resolve(import.meta.dirname),studio=join(root,'studio'),output=join(root,'approved-web-pages');
 const books=[{id:'25d1aad102e4',folder:'hsk1-v3-textbook',label:'Учебник HSK 1'},
- {id:'8bf3af15d090',folder:'hsk1-v3-workbook',label:'WB HSK 1'}];
+ {id:'8bf3af15d090',folder:'hsk1-v3-workbook',label:'WB HSK 1'},
+ {id:'9b495a8351c6',folder:'hsk5-upper-textbook',label:'Учебник HSK 5 — часть 1'},
+ {id:'1a3750a2f488',folder:'hsk5-upper-workbook',label:'WB HSK 5 — часть 1'}];
 const shell=(title,body)=>`<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${title}</title><style>body{font:18px system-ui;max-width:760px;margin:3rem auto;padding:0 1rem}li{margin:.8rem 0}a{color:#1769aa}</style></head><body><h1>${title}</h1>${body}</body></html>`;
 let count=0;
 const selectedBook=process.argv[2],selectedPage=Number(process.argv[3]);

@@ -1,0 +1,24 @@
+[
+  {
+    "sourcePage": 1,
+    "conversionId": "e2caf97b-fe4b-48f2-971e-63ceb85dc250",
+    "exportedAt": "2026-10-09T12:00:56.831Z",
+    "englishLayers": 7,
+    "resources": [
+      "assets/page-001/library/9b495a8351c6/pages/001/revisions/e2caf97b-fe4b-48f2-971e-63ceb85dc250/components.css",
+      "assets/page-001/library/9b495a8351c6/pages/001/revisions/e2caf97b-fe4b-48f2-971e-63ceb85dc250/assets/img-7.webp",
+      "assets/page-001/library/9b495a8351c6/pages/001/revisions/e2caf97b-fe4b-48f2-971e-63ceb85dc250/assets/img-8.webp"
+    ]
+  },
+  {
+    "sourcePage": 2,
+    "conversionId": "8f8702d2-3746-48a0-9f0a-9cfb070c94cb",
+    "exportedAt": "2026-10-09T12:00:56.848Z",
+    "englishLayers": 7,
+    "resources": [
+      "assets/page-002/library/9b495a8351c6/pages/002/revisions/8f8702d2-3746-48a0-9f0a-9cfb070c94cb/components.css",
+      "assets/page-002/library/9b495a8351c6/pages/002/revisions/8f8702d2-3746-48a0-9f0a-9cfb070c94cb/assets/img-6.webp",
+      "assets/page-002/library/9b495a8351c6/pages/002/revisions/8f8702d2-3746-48a0-9f0a-9cfb070c94cb/assets/img-7.webp"
+    ]
+  }
+]
