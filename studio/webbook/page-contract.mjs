@@ -5,7 +5,7 @@ export const digest = value => createHash('sha256').update(typeof value === 'str
 const sourceOf = o => {
   if (Array.isArray(o)) return o.map(sourceOf);
   if (!o || typeof o !== 'object') return o;
-  return Object.fromEntries(Object.entries(o).filter(([k]) => /^(cn|en|hz|py|text|number|type|rows|turns|heading|header|items|caption|group|lines|cells|columns|rowCount|row|col|rowspan|colspan|printedPage|label|documentText|choice|question|letter|vocabulary)$/.test(k)).map(([k,v])=>[k,sourceOf(v)]));
+  return Object.fromEntries(Object.entries(o).filter(([k]) => /^(cn|en|hz|py|text|number|type|rows|turns|heading|header|items|caption|group|lines|cells|columns|rowCount|row|col|rowspan|colspan|printedPage|label|documentText|choice|question|letter|vocabulary|cloze)$/.test(k)).map(([k,v])=>[k,sourceOf(v)]));
 };
 export function russianFields(block) {
   const fields = [];
@@ -81,9 +81,16 @@ export function validatePageRevision(layout,before){
  // Every previously present translation, however, remains mandatory.
  for(const old of before?.blocks||[])for(const field of russianFields(old)){
   const kk=old.translations?.[field.path]?.kk||before.kz?.[field.value];if(!kk)continue;
-  const current=layout.blocks.find(b=>b.id===old.id)||layout.blocks.find(b=>russianFields(b).some(f=>f.value===field.value));
-  const now=current&&russianFields(current).find(f=>f.path===field.path||f.value===field.value);
-  if(!now||!(current.translations?.[field.path]?.kk||layout.kz?.[now.value]))result.errors.push(`Утрачен казахский перевод: ${field.value}`);
+  const choice=old.documentText?.choice;
+  const current=layout.blocks.find(b=>b.id===old.id)||layout.blocks.find(b=>choice&&b.documentText?.choice?.question===choice.question&&b.documentText?.choice?.letter===choice.letter)||layout.blocks.find(b=>old.type==='table'&&b.type==='table'&&b.columns===old.columns&&b.rowCount===old.rowCount&&Math.abs(b.box.y-old.box.y)<.01)||layout.blocks.find(b=>russianFields(b).some(f=>f.value===field.value));
+  let now=current&&russianFields(current).find(f=>f.path===field.path||f.value===field.value);
+  if(current&&/vocabulary\.\d+\.ru$/.test(field.path)){
+   const entry=field.path.replace(/\.ru$/,'').split('.').reduce((o,k)=>o?.[k],old),target=russianFields(current).find(f=>/vocabulary\.\d+\.ru$/.test(f.path)&&f.path.replace(/\.ru$/,'').split('.').reduce((o,k)=>o?.[k],current)?.hz===entry?.hz);
+   // Removed glossary annotations are not deleted page translations. Retained
+   // words are matched by hanzi rather than by their old array position.
+   if(!target)continue;now=target;
+  }
+  if(!now||!(current.translations?.[now.path]?.kk||layout.kz?.[now.value]))result.errors.push(`Утрачен казахский перевод: ${field.value}`);
  }
  if(result.errors.length)result.state='failed';
  return{...result,languageCoverage:{kz:coverage}};

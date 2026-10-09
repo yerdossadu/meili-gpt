@@ -1,0 +1,5108 @@
+[
+  {
+    "bookId": "9b495a8351c6",
+    "sourcePage": 11,
+    "source": {
+      "blocks": [
+        {
+          "type": "text",
+          "box": {
+            "x": 0.083998,
+            "y": 0.045724,
+            "w": 0.851002,
+            "h": 0.067276
+          },
+          "cn": "目录Contents",
+          "en": "Contents",
+          "ru": "Содержание",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.083998,
+              "y": 0.045724,
+              "w": 0.44225099999999995,
+              "h": 0.048694
+            },
+            "sans": true,
+            "color": "#40367e"
+          }
+        },
+        {
+          "type": "table",
+          "box": {
+            "x": 0.087,
+            "y": 0.116,
+            "w": 0.913,
+            "h": 0.788
+          },
+          "columns": 4,
+          "rowCount": 13,
+          "cells": [
+            {
+              "row": 0,
+              "col": 0,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "单元",
+              "en": "Unit",
+              "ru": "Раздел",
+              "align": "center"
+            },
+            {
+              "row": 0,
+              "col": 1,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "课号",
+              "en": "Lesson",
+              "ru": "Урок",
+              "align": "center"
+            },
+            {
+              "row": 0,
+              "col": 2,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "课文",
+              "en": "Text",
+              "ru": "Текст",
+              "align": "center"
+            },
+            {
+              "row": 0,
+              "col": 3,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "页码",
+              "en": "Page",
+              "ru": "Страница",
+              "align": "center"
+            },
+            {
+              "row": 1,
+              "col": 0,
+              "rowspan": 3,
+              "colspan": 1,
+              "cn": "第一单元　了解生活\n\nUnit 1 Understanding Life",
+              "en": "Unit 1 Understanding Life",
+              "ru": "Раздел 1. Познаём жизнь",
+              "align": "left"
+            },
+            {
+              "row": 4,
+              "col": 0,
+              "rowspan": 3,
+              "colspan": 1,
+              "cn": "第二单元　谈古说今\n\nUnit 2 Talking about the Past and the Present",
+              "en": "Unit 2 Talking about the Past and the Present",
+              "ru": "Раздел 2. О прошлом и настоящем",
+              "align": "left"
+            },
+            {
+              "row": 7,
+              "col": 0,
+              "rowspan": 3,
+              "colspan": 1,
+              "cn": "第三单元　倾听故事\n\nUnit 3 Listening to Stories and Anecdotes",
+              "en": "Unit 3 Listening to Stories and Anecdotes",
+              "ru": "Раздел 3. Истории и рассказы",
+              "align": "left"
+            },
+            {
+              "row": 10,
+              "col": 0,
+              "rowspan": 3,
+              "colspan": 1,
+              "cn": "第四单元　走近科学\n\nUnit 4 Approaching Science",
+              "en": "Unit 4 Approaching Science",
+              "ru": "Раздел 4. Знакомство с наукой",
+              "align": "left"
+            },
+            {
+              "row": 1,
+              "col": 1,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "1",
+              "en": "",
+              "ru": "",
+              "align": "center"
+            },
+            {
+              "row": 1,
+              "col": 2,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "爱的细节\nDetails of Love",
+              "en": "Details of Love",
+              "ru": "Любовь в деталях",
+              "align": "left"
+            },
+            {
+              "row": 1,
+              "col": 3,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "2",
+              "en": "",
+              "ru": "",
+              "align": "center"
+            },
+            {
+              "row": 2,
+              "col": 1,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "2",
+              "en": "",
+              "ru": "",
+              "align": "center"
+            },
+            {
+              "row": 2,
+              "col": 2,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "留串钥匙给父母\nLeaving a Bunch of Keys to Our Parents",
+              "en": "Leaving a Bunch of Keys to Our Parents",
+              "ru": "Оставить родителям связку ключей",
+              "align": "left"
+            },
+            {
+              "row": 2,
+              "col": 3,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "9",
+              "en": "",
+              "ru": "",
+              "align": "center"
+            },
+            {
+              "row": 3,
+              "col": 1,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "3",
+              "en": "",
+              "ru": "",
+              "align": "center"
+            },
+            {
+              "row": 3,
+              "col": 2,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "人生有选择，一切可改变\nHaving Choices in Life Makes Change Possible",
+              "en": "Having Choices in Life Makes Change Possible",
+              "ru": "В жизни есть выбор — всё можно изменить",
+              "align": "left"
+            },
+            {
+              "row": 3,
+              "col": 3,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "16",
+              "en": "",
+              "ru": "",
+              "align": "center"
+            },
+            {
+              "row": 4,
+              "col": 1,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "4",
+              "en": "",
+              "ru": "",
+              "align": "center"
+            },
+            {
+              "row": 4,
+              "col": 2,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "子路背米\nZilu Carrying Rice",
+              "en": "Zilu Carrying Rice",
+              "ru": "Цзылу несёт рис",
+              "align": "left"
+            },
+            {
+              "row": 4,
+              "col": 3,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "26",
+              "en": "",
+              "ru": "",
+              "align": "center"
+            },
+            {
+              "row": 5,
+              "col": 1,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "5",
+              "en": "",
+              "ru": "",
+              "align": "center"
+            },
+            {
+              "row": 5,
+              "col": 2,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "济南的泉水\nSpring Water in Ji’nan",
+              "en": "Spring Water in Ji’nan",
+              "ru": "Источники Цзинаня",
+              "align": "left"
+            },
+            {
+              "row": 5,
+              "col": 3,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "34",
+              "en": "",
+              "ru": "",
+              "align": "center"
+            },
+            {
+              "row": 6,
+              "col": 1,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "6",
+              "en": "",
+              "ru": "",
+              "align": "center"
+            },
+            {
+              "row": 6,
+              "col": 2,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "除夕的由来\nOrigin of Chuxi",
+              "en": "Origin of Chuxi",
+              "ru": "Происхождение кануна Нового года",
+              "align": "left"
+            },
+            {
+              "row": 6,
+              "col": 3,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "43",
+              "en": "",
+              "ru": "",
+              "align": "center"
+            },
+            {
+              "row": 7,
+              "col": 1,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "7",
+              "en": "",
+              "ru": "",
+              "align": "center"
+            },
+            {
+              "row": 7,
+              "col": 2,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "成语故事两则\nTwo Idiom Stories",
+              "en": "Two Idiom Stories",
+              "ru": "Две истории о чэнъюях",
+              "align": "left"
+            },
+            {
+              "row": 7,
+              "col": 3,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "54",
+              "en": "",
+              "ru": "",
+              "align": "center"
+            },
+            {
+              "row": 8,
+              "col": 1,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "8",
+              "en": "",
+              "ru": "",
+              "align": "center"
+            },
+            {
+              "row": 8,
+              "col": 2,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "“朝三暮四”的古今义\nThree at Dawn and Four at Dusk",
+              "en": "Three at Dawn and Four at Dusk",
+              "ru": "«Утром три, вечером четыре»: старое и новое значение",
+              "align": "left"
+            },
+            {
+              "row": 8,
+              "col": 3,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "63",
+              "en": "",
+              "ru": "",
+              "align": "center"
+            },
+            {
+              "row": 9,
+              "col": 1,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "9",
+              "en": "",
+              "ru": "",
+              "align": "center"
+            },
+            {
+              "row": 9,
+              "col": 2,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "别样鲁迅\nThe Lu Xun You Don’t Know",
+              "en": "The Lu Xun You Don’t Know",
+              "ru": "Другой Лу Синь",
+              "align": "left"
+            },
+            {
+              "row": 9,
+              "col": 3,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "71",
+              "en": "",
+              "ru": "",
+              "align": "center"
+            },
+            {
+              "row": 10,
+              "col": 1,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "10",
+              "en": "",
+              "ru": "",
+              "align": "center"
+            },
+            {
+              "row": 10,
+              "col": 2,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "争论的奇迹\nMiracle of Debate",
+              "en": "Miracle of Debate",
+              "ru": "Чудо спора",
+              "align": "left"
+            },
+            {
+              "row": 10,
+              "col": 3,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "80",
+              "en": "",
+              "ru": "",
+              "align": "center"
+            },
+            {
+              "row": 11,
+              "col": 1,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "11",
+              "en": "",
+              "ru": "",
+              "align": "center"
+            },
+            {
+              "row": 11,
+              "col": 2,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "闹钟的危害\nHarm of Alarm Clocks",
+              "en": "Harm of Alarm Clocks",
+              "ru": "Вред будильников",
+              "align": "left"
+            },
+            {
+              "row": 11,
+              "col": 3,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "88",
+              "en": "",
+              "ru": "",
+              "align": "center"
+            },
+            {
+              "row": 12,
+              "col": 1,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "12",
+              "en": "",
+              "ru": "",
+              "align": "center"
+            },
+            {
+              "row": 12,
+              "col": 2,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "海外用户玩儿微信\nOverseas Users of WeChat",
+              "en": "Overseas Users of WeChat",
+              "ru": "Зарубежные пользователи WeChat",
+              "align": "left"
+            },
+            {
+              "row": 12,
+              "col": 3,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "97",
+              "en": "",
+              "ru": "",
+              "align": "center"
+            }
+          ],
+          "openEdges": true
+        },
+        {
+          "type": "folio",
+          "box": {
+            "x": 0.01974,
+            "y": 0.929335,
+            "w": 0.030239,
+            "h": 0.019002
+          },
+          "text": "viii"
+        }
+      ],
+      "kz": {
+        "Содержание": "Мазмұны",
+        "Раздел": "Бөлім",
+        "Урок": "Сабақ",
+        "Текст": "Мәтін",
+        "Страница": "Бет",
+        "Раздел 1. Познаём жизнь": "1-бөлім. Өмірді түсіну",
+        "Раздел 2. О прошлом и настоящем": "2-бөлім. Өткен мен бүгін туралы",
+        "Раздел 3. Истории и рассказы": "3-бөлім. Әңгімелер тыңдау",
+        "Раздел 4. Знакомство с наукой": "4-бөлім. Ғылымға қадам",
+        "Любовь в деталях": "Махаббаттың ұсақ-түйегі",
+        "Оставить родителям связку ключей": "Ата-анаға бір бума кілт қалдыру",
+        "В жизни есть выбор — всё можно изменить": "Өмірде таңдау бар — бәрін өзгертуге болады",
+        "Цзылу несёт рис": "Цзылу күріш тасиды",
+        "Источники Цзинаня": "Цзинань бұлақтары",
+        "Происхождение кануна Нового года": "Жаңа жыл қарсаңындағы кештің шығу тарихы",
+        "Две истории о чэнъюях": "Чэнъюй туралы екі әңгіме",
+        "«Утром три, вечером четыре»: старое и новое значение": "«Таңертең үш, кешке төрт»: бұрынғы және қазіргі мағынасы",
+        "Другой Лу Синь": "Біз білмейтін Лу Синь",
+        "Чудо спора": "Пікірталастың кереметі",
+        "Вред будильников": "Оятқыштың зияны",
+        "Зарубежные пользователи WeChat": "WeChat-тың шетелдік пайдаланушылары"
+      }
+    },
+    "ocr": {
+      "version": 11,
+      "engine": "PaddleOCR",
+      "model": "PP-OCRv5_mobile",
+      "pageNumber": 11,
+      "dpi": 288,
+      "width": 2381,
+      "height": 3368,
+      "coordinateSpace": "normalized-0-1",
+      "lines": [
+        {
+          "id": 0,
+          "text": "目录",
+          "confidence": 0.9996,
+          "position": {
+            "x": 0.083998,
+            "y": 0.046318,
+            "width": 0.126417,
+            "height": 0.046615
+          }
+        },
+        {
+          "id": 1,
+          "text": "Contents",
+          "confidence": 0.9995,
+          "position": {
+            "x": 0.236035,
+            "y": 0.045724,
+            "width": 0.290214,
+            "height": 0.048694
+          }
+        },
+        {
+          "id": 2,
+          "text": "单元",
+          "confidence": 0.9988,
+          "position": {
+            "x": 0.195716,
+            "y": 0.121734,
+            "width": 0.046619,
+            "height": 0.019893
+          }
+        },
+        {
+          "id": 3,
+          "text": "课号",
+          "confidence": 1,
+          "position": {
+            "x": 0.379252,
+            "y": 0.121734,
+            "width": 0.046619,
+            "height": 0.019893
+          }
+        },
+        {
+          "id": 4,
+          "text": "课文",
+          "confidence": 0.9998,
+          "position": {
+            "x": 0.600588,
+            "y": 0.122031,
+            "width": 0.046619,
+            "height": 0.019596
+          }
+        },
+        {
+          "id": 5,
+          "text": "页码",
+          "confidence": 0.9997,
+          "position": {
+            "x": 0.841243,
+            "y": 0.122031,
+            "width": 0.045779,
+            "height": 0.019596
+          }
+        },
+        {
+          "id": 6,
+          "text": "爱的细节",
+          "confidence": 0.9996,
+          "position": {
+            "x": 0.464091,
+            "y": 0.158551,
+            "width": 0.090718,
+            "height": 0.019893
+          }
+        },
+        {
+          "id": 7,
+          "text": "1",
+          "confidence": 0.9869,
+          "position": {
+            "x": 0.394792,
+            "y": 0.168943,
+            "width": 0.0147,
+            "height": 0.016627
+          }
+        },
+        {
+          "id": 8,
+          "text": "2",
+          "confidence": 0.9961,
+          "position": {
+            "x": 0.852163,
+            "y": 0.167458,
+            "width": 0.0231,
+            "height": 0.019002
+          }
+        },
+        {
+          "id": 9,
+          "text": "Details of Love",
+          "confidence": 0.9766,
+          "position": {
+            "x": 0.463251,
+            "y": 0.17696,
+            "width": 0.138177,
+            "height": 0.017518
+          }
+        },
+        {
+          "id": 10,
+          "text": "第一单元 了解生活",
+          "confidence": 0.9079,
+          "position": {
+            "x": 0.095338,
+            "y": 0.203385,
+            "width": 0.196556,
+            "height": 0.021081
+          }
+        },
+        {
+          "id": 11,
+          "text": "留串钥匙给父母",
+          "confidence": 0.997,
+          "position": {
+            "x": 0.466191,
+            "y": 0.213777,
+            "width": 0.151617,
+            "height": 0.018409
+          }
+        },
+        {
+          "id": 12,
+          "text": "2",
+          "confidence": 0.994,
+          "position": {
+            "x": 0.391432,
+            "y": 0.229513,
+            "width": 0.021,
+            "height": 0.020784
+          }
+        },
+        {
+          "id": 13,
+          "text": "Unit 1 Understanding Life",
+          "confidence": 0.9116,
+          "position": {
+            "x": 0.095338,
+            "y": 0.233967,
+            "width": 0.242335,
+            "height": 0.020487
+          }
+        },
+        {
+          "id": 14,
+          "text": "Leaving a Bunch of Keys to Our",
+          "confidence": 0.9595,
+          "position": {
+            "x": 0.463671,
+            "y": 0.232482,
+            "width": 0.282234,
+            "height": 0.016924
+          }
+        },
+        {
+          "id": 15,
+          "text": "9",
+          "confidence": 0.9795,
+          "position": {
+            "x": 0.858463,
+            "y": 0.234561,
+            "width": 0.01008,
+            "height": 0.010689
+          }
+        },
+        {
+          "id": 16,
+          "text": "Parents",
+          "confidence": 0.9984,
+          "position": {
+            "x": 0.463251,
+            "y": 0.25,
+            "width": 0.068879,
+            "height": 0.015439
+          }
+        },
+        {
+          "id": 17,
+          "text": "人生有选择，一切可改变",
+          "confidence": 0.9078,
+          "position": {
+            "x": 0.464931,
+            "y": 0.276425,
+            "width": 0.237715,
+            "height": 0.019002
+          }
+        },
+        {
+          "id": 18,
+          "text": "3",
+          "confidence": 0.9678,
+          "position": {
+            "x": 0.392692,
+            "y": 0.292458,
+            "width": 0.01806,
+            "height": 0.021081
+          }
+        },
+        {
+          "id": 19,
+          "text": "Having Choices in Life Makes",
+          "confidence": 0.9734,
+          "position": {
+            "x": 0.463671,
+            "y": 0.294537,
+            "width": 0.265435,
+            "height": 0.018112
+          }
+        },
+        {
+          "id": 20,
+          "text": "16",
+          "confidence": 0.9967,
+          "position": {
+            "x": 0.850903,
+            "y": 0.293646,
+            "width": 0.028979,
+            "height": 0.018112
+          }
+        },
+        {
+          "id": 21,
+          "text": "Change Possible",
+          "confidence": 0.9906,
+          "position": {
+            "x": 0.464511,
+            "y": 0.311758,
+            "width": 0.145317,
+            "height": 0.018112
+          }
+        },
+        {
+          "id": 22,
+          "text": "子路背米",
+          "confidence": 0.996,
+          "position": {
+            "x": 0.465771,
+            "y": 0.348278,
+            "width": 0.086098,
+            "height": 0.018112
+          }
+        },
+        {
+          "id": 23,
+          "text": "4",
+          "confidence": 0.9981,
+          "position": {
+            "x": 0.393112,
+            "y": 0.357185,
+            "width": 0.01974,
+            "height": 0.018112
+          }
+        },
+        {
+          "id": 24,
+          "text": "26",
+          "confidence": 0.9928,
+          "position": {
+            "x": 0.848803,
+            "y": 0.355998,
+            "width": 0.031499,
+            "height": 0.019002
+          }
+        },
+        {
+          "id": 25,
+          "text": "Zilu Carrying Rice",
+          "confidence": 0.9438,
+          "position": {
+            "x": 0.462831,
+            "y": 0.365499,
+            "width": 0.166737,
+            "height": 0.019596
+          }
+        },
+        {
+          "id": 26,
+          "text": "第二单元 谈古说今",
+          "confidence": 0.9654,
+          "position": {
+            "x": 0.096178,
+            "y": 0.37886,
+            "width": 0.195716,
+            "height": 0.020487
+          }
+        },
+        {
+          "id": 27,
+          "text": "Unit 2 Talking about",
+          "confidence": 0.9606,
+          "position": {
+            "x": 0.096598,
+            "y": 0.40766,
+            "width": 0.191936,
+            "height": 0.019893
+          }
+        },
+        {
+          "id": 28,
+          "text": "济南的泉水",
+          "confidence": 0.9997,
+          "position": {
+            "x": 0.464511,
+            "y": 0.410333,
+            "width": 0.110458,
+            "height": 0.018705
+          }
+        },
+        {
+          "id": 29,
+          "text": "5",
+          "confidence": 0.9955,
+          "position": {
+            "x": 0.390592,
+            "y": 0.417755,
+            "width": 0.02478,
+            "height": 0.021378
+          }
+        },
+        {
+          "id": 30,
+          "text": "34",
+          "confidence": 0.9985,
+          "position": {
+            "x": 0.848803,
+            "y": 0.41924,
+            "width": 0.031499,
+            "height": 0.019299
+          }
+        },
+        {
+          "id": 31,
+          "text": "the Past and the",
+          "confidence": 0.9482,
+          "position": {
+            "x": 0.155817,
+            "y": 0.426663,
+            "width": 0.160017,
+            "height": 0.017221
+          }
+        },
+        {
+          "id": 32,
+          "text": "Spring Water in Ji'nan",
+          "confidence": 0.9561,
+          "position": {
+            "x": 0.464511,
+            "y": 0.427553,
+            "width": 0.195716,
+            "height": 0.021081
+          }
+        },
+        {
+          "id": 33,
+          "text": "Present",
+          "confidence": 0.9965,
+          "position": {
+            "x": 0.156657,
+            "y": 0.444181,
+            "width": 0.081058,
+            "height": 0.017815
+          }
+        },
+        {
+          "id": 34,
+          "text": "除夕的由来",
+          "confidence": 0.9965,
+          "position": {
+            "x": 0.465771,
+            "y": 0.474169,
+            "width": 0.110458,
+            "height": 0.018705
+          }
+        },
+        {
+          "id": 35,
+          "text": "6",
+          "confidence": 0.9997,
+          "position": {
+            "x": 0.393952,
+            "y": 0.482185,
+            "width": 0.02058,
+            "height": 0.019893
+          }
+        },
+        {
+          "id": 36,
+          "text": "43",
+          "confidence": 0.9985,
+          "position": {
+            "x": 0.850063,
+            "y": 0.482482,
+            "width": 0.028979,
+            "height": 0.018112
+          }
+        },
+        {
+          "id": 37,
+          "text": "Origin of Chuxi",
+          "confidence": 0.9832,
+          "position": {
+            "x": 0.464091,
+            "y": 0.492577,
+            "width": 0.140697,
+            "height": 0.017815
+          }
+        },
+        {
+          "id": 38,
+          "text": "成语故事两则",
+          "confidence": 0.9995,
+          "position": {
+            "x": 0.464931,
+            "y": 0.53652,
+            "width": 0.131037,
+            "height": 0.019299
+          }
+        },
+        {
+          "id": 39,
+          "text": "7",
+          "confidence": 0.9975,
+          "position": {
+            "x": 0.392692,
+            "y": 0.545428,
+            "width": 0.0189,
+            "height": 0.019299
+          }
+        },
+        {
+          "id": 40,
+          "text": "54",
+          "confidence": 0.9972,
+          "position": {
+            "x": 0.849643,
+            "y": 0.545428,
+            "width": 0.030239,
+            "height": 0.018705
+          }
+        },
+        {
+          "id": 41,
+          "text": "Two Idiom Stories",
+          "confidence": 0.9556,
+          "position": {
+            "x": 0.464511,
+            "y": 0.554632,
+            "width": 0.162117,
+            "height": 0.017518
+          }
+        },
+        {
+          "id": 42,
+          "text": "第三单元 倾听故事",
+          "confidence": 0.985,
+          "position": {
+            "x": 0.096178,
+            "y": 0.572743,
+            "width": 0.196136,
+            "height": 0.02019
+          }
+        },
+        {
+          "id": 43,
+          "text": "“朝三暮四”的古今义",
+          "confidence": 0.9934,
+          "position": {
+            "x": 0.463671,
+            "y": 0.598575,
+            "width": 0.207896,
+            "height": 0.021081
+          }
+        },
+        {
+          "id": 44,
+          "text": "Unit 3 Listening to Stories",
+          "confidence": 0.9589,
+          "position": {
+            "x": 0.096598,
+            "y": 0.601544,
+            "width": 0.245275,
+            "height": 0.019596
+          }
+        },
+        {
+          "id": 45,
+          "text": "8",
+          "confidence": 0.9988,
+          "position": {
+            "x": 0.392692,
+            "y": 0.608967,
+            "width": 0.021,
+            "height": 0.018705
+          }
+        },
+        {
+          "id": 46,
+          "text": "63",
+          "confidence": 0.9984,
+          "position": {
+            "x": 0.851323,
+            "y": 0.609264,
+            "width": 0.026879,
+            "height": 0.017221
+          }
+        },
+        {
+          "id": 47,
+          "text": "Three at Dawn and Four at Dusk",
+          "confidence": 0.9396,
+          "position": {
+            "x": 0.465351,
+            "y": 0.618468,
+            "width": 0.282234,
+            "height": 0.016033
+          }
+        },
+        {
+          "id": 48,
+          "text": "and Anecdotes",
+          "confidence": 0.9859,
+          "position": {
+            "x": 0.157497,
+            "y": 0.622625,
+            "width": 0.144477,
+            "height": 0.016924
+          }
+        },
+        {
+          "id": 49,
+          "text": "别样鲁迅",
+          "confidence": 0.9954,
+          "position": {
+            "x": 0.464091,
+            "y": 0.662708,
+            "width": 0.090718,
+            "height": 0.018705
+          }
+        },
+        {
+          "id": 50,
+          "text": "9",
+          "confidence": 0.9946,
+          "position": {
+            "x": 0.391432,
+            "y": 0.670428,
+            "width": 0.02268,
+            "height": 0.021081
+          }
+        },
+        {
+          "id": 51,
+          "text": "71",
+          "confidence": 0.9975,
+          "position": {
+            "x": 0.850063,
+            "y": 0.671318,
+            "width": 0.028559,
+            "height": 0.018705
+          }
+        },
+        {
+          "id": 52,
+          "text": "The Lu Xun You Don't Know",
+          "confidence": 0.9533,
+          "position": {
+            "x": 0.464931,
+            "y": 0.680819,
+            "width": 0.258295,
+            "height": 0.017221
+          }
+        },
+        {
+          "id": 53,
+          "text": "争论的奇迹",
+          "confidence": 0.9981,
+          "position": {
+            "x": 0.465351,
+            "y": 0.72595,
+            "width": 0.111718,
+            "height": 0.019002
+          }
+        },
+        {
+          "id": 54,
+          "text": "10",
+          "confidence": 0.9944,
+          "position": {
+            "x": 0.387232,
+            "y": 0.732779,
+            "width": 0.034439,
+            "height": 0.022268
+          }
+        },
+        {
+          "id": 55,
+          "text": "80",
+          "confidence": 0.9965,
+          "position": {
+            "x": 0.850063,
+            "y": 0.734561,
+            "width": 0.029819,
+            "height": 0.017815
+          }
+        },
+        {
+          "id": 56,
+          "text": "Miracle of Debate",
+          "confidence": 0.9646,
+          "position": {
+            "x": 0.465351,
+            "y": 0.744359,
+            "width": 0.158337,
+            "height": 0.016033
+          }
+        },
+        {
+          "id": 57,
+          "text": "第四单元 走近科学",
+          "confidence": 0.936,
+          "position": {
+            "x": 0.096178,
+            "y": 0.761876,
+            "width": 0.196136,
+            "height": 0.02019
+          }
+        },
+        {
+          "id": 58,
+          "text": "Unit4Approaching",
+          "confidence": 0.9642,
+          "position": {
+            "x": 0.096598,
+            "y": 0.790677,
+            "width": 0.182696,
+            "height": 0.020784
+          }
+        },
+        {
+          "id": 59,
+          "text": "闹钟的危害",
+          "confidence": 0.9965,
+          "position": {
+            "x": 0.466191,
+            "y": 0.789786,
+            "width": 0.109618,
+            "height": 0.017815
+          }
+        },
+        {
+          "id": 60,
+          "text": "11",
+          "confidence": 0.9972,
+          "position": {
+            "x": 0.387232,
+            "y": 0.797803,
+            "width": 0.031079,
+            "height": 0.019596
+          }
+        },
+        {
+          "id": 61,
+          "text": "88",
+          "confidence": 0.9994,
+          "position": {
+            "x": 0.850903,
+            "y": 0.7981,
+            "width": 0.027719,
+            "height": 0.017518
+          }
+        },
+        {
+          "id": 62,
+          "text": "Science",
+          "confidence": 0.9631,
+          "position": {
+            "x": 0.155817,
+            "y": 0.810273,
+            "width": 0.081058,
+            "height": 0.019299
+          }
+        },
+        {
+          "id": 63,
+          "text": "Harm of Alarm Clocks",
+          "confidence": 0.966,
+          "position": {
+            "x": 0.464091,
+            "y": 0.807601,
+            "width": 0.198236,
+            "height": 0.016627
+          }
+        },
+        {
+          "id": 64,
+          "text": "海外用户玩儿微信",
+          "confidence": 0.9977,
+          "position": {
+            "x": 0.464931,
+            "y": 0.851841,
+            "width": 0.173037,
+            "height": 0.019002
+          }
+        },
+        {
+          "id": 65,
+          "text": "12",
+          "confidence": 0.9977,
+          "position": {
+            "x": 0.385552,
+            "y": 0.859857,
+            "width": 0.038219,
+            "height": 0.021378
+          }
+        },
+        {
+          "id": 66,
+          "text": "97",
+          "confidence": 0.9963,
+          "position": {
+            "x": 0.849643,
+            "y": 0.861045,
+            "width": 0.029819,
+            "height": 0.017815
+          }
+        },
+        {
+          "id": 67,
+          "text": "Overseas Users of WeChat",
+          "confidence": 0.9592,
+          "position": {
+            "x": 0.465771,
+            "y": 0.871437,
+            "width": 0.230995,
+            "height": 0.015143
+          }
+        },
+        {
+          "id": 68,
+          "text": "vii",
+          "confidence": 0.9371,
+          "position": {
+            "x": 0.01974,
+            "y": 0.929335,
+            "width": 0.030239,
+            "height": 0.019002
+          }
+        }
+      ],
+      "sourceHash": "a29db20f4c0fbbb0dc186f3cbe7d223e990aebc1cfeef942e3af43223c7e256c"
+    }
+  },
+  {
+    "bookId": "9b495a8351c6",
+    "sourcePage": 12,
+    "source": {
+      "blocks": [
+        {
+          "type": "table",
+          "box": {
+            "x": 0,
+            "y": 0.125,
+            "w": 0.907,
+            "h": 0.786
+          },
+          "columns": 3,
+          "rowCount": 13,
+          "cells": [
+            {
+              "row": 0,
+              "col": 0,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "词语例释",
+              "en": "Words and usage",
+              "ru": "Слова и их употребление",
+              "align": "center"
+            },
+            {
+              "row": 0,
+              "col": 1,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "词语辨析",
+              "en": "Word comparisons",
+              "ru": "Сравнение слов",
+              "align": "center"
+            },
+            {
+              "row": 0,
+              "col": 2,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "扩展",
+              "en": "Expansion",
+              "ru": "Расширение словаря",
+              "align": "center"
+            },
+            {
+              "row": 1,
+              "col": 0,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "如何；靠；居然",
+              "en": "how; rely on; unexpectedly",
+              "ru": "как; опираться на; неожиданно",
+              "vocabulary": [
+                {
+                  "hz": "如何",
+                  "py": "rúhé",
+                  "ru": "как",
+                  "en": "how",
+                  "kk": "қалай"
+                },
+                {
+                  "hz": "靠",
+                  "py": "kào",
+                  "ru": "опираться на",
+                  "en": "rely on",
+                  "kk": "сүйену"
+                },
+                {
+                  "hz": "居然",
+                  "py": "jūrán",
+                  "ru": "неожиданно",
+                  "en": "unexpectedly",
+                  "kk": "күтпеген жерден"
+                }
+              ],
+              "align": "left"
+            },
+            {
+              "row": 1,
+              "col": 1,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "如何—怎么",
+              "en": "rúhé — zěnme: how",
+              "ru": "如何 — 怎么: «как»",
+              "align": "left"
+            },
+            {
+              "row": 1,
+              "col": 2,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "人体",
+              "en": "Human body",
+              "ru": "Тело человека",
+              "align": "left"
+            },
+            {
+              "row": 2,
+              "col": 0,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "以来；临；立刻",
+              "en": "since; face/be about to; immediately",
+              "ru": "с тех пор как; перед/накануне; немедленно",
+              "vocabulary": [
+                {
+                  "hz": "以来",
+                  "py": "yǐlái",
+                  "ru": "с тех пор как",
+                  "en": "since",
+                  "kk": "бері"
+                },
+                {
+                  "hz": "临",
+                  "py": "lín",
+                  "ru": "перед/накануне",
+                  "en": "face/be about to",
+                  "kk": "алдында/таяғанда"
+                },
+                {
+                  "hz": "立刻",
+                  "py": "lìkè",
+                  "ru": "немедленно",
+                  "en": "immediately",
+                  "kk": "дереу"
+                }
+              ],
+              "align": "left"
+            },
+            {
+              "row": 2,
+              "col": 1,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "悄悄—偷偷",
+              "en": "quietly — secretly",
+              "ru": "тихо — тайком",
+              "align": "left"
+            },
+            {
+              "row": 2,
+              "col": 2,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "亲属称谓；交往1",
+              "en": "Kinship terms; social interaction 1",
+              "ru": "Названия родственников; общение 1",
+              "align": "left"
+            },
+            {
+              "row": 3,
+              "col": 0,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "各自；勿；包括；时刻",
+              "en": "each; do not; include; moment",
+              "ru": "каждый; не следует; включать; момент",
+              "vocabulary": [
+                {
+                  "hz": "各自",
+                  "py": "gèzì",
+                  "ru": "каждый",
+                  "en": "each",
+                  "kk": "әрқайсысы"
+                },
+                {
+                  "hz": "勿",
+                  "py": "wù",
+                  "ru": "не следует",
+                  "en": "do not",
+                  "kk": "болмайды"
+                },
+                {
+                  "hz": "包括",
+                  "py": "bāokuò",
+                  "ru": "включать",
+                  "en": "include",
+                  "kk": "қамту"
+                },
+                {
+                  "hz": "时刻",
+                  "py": "shíkè",
+                  "ru": "момент",
+                  "en": "moment",
+                  "kk": "сәт"
+                }
+              ],
+              "align": "left"
+            },
+            {
+              "row": 3,
+              "col": 1,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "舒适—舒服",
+              "en": "comfortable — feel comfortable",
+              "ru": "комфортный — чувствовать себя комфортно",
+              "align": "left"
+            },
+            {
+              "row": 3,
+              "col": 2,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "天气；生产",
+              "en": "Weather; production",
+              "ru": "Погода; производство",
+              "align": "left"
+            },
+            {
+              "row": 4,
+              "col": 0,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "至今；顶；……得不行；反而",
+              "en": "until now; support/stand in for; extremely; on the contrary",
+              "ru": "до сих пор; поддерживать/замещать; чрезвычайно; наоборот",
+              "vocabulary": [
+                {
+                  "hz": "至今",
+                  "py": "zhìjīn",
+                  "ru": "до сих пор",
+                  "en": "until now",
+                  "kk": "осы күнге дейін"
+                },
+                {
+                  "hz": "顶",
+                  "py": "dǐng",
+                  "ru": "поддерживать/замещать",
+                  "en": "support/stand in for",
+                  "kk": "тіреу/алмастыру"
+                },
+                {
+                  "hz": "反而",
+                  "py": "fǎn’ér",
+                  "ru": "наоборот",
+                  "en": "on the contrary",
+                  "kk": "керісінше"
+                }
+              ],
+              "align": "left"
+            },
+            {
+              "row": 4,
+              "col": 1,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "满足—满意",
+              "en": "satisfy — be satisfied",
+              "ru": "удовлетворять — быть довольным",
+              "align": "left"
+            },
+            {
+              "row": 4,
+              "col": 2,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "社交称谓",
+              "en": "Forms of address",
+              "ru": "Обращения при общении",
+              "align": "left"
+            },
+            {
+              "row": 5,
+              "col": 0,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "起来；于；从而；为（wéi）",
+              "en": "qǐlái; at/in; thereby; be/serve as (wéi)",
+              "ru": "起来 (направление/начало); у/в; тем самым; быть (wéi)",
+              "vocabulary": [
+                {
+                  "hz": "起来",
+                  "py": "qǐlái",
+                  "ru": "起来 (направление/начало)",
+                  "en": "qǐlái",
+                  "kk": "起来 (бағыт/басталу)"
+                },
+                {
+                  "hz": "于",
+                  "py": "yú",
+                  "ru": "у/в",
+                  "en": "at/in",
+                  "kk": "-да/-де"
+                },
+                {
+                  "hz": "从而",
+                  "py": "cóng’ér",
+                  "ru": "тем самым",
+                  "en": "thereby",
+                  "kk": "соның нәтижесінде"
+                },
+                {
+                  "hz": "为",
+                  "py": "wéi",
+                  "ru": "быть (wéi)",
+                  "en": "be/serve as (wéi)",
+                  "kk": "болу (wéi)"
+                }
+              ],
+              "align": "left"
+            },
+            {
+              "row": 5,
+              "col": 1,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "美丽—优美",
+              "en": "beautiful — graceful",
+              "ru": "красивый — изящный",
+              "align": "left"
+            },
+            {
+              "row": 5,
+              "col": 2,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "文学",
+              "en": "Literature",
+              "ru": "Литература",
+              "align": "left"
+            },
+            {
+              "row": 6,
+              "col": 0,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "替；说不定；似的；纷纷",
+              "en": "for/in place of; perhaps; like; one after another",
+              "ru": "вместо/за; возможно; словно; один за другим",
+              "vocabulary": [
+                {
+                  "hz": "替",
+                  "py": "tì",
+                  "ru": "вместо/за",
+                  "en": "for/in place of",
+                  "kk": "орнына/үшін"
+                },
+                {
+                  "hz": "说不定",
+                  "py": "shuōbudìng",
+                  "ru": "возможно",
+                  "en": "perhaps",
+                  "kk": "мүмкін"
+                },
+                {
+                  "hz": "似的",
+                  "py": "shìde",
+                  "ru": "словно",
+                  "en": "like",
+                  "kk": "секілді"
+                },
+                {
+                  "hz": "纷纷",
+                  "py": "fēnfēn",
+                  "ru": "один за другим",
+                  "en": "one after another",
+                  "kk": "бірінен соң бірі"
+                }
+              ],
+              "align": "left"
+            },
+            {
+              "row": 6,
+              "col": 1,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "打听—询问",
+              "en": "ask around — inquire",
+              "ru": "выведывать — спрашивать",
+              "align": "left"
+            },
+            {
+              "row": 6,
+              "col": 2,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "旅游；节日",
+              "en": "Travel; festivals",
+              "ru": "Путешествия; праздники",
+              "align": "left"
+            },
+            {
+              "row": 7,
+              "col": 0,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "瞎；分别；根；便",
+              "en": "blind/randomly; separately; root; then",
+              "ru": "слепой/без разбора; раздельно; корень; тогда",
+              "vocabulary": [
+                {
+                  "hz": "瞎",
+                  "py": "xiā",
+                  "ru": "слепой/без разбора",
+                  "en": "blind/randomly",
+                  "kk": "соқыр/ойланбай"
+                },
+                {
+                  "hz": "分别",
+                  "py": "fēnbié",
+                  "ru": "раздельно",
+                  "en": "separately",
+                  "kk": "бөлек"
+                },
+                {
+                  "hz": "根",
+                  "py": "gēn",
+                  "ru": "корень",
+                  "en": "root",
+                  "kk": "түбір"
+                },
+                {
+                  "hz": "便",
+                  "py": "biàn",
+                  "ru": "тогда",
+                  "en": "then",
+                  "kk": "сонда"
+                }
+              ],
+              "align": "left"
+            },
+            {
+              "row": 7,
+              "col": 1,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "忽然—突然",
+              "en": "suddenly — sudden/suddenly",
+              "ru": "вдруг — внезапный/внезапно",
+              "align": "left"
+            },
+            {
+              "row": 7,
+              "col": 2,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "语言文字",
+              "en": "Language and writing",
+              "ru": "Язык и письменность",
+              "align": "left"
+            },
+            {
+              "row": 8,
+              "col": 0,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "倒；……来……去；要不",
+              "en": "instead/actually; back and forth; otherwise/or",
+              "ru": "наоборот/же; туда-сюда; иначе/или",
+              "vocabulary": [
+                {
+                  "hz": "倒",
+                  "py": "dào",
+                  "ru": "наоборот/же",
+                  "en": "instead/actually",
+                  "kk": "керісінше/болса"
+                },
+                {
+                  "hz": "要不",
+                  "py": "yàobù",
+                  "ru": "иначе/или",
+                  "en": "otherwise/or",
+                  "kk": "әйтпесе/немесе"
+                }
+              ],
+              "align": "left"
+            },
+            {
+              "row": 8,
+              "col": 1,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "彼此—互相",
+              "en": "each other — mutually",
+              "ru": "друг друга — взаимно",
+              "align": "left"
+            },
+            {
+              "row": 8,
+              "col": 2,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "饮食1",
+              "en": "Food and drink 1",
+              "ru": "Еда и напитки 1",
+              "align": "left"
+            },
+            {
+              "row": 9,
+              "col": 0,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "算；作为；曾经",
+              "en": "count/consider; as; once/in the past",
+              "ru": "считать; в качестве; когда-то",
+              "vocabulary": [
+                {
+                  "hz": "算",
+                  "py": "suàn",
+                  "ru": "считать",
+                  "en": "count/consider",
+                  "kk": "санау/есептеу"
+                },
+                {
+                  "hz": "作为",
+                  "py": "zuòwéi",
+                  "ru": "в качестве",
+                  "en": "as",
+                  "kk": "ретінде"
+                },
+                {
+                  "hz": "曾经",
+                  "py": "céngjīng",
+                  "ru": "когда-то",
+                  "en": "once/in the past",
+                  "kk": "бір кезде"
+                }
+              ],
+              "align": "left"
+            },
+            {
+              "row": 9,
+              "col": 1,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "亲自—自己",
+              "en": "in person — oneself",
+              "ru": "лично — сам",
+              "align": "left"
+            },
+            {
+              "row": 9,
+              "col": 2,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "社会",
+              "en": "Society",
+              "ru": "Общество",
+              "align": "left"
+            },
+            {
+              "row": 10,
+              "col": 0,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "毕竟；逐渐；或许",
+              "en": "after all; gradually; perhaps",
+              "ru": "в конце концов; постепенно; возможно",
+              "vocabulary": [
+                {
+                  "hz": "毕竟",
+                  "py": "bìjìng",
+                  "ru": "в конце концов",
+                  "en": "after all",
+                  "kk": "ақыр соңында"
+                },
+                {
+                  "hz": "逐渐",
+                  "py": "zhújiàn",
+                  "ru": "постепенно",
+                  "en": "gradually",
+                  "kk": "бірте-бірте"
+                },
+                {
+                  "hz": "或许",
+                  "py": "huòxǔ",
+                  "ru": "возможно",
+                  "en": "perhaps",
+                  "kk": "бәлкім"
+                }
+              ],
+              "align": "left"
+            },
+            {
+              "row": 10,
+              "col": 1,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "显示—显得",
+              "en": "show — appear",
+              "ru": "показывать — казаться",
+              "align": "left"
+            },
+            {
+              "row": 10,
+              "col": 2,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "服饰",
+              "en": "Clothing and accessories",
+              "ru": "Одежда и аксессуары",
+              "align": "left"
+            },
+            {
+              "row": 11,
+              "col": 0,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "来/过来；所；相当；数",
+              "en": "come/come over; suǒ construction; quite; count",
+              "ru": "приходить; конструкция 所; довольно; считать",
+              "vocabulary": [
+                {
+                  "hz": "来",
+                  "py": "lái",
+                  "ru": "приходить",
+                  "en": "come/come over",
+                  "kk": "келу"
+                },
+                {
+                  "hz": "过来",
+                  "py": "guòlái",
+                  "ru": "приходить",
+                  "en": "come/come over",
+                  "kk": "келу"
+                },
+                {
+                  "hz": "所",
+                  "py": "suǒ",
+                  "ru": "конструкция 所",
+                  "en": "suǒ construction",
+                  "kk": "所 құрылымы"
+                },
+                {
+                  "hz": "相当",
+                  "py": "xiāngdāng",
+                  "ru": "довольно",
+                  "en": "quite",
+                  "kk": "едәуір"
+                },
+                {
+                  "hz": "数",
+                  "py": "shǔ",
+                  "ru": "считать",
+                  "en": "count",
+                  "kk": "санау"
+                }
+              ],
+              "align": "left"
+            },
+            {
+              "row": 11,
+              "col": 1,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "持续—继续",
+              "en": "last/continue — continue",
+              "ru": "длиться — продолжать",
+              "align": "left"
+            },
+            {
+              "row": 11,
+              "col": 2,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "家居",
+              "en": "Home and furnishings",
+              "ru": "Дом и обстановка",
+              "align": "left"
+            },
+            {
+              "row": 12,
+              "col": 0,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "以及；程度",
+              "en": "and/as well as; degree",
+              "ru": "а также; степень",
+              "vocabulary": [
+                {
+                  "hz": "以及",
+                  "py": "yǐjí",
+                  "ru": "а также",
+                  "en": "and/as well as",
+                  "kk": "сондай-ақ"
+                },
+                {
+                  "hz": "程度",
+                  "py": "chéngdù",
+                  "ru": "степень",
+                  "en": "degree",
+                  "kk": "дәреже"
+                }
+              ],
+              "align": "left"
+            },
+            {
+              "row": 12,
+              "col": 1,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "发达—发展",
+              "en": "developed — develop",
+              "ru": "развитый — развиваться",
+              "align": "left"
+            },
+            {
+              "row": 12,
+              "col": 2,
+              "rowspan": 1,
+              "colspan": 1,
+              "cn": "电脑网络",
+              "en": "Computers and networks",
+              "ru": "Компьютеры и сети",
+              "align": "left"
+            }
+          ],
+          "openEdges": true
+        },
+        {
+          "type": "folio",
+          "box": {
+            "x": 0.954641,
+            "y": 0.938242,
+            "w": 0.0231,
+            "h": 0.017518
+          },
+          "text": "ix"
+        }
+      ],
+      "kz": {
+        "Слова и их употребление": "Сөздер және олардың қолданылуы",
+        "Сравнение слов": "Сөздерді салыстыру",
+        "Расширение словаря": "Сөздік қорды кеңейту",
+        "как; опираться на; неожиданно": "қалай; сүйену; күтпеген жерден",
+        "如何 — 怎么: «как»": "如何 — 怎么: «қалай»",
+        "Тело человека": "Адам денесі",
+        "с тех пор как; перед/накануне; немедленно": "бері; алдында/таяғанда; дереу",
+        "тихо — тайком": "үнсіз — жасырын",
+        "Названия родственников; общение 1": "Туыстық атаулар; қарым-қатынас 1",
+        "каждый; не следует; включать; момент": "әрқайсысы; болмайды; қамту; сәт",
+        "комфортный — чувствовать себя комфортно": "жайлы — өзін жайлы сезіну",
+        "Погода; производство": "Ауа райы; өндіріс",
+        "до сих пор; поддерживать/замещать; чрезвычайно; наоборот": "осы күнге дейін; тіреу/алмастыру; өте; керісінше",
+        "удовлетворять — быть довольным": "қанағаттандыру — риза болу",
+        "Обращения при общении": "Қарым-қатынастағы қаратпа сөздер",
+        "起来 (направление/начало); у/в; тем самым; быть (wéi)": "起来 (бағыт/басталу); -да/-де; соның нәтижесінде; болу (wéi)",
+        "красивый — изящный": "әдемі — көркем",
+        "Литература": "Әдебиет",
+        "вместо/за; возможно; словно; один за другим": "орнына/үшін; мүмкін; секілді; бірінен соң бірі",
+        "выведывать — спрашивать": "сұрастырып білу — сұрау",
+        "Путешествия; праздники": "Саяхат; мерекелер",
+        "слепой/без разбора; раздельно; корень; тогда": "соқыр/ойланбай; бөлек; түбір; сонда",
+        "вдруг — внезапный/внезапно": "кенет — кенеттен",
+        "Язык и письменность": "Тіл және жазу",
+        "наоборот/же; туда-сюда; иначе/или": "керісінше/болса; әрі-бері; әйтпесе/немесе",
+        "друг друга — взаимно": "бір-бірі — өзара",
+        "Еда и напитки 1": "Тағам мен сусын 1",
+        "считать; в качестве; когда-то": "санау/есептеу; ретінде; бір кезде",
+        "лично — сам": "жеке өзі — өзі",
+        "Общество": "Қоғам",
+        "в конце концов; постепенно; возможно": "ақыр соңында; бірте-бірте; бәлкім",
+        "показывать — казаться": "көрсету — болып көріну",
+        "Одежда и аксессуары": "Киім мен әшекей",
+        "приходить; конструкция 所; довольно; считать": "келу; 所 құрылымы; едәуір; санау",
+        "длиться — продолжать": "созылу — жалғастыру",
+        "Дом и обстановка": "Үй және жиһаз",
+        "а также; степень": "сондай-ақ; дәреже",
+        "развитый — развиваться": "дамыған — даму",
+        "Компьютеры и сети": "Компьютерлер мен желілер",
+        "как": "қалай",
+        "опираться на": "сүйену",
+        "неожиданно": "күтпеген жерден",
+        "с тех пор как": "бері",
+        "перед/накануне": "алдында/таяғанда",
+        "немедленно": "дереу",
+        "каждый": "әрқайсысы",
+        "не следует": "болмайды",
+        "включать": "қамту",
+        "момент": "сәт",
+        "до сих пор": "осы күнге дейін",
+        "поддерживать/замещать": "тіреу/алмастыру",
+        "чрезвычайно": "өте",
+        "наоборот": "керісінше",
+        "起来 (направление/начало)": "起来 (бағыт/басталу)",
+        "у/в": "-да/-де",
+        "тем самым": "соның нәтижесінде",
+        "быть (wéi)": "болу (wéi)",
+        "вместо/за": "орнына/үшін",
+        "возможно": "бәлкім",
+        "словно": "секілді",
+        "один за другим": "бірінен соң бірі",
+        "слепой/без разбора": "соқыр/ойланбай",
+        "раздельно": "бөлек",
+        "корень": "түбір",
+        "тогда": "сонда",
+        "наоборот/же": "керісінше/болса",
+        "туда-сюда": "әрі-бері",
+        "иначе/или": "әйтпесе/немесе",
+        "считать": "санау",
+        "в качестве": "ретінде",
+        "когда-то": "бір кезде",
+        "в конце концов": "ақыр соңында",
+        "постепенно": "бірте-бірте",
+        "приходить": "келу",
+        "конструкция 所": "所 құрылымы",
+        "довольно": "едәуір",
+        "а также": "сондай-ақ",
+        "степень": "дәреже"
+      }
+    },
+    "ocr": {
+      "version": 11,
+      "engine": "PaddleOCR",
+      "model": "PP-OCRv5_mobile",
+      "pageNumber": 12,
+      "dpi": 288,
+      "width": 2381,
+      "height": 3368,
+      "coordinateSpace": "normalized-0-1",
+      "lines": [
+        {
+          "id": 0,
+          "text": "词语例释",
+          "confidence": 0.9999,
+          "position": {
+            "x": 0.212936,
+            "y": 0.130641,
+            "width": 0.082738,
+            "height": 0.018112
+          }
+        },
+        {
+          "id": 1,
+          "text": "词语辨析",
+          "confidence": 0.9998,
+          "position": {
+            "x": 0.51155,
+            "y": 0.130641,
+            "width": 0.083158,
+            "height": 0.018112
+          }
+        },
+        {
+          "id": 2,
+          "text": "扩展",
+          "confidence": 0.9991,
+          "position": {
+            "x": 0.762285,
+            "y": 0.12886,
+            "width": 0.049559,
+            "height": 0.021971
+          }
+        },
+        {
+          "id": 3,
+          "text": "如何；靠；居然",
+          "confidence": 0.9923,
+          "position": {
+            "x": 0.073499,
+            "y": 0.174287,
+            "width": 0.154137,
+            "height": 0.021971
+          }
+        },
+        {
+          "id": 4,
+          "text": "如何—怎么",
+          "confidence": 0.9296,
+          "position": {
+            "x": 0.49685,
+            "y": 0.175772,
+            "width": 0.110878,
+            "height": 0.019893
+          }
+        },
+        {
+          "id": 5,
+          "text": "人体",
+          "confidence": 0.9986,
+          "position": {
+            "x": 0.668207,
+            "y": 0.174584,
+            "width": 0.051659,
+            "height": 0.022268
+          }
+        },
+        {
+          "id": 6,
+          "text": "以来；临；立刻",
+          "confidence": 0.9884,
+          "position": {
+            "x": 0.074759,
+            "y": 0.239311,
+            "width": 0.150777,
+            "height": 0.018409
+          }
+        },
+        {
+          "id": 7,
+          "text": "悄悄—偷偷",
+          "confidence": 0.9395,
+          "position": {
+            "x": 0.49643,
+            "y": 0.238717,
+            "width": 0.112558,
+            "height": 0.019596
+          }
+        },
+        {
+          "id": 8,
+          "text": "亲属称谓；交往1",
+          "confidence": 0.9825,
+          "position": {
+            "x": 0.672827,
+            "y": 0.239311,
+            "width": 0.167577,
+            "height": 0.018409
+          }
+        },
+        {
+          "id": 9,
+          "text": "各自；勿；包括；时刻",
+          "confidence": 0.9892,
+          "position": {
+            "x": 0.072659,
+            "y": 0.301663,
+            "width": 0.217136,
+            "height": 0.019596
+          }
+        },
+        {
+          "id": 10,
+          "text": "舒适—舒服",
+          "confidence": 0.9468,
+          "position": {
+            "x": 0.49727,
+            "y": 0.302257,
+            "width": 0.111298,
+            "height": 0.019002
+          }
+        },
+        {
+          "id": 11,
+          "text": "天气；生产",
+          "confidence": 0.9786,
+          "position": {
+            "x": 0.670727,
+            "y": 0.300772,
+            "width": 0.110038,
+            "height": 0.021378
+          }
+        },
+        {
+          "id": 12,
+          "text": "至今；顶；……得+不行；反而",
+          "confidence": 0.9223,
+          "position": {
+            "x": 0.073499,
+            "y": 0.364905,
+            "width": 0.294414,
+            "height": 0.019596
+          }
+        },
+        {
+          "id": 13,
+          "text": "满足—满意",
+          "confidence": 0.9401,
+          "position": {
+            "x": 0.49685,
+            "y": 0.364608,
+            "width": 0.112138,
+            "height": 0.019596
+          }
+        },
+        {
+          "id": 14,
+          "text": "社交称谓",
+          "confidence": 0.9977,
+          "position": {
+            "x": 0.669887,
+            "y": 0.364905,
+            "width": 0.091558,
+            "height": 0.019893
+          }
+        },
+        {
+          "id": 15,
+          "text": "起来；于；从而；为（wéi）",
+          "confidence": 0.9564,
+          "position": {
+            "x": 0.072659,
+            "y": 0.42785,
+            "width": 0.256615,
+            "height": 0.019596
+          }
+        },
+        {
+          "id": 16,
+          "text": "美丽—优美",
+          "confidence": 0.9524,
+          "position": {
+            "x": 0.49769,
+            "y": 0.427553,
+            "width": 0.111298,
+            "height": 0.019893
+          }
+        },
+        {
+          "id": 17,
+          "text": "文学",
+          "confidence": 0.9993,
+          "position": {
+            "x": 0.668627,
+            "y": 0.426069,
+            "width": 0.051659,
+            "height": 0.022268
+          }
+        },
+        {
+          "id": 18,
+          "text": "替；说不定；似的；纷纷",
+          "confidence": 0.9901,
+          "position": {
+            "x": 0.073499,
+            "y": 0.490202,
+            "width": 0.238135,
+            "height": 0.021081
+          }
+        },
+        {
+          "id": 19,
+          "text": "打听—询问",
+          "confidence": 0.9811,
+          "position": {
+            "x": 0.49685,
+            "y": 0.490796,
+            "width": 0.110878,
+            "height": 0.019893
+          }
+        },
+        {
+          "id": 20,
+          "text": "旅游；节日",
+          "confidence": 0.9733,
+          "position": {
+            "x": 0.671147,
+            "y": 0.490796,
+            "width": 0.108778,
+            "height": 0.019596
+          }
+        },
+        {
+          "id": 21,
+          "text": "瞎；分别；根；便",
+          "confidence": 0.9823,
+          "position": {
+            "x": 0.074759,
+            "y": 0.553444,
+            "width": 0.174717,
+            "height": 0.020487
+          }
+        },
+        {
+          "id": 22,
+          "text": "忽然—突然",
+          "confidence": 0.8792,
+          "position": {
+            "x": 0.49769,
+            "y": 0.553147,
+            "width": 0.111718,
+            "height": 0.020487
+          }
+        },
+        {
+          "id": 23,
+          "text": "语言文字",
+          "confidence": 0.9947,
+          "position": {
+            "x": 0.670307,
+            "y": 0.553741,
+            "width": 0.090718,
+            "height": 0.019299
+          }
+        },
+        {
+          "id": 24,
+          "text": "倒；……来……去；要不",
+          "confidence": 0.9122,
+          "position": {
+            "x": 0.073499,
+            "y": 0.616093,
+            "width": 0.238555,
+            "height": 0.019893
+          }
+        },
+        {
+          "id": 25,
+          "text": "彼此—互相",
+          "confidence": 0.9643,
+          "position": {
+            "x": 0.49769,
+            "y": 0.617577,
+            "width": 0.110038,
+            "height": 0.017815
+          }
+        },
+        {
+          "id": 26,
+          "text": "饮食1",
+          "confidence": 0.9974,
+          "position": {
+            "x": 0.670307,
+            "y": 0.615796,
+            "width": 0.067199,
+            "height": 0.020487
+          }
+        },
+        {
+          "id": 27,
+          "text": "算；作为；曾经",
+          "confidence": 0.9904,
+          "position": {
+            "x": 0.074339,
+            "y": 0.679335,
+            "width": 0.152877,
+            "height": 0.02019
+          }
+        },
+        {
+          "id": 28,
+          "text": "亲自—自己",
+          "confidence": 0.8898,
+          "position": {
+            "x": 0.49811,
+            "y": 0.678741,
+            "width": 0.109618,
+            "height": 0.021081
+          }
+        },
+        {
+          "id": 29,
+          "text": "社会",
+          "confidence": 0.9948,
+          "position": {
+            "x": 0.668627,
+            "y": 0.678741,
+            "width": 0.052919,
+            "height": 0.021971
+          }
+        },
+        {
+          "id": 30,
+          "text": "毕竟；逐渐；或许",
+          "confidence": 0.9332,
+          "position": {
+            "x": 0.074339,
+            "y": 0.742874,
+            "width": 0.173037,
+            "height": 0.02019
+          }
+        },
+        {
+          "id": 31,
+          "text": "服饰",
+          "confidence": 0.9995,
+          "position": {
+            "x": 0.667787,
+            "y": 0.740499,
+            "width": 0.052499,
+            "height": 0.023456
+          }
+        },
+        {
+          "id": 32,
+          "text": "显示—显得",
+          "confidence": 0.9673,
+          "position": {
+            "x": 0.49727,
+            "y": 0.742577,
+            "width": 0.111718,
+            "height": 0.02019
+          }
+        },
+        {
+          "id": 33,
+          "text": "来/过来；所；相当；数",
+          "confidence": 0.9876,
+          "position": {
+            "x": 0.074339,
+            "y": 0.804929,
+            "width": 0.223016,
+            "height": 0.021081
+          }
+        },
+        {
+          "id": 34,
+          "text": "持续—继续",
+          "confidence": 0.9298,
+          "position": {
+            "x": 0.49727,
+            "y": 0.805819,
+            "width": 0.112138,
+            "height": 0.019893
+          }
+        },
+        {
+          "id": 35,
+          "text": "家居",
+          "confidence": 0.9994,
+          "position": {
+            "x": 0.671147,
+            "y": 0.804335,
+            "width": 0.049559,
+            "height": 0.022268
+          }
+        },
+        {
+          "id": 36,
+          "text": "以及；程度",
+          "confidence": 0.991,
+          "position": {
+            "x": 0.074759,
+            "y": 0.869359,
+            "width": 0.110038,
+            "height": 0.019596
+          }
+        },
+        {
+          "id": 37,
+          "text": "发达—发展",
+          "confidence": 0.9452,
+          "position": {
+            "x": 0.49895,
+            "y": 0.869062,
+            "width": 0.110458,
+            "height": 0.019299
+          }
+        },
+        {
+          "id": 38,
+          "text": "电脑网络",
+          "confidence": 0.9967,
+          "position": {
+            "x": 0.673247,
+            "y": 0.869062,
+            "width": 0.089038,
+            "height": 0.019002
+          }
+        },
+        {
+          "id": 39,
+          "text": "ix",
+          "confidence": 0.9221,
+          "position": {
+            "x": 0.954641,
+            "y": 0.938242,
+            "width": 0.0231,
+            "height": 0.017518
+          }
+        }
+      ],
+      "sourceHash": "1dc6f5a8fda3dedc8fc3a52401ac4e3ae19288aa7cfd70f2ab0108b829c48a7d"
+    }
+  },
+  {
+    "bookId": "1a3750a2f488",
+    "sourcePage": 11,
+    "source": {
+      "blocks": [
+        {
+          "type": "text",
+          "box": {
+            "x": 0.073609,
+            "y": 0.030247,
+            "w": 0.076537,
+            "h": 0.041049
+          },
+          "cn": "HSK",
+          "en": "",
+          "ru": "",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.073609,
+              "y": 0.030247,
+              "w": 0.07653700000000001,
+              "h": 0.041049
+            },
+            "sans": true,
+            "color": "#fff"
+          },
+          "documentPanel": {
+            "box": {
+              "x": 0,
+              "y": 0,
+              "w": 0.153,
+              "h": 0.073
+            }
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.158929,
+            "y": 0.049074,
+            "w": 0.751071,
+            "h": 0.061506000000000005
+          },
+          "cn": "标准教程5（上）练习册",
+          "en": "HSK Standard Course 5 (A) Workbook",
+          "ru": "Стандартный курс HSK 5 (A) · Рабочая тетрадь",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.158929,
+              "y": 0.049074,
+              "w": 0.237558,
+              "h": 0.018827000000000003
+            },
+            "sans": true,
+            "color": "#999"
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.427018,
+            "y": 0.11358,
+            "w": 0.482982,
+            "h": 0.04514800000000001
+          },
+          "cn": "二、阅读",
+          "en": "II. Reading",
+          "ru": "II. Чтение",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.427018,
+              "y": 0.11358,
+              "w": 0.17356800000000006,
+              "h": 0.03611099999999999
+            },
+            "bold": true
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.460059,
+            "y": 0.161728,
+            "w": 0.44994100000000004,
+            "h": 0.045457
+          },
+          "cn": "第一部分",
+          "en": "Part One",
+          "ru": "Первая часть",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.460059,
+              "y": 0.161728,
+              "w": 0.106232,
+              "h": 0.02284
+            }
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.120452,
+            "y": 0.210185,
+            "w": 0.789548,
+            "h": 0.04020999999999997
+          },
+          "cn": "第15-18题：请选出正确答案。",
+          "en": "Questions 15–18: choose the correct answer.",
+          "ru": "Задания 15–18: выберите правильный ответ.",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.120452,
+              "y": 0.210185,
+              "w": 0.319113,
+              "h": 0.019752999999999993
+            }
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.12087,
+            "y": 0.253395,
+            "w": 0.78913,
+            "h": 0.12909900000000002
+          },
+          "cn": "我和丈夫15五年了，婚后的生活一直十分幸福，从来没有为什么事红过脸，去年还刚刚生了一个小宝宝。但是，昨晚我们却大16了一架。原因是丈夫说他要换一份工作，工资更高，不过工作地点是在外地。他说他已经决定了要去，而我并不认为这是个很好的机会。工资虽然高一点儿，但是要换一个完全陌生的环境；_17我们的孩子这么小，他走了，我一个人又要上班，又要照顾孩子，太辛苦了。现在，这个问题要18解决，我们还没有想好。",
+          "en": "My husband and I have been (15) for five years. Our life together has always been very happy; we have never argued over anything, and last year we had a baby. But last night we (16) fiercely. My husband said he wanted to change jobs: the salary would be higher, but the job was in another city. He had decided to go, though I did not think it was a good opportunity. The pay is a little higher, but it means moving to a completely unfamiliar environment. (17), our child is so small. If he goes, I will have to work and look after the baby alone. That would be too hard. We still have not decided (18) to solve this problem.",
+          "ru": "Мы с мужем (15) уже пять лет. Наша семейная жизнь всегда была счастливой: мы никогда не ссорились, а в прошлом году у нас родился ребёнок. Но вчера вечером мы сильно (16). Муж сказал, что хочет сменить работу: зарплата выше, но работать придётся в другом городе. Он уже решил ехать, а я не считаю это хорошей возможностью. Зарплата немного выше, но придётся привыкать к совершенно незнакомой обстановке. (17), наш ребёнок ещё совсем маленький. Если муж уедет, мне придётся одной работать и заботиться о малыше — это слишком тяжело. Мы ещё не решили, (18) справиться с этой проблемой.",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.12087,
+              "y": 0.253395,
+              "w": 0.785864,
+              "h": 0.11635800000000002
+            },
+            "cloze": [
+              15,
+              16,
+              17,
+              18
+            ]
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.161439,
+            "y": 0.38642,
+            "w": 0.156561,
+            "h": 0.0195
+          },
+          "cn": "15. A 婚姻",
+          "en": "15. A marriage",
+          "ru": "15. A брак",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.161439,
+              "y": 0.38642,
+              "w": 0.103304,
+              "h": 0.01728400000000002
+            },
+            "choice": {
+              "question": 15,
+              "letter": "A",
+              "hz": "婚姻",
+              "vocabulary": [
+                {
+                  "hz": "婚姻",
+                  "py": "hūnyīn",
+                  "ru": "брак",
+                  "en": "marriage",
+                  "kk": "неке"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.326223,
+            "y": 0.386111,
+            "w": 0.11677700000000002,
+            "h": 0.0195
+          },
+          "cn": "B 结婚",
+          "en": "B get married",
+          "ru": "B пожениться",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.326223,
+              "y": 0.386111,
+              "w": 0.06566400000000006,
+              "h": 0.017593000000000025
+            },
+            "choice": {
+              "question": 15,
+              "letter": "B",
+              "hz": "结婚",
+              "vocabulary": [
+                {
+                  "hz": "结婚",
+                  "py": "jiéhūn",
+                  "ru": "вступать в брак",
+                  "en": "get married",
+                  "kk": "үйлену"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.449184,
+            "y": 0.38642,
+            "w": 0.12181599999999992,
+            "h": 0.0195
+          },
+          "cn": "C 离婚",
+          "en": "C divorce",
+          "ru": "C развестись",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.449184,
+              "y": 0.38642,
+              "w": 0.06691800000000003,
+              "h": 0.01728400000000002
+            },
+            "choice": {
+              "question": 15,
+              "letter": "C",
+              "hz": "离婚",
+              "vocabulary": [
+                {
+                  "hz": "离婚",
+                  "py": "líhūn",
+                  "ru": "разводиться",
+                  "en": "divorce",
+                  "kk": "ажырасу"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.57591,
+            "y": 0.385494,
+            "w": 0.17508999999999997,
+            "h": 0.0195
+          },
+          "cn": "D 婚礼",
+          "en": "D wedding",
+          "ru": "D свадьба",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.57591,
+              "y": 0.385494,
+              "w": 0.06859000000000004,
+              "h": 0.018519000000000008
+            },
+            "choice": {
+              "question": 15,
+              "letter": "D",
+              "hz": "婚礼",
+              "vocabulary": [
+                {
+                  "hz": "婚礼",
+                  "py": "hūnlǐ",
+                  "ru": "свадьба",
+                  "en": "wedding",
+                  "kk": "үйлену тойы"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.161439,
+            "y": 0.405864,
+            "w": 0.156561,
+            "h": 0.0195
+          },
+          "cn": "16. A 说",
+          "en": "16. A say",
+          "ru": "16. A говорить",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.161439,
+              "y": 0.405864,
+              "w": 0.083647,
+              "h": 0.01728400000000002
+            },
+            "choice": {
+              "question": 16,
+              "letter": "A",
+              "hz": "说",
+              "vocabulary": [
+                {
+                  "hz": "说",
+                  "py": "shuō",
+                  "ru": "говорить",
+                  "en": "say",
+                  "kk": "айту"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.323296,
+            "y": 0.406481,
+            "w": 0.11970400000000003,
+            "h": 0.0195
+          },
+          "cn": "B 喊",
+          "en": "B shout",
+          "ru": "B кричать",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.323296,
+              "y": 0.406481,
+              "w": 0.047678000000000054,
+              "h": 0.016975000000000018
+            },
+            "choice": {
+              "question": 16,
+              "letter": "B",
+              "hz": "喊",
+              "vocabulary": [
+                {
+                  "hz": "喊",
+                  "py": "hǎn",
+                  "ru": "кричать",
+                  "en": "shout",
+                  "kk": "айқайлау"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.447093,
+            "y": 0.40463,
+            "w": 0.12390699999999993,
+            "h": 0.0195
+          },
+          "cn": "C 叫",
+          "en": "C call/cry",
+          "ru": "C звать/кричать",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.447093,
+              "y": 0.40463,
+              "w": 0.05018800000000001,
+              "h": 0.01975300000000002
+            },
+            "choice": {
+              "question": 16,
+              "letter": "C",
+              "hz": "叫",
+              "vocabulary": [
+                {
+                  "hz": "叫",
+                  "py": "jiào",
+                  "ru": "звать; кричать",
+                  "en": "call; cry",
+                  "kk": "шақыру; айқайлау"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.575073,
+            "y": 0.405247,
+            "w": 0.17592700000000006,
+            "h": 0.0195
+          },
+          "cn": "D 吵",
+          "en": "D quarrel",
+          "ru": "D ссориться",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.575073,
+              "y": 0.405247,
+              "w": 0.04893400000000003,
+              "h": 0.017901
+            },
+            "choice": {
+              "question": 16,
+              "letter": "D",
+              "hz": "吵",
+              "vocabulary": [
+                {
+                  "hz": "吵",
+                  "py": "chǎo",
+                  "ru": "ссориться; шуметь",
+                  "en": "quarrel; make noise",
+                  "kk": "ұрысу; шулау"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.161439,
+            "y": 0.425926,
+            "w": 0.156561,
+            "h": 0.0195
+          },
+          "cn": "17. A 不过",
+          "en": "17. A however",
+          "ru": "17. A однако",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.161439,
+              "y": 0.425926,
+              "w": 0.103304,
+              "h": 0.017593000000000025
+            },
+            "choice": {
+              "question": 17,
+              "letter": "A",
+              "hz": "不过",
+              "vocabulary": [
+                {
+                  "hz": "不过",
+                  "py": "búguò",
+                  "ru": "однако",
+                  "en": "however",
+                  "kk": "алайда"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.32455,
+            "y": 0.425309,
+            "w": 0.11845,
+            "h": 0.0195
+          },
+          "cn": "B 然而",
+          "en": "B nevertheless",
+          "ru": "B тем не менее",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.32455,
+              "y": 0.425309,
+              "w": 0.06733600000000001,
+              "h": 0.018210000000000004
+            },
+            "choice": {
+              "question": 17,
+              "letter": "B",
+              "hz": "然而",
+              "vocabulary": [
+                {
+                  "hz": "然而",
+                  "py": "rán’ér",
+                  "ru": "однако; тем не менее",
+                  "en": "however; nevertheless",
+                  "kk": "алайда; дегенмен"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.447512,
+            "y": 0.425617,
+            "w": 0.12348799999999993,
+            "h": 0.0195
+          },
+          "cn": "C 而且",
+          "en": "C moreover",
+          "ru": "C к тому же",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.447512,
+              "y": 0.425617,
+              "w": 0.06859099999999996,
+              "h": 0.017901
+            },
+            "choice": {
+              "question": 17,
+              "letter": "C",
+              "hz": "而且",
+              "vocabulary": [
+                {
+                  "hz": "而且",
+                  "py": "érqiě",
+                  "ru": "к тому же",
+                  "en": "moreover",
+                  "kk": "оның үстіне"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.576746,
+            "y": 0.425617,
+            "w": 0.17425400000000002,
+            "h": 0.0195
+          },
+          "cn": "D 否则",
+          "en": "D otherwise",
+          "ru": "D иначе",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.576746,
+              "y": 0.425617,
+              "w": 0.06733599999999995,
+              "h": 0.017901
+            },
+            "choice": {
+              "question": 17,
+              "letter": "D",
+              "hz": "否则",
+              "vocabulary": [
+                {
+                  "hz": "否则",
+                  "py": "fǒuzé",
+                  "ru": "иначе",
+                  "en": "otherwise",
+                  "kk": "әйтпесе"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.160602,
+            "y": 0.445062,
+            "w": 0.157398,
+            "h": 0.0195
+          },
+          "cn": "18. A 如果",
+          "en": "18. A if",
+          "ru": "18. A если",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.160602,
+              "y": 0.445062,
+              "w": 0.10414100000000001,
+              "h": 0.018210000000000004
+            },
+            "choice": {
+              "question": 18,
+              "letter": "A",
+              "hz": "如果",
+              "vocabulary": [
+                {
+                  "hz": "如果",
+                  "py": "rúguǒ",
+                  "ru": "если",
+                  "en": "if",
+                  "kk": "егер"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.325387,
+            "y": 0.44537,
+            "w": 0.11761300000000002,
+            "h": 0.0195
+          },
+          "cn": "B 如何",
+          "en": "B how",
+          "ru": "B как",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.325387,
+              "y": 0.44537,
+              "w": 0.06524400000000002,
+              "h": 0.017901
+            },
+            "choice": {
+              "question": 18,
+              "letter": "B",
+              "hz": "如何",
+              "vocabulary": [
+                {
+                  "hz": "如何",
+                  "py": "rúhé",
+                  "ru": "как",
+                  "en": "how",
+                  "kk": "қалай"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.447093,
+            "y": 0.44537,
+            "w": 0.12390699999999993,
+            "h": 0.0195
+          },
+          "cn": "C 比如",
+          "en": "C for example",
+          "ru": "C например",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.447093,
+              "y": 0.44537,
+              "w": 0.06942699999999996,
+              "h": 0.017593000000000025
+            },
+            "choice": {
+              "question": 18,
+              "letter": "C",
+              "hz": "比如",
+              "vocabulary": [
+                {
+                  "hz": "比如",
+                  "py": "bǐrú",
+                  "ru": "например",
+                  "en": "for example",
+                  "kk": "мысалы"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.577164,
+            "y": 0.44537,
+            "w": 0.173836,
+            "h": 0.0195
+          },
+          "cn": "D 例如",
+          "en": "D for example",
+          "ru": "D например",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.577164,
+              "y": 0.44537,
+              "w": 0.06733599999999995,
+              "h": 0.017593000000000025
+            },
+            "choice": {
+              "question": 18,
+              "letter": "D",
+              "hz": "例如",
+              "vocabulary": [
+                {
+                  "hz": "例如",
+                  "py": "lìrú",
+                  "ru": "например",
+                  "en": "for example",
+                  "kk": "мысалы"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "folio",
+          "box": {
+            "x": 0.06399,
+            "y": 0.947222,
+            "w": 0.012129,
+            "h": 0.012037
+          },
+          "text": "4"
+        }
+      ],
+      "kz": {
+        "Стандартный курс HSK 5 (A) · Рабочая тетрадь": "HSK 5 (A) стандартты курсы · Жұмыс дәптері",
+        "II. Чтение": "II. Оқылым",
+        "Первая часть": "Бірінші бөлім",
+        "Задания 15–18: выберите правильный ответ.": "15–18 тапсырмалар: дұрыс жауапты таңдаңыз.",
+        "Мы с мужем (15) уже пять лет. Наша семейная жизнь всегда была счастливой: мы никогда не ссорились, а в прошлом году у нас родился ребёнок. Но вчера вечером мы сильно (16). Муж сказал, что хочет сменить работу: зарплата выше, но работать придётся в другом городе. Он уже решил ехать, а я не считаю это хорошей возможностью. Зарплата немного выше, но придётся привыкать к совершенно незнакомой обстановке. (17), наш ребёнок ещё совсем маленький. Если муж уедет, мне придётся одной работать и заботиться о малыше — это слишком тяжело. Мы ещё не решили, (18) справиться с этой проблемой.": "Күйеуім екеуміз (15) бес жыл болды. Отбасылық өміріміз әрдайым бақытты еді: ешқашан ұрыспайтынбыз, былтыр сәбиіміз дүниеге келді. Бірақ кеше кешке қатты (16). Күйеуім жұмысты ауыстырғысы келетінін айтты: жалақысы жоғары, алайда жұмыс орны басқа қалада. Ол баруды шешіпті, ал мен мұны жақсы мүмкіндік деп ойламаймын. Жалақы сәл жоғары болғанымен, мүлдем бейтаныс ортаға бейімделу керек. (17), баламыз әлі кішкентай. Ол кетсе, жұмыс істеп, балаға жалғыз қарауым керек — тым қиын. Бұл мәселені (18) шешетінімізді әлі ойластырмадық.",
+        "брак": "неке",
+        "15. A брак": "15. A неке",
+        "вступать в брак": "үйлену",
+        "B вступать в брак": "B үйлену",
+        "разводиться": "ажырасу",
+        "C разводиться": "C ажырасу",
+        "свадьба": "үйлену тойы",
+        "D свадьба": "D үйлену тойы",
+        "говорить": "айту",
+        "16. A говорить": "16. A айту",
+        "кричать": "айқайлау",
+        "B кричать": "B айқайлау",
+        "звать; кричать": "шақыру; айқайлау",
+        "C звать/кричать": "C шақыру/айқайлау",
+        "ссориться; шуметь": "ұрысу; шулау",
+        "D ссориться": "D ұрысу",
+        "однако": "алайда",
+        "17. A однако": "17. A алайда",
+        "однако; тем не менее": "алайда; дегенмен",
+        "B тем не менее": "B дегенмен",
+        "к тому же": "оның үстіне",
+        "C к тому же": "C оның үстіне",
+        "иначе": "әйтпесе",
+        "D иначе": "D әйтпесе",
+        "если": "егер",
+        "18. A если": "18. A егер",
+        "как": "қалай",
+        "B как": "B қалай",
+        "например": "мысалы",
+        "C например": "C мысалы",
+        "D например": "D мысалы",
+        "B пожениться": "B үйлену",
+        "C развестись": "C ажырасу"
+      }
+    },
+    "ocr": {
+      "version": 11,
+      "engine": "PaddleOCR",
+      "model": "PP-OCRv5_mobile",
+      "pageNumber": 11,
+      "dpi": 288,
+      "width": 2391,
+      "height": 3240,
+      "coordinateSpace": "normalized-0-1",
+      "lines": [
+        {
+          "id": 0,
+          "text": "HSK",
+          "confidence": 0.9996,
+          "position": {
+            "x": 0.073609,
+            "y": 0.030247,
+            "width": 0.076537,
+            "height": 0.041049
+          }
+        },
+        {
+          "id": 1,
+          "text": "标准教程5（上）练习册",
+          "confidence": 0.9916,
+          "position": {
+            "x": 0.158929,
+            "y": 0.049074,
+            "width": 0.237558,
+            "height": 0.018827
+          }
+        },
+        {
+          "id": 2,
+          "text": "二、阅读",
+          "confidence": 0.9983,
+          "position": {
+            "x": 0.427018,
+            "y": 0.11358,
+            "width": 0.173568,
+            "height": 0.036111
+          }
+        },
+        {
+          "id": 3,
+          "text": "第一部分",
+          "confidence": 0.9999,
+          "position": {
+            "x": 0.460059,
+            "y": 0.161728,
+            "width": 0.106232,
+            "height": 0.02284
+          }
+        },
+        {
+          "id": 4,
+          "text": "第15-18题：请选出正确答案。",
+          "confidence": 0.9965,
+          "position": {
+            "x": 0.120452,
+            "y": 0.210185,
+            "width": 0.319113,
+            "height": 0.019753
+          }
+        },
+        {
+          "id": 5,
+          "text": "我和丈夫15五年了，婚后的生活一直十分幸福，从来没有为什么事红过脸，去",
+          "confidence": 0.9987,
+          "position": {
+            "x": 0.16102,
+            "y": 0.253395,
+            "width": 0.745295,
+            "height": 0.017901
+          }
+        },
+        {
+          "id": 6,
+          "text": "年还刚刚生了一个小宝宝。但是，昨晚我们却大16了一架。原因是丈夫说他要换一",
+          "confidence": 0.9983,
+          "position": {
+            "x": 0.12087,
+            "y": 0.27284,
+            "width": 0.784191,
+            "height": 0.017901
+          }
+        },
+        {
+          "id": 7,
+          "text": "份工作，工资更高，不过工作地点是在外地。他说他已经决定了要去，而我并不认为这",
+          "confidence": 0.9997,
+          "position": {
+            "x": 0.12087,
+            "y": 0.292593,
+            "width": 0.784609,
+            "height": 0.01821
+          }
+        },
+        {
+          "id": 8,
+          "text": "是个很好的机会。工资虽然高一点儿，但是要换一个完全陌生的环境；_17我们的孩",
+          "confidence": 0.9965,
+          "position": {
+            "x": 0.12087,
+            "y": 0.312346,
+            "width": 0.785864,
+            "height": 0.018827
+          }
+        },
+        {
+          "id": 9,
+          "text": "子这么小，他走了，我一个人又要上班，又要照顾孩子，太辛苦了。现在，这个问题要",
+          "confidence": 0.9997,
+          "position": {
+            "x": 0.122961,
+            "y": 0.332716,
+            "width": 0.782518,
+            "height": 0.017593
+          }
+        },
+        {
+          "id": 10,
+          "text": "18解决，我们还没有想好。",
+          "confidence": 0.9983,
+          "position": {
+            "x": 0.140527,
+            "y": 0.352469,
+            "width": 0.252196,
+            "height": 0.017284
+          }
+        },
+        {
+          "id": 11,
+          "text": "15.A婚姻",
+          "confidence": 0.9232,
+          "position": {
+            "x": 0.161439,
+            "y": 0.38642,
+            "width": 0.103304,
+            "height": 0.017284
+          }
+        },
+        {
+          "id": 12,
+          "text": "B",
+          "confidence": 0.998,
+          "position": {
+            "x": 0.326223,
+            "y": 0.388889,
+            "width": 0.015475,
+            "height": 0.012037
+          }
+        },
+        {
+          "id": 13,
+          "text": "结婚",
+          "confidence": 0.9993,
+          "position": {
+            "x": 0.346299,
+            "y": 0.386111,
+            "width": 0.045588,
+            "height": 0.017593
+          }
+        },
+        {
+          "id": 14,
+          "text": "C",
+          "confidence": 0.7584,
+          "position": {
+            "x": 0.449184,
+            "y": 0.387963,
+            "width": 0.030531,
+            "height": 0.014506
+          }
+        },
+        {
+          "id": 15,
+          "text": "离婚",
+          "confidence": 0.9998,
+          "position": {
+            "x": 0.46926,
+            "y": 0.38642,
+            "width": 0.046842,
+            "height": 0.017284
+          }
+        },
+        {
+          "id": 16,
+          "text": "D",
+          "confidence": 0.9621,
+          "position": {
+            "x": 0.57591,
+            "y": 0.387963,
+            "width": 0.030531,
+            "height": 0.014506
+          }
+        },
+        {
+          "id": 17,
+          "text": "婚礼",
+          "confidence": 0.9999,
+          "position": {
+            "x": 0.597658,
+            "y": 0.385494,
+            "width": 0.046842,
+            "height": 0.018519
+          }
+        },
+        {
+          "id": 18,
+          "text": "16.A说",
+          "confidence": 0.9773,
+          "position": {
+            "x": 0.161439,
+            "y": 0.405864,
+            "width": 0.083647,
+            "height": 0.017284
+          }
+        },
+        {
+          "id": 19,
+          "text": "B",
+          "confidence": 0.9745,
+          "position": {
+            "x": 0.323296,
+            "y": 0.406481,
+            "width": 0.031786,
+            "height": 0.016049
+          }
+        },
+        {
+          "id": 20,
+          "text": "喊",
+          "confidence": 0.9987,
+          "position": {
+            "x": 0.347553,
+            "y": 0.406481,
+            "width": 0.023421,
+            "height": 0.016975
+          }
+        },
+        {
+          "id": 21,
+          "text": "C叫",
+          "confidence": 0.9575,
+          "position": {
+            "x": 0.447093,
+            "y": 0.40463,
+            "width": 0.050188,
+            "height": 0.019753
+          }
+        },
+        {
+          "id": 22,
+          "text": "D",
+          "confidence": 0.9697,
+          "position": {
+            "x": 0.575073,
+            "y": 0.406481,
+            "width": 0.030113,
+            "height": 0.016358
+          }
+        },
+        {
+          "id": 23,
+          "text": "吵",
+          "confidence": 0.9827,
+          "position": {
+            "x": 0.598913,
+            "y": 0.405247,
+            "width": 0.025094,
+            "height": 0.017901
+          }
+        },
+        {
+          "id": 24,
+          "text": "17.A 不过",
+          "confidence": 0.87,
+          "position": {
+            "x": 0.161439,
+            "y": 0.425926,
+            "width": 0.103304,
+            "height": 0.017593
+          }
+        },
+        {
+          "id": 25,
+          "text": "B",
+          "confidence": 0.9935,
+          "position": {
+            "x": 0.32455,
+            "y": 0.426852,
+            "width": 0.02844,
+            "height": 0.015123
+          }
+        },
+        {
+          "id": 26,
+          "text": "然而",
+          "confidence": 0.9998,
+          "position": {
+            "x": 0.345462,
+            "y": 0.425309,
+            "width": 0.046424,
+            "height": 0.01821
+          }
+        },
+        {
+          "id": 27,
+          "text": "C而且",
+          "confidence": 0.9771,
+          "position": {
+            "x": 0.447512,
+            "y": 0.425617,
+            "width": 0.068591,
+            "height": 0.017901
+          }
+        },
+        {
+          "id": 28,
+          "text": "D",
+          "confidence": 0.9966,
+          "position": {
+            "x": 0.576746,
+            "y": 0.427778,
+            "width": 0.017984,
+            "height": 0.013272
+          }
+        },
+        {
+          "id": 29,
+          "text": "否则",
+          "confidence": 0.99,
+          "position": {
+            "x": 0.599331,
+            "y": 0.425617,
+            "width": 0.044751,
+            "height": 0.017901
+          }
+        },
+        {
+          "id": 30,
+          "text": "18.A如果",
+          "confidence": 0.9053,
+          "position": {
+            "x": 0.160602,
+            "y": 0.445062,
+            "width": 0.104141,
+            "height": 0.01821
+          }
+        },
+        {
+          "id": 31,
+          "text": "B",
+          "confidence": 0.9986,
+          "position": {
+            "x": 0.325387,
+            "y": 0.447222,
+            "width": 0.022166,
+            "height": 0.013272
+          }
+        },
+        {
+          "id": 32,
+          "text": "如何",
+          "confidence": 0.9998,
+          "position": {
+            "x": 0.34588,
+            "y": 0.44537,
+            "width": 0.044751,
+            "height": 0.017901
+          }
+        },
+        {
+          "id": 33,
+          "text": "C 比如",
+          "confidence": 0.847,
+          "position": {
+            "x": 0.447093,
+            "y": 0.44537,
+            "width": 0.069427,
+            "height": 0.017593
+          }
+        },
+        {
+          "id": 34,
+          "text": "D",
+          "confidence": 0.9981,
+          "position": {
+            "x": 0.577164,
+            "y": 0.447222,
+            "width": 0.016729,
+            "height": 0.013272
+          }
+        },
+        {
+          "id": 35,
+          "text": "例如",
+          "confidence": 0.9997,
+          "position": {
+            "x": 0.599749,
+            "y": 0.44537,
+            "width": 0.044751,
+            "height": 0.017593
+          }
+        },
+        {
+          "id": 36,
+          "text": "4",
+          "confidence": 0.9994,
+          "position": {
+            "x": 0.06399,
+            "y": 0.947222,
+            "width": 0.012129,
+            "height": 0.012037
+          }
+        }
+      ],
+      "sourceHash": "e3c294b8de0af705f9584b0ea87cdd6263c95fc50990385ada6115c7b4b4035c"
+    }
+  },
+  {
+    "bookId": "1a3750a2f488",
+    "sourcePage": 12,
+    "source": {
+      "blocks": [
+        {
+          "type": "runhead",
+          "box": {
+            "x": 0.922208,
+            "y": 0.073457,
+            "w": 0.023003,
+            "h": 0.08857999999999999
+          },
+          "cn": "爱的细节",
+          "en": "Details of Love",
+          "ru": "Любовь в деталях",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.922208,
+              "y": 0.073457,
+              "w": 0.023002999999999996,
+              "h": 0.06358
+            },
+            "sans": true,
+            "vertical": true
+          },
+          "number": "1"
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.437892,
+            "y": 0.116667,
+            "w": 0.472108,
+            "h": 0.042986999999999984
+          },
+          "cn": "第二部分",
+          "en": "Part Two",
+          "ru": "Вторая часть",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.437892,
+              "y": 0.116667,
+              "w": 0.103304,
+              "h": 0.019444000000000003
+            }
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.097031,
+            "y": 0.162654,
+            "w": 0.812969,
+            "h": 0.04175300000000001
+          },
+          "cn": "第19-22题：请选出与试题内容一致的一项。",
+          "en": "Questions 19–22: choose the statement that agrees with the passage.",
+          "ru": "Задания 19–22: выберите утверждение, соответствующее тексту.",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.097031,
+              "y": 0.162654,
+              "w": 0.459222,
+              "h": 0.020061999999999997
+            }
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.098285,
+            "y": 0.207407,
+            "w": 0.8117150000000001,
+            "h": 0.07014900000000002
+          },
+          "cn": "19.前几年她全身瘫痪了，医生说她能站起来的可能性很小。别人都觉得她的丈夫会跟她离婚，她也想过要自杀。但丈夫一直鼓励她，为她不知找了多少家医院，并且几年如一日地照顾她，从不抱怨。在丈夫的爱护和努力下，她终于又站了起来。",
+          "en": "19. A few years ago she became paralysed. The doctors said she was very unlikely to stand up again. Everyone thought her husband would divorce her, and she even considered taking her own life. But he kept encouraging her, searching for hospital after hospital and caring for her tirelessly for years, without ever complaining. With his love and effort, she finally stood up again.",
+          "ru": "19. Несколько лет назад она была полностью парализована. Врачи считали, что шансы снова встать на ноги очень малы. Все думали, что муж разведётся с ней; она даже помышляла о самоубийстве. Но муж постоянно поддерживал её, обращался во множество больниц и годами заботился о ней, никогда не жалуясь. Благодаря его любви и усилиям она наконец снова встала на ноги.",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.098285,
+              "y": 0.207407,
+              "w": 0.783355,
+              "h": 0.05586399999999997
+            }
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.132999,
+            "y": 0.280556,
+            "w": 0.773001,
+            "h": 0.019
+          },
+          "cn": "A 丈夫要跟妻子离婚",
+          "en": "A The husband wants to divorce his wife",
+          "ru": "A Муж хочет развестись с женой",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.132999,
+              "y": 0.280556,
+              "w": 0.18653300000000003,
+              "h": 0.015741000000000005
+            },
+            "choice": {
+              "question": 19,
+              "letter": "A",
+              "hz": "丈夫要跟妻子离婚",
+              "vocabulary": [
+                {
+                  "hz": "离婚",
+                  "py": "líhūn",
+                  "ru": "разводиться",
+                  "en": "divorce",
+                  "kk": "ажырасу"
+                },
+                {
+                  "hz": "丈夫",
+                  "py": "zhàngfu",
+                  "ru": "муж",
+                  "en": "husband",
+                  "kk": "күйеу"
+                },
+                {
+                  "hz": "妻子",
+                  "py": "qīzi",
+                  "ru": "жена",
+                  "en": "wife",
+                  "kk": "әйел"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.134253,
+            "y": 0.300309,
+            "w": 0.771747,
+            "h": 0.019
+          },
+          "cn": "B 丈夫对妻子非常好",
+          "en": "B The husband treats his wife very well",
+          "ru": "B Муж очень хорошо относится к жене",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.134253,
+              "y": 0.300309,
+              "w": 0.183606,
+              "h": 0.01604899999999998
+            },
+            "choice": {
+              "question": 19,
+              "letter": "B",
+              "hz": "丈夫对妻子非常好",
+              "vocabulary": [
+                {
+                  "hz": "丈夫",
+                  "py": "zhàngfu",
+                  "ru": "муж",
+                  "en": "husband",
+                  "kk": "күйеу"
+                },
+                {
+                  "hz": "妻子",
+                  "py": "qīzi",
+                  "ru": "жена",
+                  "en": "wife",
+                  "kk": "әйел"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.132999,
+            "y": 0.319753,
+            "w": 0.773001,
+            "h": 0.019
+          },
+          "cn": "C 妻子因为瘫痪自杀了",
+          "en": "C The wife took her own life because of paralysis",
+          "ru": "C Жена покончила с собой из-за паралича",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.132999,
+              "y": 0.319753,
+              "w": 0.204935,
+              "h": 0.016666999999999987
+            },
+            "choice": {
+              "question": 19,
+              "letter": "C",
+              "hz": "妻子因为瘫痪自杀了",
+              "vocabulary": [
+                {
+                  "hz": "妻子",
+                  "py": "qīzi",
+                  "ru": "жена",
+                  "en": "wife",
+                  "kk": "әйел"
+                },
+                {
+                  "hz": "瘫痪",
+                  "py": "tānhuàn",
+                  "ru": "паралич; быть парализованным",
+                  "en": "paralysis; be paralysed",
+                  "kk": "салдану"
+                },
+                {
+                  "hz": "自杀",
+                  "py": "zìshā",
+                  "ru": "покончить с собой",
+                  "en": "take one’s own life",
+                  "kk": "өзіне қол жұмсау"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.132999,
+            "y": 0.340741,
+            "w": 0.773001,
+            "h": 0.019
+          },
+          "cn": "D 医生的判断是错误的",
+          "en": "D The doctors’ judgement was wrong",
+          "ru": "D Оценка врачей была ошибочной",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.132999,
+              "y": 0.340741,
+              "w": 0.20577200000000004,
+              "h": 0.014506000000000019
+            },
+            "choice": {
+              "question": 19,
+              "letter": "D",
+              "hz": "医生的判断是错误的",
+              "vocabulary": [
+                {
+                  "hz": "医生",
+                  "py": "yīshēng",
+                  "ru": "врач",
+                  "en": "doctor",
+                  "kk": "дәрігер"
+                },
+                {
+                  "hz": "判断",
+                  "py": "pànduàn",
+                  "ru": "суждение; оценка",
+                  "en": "judgement",
+                  "kk": "пайым; баға"
+                },
+                {
+                  "hz": "错误",
+                  "py": "cuòwù",
+                  "ru": "ошибка; ошибочный",
+                  "en": "error; wrong",
+                  "kk": "қате"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.097031,
+            "y": 0.373148,
+            "w": 0.812969,
+            "h": 0.05008699999999999
+          },
+          "cn": "20.我们不应该随意评价他人的婚姻是否幸福，更不能自以为是地去干涉他人的家庭生活。因为婚姻就像鞋，鞋子合适不合适，别人看不出来，只有自己的脚最清楚。",
+          "en": "20. We should not casually judge whether other people’s marriages are happy, still less meddle in their family lives assuming that we know best. Marriage is like a pair of shoes: others cannot see whether they fit; only your own feet know.",
+          "ru": "20. Не следует бездумно судить, счастлив ли чужой брак, и тем более самоуверенно вмешиваться в чужую семейную жизнь. Брак похож на обувь: другим не видно, подходит ли она, — это лучше всего знают собственные ноги.",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.097031,
+              "y": 0.373148,
+              "w": 0.784191,
+              "h": 0.037654999999999994
+            }
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.132162,
+            "y": 0.426235,
+            "w": 0.773838,
+            "h": 0.019
+          },
+          "cn": "A 婚姻是否幸福，谁都很清楚",
+          "en": "A Everyone knows whether a marriage is happy",
+          "ru": "A Всем ясно, счастлив ли брак",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.132162,
+              "y": 0.426235,
+              "w": 0.268089,
+              "h": 0.017901
+            },
+            "choice": {
+              "question": 20,
+              "letter": "A",
+              "hz": "婚姻是否幸福，谁都很清楚",
+              "vocabulary": [
+                {
+                  "hz": "婚姻",
+                  "py": "hūnyīn",
+                  "ru": "брак",
+                  "en": "marriage",
+                  "kk": "неке"
+                },
+                {
+                  "hz": "幸福",
+                  "py": "xìngfú",
+                  "ru": "счастливый; счастье",
+                  "en": "happy; happiness",
+                  "kk": "бақытты; бақыт"
+                },
+                {
+                  "hz": "清楚",
+                  "py": "qīngchu",
+                  "ru": "ясно; понимать",
+                  "en": "clear; understand",
+                  "kk": "анық; түсіну"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.133417,
+            "y": 0.445988,
+            "w": 0.772583,
+            "h": 0.019
+          },
+          "cn": "B 婚姻是否幸福，谁都不清楚",
+          "en": "B No one knows whether a marriage is happy",
+          "ru": "B Никто не знает, счастлив ли брак",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.133417,
+              "y": 0.445988,
+              "w": 0.26599799999999996,
+              "h": 0.017593000000000025
+            },
+            "choice": {
+              "question": 20,
+              "letter": "B",
+              "hz": "婚姻是否幸福，谁都不清楚",
+              "vocabulary": [
+                {
+                  "hz": "婚姻",
+                  "py": "hūnyīn",
+                  "ru": "брак",
+                  "en": "marriage",
+                  "kk": "неке"
+                },
+                {
+                  "hz": "幸福",
+                  "py": "xìngfú",
+                  "ru": "счастливый; счастье",
+                  "en": "happy; happiness",
+                  "kk": "бақытты; бақыт"
+                },
+                {
+                  "hz": "清楚",
+                  "py": "qīngchu",
+                  "ru": "ясно; понимать",
+                  "en": "clear; understand",
+                  "kk": "анық; түсіну"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.135926,
+            "y": 0.465741,
+            "w": 0.770074,
+            "h": 0.019
+          },
+          "cn": "C 婚姻是否幸福，自己最清楚",
+          "en": "C You know best whether your own marriage is happy",
+          "ru": "C Сам человек лучше всех знает, счастлив ли его брак",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.135926,
+              "y": 0.465741,
+              "w": 0.26432500000000003,
+              "h": 0.017901
+            },
+            "choice": {
+              "question": 20,
+              "letter": "C",
+              "hz": "婚姻是否幸福，自己最清楚",
+              "vocabulary": [
+                {
+                  "hz": "婚姻",
+                  "py": "hūnyīn",
+                  "ru": "брак",
+                  "en": "marriage",
+                  "kk": "неке"
+                },
+                {
+                  "hz": "幸福",
+                  "py": "xìngfú",
+                  "ru": "счастливый; счастье",
+                  "en": "happy; happiness",
+                  "kk": "бақытты; бақыт"
+                },
+                {
+                  "hz": "清楚",
+                  "py": "qīngchu",
+                  "ru": "ясно; понимать",
+                  "en": "clear; understand",
+                  "kk": "анық; түсіну"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.133583,
+            "y": 0.485494,
+            "w": 0.772417,
+            "h": 0.019
+          },
+          "cn": "D 婚姻是否幸福，别人更清楚",
+          "en": "D Others know better whether a marriage is happy",
+          "ru": "D Другие лучше знают, счастлив ли брак",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.133583,
+              "y": 0.485494,
+              "w": 0.266668,
+              "h": 0.01759299999999997
+            },
+            "choice": {
+              "question": 20,
+              "letter": "D",
+              "hz": "婚姻是否幸福，别人更清楚",
+              "vocabulary": [
+                {
+                  "hz": "婚姻",
+                  "py": "hūnyīn",
+                  "ru": "брак",
+                  "en": "marriage",
+                  "kk": "неке"
+                },
+                {
+                  "hz": "幸福",
+                  "py": "xìngfú",
+                  "ru": "счастливый; счастье",
+                  "en": "happy; happiness",
+                  "kk": "бақытты; бақыт"
+                },
+                {
+                  "hz": "清楚",
+                  "py": "qīngchu",
+                  "ru": "ясно; понимать",
+                  "en": "clear; understand",
+                  "kk": "анық; түсіну"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.097031,
+            "y": 0.52037,
+            "w": 0.812969,
+            "h": 0.09051900000000002
+          },
+          "cn": "21．他和她结婚才一年多，但已经感觉不愿再生活在一起。妻子怪他没有本事，只知道待在家里，一个大男人赚不到钱；丈夫说她只会生气、抱怨，一点儿都不懂得关心人。两个人说急了就吵架，妻子说“我后悔跟了你”，丈夫说“我也是”。于是剩下的路只有一条离婚。",
+          "en": "21. They have been married for just over a year, but already feel they do not want to live together. She blames him for being incapable, staying at home and failing to earn money. He says all she does is get angry and complain, without caring about anyone. When they get worked up, they quarrel. “I regret marrying you,” she says. “So do I,” he replies. Only one path remains: divorce.",
+          "ru": "21. Они женаты чуть больше года, но уже не хотят жить вместе. Жена упрекает мужа в беспомощности: взрослый мужчина сидит дома и не может заработать. Муж говорит, что она лишь злится и жалуется, совсем не умея заботиться о других. В пылу спора они ссорятся. «Жалею, что вышла за тебя», — говорит жена. «Я тоже», — отвечает муж. Остаётся один путь — развод.",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.097031,
+              "y": 0.52037,
+              "w": 0.78419,
+              "h": 0.07592599999999994
+            }
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.133835,
+            "y": 0.613889,
+            "w": 0.772165,
+            "h": 0.019
+          },
+          "cn": "A 结婚后他们的生活很幸福",
+          "en": "A Their married life is happy",
+          "ru": "A После свадьбы они живут счастливо",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.133835,
+              "y": 0.613889,
+              "w": 0.245922,
+              "h": 0.014815000000000023
+            },
+            "choice": {
+              "question": 21,
+              "letter": "A",
+              "hz": "结婚后他们的生活很幸福",
+              "vocabulary": [
+                {
+                  "hz": "婚后",
+                  "py": "hūnhòu",
+                  "ru": "после свадьбы",
+                  "en": "after marriage",
+                  "kk": "үйленгеннен кейін"
+                },
+                {
+                  "hz": "结婚",
+                  "py": "jiéhūn",
+                  "ru": "вступать в брак",
+                  "en": "get married",
+                  "kk": "үйлену"
+                },
+                {
+                  "hz": "幸福",
+                  "py": "xìngfú",
+                  "ru": "счастливый; счастье",
+                  "en": "happy; happiness",
+                  "kk": "бақытты; бақыт"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.134672,
+            "y": 0.633025,
+            "w": 0.771328,
+            "h": 0.019
+          },
+          "cn": "B 他们结婚已经很长时间了",
+          "en": "B They have been married a long time",
+          "ru": "B Они женаты уже очень давно",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.134672,
+              "y": 0.633025,
+              "w": 0.24257600000000004,
+              "h": 0.014815000000000023
+            },
+            "choice": {
+              "question": 21,
+              "letter": "B",
+              "hz": "他们结婚已经很长时间了",
+              "vocabulary": [
+                {
+                  "hz": "时间",
+                  "py": "shíjiān",
+                  "ru": "время",
+                  "en": "time",
+                  "kk": "уақыт"
+                },
+                {
+                  "hz": "结婚",
+                  "py": "jiéhūn",
+                  "ru": "вступать в брак",
+                  "en": "get married",
+                  "kk": "үйлену"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.134672,
+            "y": 0.65216,
+            "w": 0.771328,
+            "h": 0.019
+          },
+          "cn": "C 他们俩吵架都是因为钱",
+          "en": "C All their quarrels are about money",
+          "ru": "C Все их ссоры происходят из-за денег",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.134672,
+              "y": 0.65216,
+              "w": 0.22584600000000002,
+              "h": 0.016357999999999984
+            },
+            "choice": {
+              "question": 21,
+              "letter": "C",
+              "hz": "他们俩吵架都是因为钱",
+              "vocabulary": [
+                {
+                  "hz": "吵",
+                  "py": "chǎo",
+                  "ru": "ссориться; шуметь",
+                  "en": "quarrel; make noise",
+                  "kk": "ұрысу; шулау"
+                },
+                {
+                  "hz": "钱",
+                  "py": "qián",
+                  "ru": "деньги",
+                  "en": "money",
+                  "kk": "ақша"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.134253,
+            "y": 0.672531,
+            "w": 0.771747,
+            "h": 0.019
+          },
+          "cn": "D 他们俩打算离婚",
+          "en": "D They intend to divorce",
+          "ru": "D Они собираются развестись",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.134253,
+              "y": 0.672531,
+              "w": 0.16520399999999996,
+              "h": 0.01604899999999998
+            },
+            "choice": {
+              "question": 21,
+              "letter": "D",
+              "hz": "他们俩打算离婚",
+              "vocabulary": [
+                {
+                  "hz": "离婚",
+                  "py": "líhūn",
+                  "ru": "разводиться",
+                  "en": "divorce",
+                  "kk": "ажырасу"
+                },
+                {
+                  "hz": "打算",
+                  "py": "dǎsuàn",
+                  "ru": "планировать",
+                  "en": "plan; intend",
+                  "kk": "жоспарлау"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.097031,
+            "y": 0.706173,
+            "w": 0.812969,
+            "h": 0.07045699999999999
+          },
+          "cn": "22.关于为什么要结婚，每对夫妻都有属于自已的理由。有人说，爱到了，就结婚吧；有人说，一个人太孤单，所以就结婚了；甚至还有人说，结婚比谈恋爱省钱·不管理由是什么，婚姻，就像《围城》里说的，外面的人想进去，里面的人想出来。",
+          "en": "22. Every couple has their own reason for marrying. Some say, “When love comes, get married”; others marry because being alone is too lonely. Some even say marriage costs less than dating. Whatever the reason, marriage is like the novel Fortress Besieged says: those outside want to get in, while those inside want to get out.",
+          "ru": "22. У каждой пары свои причины вступить в брак. Одни говорят: «Пришла любовь — женитесь». Другие женятся, потому что одному слишком одиноко. Кто-то даже считает, что брак обходится дешевле свиданий. Какова бы ни была причина, брак, как сказано в романе «Осаждённая крепость», похож на крепость: те, кто снаружи, хотят войти, а те, кто внутри, — выйти.",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.097031,
+              "y": 0.706173,
+              "w": 0.7854450000000001,
+              "h": 0.055863999999999914
+            }
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.132999,
+            "y": 0.77963,
+            "w": 0.773001,
+            "h": 0.019
+          },
+          "cn": "A 人们选择结婚的原因是一样的",
+          "en": "A People marry for the same reason",
+          "ru": "A У всех одинаковая причина вступить в брак",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.132999,
+              "y": 0.77963,
+              "w": 0.28649100000000005,
+              "h": 0.015741000000000005
+            },
+            "choice": {
+              "question": 22,
+              "letter": "A",
+              "hz": "人们选择结婚的原因是一样的",
+              "vocabulary": [
+                {
+                  "hz": "结婚",
+                  "py": "jiéhūn",
+                  "ru": "вступать в брак",
+                  "en": "get married",
+                  "kk": "үйлену"
+                },
+                {
+                  "hz": "原因",
+                  "py": "yuányīn",
+                  "ru": "причина",
+                  "en": "reason",
+                  "kk": "себеп"
+                },
+                {
+                  "hz": "一样",
+                  "py": "yíyàng",
+                  "ru": "одинаковый",
+                  "en": "the same",
+                  "kk": "бірдей"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.131744,
+            "y": 0.798148,
+            "w": 0.774256,
+            "h": 0.019
+          },
+          "cn": "B 有一部分婚姻的基础是爱情",
+          "en": "B Some marriages are based on love",
+          "ru": "B Часть браков основана на любви",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.131744,
+              "y": 0.798148,
+              "w": 0.266834,
+              "h": 0.017901000000000056
+            },
+            "choice": {
+              "question": 22,
+              "letter": "B",
+              "hz": "有一部分婚姻的基础是爱情",
+              "vocabulary": [
+                {
+                  "hz": "婚姻",
+                  "py": "hūnyīn",
+                  "ru": "брак",
+                  "en": "marriage",
+                  "kk": "неке"
+                },
+                {
+                  "hz": "基础",
+                  "py": "jīchǔ",
+                  "ru": "основа",
+                  "en": "foundation",
+                  "kk": "негіз"
+                },
+                {
+                  "hz": "爱情",
+                  "py": "àiqíng",
+                  "ru": "любовь",
+                  "en": "love",
+                  "kk": "махаббат"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.132581,
+            "y": 0.818519,
+            "w": 0.7734190000000001,
+            "h": 0.019
+          },
+          "cn": "C 大家都觉得谈恋爱浪费钱",
+          "en": "C Everyone thinks dating is a waste of money",
+          "ru": "C Все считают свидания пустой тратой денег",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.132581,
+              "y": 0.818519,
+              "w": 0.24801299999999998,
+              "h": 0.016666999999999987
+            },
+            "choice": {
+              "question": 22,
+              "letter": "C",
+              "hz": "大家都觉得谈恋爱浪费钱",
+              "vocabulary": [
+                {
+                  "hz": "谈恋爱",
+                  "py": "tán liàn’ài",
+                  "ru": "встречаться; быть влюблёнными",
+                  "en": "date; be in love",
+                  "kk": "кездесу; ғашық болу"
+                },
+                {
+                  "hz": "浪费",
+                  "py": "làngfèi",
+                  "ru": "тратить впустую",
+                  "en": "waste",
+                  "kk": "ысырап ету"
+                },
+                {
+                  "hz": "钱",
+                  "py": "qián",
+                  "ru": "деньги",
+                  "en": "money",
+                  "kk": "ақша"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "text",
+          "box": {
+            "x": 0.132999,
+            "y": 0.838889,
+            "w": 0.773001,
+            "h": 0.019
+          },
+          "cn": "D 人人都希望拥有婚姻",
+          "en": "D Everyone hopes to be married",
+          "ru": "D Каждый хочет вступить в брак",
+          "documentText": {
+            "sourceBox": {
+              "x": 0.132999,
+              "y": 0.838889,
+              "w": 0.20619,
+              "h": 0.015432000000000001
+            },
+            "choice": {
+              "question": 22,
+              "letter": "D",
+              "hz": "人人都希望拥有婚姻",
+              "vocabulary": [
+                {
+                  "hz": "婚姻",
+                  "py": "hūnyīn",
+                  "ru": "брак",
+                  "en": "marriage",
+                  "kk": "неке"
+                },
+                {
+                  "hz": "希望",
+                  "py": "xīwàng",
+                  "ru": "надеяться",
+                  "en": "hope",
+                  "kk": "үміттену"
+                },
+                {
+                  "hz": "拥有",
+                  "py": "yōngyǒu",
+                  "ru": "обладать",
+                  "en": "possess; have",
+                  "kk": "ие болу"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "folio",
+          "box": {
+            "x": 0.927645,
+            "y": 0.946605,
+            "w": 0.012965,
+            "h": 0.013272
+          },
+          "text": "5"
+        }
+      ],
+      "kz": {
+        "Любовь в деталях": "Махаббаттың ұсақ-түйегі",
+        "Вторая часть": "Екінші бөлім",
+        "Задания 19–22: выберите утверждение, соответствующее тексту.": "19–22 тапсырмалар: мәтінге сәйкес тұжырымды таңдаңыз.",
+        "19. Несколько лет назад она была полностью парализована. Врачи считали, что шансы снова встать на ноги очень малы. Все думали, что муж разведётся с ней; она даже помышляла о самоубийстве. Но муж постоянно поддерживал её, обращался во множество больниц и годами заботился о ней, никогда не жалуясь. Благодаря его любви и усилиям она наконец снова встала на ноги.": "19. Бірнеше жыл бұрын ол толық сал болып қалды. Дәрігерлер қайта тұру мүмкіндігі өте аз екенін айтты. Жұрт күйеуі ажырасады деп ойлады; өзі де өзіне қол жұмсауды ойлаған. Бірақ күйеуі үнемі жігерлендіріп, талай аурухана іздеді және жылдар бойы шағымданбай қамқор болды. Күйеуінің мейірімі мен еңбегінің арқасында ол ақыры қайта аяққа тұрды.",
+        "разводиться": "ажырасу",
+        "муж": "күйеу",
+        "жена": "әйел",
+        "19. A Муж хочет развестись с женой": "19. A Күйеуі әйелімен ажырасқысы келеді",
+        "B Муж очень хорошо относится к жене": "B Күйеуі әйеліне өте жақсы қарайды",
+        "паралич; быть парализованным": "салдану",
+        "покончить с собой": "өзіне қол жұмсау",
+        "C Жена покончила с собой из-за паралича": "C Әйелі салданғандықтан өзіне қол жұмсады",
+        "врач": "дәрігер",
+        "суждение; оценка": "пайым; баға",
+        "ошибка; ошибочный": "қате",
+        "D Оценка врачей была ошибочной": "D Дәрігерлердің бағасы қате болды",
+        "20. Не следует бездумно судить, счастлив ли чужой брак, и тем более самоуверенно вмешиваться в чужую семейную жизнь. Брак похож на обувь: другим не видно, подходит ли она, — это лучше всего знают собственные ноги.": "20. Өзгенің некесі бақытты ма деп орынсыз баға бермеуіміз керек, әсіресе өзімізді дұрыс санап, отбасылық өміріне араласпауымыз керек. Неке аяқкиімге ұқсайды: шақ келетінін сырттағы адам көрмейді, оны өз аяғың жақсы біледі.",
+        "брак": "неке",
+        "счастливый; счастье": "бақытты; бақыт",
+        "ясно; понимать": "анық; түсіну",
+        "20. A Всем ясно, счастлив ли брак": "20. A Некенің бақытты екенін бәрі біледі",
+        "B Никто не знает, счастлив ли брак": "B Некенің бақытты екенін ешкім білмейді",
+        "C Сам человек лучше всех знает, счастлив ли его брак": "C Өз некеңнің бақытты екенін өзің жақсы білесің",
+        "D Другие лучше знают, счастлив ли брак": "D Некенің бақытты екенін өзгелер жақсы біледі",
+        "21. Они женаты чуть больше года, но уже не хотят жить вместе. Жена упрекает мужа в беспомощности: взрослый мужчина сидит дома и не может заработать. Муж говорит, что она лишь злится и жалуется, совсем не умея заботиться о других. В пылу спора они ссорятся. «Жалею, что вышла за тебя», — говорит жена. «Я тоже», — отвечает муж. Остаётся один путь — развод.": "21. Олар үйленгеніне бір жылдан сәл асты, бірақ бірге тұрғысы келмейді. Әйелі күйеуін қабілетсіз деп кінәлайды: ер азамат үйде отырып, ақша таба алмайды. Күйеуі оның тек ашуланып, шағымданатынын, өзгеге қамқор болуды білмейтінін айтады. Қызбаланған кезде ұрысады. «Саған шыққаныма өкінемін», — дейді әйелі. «Мен де», — дейді күйеуі. Жалғыз жол қалады — ажырасу.",
+        "после свадьбы": "үйленгеннен кейін",
+        "вступать в брак": "үйлену",
+        "21. A После свадьбы они живут счастливо": "21. A Үйленгеннен кейін бақытты өмір сүреді",
+        "время": "уақыт",
+        "B Они женаты уже очень давно": "B Олардың үйленгеніне көп уақыт болды",
+        "ссориться; шуметь": "ұрысу; шулау",
+        "деньги": "ақша",
+        "C Все их ссоры происходят из-за денег": "C Олардың барлық ұрысы ақшаға байланысты",
+        "планировать": "жоспарлау",
+        "D Они собираются развестись": "D Олар ажырасуды жоспарлап жүр",
+        "22. У каждой пары свои причины вступить в брак. Одни говорят: «Пришла любовь — женитесь». Другие женятся, потому что одному слишком одиноко. Кто-то даже считает, что брак обходится дешевле свиданий. Какова бы ни была причина, брак, как сказано в романе «Осаждённая крепость», похож на крепость: те, кто снаружи, хотят войти, а те, кто внутри, — выйти.": "22. Әр жұптың некеге тұруға өз себебі бар. Біреулер: «Махаббат келсе, үйленіңдер», — дейді. Басқалар жалғыздыққа төзе алмай үйленеді. Тіпті неке кездесіп жүруден арзанырақ дейтіндер бар. Себебі қандай болса да, «Қоршаудағы қамал» романында айтылғандай, сырттағылар ішке кіргісі, іштегілер сыртқа шыққысы келеді.",
+        "причина": "себеп",
+        "одинаковый": "бірдей",
+        "22. A У всех одинаковая причина вступить в брак": "22. A Адамдардың үйлену себебі бірдей",
+        "основа": "негіз",
+        "любовь": "махаббат",
+        "B Часть браков основана на любви": "B Кейбір некелердің негізі — махаббат",
+        "встречаться; быть влюблёнными": "кездесу; ғашық болу",
+        "тратить впустую": "ысырап ету",
+        "C Все считают свидания пустой тратой денег": "C Бәрі кездесіп жүруді ақша ысырабы деп санайды",
+        "надеяться": "үміттену",
+        "обладать": "ие болу",
+        "D Каждый хочет вступить в брак": "D Әркім некеге тұрғысы келеді",
+        "A Муж хочет развестись с женой": "A Күйеуі әйелімен ажырасқысы келеді",
+        "A Всем ясно, счастлив ли брак": "A Некенің бақытты екенін бәрі біледі",
+        "A После свадьбы они живут счастливо": "A Үйленгеннен кейін бақытты өмір сүреді",
+        "A У всех одинаковая причина вступить в брак": "A Адамдардың үйлену себебі бірдей"
+      }
+    },
+    "ocr": {
+      "version": 11,
+      "engine": "PaddleOCR",
+      "model": "PP-OCRv5_mobile",
+      "pageNumber": 12,
+      "dpi": 288,
+      "width": 2391,
+      "height": 3240,
+      "coordinateSpace": "normalized-0-1",
+      "lines": [
+        {
+          "id": 0,
+          "text": "爱的细节",
+          "confidence": 0.9999,
+          "position": {
+            "x": 0.922208,
+            "y": 0.073457,
+            "width": 0.023003,
+            "height": 0.06358
+          }
+        },
+        {
+          "id": 1,
+          "text": "第二部分",
+          "confidence": 0.999,
+          "position": {
+            "x": 0.437892,
+            "y": 0.116667,
+            "width": 0.103304,
+            "height": 0.019444
+          }
+        },
+        {
+          "id": 2,
+          "text": "第19-22题：请选出与试题内容一致的一项。",
+          "confidence": 0.9924,
+          "position": {
+            "x": 0.097031,
+            "y": 0.162654,
+            "width": 0.459222,
+            "height": 0.020062
+          }
+        },
+        {
+          "id": 3,
+          "text": "19.前几年她全身瘫痪了，医生说她能站起来的可能性很小。别人都觉得她的丈夫会跟她",
+          "confidence": 0.9959,
+          "position": {
+            "x": 0.098285,
+            "y": 0.207407,
+            "width": 0.782518,
+            "height": 0.015432
+          }
+        },
+        {
+          "id": 4,
+          "text": "离婚，她也想过要自杀。但丈夫一直鼓励她，为她不知找了多少家医院，并且几年如",
+          "confidence": 0.9996,
+          "position": {
+            "x": 0.132999,
+            "y": 0.226543,
+            "width": 0.748641,
+            "height": 0.016975
+          }
+        },
+        {
+          "id": 5,
+          "text": "一日地照顾她，从不抱怨。在丈夫的爱护和努力下，她终于又站了起来。",
+          "confidence": 0.999,
+          "position": {
+            "x": 0.132999,
+            "y": 0.246296,
+            "width": 0.631535,
+            "height": 0.016975
+          }
+        },
+        {
+          "id": 6,
+          "text": "A丈夫要跟妻子离婚",
+          "confidence": 0.9915,
+          "position": {
+            "x": 0.132999,
+            "y": 0.280556,
+            "width": 0.186533,
+            "height": 0.015741
+          }
+        },
+        {
+          "id": 7,
+          "text": "B",
+          "confidence": 0.7873,
+          "position": {
+            "x": 0.134253,
+            "y": 0.30216,
+            "width": 0.029695,
+            "height": 0.012037
+          }
+        },
+        {
+          "id": 8,
+          "text": "丈夫对妻子非常好",
+          "confidence": 0.9991,
+          "position": {
+            "x": 0.154747,
+            "y": 0.300309,
+            "width": 0.163112,
+            "height": 0.016049
+          }
+        },
+        {
+          "id": 9,
+          "text": "C妻子因为瘫痪自杀了",
+          "confidence": 0.9838,
+          "position": {
+            "x": 0.132999,
+            "y": 0.319753,
+            "width": 0.204935,
+            "height": 0.016667
+          }
+        },
+        {
+          "id": 10,
+          "text": "D医生的判断是错误的",
+          "confidence": 0.997,
+          "position": {
+            "x": 0.132999,
+            "y": 0.340741,
+            "width": 0.205772,
+            "height": 0.014506
+          }
+        },
+        {
+          "id": 11,
+          "text": "20.我们不应该随意评价他人的婚姻是否幸福，更不能自以为是地去干涉他人的家庭生",
+          "confidence": 0.995,
+          "position": {
+            "x": 0.097031,
+            "y": 0.373148,
+            "width": 0.784191,
+            "height": 0.016358
+          }
+        },
+        {
+          "id": 12,
+          "text": "活。因为婚姻就像鞋，鞋子合适不合适，别人看不出来，只有自己的脚最清楚。",
+          "confidence": 0.9722,
+          "position": {
+            "x": 0.132162,
+            "y": 0.391667,
+            "width": 0.687997,
+            "height": 0.019136
+          }
+        },
+        {
+          "id": 13,
+          "text": "A婚姻是否幸福，谁都很清楚",
+          "confidence": 0.9889,
+          "position": {
+            "x": 0.132162,
+            "y": 0.426235,
+            "width": 0.268089,
+            "height": 0.017901
+          }
+        },
+        {
+          "id": 14,
+          "text": "B",
+          "confidence": 0.9985,
+          "position": {
+            "x": 0.133417,
+            "y": 0.44784,
+            "width": 0.018821,
+            "height": 0.013272
+          }
+        },
+        {
+          "id": 15,
+          "text": "婚姻是否幸福，谁都不清楚",
+          "confidence": 0.998,
+          "position": {
+            "x": 0.154747,
+            "y": 0.445988,
+            "width": 0.244668,
+            "height": 0.017593
+          }
+        },
+        {
+          "id": 16,
+          "text": "婚姻是否幸福，自己最清楚",
+          "confidence": 0.9791,
+          "position": {
+            "x": 0.155165,
+            "y": 0.465741,
+            "width": 0.245086,
+            "height": 0.017901
+          }
+        },
+        {
+          "id": 17,
+          "text": "C",
+          "confidence": 0.9793,
+          "position": {
+            "x": 0.135926,
+            "y": 0.468827,
+            "width": 0.016311,
+            "height": 0.011111
+          }
+        },
+        {
+          "id": 18,
+          "text": "D 婚姻是否幸福，别人更清楚",
+          "confidence": 0.9707,
+          "position": {
+            "x": 0.133583,
+            "y": 0.485494,
+            "width": 0.266668,
+            "height": 0.017593
+          }
+        },
+        {
+          "id": 19,
+          "text": "21．他和她结婚才一年多，但已经感觉不愿再生活在一起。妻子怪他没有本事，只知道待",
+          "confidence": 0.9984,
+          "position": {
+            "x": 0.097031,
+            "y": 0.52037,
+            "width": 0.783772,
+            "height": 0.015432
+          }
+        },
+        {
+          "id": 20,
+          "text": "在家里，一个大男人赚不到钱；丈夫说她只会生气、抱怨，一点儿都不懂得关心人。",
+          "confidence": 0.9987,
+          "position": {
+            "x": 0.133417,
+            "y": 0.539506,
+            "width": 0.745295,
+            "height": 0.016667
+          }
+        },
+        {
+          "id": 21,
+          "text": "两个人说急了就吵架，妻子说“我后悔跟了你”，丈夫说“我也是”。于是剩下的路只",
+          "confidence": 0.999,
+          "position": {
+            "x": 0.133417,
+            "y": 0.559259,
+            "width": 0.747804,
+            "height": 0.016667
+          }
+        },
+        {
+          "id": 22,
+          "text": "有一条",
+          "confidence": 0.9995,
+          "position": {
+            "x": 0.132999,
+            "y": 0.578395,
+            "width": 0.063572,
+            "height": 0.017901
+          }
+        },
+        {
+          "id": 23,
+          "text": "离婚。",
+          "confidence": 0.9972,
+          "position": {
+            "x": 0.230866,
+            "y": 0.579321,
+            "width": 0.053116,
+            "height": 0.016975
+          }
+        },
+        {
+          "id": 24,
+          "text": "A结婚后他们的生活很幸福",
+          "confidence": 0.9957,
+          "position": {
+            "x": 0.133835,
+            "y": 0.613889,
+            "width": 0.245922,
+            "height": 0.014815
+          }
+        },
+        {
+          "id": 25,
+          "text": "B",
+          "confidence": 0.9937,
+          "position": {
+            "x": 0.134672,
+            "y": 0.634568,
+            "width": 0.027604,
+            "height": 0.012037
+          }
+        },
+        {
+          "id": 26,
+          "text": "他们结婚已经很长时间了",
+          "confidence": 0.9989,
+          "position": {
+            "x": 0.155165,
+            "y": 0.633025,
+            "width": 0.222083,
+            "height": 0.014815
+          }
+        },
+        {
+          "id": 27,
+          "text": "C",
+          "confidence": 0.9556,
+          "position": {
+            "x": 0.134672,
+            "y": 0.653704,
+            "width": 0.029695,
+            "height": 0.012963
+          }
+        },
+        {
+          "id": 28,
+          "text": "他们俩吵架都是因为钱",
+          "confidence": 0.9994,
+          "position": {
+            "x": 0.155583,
+            "y": 0.65216,
+            "width": 0.204935,
+            "height": 0.016358
+          }
+        },
+        {
+          "id": 29,
+          "text": "D",
+          "confidence": 0.9891,
+          "position": {
+            "x": 0.134253,
+            "y": 0.673457,
+            "width": 0.030113,
+            "height": 0.012963
+          }
+        },
+        {
+          "id": 30,
+          "text": "他们俩打算离婚",
+          "confidence": 0.9989,
+          "position": {
+            "x": 0.156002,
+            "y": 0.672531,
+            "width": 0.143455,
+            "height": 0.016049
+          }
+        },
+        {
+          "id": 31,
+          "text": "22.关于为什么要结婚，每对夫妻都有属于自已的理由。有人说，爱到了，就结婚吧；有",
+          "confidence": 0.9816,
+          "position": {
+            "x": 0.097031,
+            "y": 0.706173,
+            "width": 0.784191,
+            "height": 0.016358
+          }
+        },
+        {
+          "id": 32,
+          "text": "人说，一个人太孤单，所以就结婚了；甚至还有人说，结婚比谈恋爱省钱·不管理",
+          "confidence": 0.9858,
+          "position": {
+            "x": 0.133417,
+            "y": 0.725926,
+            "width": 0.749059,
+            "height": 0.016358
+          }
+        },
+        {
+          "id": 33,
+          "text": "由是什么，婚姻，就像《围城》里说的，外面的人想进去，里面的人想出来。",
+          "confidence": 0.9977,
+          "position": {
+            "x": 0.134253,
+            "y": 0.745679,
+            "width": 0.671267,
+            "height": 0.016358
+          }
+        },
+        {
+          "id": 34,
+          "text": "A人们选择结婚的原因是一样的",
+          "confidence": 0.9901,
+          "position": {
+            "x": 0.132999,
+            "y": 0.77963,
+            "width": 0.286491,
+            "height": 0.015741
+          }
+        },
+        {
+          "id": 35,
+          "text": "B有一部分婚姻的基础是爱情",
+          "confidence": 0.9623,
+          "position": {
+            "x": 0.131744,
+            "y": 0.798148,
+            "width": 0.266834,
+            "height": 0.017901
+          }
+        },
+        {
+          "id": 36,
+          "text": "C大家都觉得谈恋爱浪费钱",
+          "confidence": 0.9945,
+          "position": {
+            "x": 0.132581,
+            "y": 0.818519,
+            "width": 0.248013,
+            "height": 0.016667
+          }
+        },
+        {
+          "id": 37,
+          "text": "D人人都希望拥有婚姻",
+          "confidence": 0.9983,
+          "position": {
+            "x": 0.132999,
+            "y": 0.838889,
+            "width": 0.20619,
+            "height": 0.015432
+          }
+        },
+        {
+          "id": 38,
+          "text": "5",
+          "confidence": 0.9983,
+          "position": {
+            "x": 0.927645,
+            "y": 0.946605,
+            "width": 0.012965,
+            "height": 0.013272
+          }
+        }
+      ],
+      "sourceHash": "cb7833ce60aad1b677d817dbc4be1f03ea9e511f914db5497f9542b094b23e78"
+    }
+  }
+]

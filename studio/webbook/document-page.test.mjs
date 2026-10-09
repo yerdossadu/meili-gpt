@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {ruleEdges,measureDocumentPage} from './document-page.mjs';
-import {fromModel,render,ocrLinesOf,pageDocument,findDecorations} from './core.mjs';
+import {fromModel,render,ocrLinesOf,pageDocument,findDecorations,pageVocabulary} from './core.mjs';
 import {readFileSync} from 'node:fs';
 import {needsDisplayOcr,supplementDisplayOcr} from './display-ocr.mjs';
 import {validatePage,localizeLayout} from './page-contract.mjs';
@@ -88,4 +88,22 @@ test('HSK5 pages 9–10 preserve language coverage and independent source answer
    for(const b of choices)for(const v of b.documentText.choice.vocabulary){assert.ok(b.documentText.choice.hz.includes(v.hz));assert.ok(v.ru&&v.en&&v.kk);}
   }else assert.equal(choices.length,0);
  }
+});
+
+test('HSK5 pages 11–12 keep merged contents, four reading choices and numbered blanks',()=>{
+ const fixtures=JSON.parse(readFileSync(new URL('../../conversion-fixtures/hsk5-source-pages-011-012.json',import.meta.url),'utf8'));
+ for(const f of fixtures){const l=fromModel(f.source,f.ocr.width,f.ocr.height);l.theme={};measureDocumentPage(l,{W:100,H:150,at:()=>[255,255,255]},ocrLinesOf(f.ocr));assert.deepEqual(validatePage(localizeLayout(l),{requireKz:true}).errors,[]);const html=pageDocument(l);assert.match(html,/data-en=/);assert.match(html,/data-kz=/);
+  if(f.bookId==='9b495a8351c6'){const t=l.blocks.find(b=>b.type==='table');assert.equal(t.rowCount,13);if(f.sourcePage===11){assert.equal(t.cells.filter(c=>c.rowspan===3).length,4);assert.equal(t.cells.find(c=>c.row===12&&c.col===3).cn,'97');assert.equal(t.cells.length,44);}else {assert.equal(t.cells.length,39);const vocabulary=pageVocabulary(l);assert.equal(vocabulary.length,40);assert.ok(vocabulary.every(v=>v.trans&&v.trans_en&&v.trans_kz));assert.ok(vocabulary.some(v=>v.word==='过来'&&v.py==='guòlái'));}assert.match(html,/role="table"/);}
+  else {const c=l.blocks.filter(b=>b.documentText?.choice);assert.equal(c.length,16);for(const q of new Set(c.map(b=>b.documentText.choice.question)))assert.deepEqual(c.filter(b=>b.documentText.choice.question===q).map(b=>b.documentText.choice.letter).sort(),['A','B','C','D']);if(f.sourcePage===11){assert.deepEqual(l.blocks.find(b=>b.documentText?.cloze).documentText.cloze,[15,16,17,18]);assert.match(html,/data-cloze-numbers="15,16,17,18"/);}else assert.equal(c.find(b=>b.documentText.choice.question===20&&b.documentText.choice.letter==='D').cn,'D 婚姻是否幸福，别人更清楚');}
+ }
+});
+
+test('small HSK running logo does not trigger cover OCR',()=>{
+ assert.equal(needsDisplayOcr({lines:[{text:'HSK',position:{height:.041}},...Array.from({length:30},()=>({text:'阅读'}))]}),false);
+ assert.equal(needsDisplayOcr({lines:[{text:'HSK',position:{height:.18}},{text:'标准教程'}]}),true);
+});
+
+test('open tables use interior rules and header boundaries instead of equal columns',()=>{
+ const g={W:100,H:100,at:(x,y)=>y>=10&&y<15?[30,20,100]:[40,75].includes(x)||[35,60,85].includes(y)?[90,90,90]:[255,255,255]};
+ const l=fromModel({blocks:[{type:'table',box:{x:.1,y:.1,w:.8,h:.75},columns:3,rowCount:4,cells:[]}]},100,100);l.theme={};measureDocumentPage(l,g,[]);assert.deepEqual(l.blocks[0].columnEdges,[.1,.4,.75,.9]);assert.ok(l.blocks[0].rowEdges.every((v,i)=>Math.abs(v-[.1,.15,.35,.6,.85][i])<1e-8));assert.equal(l.blocks[0].tableGeometry.verified,true);
 });

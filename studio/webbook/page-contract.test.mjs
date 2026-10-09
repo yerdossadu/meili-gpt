@@ -42,3 +42,19 @@ test('a legacy partial Kazakh page allows geometry repair but cannot lose an exi
  delete after.kz['Привет'];delete after.blocks[0].translations.ru.kk;
  assert.equal(validatePageRevision(after,before).state,'failed');
 });
+
+test('source choice label corrections preserve Kazakh coverage by question and letter',()=>{
+ const original={type:'text',box:block.box,cn:'19. A 丈夫',en:'19. A Husband',ru:'19. A Муж',documentText:{choice:{question:19,letter:'A',hz:'丈夫',vocabulary:[]}}};
+ const before=localizeLayout({page,blocks:[original],kz:{'19. A Муж':'19. A Күйеу'}});
+ const after=localizeLayout({page,blocks:[{...original,cn:'A 丈夫',en:'A Husband',ru:'A Муж'}],kz:{'A Муж':'A Күйеу'}},before);
+ assert.deepEqual(validatePageRevision(after,before).errors,[]);
+ const missing={...after,blocks:after.blocks.map(b=>({...b,translations:{}})),kz:{}};assert.ok(validatePageRevision(missing,before).errors.length>0);
+});
+
+test('glossary changes match retained words by hanzi and still reject missing Kazakh',()=>{
+ const mk=(entries,kz)=>localizeLayout({page,blocks:[{type:'table',box:block.box,columns:1,rowCount:1,cells:[{row:0,col:0,rowspan:1,colspan:1,cn:'如何；靠',en:'how; rely on',ru:'как; опираться',vocabulary:entries}]}],kz});
+ const before=mk([{hz:'如何',py:'rúhé',ru:'как'},{hz:'靠',py:'kào',ru:'опираться'}],{'как; опираться':'қалай; сүйену','как':'қалай','опираться':'сүйену'});
+ const after=mk([{hz:'靠',py:'kào',ru:'опираться'}],{'как; опираться':'қалай; сүйену','опираться':'сүйену'});
+ assert.deepEqual(validatePageRevision(after,before).errors,[]);
+ const missing=mk([{hz:'靠',py:'kào',ru:'опираться'}],{'как; опираться':'қалай; сүйену'});assert.ok(validatePageRevision(missing,before).errors.some(e=>e.includes('опираться')));
+});

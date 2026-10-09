@@ -1,5 +1,5 @@
 // Multi-scale OCR for display lettering too large for the normal detector.
-export const needsDisplayOcr=ocr=>ocr.lines?.some(l=>/^(标准教程|HSK)$/.test(l.text.trim()))||false;
+export const needsDisplayOcr=ocr=>ocr.lines?.some(l=>/^(标准教程|HSK)$/.test(l.text.trim())&&(!l.position||l.position.height>.075||ocr.lines.length<8))||false;
 export async function supplementDisplayOcr(png,ocr,{canvas,recognize}){
  if(!needsDisplayOcr(ocr))return ocr;
  const img=await canvas.loadImage(png),lines=[...ocr.lines];

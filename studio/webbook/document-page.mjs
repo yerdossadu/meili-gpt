@@ -19,6 +19,12 @@ export function measureDocumentPage(layout,grid,lines){
   if(b.type==='table'){
    b.box={...raw.box};let xs=ruleEdges(grid,b.box,'x'),ys=ruleEdges(grid,b.box,'y');const lx=ruleEdges(grid,b.box,'x',true),ly=ruleEdges(grid,b.box,'y',true),light=lx.length===b.columns+1&&ly.length===b.rowCount+1;
    if(light){xs=lx;ys=ly;}
+   // Open outer borders and solid header ribbons are common in contents tables.
+   // A ribbon's middle is not a printed rule: replace it by its top/bottom.
+   if(!light){const probe=grid.hi||grid,header=[];for(let y=Math.round(b.box.y*probe.H);y<Math.round((b.box.y+Math.min(.07,b.box.h*.2))*probe.H);y++){let colored=0;for(let x=Math.round(b.box.x*probe.W);x<Math.round((b.box.x+b.box.w)*probe.W);x+=3){const p=probe.at(x,y);if(Math.max(...p.slice(0,3))<180&&Math.max(...p.slice(0,3))-Math.min(...p.slice(0,3))>25)colored++;}if(colored>b.box.w*probe.W/3*.55)header.push(y/probe.H);}
+    if(header.length>2){const top=header[0],bottom=header.at(-1)+1/probe.H;const candidates=[top,bottom,...ys.filter(y=>y>bottom+.002),b.box.y+b.box.h].filter((y,i,a)=>i===0||y-a[i-1]>.004);if(candidates.length===b.rowCount+1)ys=candidates;}
+    if(xs.length===b.columns-1)xs=[b.box.x,...xs,b.box.x+b.box.w];
+   }
    b.columnEdges=xs.length===b.columns+1?xs:Array.from({length:b.columns+1},(_,n)=>b.box.x+b.box.w*n/b.columns);
    b.rowEdges=ys.length===b.rowCount+1?ys:Array.from({length:b.rowCount+1},(_,n)=>b.box.y+b.box.h*n/b.rowCount);
    b.tableGeometry={verticalRules:xs.length,horizontalRules:ys.length,verified:xs.length===b.columns+1&&ys.length===b.rowCount+1};
@@ -37,7 +43,7 @@ export function measureDocumentPage(layout,grid,lines){
   const font=raw.documentText.vertical?median(found.map(l=>l.box.w))*100*.86:median(found.map(l=>l.box.h))*layout.page.height/layout.page.width*100*.86;
   const colors=[];for(let y=Math.floor(q.y*grid.H);y<Math.ceil((q.y+q.h)*grid.H);y++)for(let x=Math.floor(q.x*grid.W);x<Math.ceil((q.x+q.w)*grid.W);x++){const p=(grid.raw||grid).at(x,y);if(Math.max(...p)<180)colors.push(p);}
   const color=colors.length?'#'+[0,1,2].map(i=>median(colors.map(p=>p[i])).toString(16).padStart(2,'0')).join(''):'#333333';
-  b.documentText={sourceBox:q,lines:native,font,color:raw.documentText.color||color,heading:q.h>.03&&clean(raw.cn||raw.en).length<15,bold:raw.documentText.bold||false,sans:raw.documentText.sans||false,...(raw.documentText.choice?{choice:raw.documentText.choice}:{}),...(raw.documentText.vertical?{vertical:true}:{})};delete b.unresolvedStructure;
+  b.documentText={sourceBox:q,lines:native,font,color:raw.documentText.color||color,heading:q.h>.03&&clean(raw.cn||raw.en).length<15,bold:raw.documentText.bold||false,sans:raw.documentText.sans||false,...(raw.documentText.choice?{choice:raw.documentText.choice}:{}),...(raw.documentText.vertical?{vertical:true}:{}),...(raw.documentText.cloze?{cloze:raw.documentText.cloze}:{})};delete b.unresolvedStructure;
  }
  // Fragmented A–D labels must not produce different print sizes in one exercise.
  const choices=layout.blocks.filter(b=>b.documentText?.choice&&b.documentText.font);
