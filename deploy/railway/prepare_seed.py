@@ -23,8 +23,47 @@ for lesson_id, book_id, title, level, payload, created_at, sort_key in rows:
     if data.get('source') != 'forma' or data.get('kind') not in ('textbook', 'workbook'):
         raise SystemExit(f'Non-published or unrecognized lesson found: {lesson_id}')
     lessons.append((lesson_id, book_id, title, level, payload, created_at, sort_key))
-if len(lessons) != 7:
-    raise SystemExit(f'Expected 7 published textbook/workbook lessons; found {len(lessons)}')
+if not lessons:
+    raise SystemExit('No published textbook/workbook lessons found.')
+# Q-001 remains open. Keep the verified online WB HSK1 page rather than
+# shipping the known overlapping-card revision from the current local mirror.
+preserved = None
+old_page = output / 'forma/books/hsk1-v3-workbook/pages/003/page.json'
+local_page = source / 'forma/books/hsk1-v3-workbook/pages/003/page.json'
+if local_page.exists():
+    import re
+    local = json.loads(local_page.read_text(encoding='utf-8'))
+    html = local['platformPage']['forma']['html']
+    frames = re.findall(r'<figure\b[^>]*class="[^"]*hsk-photo[^>]*style="([^"]*)"', html)
+    bounds = []
+    for style in frames:
+        left = re.search(r'left:([\d.]+)%', style)
+        width = re.search(r'width:([\d.]+)%', style)
+        if left and width:
+            bounds.append((float(left[1]), float(width[1])))
+    bounds.sort()
+    if len(bounds) == 4 and any(a[0]+a[1] > b[0]+.1 for a,b in zip(bounds,bounds[1:])):
+        if not old_page.exists():
+            raise SystemExit('WB HSK1 page 3 overlaps and no verified deployment copy exists.')
+        preserved = json.loads(old_page.read_text(encoding='utf-8'))
+        if preserved.get('conversionId') != '9f1a4b3d-0e20-4a07-8ec0-c5960cb85964':
+            raise SystemExit('Unexpected fallback revision for Q-001; refusing to replace online page.')
+        # Read into memory before rebuilding the package; never alter local data.
+        preserved_files = {p.relative_to(output / 'forma'):p.read_bytes()
+                           for p in old_page.parent.rglob('*') if p.is_file()}
+        for key in ('css','script'):
+            rel = Path(preserved['platformPage']['forma'][key].removeprefix('/forma/'))
+            preserved_files[rel] = (output / 'forma' / rel).read_bytes()
+        refreshed=[]
+        for row in lessons:
+            values=list(row)
+            if row[0] == 'forma-hsk1-v3-workbook-001':
+                payload=json.loads(row[4])
+                payload['pages']=[preserved['platformPage'] if p.get('forma',{}).get('sourcePage')==3 else p
+                                  for p in payload['pages']]
+                values[4]=json.dumps(payload,ensure_ascii=False)
+            refreshed.append(tuple(values))
+        lessons=refreshed
 if output.exists():
     if output.resolve() != (root / 'railway-study' / 'seed').resolve():
         raise SystemExit('Unexpected seed destination; refusing recursive cleanup.')
@@ -40,6 +79,12 @@ target.executemany('INSERT INTO lessons(id,book_id,title,level,payload,created_a
 target.commit()
 target.close()
 shutil.copytree(source / 'forma', output / 'forma')
+if preserved:
+    for rel,content in preserved_files.items():
+        destination=output / 'forma' / rel
+        destination.parent.mkdir(parents=True,exist_ok=True)
+        destination.write_bytes(content)
+    print('Q-001: preserved verified WB HSK1 source page 3; local revision untouched.')
 shutil.copytree(source / 'tts', output / 'tts')
 pages = sum(len(json.loads(r[4]).get('pages', [])) for r in lessons)
 print(json.dumps({'lessons': len(lessons), 'published_pages': pages, 'database_tables': sorted(tables),

@@ -137,5 +137,23 @@
       "assets/page-014/library/1a3750a2f488/pages/014/revisions/74d1e38d-737e-4e07-aa78-11d50e7c80ce/assets/deco-1.png",
       "assets/page-014/library/1a3750a2f488/pages/014/revisions/74d1e38d-737e-4e07-aa78-11d50e7c80ce/assets/deco-2.png"
     ]
+  },
+  {
+    "sourcePage": 15,
+    "conversionId": "5c5f19b9-a77c-48e2-8335-4744bea92d24",
+    "exportedAt": "2026-10-10T02:47:50.502Z",
+    "englishLayers": 33,
+    "resources": [
+      "assets/page-015/library/1a3750a2f488/pages/015/revisions/5c5f19b9-a77c-48e2-8335-4744bea92d24/components.css"
+    ]
+  },
+  {
+    "sourcePage": 16,
+    "conversionId": "7cb3ca7e-0a34-46d3-bc54-c610cc8b4674",
+    "exportedAt": "2026-10-10T02:47:50.678Z",
+    "englishLayers": 29,
+    "resources": [
+      "assets/page-016/library/1a3750a2f488/pages/016/revisions/7cb3ca7e-0a34-46d3-bc54-c610cc8b4674/components.css"
+    ]
   }
 ]

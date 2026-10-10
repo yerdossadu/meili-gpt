@@ -29,4 +29,23 @@ for n in range(3, 8):
     assert 'data-kz=' in page['platformPage']['forma']['html'], f'Missing Kazakh on page {n}'
     runtime = package / 'seed' / page['platformPage']['forma']['script'].lstrip('/')
     assert "lang === 'en'" in runtime.read_text(encoding='utf-8') or "lang==='en'" in runtime.read_text(encoding='utf-8')
-print('PASS: published lessons only; English/Kazakh on textbook pages 3-7; current runtime; no local credentials.')
+payloads=[json.loads(r[0]) for r in rows]
+for slug,kind in [('hsk5-upper','textbook'),('hsk5-workbook','workbook')]:
+    for n in (13,14,15,16):
+        page=json.loads((package / f'seed/forma/books/{slug}/pages/{n:03}/page.json').read_text(encoding='utf-8'))
+        assert page['page']['n']==n
+        published=page['platformPage']['forma']
+        assert published['sourcePage']==n
+        assert 'data-en=' in published['html'] and 'data-kz=' in published['html']
+        assert any(p.get('kind')==kind and any(x.get('forma',{}).get('sourcePage')==n
+                   and x['forma']['base']==published['base'] for x in p['pages']) for p in payloads)
+        for key in ('css','script','scan'):
+            assert (package / 'seed' / published[key].lstrip('/')).is_file(), f'Missing HSK5 {key}'
+        if kind=='workbook':
+            if n in (13,14):
+                for q in range(23 if n==13 else 26,26 if n==13 else 29):
+                    assert published['html'].count(f'data-question="{q}"')==4
+            if n==16:
+                for q in range(1,7):
+                    assert published['html'].count(f'data-question="{q}"')==4, f'Missing WB HSK5 page 16 question {q} choices'
+print('PASS: published lessons only; EN/KZ and HSK5 pages 13-16 with correct routing, assets and question markers; no local credentials.')

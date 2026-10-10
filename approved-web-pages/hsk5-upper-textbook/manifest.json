@@ -131,5 +131,28 @@
     "resources": [
       "assets/page-014/library/9b495a8351c6/pages/014/revisions/850b440c-c818-458b-8d92-2f5be15fc2a2/components.css"
     ]
+  },
+  {
+    "sourcePage": 15,
+    "conversionId": "f54de860-9da4-426d-ad0a-9a8d59568d83",
+    "exportedAt": "2026-10-10T02:47:50.133Z",
+    "englishLayers": 2,
+    "resources": [
+      "assets/page-015/library/9b495a8351c6/pages/015/revisions/f54de860-9da4-426d-ad0a-9a8d59568d83/components.css"
+    ]
+  },
+  {
+    "sourcePage": 16,
+    "conversionId": "949512ba-6123-4844-892f-6dd5061eb289",
+    "exportedAt": "2026-10-10T02:47:50.330Z",
+    "englishLayers": 23,
+    "resources": [
+      "assets/page-016/library/9b495a8351c6/pages/016/revisions/949512ba-6123-4844-892f-6dd5061eb289/components.css",
+      "assets/page-016/library/9b495a8351c6/pages/016/revisions/949512ba-6123-4844-892f-6dd5061eb289/assets/deco-0.png",
+      "assets/page-016/library/9b495a8351c6/pages/016/revisions/949512ba-6123-4844-892f-6dd5061eb289/assets/deco-1.png",
+      "assets/page-016/library/9b495a8351c6/pages/016/revisions/949512ba-6123-4844-892f-6dd5061eb289/assets/deco-2.png",
+      "assets/page-016/library/9b495a8351c6/pages/016/revisions/949512ba-6123-4844-892f-6dd5061eb289/assets/img-4.webp",
+      "assets/page-016/library/9b495a8351c6/pages/016/revisions/949512ba-6123-4844-892f-6dd5061eb289/assets/img-16.webp"
+    ]
   }
 ]

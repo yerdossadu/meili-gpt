@@ -84,6 +84,21 @@ export function validatePageRevision(layout,before){
   const choice=old.documentText?.choice;
   const current=layout.blocks.find(b=>b.id===old.id)||layout.blocks.find(b=>choice&&b.documentText?.choice?.question===choice.question&&b.documentText?.choice?.letter===choice.letter)||layout.blocks.find(b=>old.type==='table'&&b.type==='table'&&b.columns===old.columns&&b.rowCount===old.rowCount&&Math.abs(b.box.y-old.box.y)<.01)||layout.blocks.find(b=>russianFields(b).some(f=>f.value===field.value));
   let now=current&&russianFields(current).find(f=>f.path===field.path||f.value===field.value);
+  // A source row may be rebuilt as independently positioned study words.
+  // Accept that split only if its source characters remain in reading order
+  // and every translated fragment still carries Kazakh.
+  if(!now&&old.documentText&&field.path==='ru'){
+   const q=old.documentText.sourceBox||old.box;
+   const pieces=layout.blocks.filter(b=>{const r=b.documentText?.sourceBox||b.box;return r&&r.x>=q.x-.003&&r.y>=q.y-.006&&r.x+r.w<=q.x+q.w+.006&&r.y+r.h<=q.y+q.h+.006;}).sort((a,b)=>a.box.x-b.box.x);
+   const original=String(old.cn||'').replace(/[^\p{L}\p{N}]/gu,''),replacement=pieces.map(b=>b.cn||'').join('').replace(/[^\p{L}\p{N}]/gu,'');
+   let cursor=0;for(const char of replacement)if(char===original[cursor])cursor++;
+   if(original.length&&cursor===original.length&&pieces.every(b=>russianFields(b).every(f=>b.translations?.[f.path]?.kk||layout.kz?.[f.value]))&&pieces.some(b=>russianFields(b).length))continue;
+  }
+  if(!current&&/vocabulary\.\d+\.ru$/.test(field.path)){
+   const entry=field.path.replace(/\.ru$/,'').split('.').reduce((o,k)=>o?.[k],old);
+   const retained=layout.blocks.some(b=>russianFields(b).some(f=>/vocabulary\.\d+\.ru$/.test(f.path)&&f.path.replace(/\.ru$/,'').split('.').reduce((o,k)=>o?.[k],b)?.hz===entry?.hz));
+   if(!retained)continue;
+  }
   if(current&&/vocabulary\.\d+\.ru$/.test(field.path)){
    const entry=field.path.replace(/\.ru$/,'').split('.').reduce((o,k)=>o?.[k],old),target=russianFields(current).find(f=>/vocabulary\.\d+\.ru$/.test(f.path)&&f.path.replace(/\.ru$/,'').split('.').reduce((o,k)=>o?.[k],current)?.hz===entry?.hz);
    // Removed glossary annotations are not deleted page translations. Retained
