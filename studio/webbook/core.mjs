@@ -147,6 +147,7 @@ export function normalize(parsed, scale = { sx: 1, sy: 1 }) {
     const b = { type, box, ...tri(raw) };
     if(raw.documentText)b.documentText=raw.documentText;
     if(raw.documentGraphic)b.documentGraphic=true;
+    if(type==='text'&&typeof raw.answerField==='string'&&/^[\w-]{1,80}$/.test(raw.answerField))b.answerField=raw.answerField;
     if(type==='toc')b.rows=(raw.rows||[]).map(r=>({...tri(r),label:tri(r.label),printedPage:str(r.printedPage),box:normBox(r.box,scale),labelWidth:Number(r.labelWidth)||.06,font:Number(r.font)||2})).filter(r=>r.box);
     if(type==='table')Object.assign(b,{openEdges:!!raw.openEdges,columns:Math.max(1,Math.min(20,Number(raw.columns)||1)),rowCount:Math.max(1,Math.min(50,Number(raw.rowCount)||1)),cells:(raw.cells||[]).map(c=>({...tri(c),vertical:!!c.vertical,keepOriginal:!!c.keepOriginal,cloze:c.cloze||[],answerCheckbox:c.answerCheckbox||null,answerField:c.answerField||null,align:c.align==='left'?'left':'center',vocabulary:c.vocabulary||[],row:Number(c.row)||0,col:Number(c.col)||0,rowspan:Math.max(1,Number(c.rowspan)||1),colspan:Math.max(1,Number(c.colspan)||1)}))});
     if(type==='contents')Object.assign(b,{columns:raw.columns,header:(raw.header||[]).map(tri),rows:(raw.rows||[]).map(row=>row.map(c=>({...tri(c),span:Number(c.span)||1,items:(c.items||[]).map(tri)})))});
@@ -1211,7 +1212,7 @@ export function snap(layout, grid, ocr) {
   const theme = extractTheme(grid.raw || grid);
   const blocks = layout.blocks.map((b, n) => {
     const own = hits[n], next = { ...b };
-    if(b.documentText||b.documentGraphic||b.type==='table'||b.type==='toc')return next;
+    if(b.answerField||b.documentText||b.documentGraphic||b.type==='table'||b.type==='toc')return next;
     // A caption's translation the print does not carry («鸡 jī» under a photo, no «chicken»): any scan
     // line around the caption may hold it, assigned to this block or not.
     if (b.type === 'text' && b.cn && b.en && !gridRows(b)) { const area = grow(b.box, 0.03, 0.02); if (!lines.some(l => l.box.x + l.box.w / 2 >= area.x && l.box.x + l.box.w / 2 <= area.x + area.w && l.box.y + l.box.h / 2 >= area.y && l.box.y + l.box.h / 2 <= area.y + area.h && matchScore(plain(l.text), plain(b.en)) >= 0.5)) next.trOff = true; }
@@ -1550,7 +1551,7 @@ export function snap(layout, grid, ocr) {
         }
       }
     }
-    if (b.documentText || b.type !== 'text' || gridRows(b) || String(b.cn || b.py || '').length > 12) continue;
+    if (b.answerField || b.documentText || b.type !== 'text' || gridRows(b) || String(b.cn || b.py || '').length > 12) continue;
     const cx = b.box.x + b.box.w / 2, pic = blocks.find(o => o.type === 'image' && cx > o.box.x && cx < o.box.x + o.box.w && b.box.y >= o.box.y + o.box.h * 0.5 && b.box.y - (o.box.y + o.box.h) < 0.06);
     if (pic) { b.box = { ...b.box, x: pic.box.x, w: pic.box.w }; b.align = 'center'; b.cardOf = pic; }
   }
@@ -1654,7 +1655,7 @@ export function snap(layout, grid, ocr) {
   // instead of shrinking.
   const columnRight = Math.max(...blocks.filter(o => ['para', 'words', 'card', 'objectives', 'image', 'dialogue', 'tip'].includes(o.type)).map(o => o.box.x + o.box.w), 0.5);
   for (const b of blocks) {
-    if (b.toneRows || !['para', 'text'].includes(b.type) || b.box.x > columnRight - 0.1) continue;
+    if (b.answerField || b.toneRows || !['para', 'text'].includes(b.type) || b.box.x > columnRight - 0.1) continue;
     let right = columnRight;
     for (const o of blocks) {
       if (o === b || o.type === 'decor' || o.type === 'runhead' || o.type === 'folio') continue;
@@ -1940,6 +1941,7 @@ export function findDecorations(layout, grid) {
   // Printed unit panels are already reconstructed with CSS and native text.
   // Recovering their remaining ink as a scan crop would cover translations.
   for(const p of theme.documentPanels||[])cover(p.box,.004);
+  for(const q of theme.documentDiagramRegions||[])cover(q,.002);
   // Generous margins: components draw their own pills, tabs, pins and corner
   // triangles just outside their boxes, and those must not be cut twice.
   for (const b of layout.blocks) {
@@ -2610,7 +2612,7 @@ export function render(layout, { assets = {}, pinyin = true, lang = '', editable
     return `<button type="button" class="hsk-phonetic-cell" aria-label="${kind} ${esc(c.text)} — выбрать и прослушать" aria-pressed="false" data-hsk-speak="${esc(c.speak || c.text)}" data-src="${esc(src || '')}" style="left:${pct(c.box.x)};top:${pct(c.box.y)};width:${pct(c.box.w)};height:${pct(c.box.h)}" onclick="${esc(handler)}">${esc(c.text)}</button>`;
   }).join('');
   const documentPanels=(theme.documentPanels||[]).map(p=>`<div class="hsk-at hsk-background" style="left:${pct(p.box.x)};top:${pct(p.box.y)};width:${pct(p.box.w)};height:${pct(p.box.h)};background:${esc(p.color)}"></div>`).join('');
-  const documentRules=(theme.documentRules||[]).map(r=>`<i class="hsk-at hsk-document-rule" aria-hidden="true" style="left:${pct(r.box.x)};top:${pct(r.box.y)};width:${pct(r.box.w)};border-top:.08cqw ${r.dashed?'dashed':'solid'} #999"></i>`).join('');
+  const documentRules=[...(theme.documentRules||[]),...(theme.documentConnectors||[])].map(r=>`<i class="hsk-at hsk-document-rule" aria-hidden="true" style="left:${pct(r.box.x)};top:${pct(r.box.y)};width:${pct(r.box.w)};${r.vertical?`height:${pct(r.box.h)};border-left:.08cqw solid #999`:`border-top:.08cqw ${r.dashed?'dashed':'solid'} #999`}"></i>`).join('');
   return `<div class="hsk-page${source ? ' hsk-has-source' : ''}${translatedSource ? ' hsk-source-translated' : ''}"${layout.conversionId ? ` data-conversion-id="${esc(layout.conversionId)}"` : ''}${lang ? ` data-lang="${lang === 'original' ? 'orig' : 'ru'}"` : ''} data-pinyin="${pinyin ? 'on' : 'off'}" style="${style}">${bg}${documentPanels}${documentRules}${deco}${html}${source}${phonetics}${phonetics ? '<output class="hsk-phonetic-status" aria-live="polite">Нажмите на инициаль, финаль или слог, чтобы прослушать произношение.</output>' : ''}</div>`;
 }
 
@@ -2653,7 +2655,7 @@ export function fit(page) {
   // One measuring pass in the language shown now: returns the blocks and the zoom each got.
   const fitDocument = () => {
   for(const el of page.querySelectorAll('.hsk-document-original')){if(el.offsetParent===null)continue;el.style.transform='';if(el.scrollWidth>el.clientWidth+3){el.style.transformOrigin='left top';el.style.transform='scaleX('+Math.max(.6,el.clientWidth/el.scrollWidth)+')';}}
-  for(const el of page.querySelectorAll('.hsk-document-translation,.hsk-document-cell > span')){if(el.offsetParent===null)continue;const parent=el.parentElement;let size=parent.classList.contains('hsk-choice-bilingual')?page.clientWidth*.012:parent.classList.contains('hsk-study-token')?page.clientWidth*.013:parent.classList.contains('hsk-document-cell')?page.clientWidth*Number(parent.dataset.sourceFont||1.8)/100:Number.parseFloat(getComputedStyle(parent).fontSize);el.style.fontSize=size+'px';while((el.scrollHeight>parent.clientHeight*(parent.classList.contains('hsk-cell-bilingual')&&page.dataset.lang!=='orig'?.47:parent.classList.contains('hsk-choice-bilingual')&&!parent.classList.contains('hsk-choice-inline')?.42:1)+1||el.scrollWidth>parent.clientWidth+1)&&size>page.clientWidth*.009){size*=.96;el.style.fontSize=size+'px';}}
+  for(const el of page.querySelectorAll('.hsk-document-translation,.hsk-document-cell > span')){if(el.offsetParent===null)continue;const parent=el.parentElement;let size=parent.classList.contains('hsk-choice-bilingual')?page.clientWidth*.012:parent.classList.contains('hsk-study-token')?page.clientWidth*.013:parent.classList.contains('hsk-document-cell')?page.clientWidth*Number(parent.dataset.sourceFont||1.8)/100:Number.parseFloat(getComputedStyle(parent).fontSize);el.style.fontSize=size+'px';while((el.scrollHeight>parent.clientHeight*(parent.classList.contains('hsk-cell-bilingual')&&page.dataset.lang!=='orig'?.47:parent.classList.contains('hsk-choice-bilingual')&&!parent.classList.contains('hsk-choice-inline')?.42:parent.classList.contains('hsk-study-token')?.45:1)+1||el.scrollWidth>parent.clientWidth+1)&&size>page.clientWidth*(parent.classList.contains('hsk-study-token')?.006:.009)){size*=.96;el.style.fontSize=size+'px';}}
   const proseSizes=new Map();for(const el of page.querySelectorAll('[data-prose-group] .hsk-document-translation')){if(el.offsetParent===null)continue;const key=el.parentElement.dataset.proseGroup,size=Number.parseFloat(el.style.fontSize);proseSizes.set(key,Math.min(proseSizes.get(key)||Infinity,size));}for(const el of page.querySelectorAll('[data-prose-group] .hsk-document-translation')){const size=proseSizes.get(el.parentElement.dataset.proseGroup);if(size)el.style.fontSize=size+'px';}
   const choiceSizes=new Map();for(const el of page.querySelectorAll('.hsk-document-choice .hsk-document-translation')){if(el.offsetParent===null)continue;const q=el.parentElement.dataset.question,size=Number.parseFloat(el.style.fontSize);choiceSizes.set(q,Math.min(choiceSizes.get(q)||Infinity,size));}for(const el of page.querySelectorAll('.hsk-document-choice .hsk-document-translation')){const size=choiceSizes.get(el.parentElement.dataset.question);if(size)el.style.fontSize=size+'px';}
   for(const el of page.querySelectorAll('.hsk-toc-title,.hsk-toc-label')){let size=Number.parseFloat(getComputedStyle(el.parentElement).fontSize);el.style.fontSize=size+'px';while((el.scrollWidth>el.clientWidth+1||el.scrollHeight>el.parentElement.clientHeight+1)&&size>page.clientWidth*.009){size*=.96;el.style.fontSize=size+'px';}}

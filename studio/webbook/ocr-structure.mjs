@@ -2,6 +2,34 @@
 // Translation annotations carry content; all positions come from the source OCR.
 export const sourceBox=l=>l.box||{x:l.position.x,y:l.position.y,w:l.position.width,h:l.position.height};
 export const boxUnion=lines=>{const qs=lines.map(sourceBox),x=Math.min(...qs.map(q=>q.x)),y=Math.min(...qs.map(q=>q.y));return{x,y,w:Math.max(...qs.map(q=>q.x+q.w))-x,h:Math.max(...qs.map(q=>q.y+q.h))-y};};
+// Recover separated portraits and straight connectors in a diagram. The region
+// comes from the surrounding OCR instructions; labels remain editable text.
+export function sourcePortraitDiagram(grid,region,labels=[]){
+ const g=grid.hi||grid,x0=Math.floor(region.x*g.W),x1=Math.ceil((region.x+region.w)*g.W),y0=Math.floor(region.y*g.H),y1=Math.ceil((region.y+region.h)*g.H);
+ const colored=(x,y)=>{const p=g.at(x,y);return Math.min(...p)<210&&Math.max(...p)-Math.min(...p)>35;};
+ const runs=(hits,gap)=>{const out=[];for(const v of hits){const a=out.at(-1);if(a&&v-a.at(-1)<=gap)a.push(v);else out.push([v]);}return out;};
+ const ys=[];for(let y=y0;y<y1;y++){let n=0;for(let x=x0;x<x1;x+=2)if(colored(x,y))n++;if(n>g.W*.007)ys.push(y);}
+ const bands=runs(ys,Math.ceil(g.H*.004)).filter(a=>a.at(-1)-a[0]>g.H*.018),portraits=[];
+ for(const [row,band]of bands.entries()){
+  const xs=[];for(let x=x0;x<x1;x++){let n=0;for(let y=band[0];y<=band.at(-1);y+=2)if(colored(x,y)||Math.max(...g.at(x,y))<180)n++;if(n>3)xs.push(x);}
+  for(const a of runs(xs,Math.ceil(g.W*.003)).filter(a=>a.at(-1)-a[0]>g.W*.025)){
+   let left=Math.max(x0,a[0]-Math.ceil(g.W*.004)),right=Math.min(x1,a.at(-1)+Math.ceil(g.W*.004)),top=Math.max(y0,band[0]-Math.ceil(g.H*.009)),bottom=band.at(-1)+2;
+   // Include dark hair adjacent to the coloured face without including labels.
+   const points=[];for(let y=top;y<=bottom;y++)for(let x=left;x<=right;x++){const p=g.at(x,y);if(Math.max(...p)<180||colored(x,y))points.push({x,y});}
+   if(points.length){left=Math.min(...points.map(p=>p.x));right=Math.max(...points.map(p=>p.x));top=Math.min(...points.map(p=>p.y));bottom=Math.max(...points.map(p=>p.y));}
+   portraits.push({row,box:{x:left/g.W,y:top/g.H,w:(right-left+1)/g.W,h:(bottom-top+1)/g.H}});
+  }
+ }
+ const rules=[];const excluded=(x,y)=>labels.some(q=>y>=q.y-.002&&y<=q.y+q.h+.001)||portraits.some(p=>x>=p.box.x-.002&&x<=p.box.x+p.box.w+.002&&y>=p.box.y-.002&&y<=p.box.y+p.box.h+.002);
+ const ink=(x,y)=>{const p=g.at(x,y);return Math.max(...p)<220&&Math.max(...p)-Math.min(...p)<24&&!excluded(x/g.W,y/g.H);};
+ const scan=(vertical)=>{const outer0=vertical?x0:y0,outer1=vertical?x1:y1,inner0=vertical?y0:x0,inner1=vertical?y1:x1,min=vertical?g.H*.006:g.W*.025;
+  for(let o=outer0;o<outer1;o++){const hits=[];for(let i=inner0;i<inner1;i++)if(ink(vertical?o:i,vertical?i:o))hits.push(i);
+   for(const a of runs(hits,3)){if(a.at(-1)-a[0]<min||a.length/(a.at(-1)-a[0]+1)<.7)continue;const q=vertical?{x:o/g.W,y:a[0]/g.H,w:1/g.W,h:(a.at(-1)-a[0]+1)/g.H}:{x:a[0]/g.W,y:o/g.H,w:(a.at(-1)-a[0]+1)/g.W,h:1/g.H};
+    if(!rules.some(r=>r.vertical===vertical&&Math.abs((vertical?r.box.x:r.box.y)-(vertical?q.x:q.y))<.002&&Math.abs((vertical?r.box.y:r.box.x)-(vertical?q.y:q.x))<.006))rules.push({box:q,vertical});
+   }
+  }
+ };scan(false);scan(true);return{portraits,rules};
+}
 export function sourceTableFrame(grid,lines){
  const tinted=sourceTintedTableFrame(grid,lines);if(tinted)return tinted;
  const seed=boxUnion(lines),g=grid.hi||grid,x0=Math.max(0,Math.floor((seed.x-.075)*g.W)),x1=Math.min(g.W-1,Math.ceil((seed.x+seed.w+.075)*g.W)),hits=[];
@@ -36,7 +64,7 @@ export function sourceColumnRule(grid,frame,anchor,radius=.018){
 // Find a standalone photograph in the unoccupied column beside a paragraph.
 // The caller supplies OCR-derived free space, never a hand-cut bitmap.
 export function sourcePhotoBox(grid,region){const g=grid.hi||grid,hits=[];for(let y=Math.floor(region.y*g.H);y<(region.y+region.h)*g.H;y++){let left=g.W,right=0,n=0;for(let x=Math.floor(region.x*g.W);x<(region.x+region.w)*g.W;x+=2){const p=g.at(x,y);if(Math.min(...p)<190&&Math.max(...p)-Math.min(...p)>25){n++;left=Math.min(left,x);right=x;}}if(n>region.w*g.W*.15)hits.push({y,left,right});}if(hits.length<g.H*.025)return null;const med=a=>a.sort((a,b)=>a-b)[a.length>>1],x=med(hits.map(h=>h.left)),right=med(hits.map(h=>h.right));return{x:x/g.W,y:hits[0].y/g.H,w:(right-x+2)/g.W,h:(hits.at(-1).y-hits[0].y+1)/g.H};}
-export function sourceExerciseBadge(grid,label){const g=grid.hi||grid,points=[];for(let y=Math.max(0,Math.floor((label.y-.003)*g.H));y<Math.min(g.H,(label.y+label.h+.004)*g.H);y++)for(let x=Math.max(0,Math.floor((label.x-.035)*g.W));x<(label.x-.005)*g.W;x++){const p=g.at(x,y);if(Math.min(...p)<220&&Math.max(...p)-Math.min(...p)>13)points.push({x,y,p});}if(points.length<g.W*g.H*.000025)return null;const med=a=>a.sort((a,b)=>a-b)[a.length>>1],x=Math.min(...points.map(p=>p.x)),y=Math.min(...points.map(p=>p.y)),r=Math.max(...points.map(p=>p.x)),b=Math.max(...points.map(p=>p.y));return{box:{x:x/g.W,y:y/g.H,w:(r-x+1)/g.W,h:(b-y+1)/g.H},fill:'#'+[0,1,2].map(i=>med(points.map(p=>p.p[i])).toString(16).padStart(2,'0')).join('')};}
+export function sourceExerciseBadge(grid,label,searchWidth=.035){const g=grid.hi||grid,points=[];for(let y=Math.max(0,Math.floor((label.y-.003)*g.H));y<Math.min(g.H,(label.y+label.h+.004)*g.H);y++)for(let x=Math.max(0,Math.floor((label.x-searchWidth)*g.W));x<(label.x-.005)*g.W;x++){const p=g.at(x,y);if(Math.min(...p)<220&&Math.max(...p)-Math.min(...p)>13)points.push({x,y,p});}if(points.length<g.W*g.H*.000025)return null;const med=a=>a.sort((a,b)=>a-b)[a.length>>1],x=Math.min(...points.map(p=>p.x)),y=Math.min(...points.map(p=>p.y)),r=Math.max(...points.map(p=>p.x)),b=Math.max(...points.map(p=>p.y));return{box:{x:x/g.W,y:y/g.H,w:(r-x+1)/g.W,h:(b-y+1)/g.H},fill:'#'+[0,1,2].map(i=>med(points.map(p=>p.p[i])).toString(16).padStart(2,'0')).join('')};}
 export function sourceTableAnchors(lines,columns,cells){
  const center=l=>sourceBox(l).x+sourceBox(l).w/2;
  if(columns===2){const marks=lines.filter(l=>l.text==='+');if(marks.length)return[marks.map(center).sort((a,b)=>a-b)[marks.length>>1]];}
@@ -69,7 +97,7 @@ export function sourceChoices(lines){
  }
  return groups.sort((a,b)=>a.question-b.question||a.letter.localeCompare(b.letter));
 }
-const numbered=/^\s*\*?\s*(\d+)\s*[.．]\s*([\p{Script=Han}]+)/u;
+const numbered=/^\s*\*?\s*(\d+)\s*[.．]\s*([\p{Script=Han}]+(?:[（(][\p{Script=Han}]+[)）])?)/u;
 const weighted=s=>[...s].reduce((n,c)=>n+(/[\p{Script=Han}]/u.test(c)?1:/[ilI'.,:;\s]/.test(c)?.27:/[mwMW]/.test(c)?.85:.53),0);
 export function splitSourceLine(line,texts){const q=sourceBox(line),total=texts.reduce((n,s)=>n+weighted(s),0);const gap=Math.min(.006,q.w/(texts.length*12)),usable=q.w-gap*(texts.length-1);let x=q.x;return texts.map(text=>{const w=usable*weighted(text)/total,part={text,box:{...q,x,w}};x+=w+gap;return part;});}
 // Separated word-bank items have real wide whitespace. Recover those gaps

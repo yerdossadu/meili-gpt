@@ -145,6 +145,8 @@ export function measureDocumentPage(layout,grid,lines){
  if(!source.some(b=>b.type==='table')){const panels=detectTintedPanels(grid);if(panels.length){layout.theme.paper='#fff';layout.theme.background=null;layout.theme.documentPanels.push(...panels.filter(p=>!layout.theme.documentPanels.some(e=>p.box.x>=e.box.x-.01&&p.box.y>=e.box.y-.01&&p.box.x+p.box.w<=e.box.x+e.box.w+.01&&p.box.y+p.box.h<=e.box.y+e.box.h+.01)));}}
  const probe=grid.hi||grid,occupied=source.flatMap(b=>[b.documentText?.sourceBox||b.box,...(b.documentPanel?.box?[b.documentPanel.box]:[])]),rules=[];
  for(let y=0;y<probe.H;y+=2){const ny=y/probe.H;if(occupied.some(q=>ny>=q.y-.002&&ny<=q.y+q.h+.002))continue;let count=0,x0=probe.W,x1=0,run=0,longest=0;for(let x=0;x<probe.W;x+=2){if(dark(probe.at(x,y))){count++;x0=Math.min(x0,x);x1=x;run++;longest=Math.max(longest,run);}else run=0;}if(count>probe.W*.12&&(x1-x0)>probe.W*.28){const previous=rules.at(-1);if(previous&&ny-previous.box.y<4/probe.H)continue;rules.push({box:{x:x0/probe.W,y:ny,w:(x1-x0+1)/probe.W,h:1/probe.H},dashed:longest<count*.4});}}
+ layout.theme.documentDiagramRegions=source.map(b=>b.documentDiagramRegion).filter(q=>q&&['x','y','w','h'].every(k=>Number.isFinite(q[k])));
+ layout.theme.documentConnectors=source.flatMap(b=>b.documentConnectors||[]).filter(r=>r.box&&['x','y','w','h'].every(k=>Number.isFinite(r.box[k])));
  layout.theme.documentRules=rules;
  return true;
 }
