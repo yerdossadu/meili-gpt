@@ -5,7 +5,7 @@ export const digest = value => createHash('sha256').update(typeof value === 'str
 const sourceOf = o => {
   if (Array.isArray(o)) return o.map(sourceOf);
   if (!o || typeof o !== 'object') return o;
-  return Object.fromEntries(Object.entries(o).filter(([k]) => /^(cn|en|hz|py|text|number|type|rows|turns|heading|header|items|caption|group|lines|cells|columns|rowCount|row|col|rowspan|colspan|printedPage|label|documentText|choice|question|letter|vocabulary|cloze)$/.test(k)).map(([k,v])=>[k,sourceOf(v)]));
+  return Object.fromEntries(Object.entries(o).filter(([k]) => /^(cn|en|hz|py|text|number|type|rows|turns|heading|header|items|caption|group|lines|cells|columns|rowCount|row|col|rowspan|colspan|printedPage|label|documentText|choice|question|letter|vocabulary|cloze|answerField)$/.test(k)).map(([k,v])=>[k,sourceOf(v)]));
 };
 export function russianFields(block) {
   const fields = [];

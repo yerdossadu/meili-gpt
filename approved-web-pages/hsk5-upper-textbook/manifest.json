@@ -154,5 +154,24 @@
       "assets/page-016/library/9b495a8351c6/pages/016/revisions/949512ba-6123-4844-892f-6dd5061eb289/assets/img-4.webp",
       "assets/page-016/library/9b495a8351c6/pages/016/revisions/949512ba-6123-4844-892f-6dd5061eb289/assets/img-16.webp"
     ]
+  },
+  {
+    "sourcePage": 17,
+    "conversionId": "91eed730-9aa8-41ee-87e4-3f85c38e1172",
+    "exportedAt": "2026-10-10T03:23:56.612Z",
+    "englishLayers": 32,
+    "resources": [
+      "assets/page-017/library/9b495a8351c6/pages/017/revisions/91eed730-9aa8-41ee-87e4-3f85c38e1172/components.css"
+    ]
+  },
+  {
+    "sourcePage": 18,
+    "conversionId": "45ba394d-bf57-4056-8671-9a9c741cc4e6",
+    "exportedAt": "2026-10-10T03:23:57.131Z",
+    "englishLayers": 27,
+    "resources": [
+      "assets/page-018/library/9b495a8351c6/pages/018/revisions/45ba394d-bf57-4056-8671-9a9c741cc4e6/components.css",
+      "assets/page-018/library/9b495a8351c6/pages/018/revisions/45ba394d-bf57-4056-8671-9a9c741cc4e6/assets/deco-0.png"
+    ]
   }
 ]

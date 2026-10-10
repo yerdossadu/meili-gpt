@@ -155,5 +155,23 @@
     "resources": [
       "assets/page-016/library/1a3750a2f488/pages/016/revisions/7cb3ca7e-0a34-46d3-bc54-c610cc8b4674/components.css"
     ]
+  },
+  {
+    "sourcePage": 17,
+    "conversionId": "74975b1d-bb3e-4d66-ad00-3cd224d9e4b9",
+    "exportedAt": "2026-10-10T03:16:06.735Z",
+    "englishLayers": 35,
+    "resources": [
+      "assets/page-017/library/1a3750a2f488/pages/017/revisions/74975b1d-bb3e-4d66-ad00-3cd224d9e4b9/components.css"
+    ]
+  },
+  {
+    "sourcePage": 18,
+    "conversionId": "ef4a1304-a68f-4c02-a86b-594ac3765e6a",
+    "exportedAt": "2026-10-10T03:23:57.814Z",
+    "englishLayers": 21,
+    "resources": [
+      "assets/page-018/library/1a3750a2f488/pages/018/revisions/ef4a1304-a68f-4c02-a86b-594ac3765e6a/components.css"
+    ]
   }
 ]
