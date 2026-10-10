@@ -75,7 +75,7 @@ export function measureDocumentPage(layout,grid,lines){
    b.columnEdges=xs.length===b.columns+1?xs:Array.from({length:b.columns+1},(_,n)=>b.box.x+b.box.w*n/b.columns);
    b.rowEdges=ys.length===b.rowCount+1?ys:Array.from({length:b.rowCount+1},(_,n)=>b.box.y+b.box.h*n/b.rowCount);
    b.tableGeometry={verticalRules:xs.length,horizontalRules:ys.length,verified:xs.length===b.columns+1&&ys.length===b.rowCount+1};
-   b.borderColor=light?'#fff':'#888';
+   b.borderColor=(light||raw.sourceWhiteRules)?'#fff':'#888';const cellLines=lines.filter(l=>l.box.x>=b.box.x&&l.box.x+l.box.w<=b.box.x+b.box.w&&l.box.y>=b.box.y&&l.box.y+l.box.h<=b.box.y+b.box.h);b.cellFont=cellLines.length?median(cellLines.map(l=>l.box.h))*layout.page.height/layout.page.width*86:1.8;
    const probe=grid.hi||grid;
    for(const c of b.cells){const colors=[];for(let y=b.rowEdges[c.row]+.001;y<b.rowEdges[c.row+c.rowspan]-.001;y+=.002)for(let x=b.columnEdges[c.col]+.001;x<b.columnEdges[c.col+c.colspan]-.001;x+=.002)colors.push(probe.at(Math.round(x*probe.W),Math.round(y*probe.H)));c.fill=colors.length?'#'+[0,1,2].map(i=>median(colors.map(p=>p[i])).toString(16).padStart(2,'0')).join(''):'#fff';c.color=parseInt(c.fill.slice(1,3),16)<130?'#fff':'#333';}
    // Green flecks beside plain comparison grids are scan noise. A printed
@@ -100,7 +100,7 @@ export function measureDocumentPage(layout,grid,lines){
   const colors=[];for(let y=Math.floor(q.y*grid.H);y<Math.ceil((q.y+q.h)*grid.H);y++)for(let x=Math.floor(q.x*grid.W);x<Math.ceil((q.x+q.w)*grid.W);x++){const p=(grid.raw||grid).at(x,y);if(Math.max(...p)<180)colors.push(p);}
   const color=colors.length?'#'+[0,1,2].map(i=>median(colors.map(p=>p[i])).toString(16).padStart(2,'0')).join(''):'#333333';
   if(raw.en) b.en=raw.en;
-  b.documentText={sourceBox:q,lines:native,font,color:raw.documentText.color||color,translationColor:raw.documentText.color||'#333',heading:q.h>.03&&clean(raw.cn||raw.en).length<15,bold:raw.documentText.bold||false,sans:raw.documentText.sans||false,...(raw.documentText.audioTrack?{audioTrack:raw.documentText.audioTrack}:{}),...(raw.documentText.studyToken?{studyToken:true}:{}),...(raw.documentText.bilingualChoice?{bilingualChoice:true}:{}),...(raw.documentText.keepOriginal?{keepOriginal:true,translationBox:raw.documentText.translationBox}:{}),...(raw.documentText.choice?{choice:raw.documentText.choice}:{}),...(raw.documentText.vertical?{vertical:true}:{}),...(raw.documentText.cloze?{cloze:raw.documentText.cloze}:{}),...(raw.documentText.vocabulary?{vocabulary:raw.documentText.vocabulary}:{})};
+  b.documentText={sourceBox:q,lines:native,font,color:raw.documentText.color||color,translationColor:raw.documentText.color||'#333',heading:q.h>.03&&clean(raw.cn||raw.en).length<15,bold:raw.documentText.bold||false,sans:raw.documentText.sans||false,...(raw.documentText.proseGroup?{proseGroup:raw.documentText.proseGroup}:{}),...(raw.documentText.badge?{badge:raw.documentText.badge}:{}),...(raw.documentText.audioTrack?{audioTrack:raw.documentText.audioTrack}:{}),...(raw.documentText.studyToken?{studyToken:true,...(raw.documentText.speakText?{speakText:raw.documentText.speakText}:{})}:{}),...(raw.documentText.bilingualChoice?{bilingualChoice:true}:{}),...(raw.documentText.keepOriginal?{keepOriginal:true,translationBox:raw.documentText.translationBox}:{}),...(raw.documentText.choice?{choice:raw.documentText.choice}:{}),...(raw.documentText.insertionChoices?{insertionChoices:raw.documentText.insertionChoices}:{}),...(raw.documentText.vertical?{vertical:true}:{}),...(raw.documentText.cloze?{cloze:raw.documentText.cloze}:{}),...(raw.documentText.vocabulary?{vocabulary:raw.documentText.vocabulary}:{})};
   if(raw.documentText.eraseBackground){const samples=[];for(let y=Math.floor(q.y*grid.H);y<Math.ceil((q.y+q.h)*grid.H);y++)for(let x=Math.floor(q.x*grid.W);x<Math.ceil((q.x+q.w)*grid.W);x++){const p=(grid.raw||grid).at(x,y);if(Math.min(...p)>190)samples.push(p);}if(samples.length)b.documentText.eraseColor='#'+[0,1,2].map(i=>median(samples.map(p=>p[i])).toString(16).padStart(2,'0')).join('');}delete b.unresolvedStructure;
  }
  // OCR often merges the disc label with the preceding heading. Recover the
@@ -111,6 +111,8 @@ export function measureDocumentPage(layout,grid,lines){
  }
  // Restore answer slots from pixel geometry on any labeled exercise row.
  const fields=[];
+ for(const b of layout.blocks){const raw=source.find(s=>s.documentText?.gapAnswers&&s.documentText.sourceBox&&b.documentText?.sourceBox&&Math.abs(s.documentText.sourceBox.y-b.documentText.sourceBox.y)<.0001);if(!raw)continue;const ls=b.documentText.lines.slice().sort((a,c)=>a.box.x-c.box.x);for(let i=0;i<ls.length-1;i++){const left=ls[i].box,right=ls[i+1].box,g=grid.hi||grid;if(right.x-left.x-left.w<.025)continue;let best=null;for(let y=Math.floor((left.y+left.h*.7)*g.H);y<=Math.ceil((left.y+left.h+.004)*g.H);y++){let start=-1,last=-1;for(let x=Math.floor((left.x+left.w)*g.W);x<=Math.ceil(right.x*g.W);x++){const p=g.at(x,y),ink=Math.max(...p)<240&&Math.max(...p)-Math.min(...p)<65;if(ink){if(start<0)start=x;last=x;}else if(start>=0&&x-last>2){if(last-start>g.W*.025&&(!best||last-start>best.w*g.W))best={x:start/g.W,y:y/g.H,w:(last-start)/g.W};start=-1;}}if(start>=0&&last-start>g.W*.025&&(!best||last-start>best.w*g.W))best={x:start/g.W,y:y/g.H,w:(last-start)/g.W};}if(best){if(!b.documentText.gapAnswers)b.documentText.gapAnswers=[];b.documentText.gapAnswers.push('gap-'+Math.round(left.y*10000)+'-'+i);fields.push({type:'text',box:{x:best.x,y:best.y-left.h*.85,w:best.w,h:left.h*.85},cn:'',en:'',ru:'',answerField:'gap-'+Math.round(left.y*10000)+'-'+i,sourceRule:best});}}}
+
  for(const b of layout.blocks){const q=b.documentText?.sourceBox,exercise=/^(?:[（(]\d+[)）]|[AB][：:])/.test(b.cn||'');if(!q||q.h>.04||(!/[:：]/.test(b.cn)&&!exercise)||clean(b.cn).length>40||b.documentText.choice||b.documentText.keepOriginal)continue;
   const label=/^[AB][：:]$/.test(b.cn||'')?{...q,w:Math.min(q.w,q.h*layout.page.height/layout.page.width*.95)}:q;
   const rules=detectAnswerRules(grid,label,lines.filter(l=>!(/^[AB][:：]_+/.test(l.text)&&Math.abs(l.box.y-q.y)<.007)),exercise?{minWidth:.15,maxWidth:.65,minCount:1}:{});if(!rules.length)continue;
@@ -120,6 +122,7 @@ export function measureDocumentPage(layout,grid,lines){
  layout.blocks.push(...fields);
  // Fragmented A–D labels must not produce different print sizes in one exercise.
  const choices=layout.blocks.filter(b=>b.documentText?.choice&&b.documentText.font);
+ for(const b of choices){const slots=fields.filter(f=>f.box.x<b.box.x&&Math.abs(f.box.y-b.box.y)<.012);if(slots.length===1)b.documentText.choice.answerGap=slots[0].answerField;}
  if(choices.length){const font=median(choices.map(b=>b.documentText.font));for(const b of choices)b.documentText.font=font;}
  // Dense horizontal choice rows have no space for a second line beneath the
  // Chinese. Put the translation in the existing gap after each source option.
@@ -136,7 +139,7 @@ export function measureDocumentPage(layout,grid,lines){
  }
  const study=layout.blocks.filter(b=>b.documentText?.studyToken);
  const studyRows=[];for(const b of study){let row=studyRows.find(r=>Math.abs(r[0].documentText.sourceBox.y-b.documentText.sourceBox.y)<.006);if(!row){row=[];studyRows.push(row);}row.push(b);}
- for(const row of studyRows){const font=median(row.map(b=>b.documentText.font));for(const b of row)b.documentText.font=font;}
+ for(const row of studyRows){const font=median(row.map(b=>b.documentText.font));row.sort((a,b)=>a.box.x-b.box.x);for(let i=0;i<row.length;i++){const b=row[i];b.documentText.font=font;const right=row[i+1]?.box.x-.007;if(right>b.box.x+b.box.w)b.box.w=right-b.box.x;}}
  // A tinted paper panel is measured independently of its printed characters.
  layout.theme.documentPanels=source.filter(b=>b.documentPanel?.box).map(b=>{const q=b.documentPanel.box,p=(grid.hi||grid),colors=[];for(let y=q.y+.002;y<q.y+q.h-.002;y+=.003)for(let x=q.x+.002;x<q.x+q.w-.002;x+=.003)colors.push(p.at(Math.round(x*p.W),Math.round(y*p.H)));return{box:q,color:'#'+[0,1,2].map(i=>median(colors.map(p=>p[i])).toString(16).padStart(2,'0')).join('')};});
  if(!source.some(b=>b.type==='table')){const panels=detectTintedPanels(grid);if(panels.length){layout.theme.paper='#fff';layout.theme.background=null;layout.theme.documentPanels.push(...panels.filter(p=>!layout.theme.documentPanels.some(e=>p.box.x>=e.box.x-.01&&p.box.y>=e.box.y-.01&&p.box.x+p.box.w<=e.box.x+e.box.w+.01&&p.box.y+p.box.h<=e.box.y+e.box.h+.01)));}}
