@@ -92,7 +92,9 @@ export function measureDocumentPage(layout,grid,lines){
   // between independently printed exercise words.
   const reviewed=raw.documentText.sourceLines?.filter(l=>l.text&&l.box&&['x','y','w','h'].every(k=>Number.isFinite(l.box[k]))&&l.box.x>=q.x-.003&&l.box.y>=q.y-.003&&l.box.x+l.box.w<=q.x+q.w+.003&&l.box.y+l.box.h<=q.y+q.h+.003);
   const trimmedLabel=/^[AB][:：]$/.test(raw.cn||'')&&ordered.length===1&&/^[AB][:：]_+/.test(ordered[0].text)?[{text:raw.cn,box:{...ordered[0].box,w:Math.min(ordered[0].box.w,ordered[0].box.h*layout.page.height/layout.page.width*.95)}}]:null;
-  const native=reviewed?.length?reviewed:trimmedLabel||nativeLines(raw.cn||raw.en,ordered.map(l=>({text:l.text,box:l.box})));if(!native?.length){b.unresolvedStructure=true;continue;}
+  // The OCR often appends part of a printed answer rule to "B:". Trim that
+  // noise even when source fragments were supplied; the rule is a native field.
+  const native=trimmedLabel||(reviewed?.length?reviewed:nativeLines(raw.cn||raw.en,ordered.map(l=>({text:l.text,box:l.box}))));if(!native?.length){b.unresolvedStructure=true;continue;}
   b.box={...raw.box};delete b.foreword;delete b.imprint;delete b.credits;delete b.exactTokens;
   const measured=reviewed?.length?native:found.length?found:native;
   const explicitFonts=reviewed?.map(l=>l.font).filter(f=>Number.isFinite(f)&&f>0&&f<=30);
@@ -138,6 +140,9 @@ export function measureDocumentPage(layout,grid,lines){
   for(const b of row){const q=b.documentText.sourceBox,x=q.x+q.w+.006,right=b.box.x+b.box.w;if(right-x<.035)continue;b.box.h=Math.min(b.box.h,pitch-.001);b.documentText.choiceCaptionBox={x,y:b.box.y,w:right-x,h:b.box.h};}
  }
  const study=layout.blocks.filter(b=>b.documentText?.studyToken);
+ // Parenthesized grammar hints have only one printed line. Reserve the free
+ // space beneath it for the translation instead of painting both on one line.
+ for(const b of study.filter(b=>/^[（(].*[）)]$/.test(b.cn||'')||b.documentText.lines.some(l=>/^[（(].*[）)]$/.test(l.text)))){const q=b.documentText.sourceBox;if(source.some(s=>s.documentDiagramRegion&&q.x>=s.documentDiagramRegion.x&&q.y>=s.documentDiagramRegion.y&&q.x+q.w<=s.documentDiagramRegion.x+s.documentDiagramRegion.w&&q.y+q.h<=s.documentDiagramRegion.y+s.documentDiagramRegion.h))continue;const below=layout.blocks.filter(o=>o!==b&&o.box.y>q.y+q.h&&o.box.x<q.x+q.w&&o.box.x+o.box.w>q.x).map(o=>o.box.y);const room=(below.length?Math.min(...below):.98)-b.box.y-.002;b.box.h=Math.max(b.box.h,Math.min(q.h*2,room));b.documentText.grammarHintFont=Math.min(b.documentText.font,b.box.h*layout.page.height/layout.page.width*44);}
  const studyRows=[];for(const b of study){let row=studyRows.find(r=>Math.abs(r[0].documentText.sourceBox.y-b.documentText.sourceBox.y)<.006);if(!row){row=[];studyRows.push(row);}row.push(b);}
  for(const row of studyRows){const font=median(row.map(b=>b.documentText.font));row.sort((a,b)=>a.box.x-b.box.x);for(let i=0;i<row.length;i++){const b=row[i];b.documentText.font=font;const right=row[i+1]?.box.x-.007;if(right>b.box.x+b.box.w)b.box.w=right-b.box.x;}}
  // A tinted paper panel is measured independently of its printed characters.

@@ -31,7 +31,7 @@ for n in range(3, 8):
     assert "lang === 'en'" in runtime.read_text(encoding='utf-8') or "lang==='en'" in runtime.read_text(encoding='utf-8')
 payloads=[json.loads(r[0]) for r in rows]
 for slug,kind in [('hsk5-upper','textbook'),('hsk5-workbook','workbook')]:
-    for n in (13,14,15,16,17,18,19,20,21,22,23,24):
+    for n in (13,14,15,16,17,18,19,20,21,22,23,24,25,26):
         page=json.loads((package / f'seed/forma/books/{slug}/pages/{n:03}/page.json').read_text(encoding='utf-8'))
         assert page['page']['n']==n
         published=page['platformPage']['forma']
@@ -42,6 +42,11 @@ for slug,kind in [('hsk5-upper','textbook'),('hsk5-workbook','workbook')]:
         for key in ('css','script','scan'):
             assert (package / 'seed' / published[key].lstrip('/')).is_file(), f'Missing HSK5 {key}'
         if kind=='workbook':
+            if n in (25,26):
+                for q in range(15 if n==25 else 19,19 if n==25 else 23):
+                    assert published['html'].count(f'data-question="{q}"')==4
+                if n==25:
+                    assert 'data-cloze-numbers="15,16,17,18"' in published['html']
             if n in (23,24):
                 for q in range(1 if n==23 else 7,7 if n==23 else 15):
                     assert published['html'].count(f'data-question="{q}"')==4
@@ -72,4 +77,10 @@ for slug,kind in [('hsk5-upper','textbook'),('hsk5-workbook','workbook')]:
             assert 'data-hsk-speak="爷爷"' in published['html']
         elif n==24:
             assert '11.打工' in published['html'] and '*33.扑' in published['html']
-print('PASS: published lessons only; EN/KZ and HSK5 pages 13-24 with correct routing, assets and question markers; no local credentials.')
+        elif n==25:
+            assert published['html'].count('data-cloze-question="answer-')==3
+            assert '34.卧室' in published['html'] and '39.流泪' in published['html']
+        elif n==26:
+            assert published['html'].count('data-cloze-question="answer-')==6
+            assert 'data-hsk-speak="坚决"' in published['html'] and published['html'].count('role="cell"')==18
+print('PASS: published lessons only; EN/KZ and HSK5 pages 13-26 with correct routing, assets and question markers; no local credentials.')

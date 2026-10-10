@@ -484,7 +484,6 @@
 .hsk-cloze{font:inherit;color:inherit;width:2.7em;max-width:4em;background:transparent;border:0;border-bottom:.08cqw solid currentColor;padding:0;text-align:center;line-height:1.1;vertical-align:baseline}.hsk-document-cell>span{white-space:pre-line}
 
 .hsk-study-token-original{display:block!important;appearance:none;border:0;background:transparent;padding:0;text-align:left;white-space:pre;line-height:1.1;color:inherit;font-family:var(--serif);cursor:pointer}.hsk-study-token-original:focus-visible{outline:.12cqw solid #39767b}.hsk-study-token .hsk-document-translation{position:absolute;top:55%;height:45%;font-weight:normal;font-family:var(--sans);line-height:1.15}
-.hsk-page[data-lang="ru"] .hsk-grammar-hint .hsk-study-token-original{font-size:var(--hint-font)!important}
 
 .hsk-bilingual-original{display:block!important}.hsk-page[data-lang=ru] .hsk-bilingual-source-translation{display:none!important}.hsk-page[data-lang=orig] .hsk-bilingual-source-translation{display:block!important}.hsk-bilingual-caption{font-weight:normal}.hsk-bilingual-caption .hsk-document-translation{color:inherit}
 

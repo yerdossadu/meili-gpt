@@ -228,5 +228,24 @@
     "resources": [
       "assets/page-024/library/1a3750a2f488/pages/024/revisions/434d1abb-4f7c-438f-b904-6779e2fc4e62/components.css"
     ]
+  },
+  {
+    "sourcePage": 25,
+    "conversionId": "5ec9e467-5b8a-4e73-9632-2d342a6cee03",
+    "exportedAt": "2026-10-10T08:51:57.895Z",
+    "englishLayers": 21,
+    "resources": [
+      "assets/page-025/library/1a3750a2f488/pages/025/revisions/5ec9e467-5b8a-4e73-9632-2d342a6cee03/components.css",
+      "assets/page-025/library/1a3750a2f488/pages/025/revisions/5ec9e467-5b8a-4e73-9632-2d342a6cee03/assets/img-0.webp"
+    ]
+  },
+  {
+    "sourcePage": 26,
+    "conversionId": "e87d199e-c520-437e-bd3d-26c0a33d9e0d",
+    "exportedAt": "2026-10-10T08:51:58.242Z",
+    "englishLayers": 23,
+    "resources": [
+      "assets/page-026/library/1a3750a2f488/pages/026/revisions/e87d199e-c520-437e-bd3d-26c0a33d9e0d/components.css"
+    ]
   }
 ]

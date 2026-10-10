@@ -31,6 +31,7 @@ export function sourcePortraitDiagram(grid,region,labels=[]){
  };scan(false);scan(true);return{portraits,rules};
 }
 export function sourceTableFrame(grid,lines){
+ const yellow=sourceYellowCollocationFrame(grid,lines);if(yellow)return yellow;
  const tinted=sourceTintedTableFrame(grid,lines);if(tinted)return tinted;
  const seed=boxUnion(lines),g=grid.hi||grid,x0=Math.max(0,Math.floor((seed.x-.075)*g.W)),x1=Math.min(g.W-1,Math.ceil((seed.x+seed.w+.075)*g.W)),hits=[];
  for(let y=Math.max(0,Math.floor((seed.y-.025)*g.H));y<Math.min(g.H,(seed.y+seed.h+.025)*g.H);y++){let left=x1,right=x0,count=0;for(let x=x0;x<=x1;x+=2){const p=g.at(x,y),mx=Math.max(...p.slice(0,3)),mn=Math.min(...p.slice(0,3));if(mx<235||(mx-mn>40&&mn<220)){left=Math.min(left,x);right=x;count++;}}if(count>(x1-x0)*.27)hits.push({y,left,right});}
@@ -42,6 +43,25 @@ export function sourceTableFrame(grid,lines){
  if(edges.length>=3){const top=Math.ceil((edges[0]+.0005)*g.H),bottom=Math.floor((edges[1]-.0005)*g.H),runs=[];let start=-1,last=-1;for(let x=x0;x<x1;x++){let ink=0,total=0;for(let y=top;y<bottom;y+=3){const p=g.at(x,y);total++;if(Math.min(...p)<180&&Math.max(...p)-Math.min(...p)>25)ink++;}if(total&&ink/total>.15){if(start<0)start=x;last=x;}else if(start>=0&&x-last>g.W*.004){runs.push([start,last]);start=-1;}}if(start>=0)runs.push([start,last]);const best=runs.sort((a,b)=>(b[1]-b[0])-(a[1]-a[0]))[0];if(best&&best[1]-best[0]>g.W*.35){left=best[0];right=best[1];}}
  const green=[];for(let y=Math.floor(edges[0]*g.H);y<edges.at(-1)*g.H;y+=3)for(let x=left-Math.ceil(g.W*.012);x<left+Math.ceil(g.W*.012);x+=2){if(x<0)continue;const p=g.at(x,y);if(Math.min(...p)>200&&p[1]>p[0]+3&&p[1]>p[2]+5)green.push(p);}
  return{box:{x:left/g.W,y:edges[0],w:(right-left+2)/g.W,h:edges.at(-1)-edges[0]},rowEdges:edges,...(green.length>20?{frameColor:'#'+[0,1,2].map(i=>med(green.map(p=>p[i])).toString(16).padStart(2,'0')).join('')}: {})};
+}
+// Repeated pale-yellow ribbons and a light green outer frame use different
+// pixels from dark-rule tables. Character strokes must not set their bounds.
+export function sourceYellowCollocationFrame(grid,lines){
+ if(!lines.length)return null;const q=boxUnion(lines),g=grid.hi||grid;
+ const x0=Math.max(0,Math.floor((q.x-.18)*g.W)),x1=Math.min(g.W-1,Math.ceil((q.x+q.w+.08)*g.W)),y0=Math.max(0,Math.floor((q.y-.018)*g.H)),y1=Math.min(g.H-1,Math.ceil((q.y+q.h+.035)*g.H));
+ const runs=(hits,gap=2)=>{const out=[];for(const h of hits){const a=out.at(-1);if(a&&h.y-a.at(-1).y<=gap)a.push(h);else out.push([h]);}return out;},med=a=>[...a].sort((a,b)=>a-b)[a.length>>1],yellow=[];
+ for(let y=y0;y<=y1;y++){let count=0,left=x1,right=x0;for(let x=x0;x<=x1;x+=2){const[r,gc,b]=g.at(x,y);if(r>200&&gc>180&&Math.min(r,gc)-b>35){count++;left=Math.min(left,x);right=x;}}if(count>(x1-x0)*.3)yellow.push({y,left,right});}
+ const bands=runs(yellow).filter(a=>a.at(-1).y-a[0].y>g.H*.01);if(bands.length<2||bands.length>5)return null;
+ const left=med(yellow.map(r=>r.left)),right=med(yellow.map(r=>r.right));if(right-left<g.W*.4)return null;
+ const separators=[],greens=[];for(let y=bands[0][0].y;y<=y1;y++){let gray=0,green=0;for(let x=left;x<=right;x+=2){const p=g.at(x,y);if(Math.max(...p)<240&&Math.max(...p)-Math.min(...p)<22)gray++;if(Math.min(...p)>200&&p[1]>p[0]+3&&p[1]>p[2]+5)green++;}if(gray>(right-left)*.3)separators.push({y});if(green>(right-left)*.3)greens.push({y});}
+ const below=runs(greens).find(a=>a[0].y/g.H>q.y+q.h);if(!below)return null;
+ const top=bands[0][0].y/g.H,bottom=below[0].y/g.H;
+ const candidates=[top,bottom,...bands.flatMap(a=>[a[0].y/g.H,(a.at(-1).y+1)/g.H]),...runs(separators).map(a=>med(a.map(r=>r.y))/g.H)].filter(y=>y>=top&&y<=bottom).sort((a,b)=>a-b),edges=[];
+ for(const y of candidates)if(!edges.length||y-edges.at(-1)>.004)edges.push(y);
+ const centers=[];for(const l of lines){if(l.text==='+'||/^[+*…=\s]+$/.test(l.text))continue;const c=sourceBox(l).y+sourceBox(l).h/2;if(!centers.some(y=>Math.abs(y-c)<.009))centers.push(c);}
+ // A row without a measured boundary is a failure, never silently a crop.
+ if(edges.length!==centers.length+1||centers.some(y=>y<top||y>bottom))return null;
+ return{box:{x:left/g.W,y:top,w:(right-left+2)/g.W,h:bottom-top},rowEdges:edges,frameColor:'#eff8df'};
 }
 // Pale multi-column exercise tables have white separators, not dark rules.
 // Measure continuous coloured rows first so printed letters cannot become rows.
