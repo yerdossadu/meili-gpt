@@ -2,6 +2,30 @@
 // Translation annotations carry content; all positions come from the source OCR.
 export const sourceBox=l=>l.box||{x:l.position.x,y:l.position.y,w:l.position.width,h:l.position.height};
 export const boxUnion=lines=>{const qs=lines.map(sourceBox),x=Math.min(...qs.map(q=>q.x)),y=Math.min(...qs.map(q=>q.y));return{x,y,w:Math.max(...qs.map(q=>q.x+q.w))-x,h:Math.max(...qs.map(q=>q.y+q.h))-y};};
+export function sourceTableFrame(grid,lines){
+ const seed=boxUnion(lines),g=grid.hi||grid,x0=Math.max(0,Math.floor((seed.x-.075)*g.W)),x1=Math.min(g.W-1,Math.ceil((seed.x+seed.w+.075)*g.W)),hits=[];
+ for(let y=Math.max(0,Math.floor((seed.y-.025)*g.H));y<Math.min(g.H,(seed.y+seed.h+.025)*g.H);y++){let left=x1,right=x0,count=0;for(let x=x0;x<=x1;x+=2){const p=g.at(x,y),mx=Math.max(...p.slice(0,3)),mn=Math.min(...p.slice(0,3));if(mx<235||(mx-mn>40&&mn<220)){left=Math.min(left,x);right=x;count++;}}if(count>(x1-x0)*.27)hits.push({y,left,right});}
+ if(hits.length<2)throw Error('No printed table frame');const groups=[];for(const h of hits){const previous=groups.at(-1);if(previous&&h.y-previous.at(-1).y<=4)previous.push(h);else groups.push([h]);}
+ const med=a=>[...a].sort((a,b)=>a-b)[a.length>>1],left=med(hits.map(h=>h.left)),right=med(hits.map(h=>h.right));
+ const edges=groups.flatMap(r=>r.at(-1).y-r[0].y>g.H*.007?[r[0].y/g.H,(r.at(-1).y+2)/g.H]:[med(r.map(h=>h.y))/g.H]);
+ const green=[];for(let y=Math.floor(edges[0]*g.H);y<edges.at(-1)*g.H;y+=3)for(let x=left-Math.ceil(g.W*.012);x<left+Math.ceil(g.W*.012);x+=2){if(x<0)continue;const p=g.at(x,y);if(Math.min(...p)>200&&p[1]>p[0]+3&&p[1]>p[2]+5)green.push(p);}
+ return{box:{x:left/g.W,y:edges[0],w:(right-left+2)/g.W,h:edges.at(-1)-edges[0]},rowEdges:edges,...(green.length>20?{frameColor:'#'+[0,1,2].map(i=>med(green.map(p=>p[i])).toString(16).padStart(2,'0')).join('')}: {})};
+}
+// Refine a separator suggested by OCR column anchors against the printed ink.
+// Searching only the inter-column gap avoids interpreting character stems as rules.
+export function sourceColumnRule(grid,frame,anchor,radius=.018){
+ const g=grid.hi||grid,top=Math.ceil(frame.box.y*g.H),bottom=Math.floor((frame.box.y+frame.box.h)*g.H);let best={score:-1,x:anchor};
+ for(let x=Math.max(0,Math.floor((anchor-radius)*g.W));x<Math.min(g.W,(anchor+radius)*g.W);x++){let hits=0;for(let y=top;y<=bottom;y++){const p=g.at(x,y);if(Math.min(...p.slice(0,3))<240)hits++;}const score=hits/(bottom-top+1)-Math.abs(x/g.W-anchor)*.2;if(score>best.score)best={score,x:x/g.W};}return best.x;
+}
+export function sourceTableAnchors(lines,columns,cells){
+ const center=l=>sourceBox(l).x+sourceBox(l).w/2;
+ if(columns===2){const marks=lines.filter(l=>l.text==='+');if(marks.length)return[marks.map(center).sort((a,b)=>a-b)[marks.length>>1]];}
+ if(columns===3&&!(cells.find(c=>c.row===0&&c.col===0)?.cn||'')){
+  const clean=s=>String(s||'').replace(/[\s\p{P}\p{S}]/gu,'');
+  const headers=[1,2].map(col=>{const c=cells.find(c=>c.row===0&&c.col===col);return c?.cn?lines.filter(l=>clean(l.text)===clean(c.cn)).sort((a,b)=>sourceBox(a).y-sourceBox(b).y)[0]:null;});
+  if(headers.every(Boolean)){const[a,b]=headers.map(center);if(b>a&&Math.abs(sourceBox(headers[0]).y-sourceBox(headers[1]).y)<.015)return[a-(b-a)/2,(a+b)/2];}
+ }return null;
+}
 export function paragraphGroups(lines){
  const ordered=[...lines].sort((a,b)=>sourceBox(a).y-sourceBox(b).y),left=Math.min(...ordered.map(l=>sourceBox(l).x)),groups=[];
  for(const l of ordered){const prev=groups.at(-1),q=sourceBox(l);if(!prev||q.x>left+.025||q.y>sourceBox(prev.at(-1)).y+sourceBox(prev.at(-1)).h+.025)groups.push([l]);else prev.push(l);}return groups;
@@ -13,6 +37,11 @@ const label=/^\s*(\d+)\s*[.．]\s*A\s*/;
 const letter=/^\s*(?:\d+\s*[.．]\s*)?([ABCD])\s*/;
 export function sourceChoices(lines){
  const anchors=lines.filter(l=>label.test(l.text)),groups=[];
+ if(!anchors.length){
+  const rows=[];for(const l of [...lines].sort((a,b)=>sourceBox(a).y-sourceBox(b).y||sourceBox(a).x-sourceBox(b).x)){let row=rows.find(r=>Math.abs(sourceBox(r[0]).y-sourceBox(l).y)<.007);if(!row){row=[];rows.push(row);}row.push(l);}
+  let question=null;for(const row of rows){row.sort((a,b)=>sourceBox(a).x-sourceBox(b).x);const header=row.find(l=>/^\s*\d+[.．]\s*(?![ABCD])/.test(l.text));if(header){question=Number(/^\s*(\d+)/.exec(header.text)[1]);continue;}if(!question)continue;let part=null;for(const l of row){const m=letter.exec(l.text);if(m){part={question,letter:m[1],lines:[l],hz:l.text.slice(m[0].length)};groups.push(part);}else if(part){part.lines.push(l);part.hz+=l.text;}}
+  }return groups.sort((a,b)=>a.question-b.question||a.letter.localeCompare(b.letter));
+ }
  const horizontal=anchors.some(a=>lines.filter(l=>letter.test(l.text)&&Math.abs(sourceBox(l).y-sourceBox(a).y)<.007).length>=3);
  if(horizontal){for(const anchor of anchors){const row=lines.filter(l=>Math.abs(sourceBox(l).y-sourceBox(anchor).y)<.007).sort((a,b)=>sourceBox(a).x-sourceBox(b).x),question=Number(label.exec(anchor.text)[1]);let parts=[];for(const l of row){if(letter.test(l.text)){const m=letter.exec(l.text);parts.push({question,letter:m[1],lines:[l],hz:l.text.slice(m[0].length)});}else if(parts.length){parts.at(-1).lines.push(l);parts.at(-1).hz+=l.text;}}groups.push(...parts);}}
  else{const xs=[...new Set(anchors.map(l=>Math.round(sourceBox(l).x*10)/10))].sort((a,b)=>a-b),mid=xs.length>1?(xs[0]+xs.at(-1))/2:1;

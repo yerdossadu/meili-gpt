@@ -1,5 +1,6 @@
 // Printed frontmatter and merged tables share OCR baselines and source rules.
 import {nativeLines} from './imprint-page.mjs';
+import {sourceTableFrame,sourceColumnRule,sourceTableAnchors} from './ocr-structure.mjs';
 const median=a=>a.sort((a,b)=>a-b)[a.length>>1];
 const union=a=>{const x=Math.min(...a.map(b=>b.x)),y=Math.min(...a.map(b=>b.y));return{x,y,w:Math.max(...a.map(b=>b.x+b.w))-x,h:Math.max(...a.map(b=>b.y+b.h))-y};};
 const dark=p=>Math.max(...p.slice(0,3))<220;
@@ -51,7 +52,7 @@ export function detectAudioDisc(grid,track,lines){
 export function measureDocumentPage(layout,grid,lines){
  const source=layout.source?.blocks||[];if(!source.some(b=>b.documentText||b.type==='table'))return false;
  for(let i=0;i<layout.blocks.length;i++){
-  const b=layout.blocks[i],raw=b.documentText?source.find(s=>s.documentText&&(b.documentText.sourceBox?s.documentText.sourceBox&&['x','y','w','h'].every(k=>Math.abs(s.documentText.sourceBox[k]-b.documentText.sourceBox[k])<1e-6):clean(s.cn||s.en)===clean(b.cn||b.en))):b.type==='table'?source.find(s=>s.type==='table'):null;if(!raw)continue;
+  const b=layout.blocks[i],raw=b.documentText?source.find(s=>s.documentText&&(b.documentText.sourceBox?s.documentText.sourceBox&&['x','y','w','h'].every(k=>Math.abs(s.documentText.sourceBox[k]-b.documentText.sourceBox[k])<1e-6):clean(s.cn||s.en)===clean(b.cn||b.en))):b.type==='table'?source.filter(s=>s.type==='table').sort((a,c)=>Math.abs(a.box.y-b.box.y)+Math.abs(a.box.x-b.box.x)-Math.abs(c.box.y-b.box.y)-Math.abs(c.box.x-b.box.x))[0]:null;if(!raw)continue;
   if(b.type==='table'){
    b.box={...raw.box};let xs=ruleEdges(grid,b.box,'x'),ys=ruleEdges(grid,b.box,'y');const lx=ruleEdges(grid,b.box,'x',true),ly=ruleEdges(grid,b.box,'y',true),light=lx.length===b.columns+1&&ly.length===b.rowCount+1;
    if(light){xs=lx;ys=ly;}
@@ -61,12 +62,25 @@ export function measureDocumentPage(layout,grid,lines){
     if(header.length>2){const top=header[0],bottom=header.at(-1)+1/probe.H;const candidates=[top,bottom,...ys.filter(y=>y>bottom+.002),b.box.y+b.box.h].filter((y,i,a)=>i===0||y-a[i-1]>.004);if(candidates.length===b.rowCount+1)ys=candidates;}
     if(xs.length===b.columns-1)xs=[b.box.x,...xs,b.box.x+b.box.w];
    }
+   const validEdges=(a,n)=>Array.isArray(a)&&a.length===n+1&&a.every((v,i)=>Number.isFinite(v)&&(!i||v>a[i-1]));
+   if(validEdges(raw.sourceColumnEdges,b.columns))xs=raw.sourceColumnEdges;
+   if(validEdges(raw.sourceRowEdges,b.rowCount))ys=raw.sourceRowEdges;
+   // Re-measure source rules on every rebuild, rather than freeze the first
+   // conversion's coordinates. OCR anchors constrain narrow/dashed separators.
+   if((grid.hi||grid).W>100){
+    const inside=lines.filter(l=>l.box.x>=raw.box.x-.003&&l.box.x+l.box.w<=raw.box.x+raw.box.w+.003&&l.box.y>=raw.box.y-.003&&l.box.y+l.box.h<=raw.box.y+raw.box.h+.003);
+    const anchors=raw.sourceColumnAnchors||sourceTableAnchors(inside,b.columns,b.cells);
+    if(anchors?.length===b.columns-1)try{const frame=sourceTableFrame(grid,inside);if(frame.rowEdges.length===b.rowCount+1){b.box=frame.box;ys=frame.rowEdges;xs=[b.box.x,...anchors.map(x=>sourceColumnRule(grid,frame,x)),b.box.x+b.box.w];if(frame.frameColor)b.outerFrameColor=frame.frameColor;b.headerMarks=inside.filter(l=>l.text==='+').map(l=>({text:'+',box:l.box}));}}catch{b.tableMeasurementWarning='Printed rules could not be re-measured';}
+   }
    b.columnEdges=xs.length===b.columns+1?xs:Array.from({length:b.columns+1},(_,n)=>b.box.x+b.box.w*n/b.columns);
    b.rowEdges=ys.length===b.rowCount+1?ys:Array.from({length:b.rowCount+1},(_,n)=>b.box.y+b.box.h*n/b.rowCount);
    b.tableGeometry={verticalRules:xs.length,horizontalRules:ys.length,verified:xs.length===b.columns+1&&ys.length===b.rowCount+1};
    b.borderColor=light?'#fff':'#888';
    const probe=grid.hi||grid;
    for(const c of b.cells){const colors=[];for(let y=b.rowEdges[c.row]+.001;y<b.rowEdges[c.row+c.rowspan]-.001;y+=.002)for(let x=b.columnEdges[c.col]+.001;x<b.columnEdges[c.col+c.colspan]-.001;x+=.002)colors.push(probe.at(Math.round(x*probe.W),Math.round(y*probe.H)));c.fill=colors.length?'#'+[0,1,2].map(i=>median(colors.map(p=>p[i])).toString(16).padStart(2,'0')).join(''):'#fff';c.color=parseInt(c.fill.slice(1,3),16)<130?'#fff':'#333';}
+   // Green flecks beside plain comparison grids are scan noise. A printed
+   // green frame is retained only with the source's yellow collocation ribbon.
+   const header=b.cells.find(c=>c.row===0),rgb=header?.fill?.match(/[a-f\d]{2}/gi)?.map(x=>parseInt(x,16));if(b.outerFrameColor&&(!rgb||rgb[0]-rgb[2]<30||rgb[1]-rgb[2]<20))delete b.outerFrameColor;
    continue;
   }
   if(!raw.documentText)continue;
@@ -77,7 +91,8 @@ export function measureDocumentPage(layout,grid,lines){
   // Reviewed source fragments recover OCR omissions without merging the gaps
   // between independently printed exercise words.
   const reviewed=raw.documentText.sourceLines?.filter(l=>l.text&&l.box&&['x','y','w','h'].every(k=>Number.isFinite(l.box[k]))&&l.box.x>=q.x-.003&&l.box.y>=q.y-.003&&l.box.x+l.box.w<=q.x+q.w+.003&&l.box.y+l.box.h<=q.y+q.h+.003);
-  const native=reviewed?.length?reviewed:nativeLines(raw.cn||raw.en,ordered.map(l=>({text:l.text,box:l.box})));if(!native?.length){b.unresolvedStructure=true;continue;}
+  const trimmedLabel=/^[AB][:：]$/.test(raw.cn||'')&&ordered.length===1&&/^[AB][:：]_+/.test(ordered[0].text)?[{text:raw.cn,box:{...ordered[0].box,w:Math.min(ordered[0].box.w,ordered[0].box.h*layout.page.height/layout.page.width*.95)}}]:null;
+  const native=reviewed?.length?reviewed:trimmedLabel||nativeLines(raw.cn||raw.en,ordered.map(l=>({text:l.text,box:l.box})));if(!native?.length){b.unresolvedStructure=true;continue;}
   b.box={...raw.box};delete b.foreword;delete b.imprint;delete b.credits;delete b.exactTokens;
   const measured=reviewed?.length?native:found.length?found:native;
   const explicitFonts=reviewed?.map(l=>l.font).filter(f=>Number.isFinite(f)&&f>0&&f<=30);
@@ -96,8 +111,9 @@ export function measureDocumentPage(layout,grid,lines){
  }
  // Restore answer slots from pixel geometry on any labeled exercise row.
  const fields=[];
- for(const b of layout.blocks){const q=b.documentText?.sourceBox,exercise=/^(?:[（(]\d+[)）].*[,，:：]$|[AB][：:])/.test(b.cn||'');if(!q||q.h>.04||(!/[:：]/.test(b.cn)&&!exercise)||clean(b.cn).length>40||b.documentText.choice||b.documentText.keepOriginal)continue;
-  const rules=detectAnswerRules(grid,q,lines,exercise?{minWidth:.15,maxWidth:.65,minCount:1}:{});if(!rules.length)continue;
+ for(const b of layout.blocks){const q=b.documentText?.sourceBox,exercise=/^(?:[（(]\d+[)）]|[AB][：:])/.test(b.cn||'');if(!q||q.h>.04||(!/[:：]/.test(b.cn)&&!exercise)||clean(b.cn).length>40||b.documentText.choice||b.documentText.keepOriginal)continue;
+  const label=/^[AB][：:]$/.test(b.cn||'')?{...q,w:Math.min(q.w,q.h*layout.page.height/layout.page.width*.95)}:q;
+  const rules=detectAnswerRules(grid,label,lines.filter(l=>!(/^[AB][:：]_+/.test(l.text)&&Math.abs(l.box.y-q.y)<.007)),exercise?{minWidth:.15,maxWidth:.65,minCount:1}:{});if(!rules.length)continue;
   b.box.w=Math.max(q.w,rules[0].x-b.box.x-.012);
   rules.forEach((r,i)=>{const box={x:r.x,y:r.y-Math.max(.012,q.h*.85),w:r.w,h:Math.max(.012,q.h*.85)},key='answer-'+Math.round(q.x*10000)+'-'+Math.round(q.y*10000)+'-'+(i+1);fields.push({type:'text',box,cn:'',en:'',ru:'',answerField:key,sourceRule:{x:r.x,y:r.y,w:r.w}});});
  }
@@ -108,6 +124,12 @@ export function measureDocumentPage(layout,grid,lines){
  // Dense horizontal choice rows have no space for a second line beneath the
  // Chinese. Put the translation in the existing gap after each source option.
  const choiceGroups=new Map();for(const b of choices){const key=b.documentText.choice.question;if(!choiceGroups.has(key))choiceGroups.set(key,[]);choiceGroups.get(key).push(b);}
+ for(const b of choices.filter(b=>b.documentText.bilingualChoice)){
+  const neighbors=choices.filter(o=>o!==b&&Math.abs(o.box.x-b.box.x)<.04&&Math.abs(o.box.y-b.box.y)>.009),pitch=Math.min(...neighbors.map(o=>Math.abs(o.box.y-b.box.y)));
+  if(pitch>=.028)continue;b.box.h=Math.min(b.box.h,pitch-.001);
+  const q=b.documentText.sourceBox,x=q.x+q.w+.008,right=b.box.x+b.box.w;
+  if(right-x>.10)b.documentText.choiceCaptionBox={x,y:b.box.y,w:right-x,h:b.box.h};
+ }
  for(const row of choiceGroups.values())if(row.length>=3&&Math.max(...row.map(b=>b.box.y))-Math.min(...row.map(b=>b.box.y))<.008){
   const y=median(row.map(b=>b.box.y)),next=choices.filter(b=>b.box.y>y+.009).sort((a,b)=>a.box.y-b.box.y)[0];const previous=choices.filter(b=>b.box.y<y-.009).sort((a,b)=>b.box.y-a.box.y)[0],pitch=next?next.box.y-y:previous?y-previous.box.y:1;if(pitch>.028)continue;
   for(const b of row){const q=b.documentText.sourceBox,x=q.x+q.w+.006,right=b.box.x+b.box.w;if(right-x<.035)continue;b.box.h=Math.min(b.box.h,pitch-.001);b.documentText.choiceCaptionBox={x,y:b.box.y,w:right-x,h:b.box.h};}

@@ -31,7 +31,7 @@ for n in range(3, 8):
     assert "lang === 'en'" in runtime.read_text(encoding='utf-8') or "lang==='en'" in runtime.read_text(encoding='utf-8')
 payloads=[json.loads(r[0]) for r in rows]
 for slug,kind in [('hsk5-upper','textbook'),('hsk5-workbook','workbook')]:
-    for n in (13,14,15,16,17,18):
+    for n in (13,14,15,16,17,18,19,20):
         page=json.loads((package / f'seed/forma/books/{slug}/pages/{n:03}/page.json').read_text(encoding='utf-8'))
         assert page['page']['n']==n
         published=page['platformPage']['forma']
@@ -51,4 +51,7 @@ for slug,kind in [('hsk5-upper','textbook'),('hsk5-workbook','workbook')]:
             if n in (17,18):
                 for q in range(7 if n==17 else 15,15 if n==17 else 19):
                     assert published['html'].count(f'data-question="{q}"')==4, f'Missing WB HSK5 page {n} question {q} choices'
-print('PASS: published lessons only; EN/KZ and HSK5 pages 13-18 with correct routing, assets and question markers; no local credentials.')
+            if n in (19,20):
+                for q in range(19 if n==19 else 23,23 if n==19 else 26):
+                    assert published['html'].count(f'data-question="{q}"')==4, f'Missing WB HSK5 page {n} question {q} choices'
+print('PASS: published lessons only; EN/KZ and HSK5 pages 13-20 with correct routing, assets and question markers; no local credentials.')

@@ -173,5 +173,23 @@
     "resources": [
       "assets/page-018/library/1a3750a2f488/pages/018/revisions/ef4a1304-a68f-4c02-a86b-594ac3765e6a/components.css"
     ]
+  },
+  {
+    "sourcePage": 19,
+    "conversionId": "9e94c904-269a-4aff-9fbd-5d55f5914c39",
+    "exportedAt": "2026-10-10T04:07:13.022Z",
+    "englishLayers": 23,
+    "resources": [
+      "assets/page-019/library/1a3750a2f488/pages/019/revisions/9e94c904-269a-4aff-9fbd-5d55f5914c39/components.css"
+    ]
+  },
+  {
+    "sourcePage": 20,
+    "conversionId": "73a8fd19-c2d6-47a5-953f-d66d527213a5",
+    "exportedAt": "2026-10-10T04:07:28.779Z",
+    "englishLayers": 20,
+    "resources": [
+      "assets/page-020/library/1a3750a2f488/pages/020/revisions/73a8fd19-c2d6-47a5-953f-d66d527213a5/components.css"
+    ]
   }
 ]

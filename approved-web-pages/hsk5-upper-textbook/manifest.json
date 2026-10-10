@@ -173,5 +173,25 @@
       "assets/page-018/library/9b495a8351c6/pages/018/revisions/45ba394d-bf57-4056-8671-9a9c741cc4e6/components.css",
       "assets/page-018/library/9b495a8351c6/pages/018/revisions/45ba394d-bf57-4056-8671-9a9c741cc4e6/assets/deco-0.png"
     ]
+  },
+  {
+    "sourcePage": 19,
+    "conversionId": "064ad46b-2ddc-4817-a593-7911fc3075d2",
+    "exportedAt": "2026-10-10T04:06:32.943Z",
+    "englishLayers": 40,
+    "resources": [
+      "assets/page-019/library/9b495a8351c6/pages/019/revisions/064ad46b-2ddc-4817-a593-7911fc3075d2/components.css",
+      "assets/page-019/library/9b495a8351c6/pages/019/revisions/064ad46b-2ddc-4817-a593-7911fc3075d2/assets/deco-0.png"
+    ]
+  },
+  {
+    "sourcePage": 20,
+    "conversionId": "afb5f21f-411c-48f6-9cb8-2118a0a6f68d",
+    "exportedAt": "2026-10-10T04:06:56.780Z",
+    "englishLayers": 38,
+    "resources": [
+      "assets/page-020/library/9b495a8351c6/pages/020/revisions/afb5f21f-411c-48f6-9cb8-2118a0a6f68d/components.css",
+      "assets/page-020/library/9b495a8351c6/pages/020/revisions/afb5f21f-411c-48f6-9cb8-2118a0a6f68d/assets/deco-0.png"
+    ]
   }
 ]
